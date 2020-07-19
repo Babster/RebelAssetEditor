@@ -12,6 +12,8 @@ using System.Diagnostics.Tracing;
 using System.Linq.Expressions;
 using System.IO;
 using System.Reflection.Emit;
+using Story;
+using AdmiralNamespace;
 
 namespace AssetEditor
 {
@@ -50,8 +52,6 @@ namespace AssetEditor
                     id, 
                     name,
                     active, 
-                    next_object_type,
-                    next_object_id,
                     ISNULL(backgound_image_id, '') AS backgound_image_id
                 FROM 
                     story_scenes");
@@ -91,8 +91,6 @@ namespace AssetEditor
                 NoEvents = true;
                 textSceneId.Text = tTag.Id.ToString();
                 textSceneName.Text = tTag.Name;
-                comboSceneNextType.SelectedItem = tTag.NextObjectType;
-                textSceneNextId.Text = tTag.NextObjectId.ToString();
                 textSceneBackgroundId.Text = tTag.BackgroundImageId.ToString();
                 groupBox1.Enabled = true;
 
@@ -111,8 +109,6 @@ namespace AssetEditor
             NoEvents = true;
             textSceneId.Text = "";
             textSceneName.Text = "";
-            comboSceneNextType.SelectedItem = "Не выбран";
-            textSceneNextId.Text = "";
             textSceneBackgroundId.Text = "";
             listSceneElements.Items.Clear();
             groupBox1.Enabled = false;
@@ -142,8 +138,8 @@ namespace AssetEditor
 
  
 
-        private class SceneNodeTag : TransferClasses.RebelSceneWithSql 
-        {
+        private class SceneNodeTag : RebelSceneWithSql
+        { 
             public string NodeType { get; set; }
             public TreeNode Node { get; set; }
 
@@ -212,52 +208,6 @@ namespace AssetEditor
 
         }
 
-        private void comboSceneNextType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-            if (NoEvents)
-                return;
-
-            if (treeScenes.SelectedNode == null)
-            {
-                MessageBox.Show("Не выбрана сцена");
-                return;
-            }
-
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            if (tTag.NodeType == "Сцены")
-            {
-                MessageBox.Show("Не выбрана сцена");
-                return;
-            }
-
-            tTag.NextObjectType = (string)comboSceneNextType.SelectedItem;
-
-        }
-
-        private void textSceneNextId_TextChanged(object sender, EventArgs e)
-        {
-
-            if (NoEvents)
-                return;
-
-            if (treeScenes.SelectedNode == null)
-            {
-                MessageBox.Show("Не выбрана сцена");
-                return;
-            }
-
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            if (tTag.NodeType == "Сцены")
-            {
-                MessageBox.Show("Не выбрана сцена");
-                return;
-            }
-            int tId = 0;
-            if (Int32.TryParse(textSceneNextId.Text, out tId) == true)
-                tTag.NextObjectId = tId;
-
-        }
 
         private void textSceneBackgroundId_TextChanged(object sender, EventArgs e)
         {

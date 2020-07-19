@@ -49,11 +49,7 @@
             this.buttonAddSceneElement = new System.Windows.Forms.Button();
             this.textSceneBackgroundId = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textSceneNextId = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.buttonSaveScene = new System.Windows.Forms.Button();
-            this.comboSceneNextType = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.textSceneId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -88,10 +84,10 @@
             this.treeStats = new System.Windows.Forms.TreeView();
             this.buttonCreateStat = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonTestPlayerStats = new System.Windows.Forms.Button();
             this.buttonRegisterAccount = new System.Windows.Forms.Button();
             this.buttonDeleteAccount = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.buttonTestPlayerStats = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -164,11 +160,7 @@
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.textSceneBackgroundId);
             this.tabPage1.Controls.Add(this.label8);
-            this.tabPage1.Controls.Add(this.textSceneNextId);
-            this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.buttonSaveScene);
-            this.tabPage1.Controls.Add(this.comboSceneNextType);
-            this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.textSceneId);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
@@ -198,9 +190,9 @@
             this.groupBox1.Controls.Add(this.listSceneElements);
             this.groupBox1.Controls.Add(this.buttonAddSceneElement);
             this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(349, 193);
+            this.groupBox1.Location = new System.Drawing.Point(349, 126);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(764, 260);
+            this.groupBox1.Size = new System.Drawing.Size(764, 327);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Элементы сцены";
@@ -226,7 +218,7 @@
             this.tabControl2.Location = new System.Drawing.Point(296, 133);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(462, 121);
+            this.tabControl2.Size = new System.Drawing.Size(462, 188);
             this.tabControl2.TabIndex = 16;
             // 
             // tabPage3
@@ -235,7 +227,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(454, 88);
+            this.tabPage3.Size = new System.Drawing.Size(454, 155);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Русский";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -248,7 +240,7 @@
             this.textSceneRussian.Multiline = true;
             this.textSceneRussian.Name = "textSceneRussian";
             this.textSceneRussian.ReadOnly = true;
-            this.textSceneRussian.Size = new System.Drawing.Size(448, 82);
+            this.textSceneRussian.Size = new System.Drawing.Size(448, 149);
             this.textSceneRussian.TabIndex = 0;
             this.textSceneRussian.TextChanged += new System.EventHandler(this.textSceneRussian_TextChanged);
             // 
@@ -327,7 +319,7 @@
             this.listSceneElements.ItemHeight = 20;
             this.listSceneElements.Location = new System.Drawing.Point(11, 70);
             this.listSceneElements.Name = "listSceneElements";
-            this.listSceneElements.Size = new System.Drawing.Size(279, 184);
+            this.listSceneElements.Size = new System.Drawing.Size(279, 244);
             this.listSceneElements.TabIndex = 3;
             this.listSceneElements.SelectedIndexChanged += new System.EventHandler(this.listSceneElements_SelectedIndexChanged);
             // 
@@ -344,7 +336,7 @@
             // 
             // textSceneBackgroundId
             // 
-            this.textSceneBackgroundId.Location = new System.Drawing.Point(544, 144);
+            this.textSceneBackgroundId.Location = new System.Drawing.Point(562, 94);
             this.textSceneBackgroundId.Name = "textSceneBackgroundId";
             this.textSceneBackgroundId.Size = new System.Drawing.Size(100, 26);
             this.textSceneBackgroundId.TabIndex = 13;
@@ -354,29 +346,11 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(345, 147);
+            this.label8.Location = new System.Drawing.Point(363, 97);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(193, 20);
             this.label8.TabIndex = 12;
             this.label8.Text = "Код изображения фона:";
-            // 
-            // textSceneNextId
-            // 
-            this.textSceneNextId.Location = new System.Drawing.Point(824, 102);
-            this.textSceneNextId.Name = "textSceneNextId";
-            this.textSceneNextId.Size = new System.Drawing.Size(100, 26);
-            this.textSceneNextId.TabIndex = 11;
-            this.textSceneNextId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textSceneNextId.TextChanged += new System.EventHandler(this.textSceneNextId_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(775, 105);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 20);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Код:";
             // 
             // buttonSaveScene
             // 
@@ -388,29 +362,6 @@
             this.buttonSaveScene.Text = "Сохранить сцену";
             this.buttonSaveScene.UseVisualStyleBackColor = true;
             this.buttonSaveScene.Click += new System.EventHandler(this.buttonSaveScene_Click);
-            // 
-            // comboSceneNextType
-            // 
-            this.comboSceneNextType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboSceneNextType.FormattingEnabled = true;
-            this.comboSceneNextType.Items.AddRange(new object[] {
-            "Не выбран",
-            "Сцена",
-            "Карточка персонажа"});
-            this.comboSceneNextType.Location = new System.Drawing.Point(562, 102);
-            this.comboSceneNextType.Name = "comboSceneNextType";
-            this.comboSceneNextType.Size = new System.Drawing.Size(189, 28);
-            this.comboSceneNextType.TabIndex = 8;
-            this.comboSceneNextType.SelectedIndexChanged += new System.EventHandler(this.comboSceneNextType_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(345, 105);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(211, 20);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Вид следующего объекта:";
             // 
             // textSceneId
             // 
@@ -770,6 +721,16 @@
             this.tabPage6.Text = "Тесты API";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // buttonTestPlayerStats
+            // 
+            this.buttonTestPlayerStats.Location = new System.Drawing.Point(8, 80);
+            this.buttonTestPlayerStats.Name = "buttonTestPlayerStats";
+            this.buttonTestPlayerStats.Size = new System.Drawing.Size(169, 31);
+            this.buttonTestPlayerStats.TabIndex = 2;
+            this.buttonTestPlayerStats.Text = "Скачать статы";
+            this.buttonTestPlayerStats.UseVisualStyleBackColor = true;
+            this.buttonTestPlayerStats.Click += new System.EventHandler(this.buttonTestPlayerStats_Click);
+            // 
             // buttonRegisterAccount
             // 
             this.buttonRegisterAccount.Location = new System.Drawing.Point(8, 43);
@@ -793,16 +754,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // buttonTestPlayerStats
-            // 
-            this.buttonTestPlayerStats.Location = new System.Drawing.Point(8, 80);
-            this.buttonTestPlayerStats.Name = "buttonTestPlayerStats";
-            this.buttonTestPlayerStats.Size = new System.Drawing.Size(169, 31);
-            this.buttonTestPlayerStats.TabIndex = 2;
-            this.buttonTestPlayerStats.Text = "Скачать статы";
-            this.buttonTestPlayerStats.UseVisualStyleBackColor = true;
-            this.buttonTestPlayerStats.Click += new System.EventHandler(this.buttonTestPlayerStats_Click);
             // 
             // Form1
             // 
@@ -849,10 +800,6 @@
         private System.Windows.Forms.TextBox textSceneId;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboSceneNextType;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textSceneNextId;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonSaveScene;
         private System.Windows.Forms.Button buttonAddPartition;
         private System.Windows.Forms.TreeView treeImages;

@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes.cs" />
+    <Compile Include="Classes\AdmiralLogic.cs" />
+    <Compile Include="Classes\CommonFunctions.cs" />
     <Compile Include="Classes\DataConnection.cs" />
     <Compile Include="Classes\StoryClasses.cs" />
     <Compile Include="Form1.cs">
@@ -84,12 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\WebAPI1.csproj">
-      <Project>{0645984b-dae1-4357-9120-b1b43800f2dc}</Project>
-      <Name>WebAPI1</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
