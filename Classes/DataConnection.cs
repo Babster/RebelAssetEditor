@@ -74,6 +74,7 @@ public static class DataConnection
         r = c.ExecuteReader();
         if (r.HasRows)
         {
+            //123
             r.Read();
             tempRes = r[0];
         }
