@@ -881,6 +881,7 @@ namespace AssetEditor
         #endregion
 
         #region История - какой объект за каким следует
+        
         private void tabPage7_Click(object sender, EventArgs e)
         {
 
@@ -958,6 +959,9 @@ namespace AssetEditor
         #endregion
 
         #region SS modules
+
+        private bool modulesFilled;
+
         private void tabPage8_Click(object sender, EventArgs e)
         {
 
@@ -965,12 +969,565 @@ namespace AssetEditor
 
         private void tabPage8_Enter(object sender, EventArgs e)
         {
+            if (modulesFilled)
+                return;
+            FillModules();
+        }
+
+        private void FillModules()
+        {
+            treeModules.Nodes.Clear();
+            string q = @"
+                SELECT 
+                    id,
+                    is_category,
+                    parent,
+                    name,
+                    asset_name,
+                    module_type,
+                    energy_needed,
+                    main_score,
+                    secondary_score,
+                    third_score
+                FROM
+                    ss_modules
+                --WHERE
+                --    parent = 0
+                    ";
+
+            Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
+
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    ModuleNodeTag tag = new ModuleNodeTag(ref r);
+                    TreeNode n;
+                    if(tag.Parent == 0)
+                    {
+                        n = treeModules.Nodes.Add(tag.Name);
+                    }
+                    else
+                    {
+                        n = nodeDict[tag.Parent].Nodes.Add(tag.Name);
+                    }
+                    n.Tag = tag;
+
+                    nodeDict.Add(tag.Id, n);
+
+                }
+            }
+
+            if (moduleTabDict == null)
+            {
+                moduleTabDict = new Dictionary<string, TabPage>();
+                moduleTabDict.Add("Weapon", tabWeapon);
+                moduleTabDict.Add("Defence", tabDefence);
+                moduleTabDict.Add("Engine", tabEngine);
+                moduleTabDict.Add("Thrusters", tabThrusters);
+
+                moduleTypeDict = new Dictionary<TabPage, string>();
+                moduleTypeDict.Add(tabWeapon, "Weapon");
+                moduleTypeDict.Add(tabDefence, "Defence");
+                moduleTypeDict.Add(tabEngine, "Engine");
+                moduleTypeDict.Add(tabThrusters, "Thrusters");
+
+            }
+
+            modulesFilled = true;
+
+        }
+
+        private class ModuleNodeTag
+        {
+            public int Id { get; set; }
+            public int IsCategory { get; set; }
+            public int Parent { get; set; }
+            public string Name { get; set; }
+            public string AssetName { get; set; }
+            public string ModuleType { get; set; }
+            public int EnergyNeeded { get; set; }
+            public int MainScore { get; set; }
+            public int SecondaryScore { get; set; }
+            public int ThirdScore { get; set; }
+            
+            public ModuleNodeTag(int parentId, int isCategory) 
+            { 
+                this.Parent = parentId;
+                this.IsCategory = isCategory;
+                if(IsCategory == 1)
+                {
+                    this.Name = "New category";
+                }
+                else
+                {
+                    this.Name = "New module";
+                }
+            }
+
+            public ModuleNodeTag(ref SqlDataReader r)
+            {
+                this.Id = Convert.ToInt32(r["id"]);
+                this.IsCategory = Convert.ToInt32(r["is_category"]);
+                this.Parent = Convert.ToInt32(r["parent"]);
+                this.Name = Convert.ToString(r["name"]);
+                this.AssetName = Convert.ToString(r["asset_name"]);
+                this.ModuleType = Convert.ToString(r["module_type"]);
+                this.EnergyNeeded = Convert.ToInt32(r["energy_needed"]);
+                this.MainScore = Convert.ToInt32(r["main_score"]);
+                this.SecondaryScore = Convert.ToInt32(r["secondary_score"]);
+                this.ThirdScore = Convert.ToInt32(r["third_score"]);
+            }
+
+            public void SaveData()
+            {
+                string q;
+                if(this.Id==0)
+                {
+                    q = @"INSERT INTO ss_modules(parent) VALUES(" + this.Parent.ToString() + @")
+                            SELECT @@IDENTITY AS Result";
+                    this.Id = Convert.ToInt32(DataConnection.GetResult(q));
+                        
+                }
+                q = @"UPDATE ss_modules SET 
+                        is_category = " + this.IsCategory.ToString() + @",
+                        parent = " + this.Parent.ToString() + @",
+                        name = @str1,
+                        asset_name = @str2,
+                        module_type = @str3,
+                        energy_needed = " + this.EnergyNeeded + @",
+                        main_score = " + this.MainScore + @",
+                        secondary_score = " + this.SecondaryScore + @",
+                        third_score = " + this.ThirdScore + @"
+                    WHERE id = " + this.Id.ToString();
+
+                List<string> names = new List<string>();
+                names.Add(this.Name);
+                names.Add(this.AssetName);
+                names.Add(this.ModuleType);
+
+                DataConnection.Execute(q, names);
+
+            }
+
+        }
+
+        private void buttonSsAddCategory_Click(object sender, EventArgs e)
+        {
+            AddModuleNode(1);
+        }
+        private void buttonSsAddItem_Click(object sender, EventArgs e)
+        {
+            AddModuleNode(0);
+        }
+
+        private void AddModuleNode(int isCategory)
+        {
+            TreeNode newNode;
+            TreeNodeCollection nodesCollection;
+            int parentTag;
+            if (treeModules.SelectedNode == null)
+            {
+                nodesCollection = treeModules.Nodes;
+                parentTag = 0;
+            }
+            else
+            {
+                nodesCollection = treeModules.SelectedNode.Nodes;
+                ModuleNodeTag tTag = (ModuleNodeTag)treeModules.SelectedNode.Tag;
+                parentTag = tTag.Id;
+
+            }
+
+            ModuleNodeTag tag = new ModuleNodeTag(parentTag, isCategory);
+            newNode = nodesCollection.Add(tag.Name);
+            newNode.Tag = tag;
+            treeModules.SelectedNode = newNode;
+        }
+
+        private Dictionary<string, TabPage> moduleTabDict;
+        private Dictionary<TabPage, string> moduleTypeDict;
+
+        private void treeModules_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            ClearModule();
+
+            NoEvents = true;
+
+            textModuleId.Text = tag.Id.ToString();
+            textName.Text = tag.Name;
+            textModuleUnity.Text = tag.AssetName;
+            textModuleType.Text = tag.ModuleType;
+            textModuleEnergy.Text = tag.EnergyNeeded.ToString();
+
+            if(tag.IsCategory==1)
+            {
+                NoEvents = false;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(tag.ModuleType))
+                tag.ModuleType = "Weapon";
+            
+            NoEvents = false;
+
+            tabControlModule.SelectedTab = moduleTabDict[tag.ModuleType];
+            FillModuleTab();
+        }
+
+        private void ClearModule()
+        {
+            NoEvents = true;
+            textName.Text = "";
+            textModuleUnity.Text = "";
+            textModuleEnergy.Text = "";
+            textModuleType.Text = "";
+            NoEvents = false;
+            ClearModuleTabs();
+        }
+
+        private void ClearModuleTabs()
+        {
+            NoEvents = true;
+
+            textModuleFireRate.Text = "";
+            textModuleDeflectorDamage.Text = "";
+            textModuleStructureDamage.Text = "";
+
+            textModuleDeflectors.Text = "";
+            textModuleDeflectorsRegen.Text = "";
+            textModuleArmor.Text = "";
+
+            textModuleEngine.Text = "";
+
+            textModuleSpeed.Text = "";
+            textDexterity.Text = "";
+
+            NoEvents = false;
+        }
+
+        private ModuleNodeTag GetModuleTag()
+        {
+            if (treeModules.SelectedNode == null)
+                return null;
+
+            ModuleNodeTag tag = (ModuleNodeTag)treeModules.SelectedNode.Tag;
+            return tag;
+        }
+
+        private void textName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            tag.Name = textName.Text;
+            treeModules.SelectedNode.Text = textName.Text;
+        }
+
+        private void textModuleUnity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            tag.AssetName  = textModuleUnity.Text;
+        }
+
+        private void textModuleEnergy_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleEnergy.Text, out tNumber);
+            tag.EnergyNeeded = tNumber;
+        }
+
+        private void tabControlModule_Selected(object sender, TabControlEventArgs e)
+        {
+            FillModuleTab();
+        }
+
+        private void FillModuleTab()
+        {
+            textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            tag.ModuleType = textModuleType.Text;
+
+            ClearModuleTabs();
+
+            NoEvents = true;
+
+            switch (tag.ModuleType)
+            {
+                case "Weapon":
+                    textModuleFireRate.Text = tag.MainScore.ToString();
+                    textModuleDeflectorDamage.Text = tag.SecondaryScore.ToString();
+                    textModuleStructureDamage.Text = tag.ThirdScore.ToString();
+                    break;
+                case "Defence":
+                    textModuleDeflectors.Text = tag.MainScore.ToString();
+                    textModuleDeflectorsRegen.Text = tag.SecondaryScore.ToString();
+                    textModuleArmor.Text = tag.ThirdScore.ToString();
+                    break;
+                case "Engine":
+                    textModuleEngine.Text = tag.MainScore.ToString();
+                    break;
+                case "Thrusters":
+                    textModuleSpeed.Text = tag.MainScore.ToString();
+                    textDexterity.Text = tag.SecondaryScore.ToString();
+                    break;
+            }
+            NoEvents = false;
+        }
+
+        private void buttonSaveModule_Click(object sender, EventArgs e)
+        {
+            textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            tag.SaveData();
+            textModuleId.Text = tag.Id.ToString();
+        }
+
+        #region Module tab scores editing
+
+        private void textModuleFireRate_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleFireRate.Text, out tNumber);
+            tag.MainScore = tNumber;
+        }
+
+        private void textModuleDeflectorDamage_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleDeflectorDamage.Text, out tNumber);
+            tag.SecondaryScore = tNumber;
+        }
+
+        private void textModuleStructureDamage_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleStructureDamage.Text, out tNumber);
+            tag.ThirdScore = tNumber;
+        }
+
+        private void textModuleDeflectors_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleDeflectors.Text, out tNumber);
+            tag.MainScore = tNumber;
+        }
+
+        private void textModuleDeflectorsRegen_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleDeflectorsRegen.Text, out tNumber);
+            tag.SecondaryScore = tNumber;
+        }
+
+        private void textModuleArmor_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleArmor.Text, out tNumber);
+            tag.ThirdScore = tNumber;
+        }
+
+        private void textModuleEngine_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleEngine.Text, out tNumber);
+            tag.MainScore = tNumber;
+        }
+
+        private void textModuleSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleSpeed.Text, out tNumber);
+            tag.MainScore = tNumber;
+        }
+
+        private void textDexterity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ModuleNodeTag tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textDexterity.Text, out tNumber);
+            tag.SecondaryScore = tNumber;
+        }
+
+
+
+        #endregion
+
+        #endregion
+
+        #region Ship designs
+
+        private bool ShipFilled;
+        private void tabPage9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage9_Enter(object sender, EventArgs e)
+        {
+            if (ShipFilled)
+                return;
+            FillShips();
+        }
+
+        private void FillShips()
+        {
+
+            treeShips.Nodes.Clear();
+            ShipFilled = true;
+            string q = @"
+                SELECT 
+                    id,
+                    parent,
+                    name,
+                    asset_name
+                FROM
+                    ship_designs";
+
+            SqlDataReader r = DataConnection.GetReader(q);
+            if (r.HasRows)
+            {
+                Dictionary<int, TreeNode> nodes = new Dictionary<int, TreeNode>();
+                while(r.Read())
+                {
+                    ShipNodeTag tag = new ShipNodeTag(ref r);
+                    TreeNode n;
+                    if (tag.Parent > 0)
+                    {
+                        n = nodes[tag.Parent].Nodes.Add(tag.Name);
+                    }    
+                    else
+                    {
+                        n = treeShips.Nodes.Add(tag.Name);
+                    }
+
+                    n.Tag = tag;
+
+                }
+            }
+
+        }
+
+        private void buttonShipAdd_Click(object sender, EventArgs e)
+        {
+            int parentId;
+            TreeNode n;
+            if(treeShips.SelectedNode == null)
+            {
+                parentId = 0;
+                n = treeShips.Nodes.Add("");
+            }
+            else
+            {
+                ShipNodeTag tTag = (ShipNodeTag)treeShips.SelectedNode.Tag;
+                parentId = tTag.Id;
+                n = treeShips.SelectedNode.Nodes.Add("");
+            }
+            ShipNodeTag tag = new ShipNodeTag(parentId);
+            n.Text = tag.Name;
+            n.Tag = tag;
+
+        }
+
+        private class ShipNodeTag
+        {
+
+            public int Id { get; set; }
+            public int Parent { get; set; }
+            public string Name { get; set; }
+            public string AssetName { get; set; }
+
+            public ShipNodeTag(int parentId)
+            {
+                this.Parent = parentId;
+                this.Name = "New design";
+            }
+
+            public ShipNodeTag(ref SqlDataReader  r)
+            {
+                this.Id = Convert.ToInt32(r["id"]);
+                this.Parent = Convert.ToInt32(r["parent"]);
+                this.Name = Convert.ToString(r["name"]);
+                this.AssetName = Convert.ToString(r["asset_name"]);
+            }
+
+            public void SaveData()
+            {
+
+            }
+
 
         }
 
 
         #endregion
 
+        private void textShipName_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
