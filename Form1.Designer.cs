@@ -68,6 +68,8 @@
             this.textStatRegistrationPoints = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboSkillGroup = new System.Windows.Forms.ComboBox();
             this.textStatBaseValue = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.buttonSaveStat = new System.Windows.Forms.Button();
@@ -88,6 +90,17 @@
             this.buttonRegisterAccount = new System.Windows.Forms.Button();
             this.buttonDeleteAccount = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.GridStoryFlow = new System.Windows.Forms.DataGridView();
+            this.s_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_prev_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_prev = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.treeModules = new System.Windows.Forms.TreeView();
+            this.buttonSsAddCategory = new System.Windows.Forms.Button();
+            this.buttonSsAddItem = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -99,6 +112,9 @@
             this.tabPage5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
+            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -144,10 +160,12 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -250,7 +268,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(454, 88);
+            this.tabPage4.Size = new System.Drawing.Size(454, 155);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "English";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -263,7 +281,7 @@
             this.textSceneEnglish.Multiline = true;
             this.textSceneEnglish.Name = "textSceneEnglish";
             this.textSceneEnglish.ReadOnly = true;
-            this.textSceneEnglish.Size = new System.Drawing.Size(448, 82);
+            this.textSceneEnglish.Size = new System.Drawing.Size(448, 149);
             this.textSceneEnglish.TabIndex = 1;
             this.textSceneEnglish.TextChanged += new System.EventHandler(this.textSceneEnglish_TextChanged);
             // 
@@ -551,6 +569,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.comboSkillGroup);
             this.groupBox2.Controls.Add(this.textStatBaseValue);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.buttonSaveStat);
@@ -566,14 +586,43 @@
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Location = new System.Drawing.Point(337, 90);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(776, 225);
+            this.groupBox2.Size = new System.Drawing.Size(776, 248);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Для записи кликай \"Сохранить\"";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(208, 28);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 20);
+            this.label4.TabIndex = 102;
+            this.label4.Text = "Группа:";
+            // 
+            // comboSkillGroup
+            // 
+            this.comboSkillGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSkillGroup.FormattingEnabled = true;
+            this.comboSkillGroup.Items.AddRange(new object[] {
+            "Starbase management",
+            "Resources mining",
+            "Diplomacy",
+            "Artifact usage",
+            "Officer management",
+            "Weapons",
+            "Defence systems",
+            "Science",
+            "Ship engineering"});
+            this.comboSkillGroup.Location = new System.Drawing.Point(279, 23);
+            this.comboSkillGroup.Name = "comboSkillGroup";
+            this.comboSkillGroup.Size = new System.Drawing.Size(314, 28);
+            this.comboSkillGroup.TabIndex = 101;
+            this.comboSkillGroup.SelectedIndexChanged += new System.EventHandler(this.comboSkillGroup_SelectedIndexChanged);
+            // 
             // textStatBaseValue
             // 
-            this.textStatBaseValue.Location = new System.Drawing.Point(181, 70);
+            this.textStatBaseValue.Location = new System.Drawing.Point(169, 89);
             this.textStatBaseValue.Name = "textStatBaseValue";
             this.textStatBaseValue.Size = new System.Drawing.Size(100, 26);
             this.textStatBaseValue.TabIndex = 12;
@@ -582,7 +631,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(16, 73);
+            this.label17.Location = new System.Drawing.Point(4, 92);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(152, 20);
             this.label17.TabIndex = 11;
@@ -590,7 +639,7 @@
             // 
             // buttonSaveStat
             // 
-            this.buttonSaveStat.Location = new System.Drawing.Point(623, 181);
+            this.buttonSaveStat.Location = new System.Drawing.Point(611, 200);
             this.buttonSaveStat.Name = "buttonSaveStat";
             this.buttonSaveStat.Size = new System.Drawing.Size(147, 36);
             this.buttonSaveStat.TabIndex = 100;
@@ -600,7 +649,7 @@
             // 
             // textStatSortIdx
             // 
-            this.textStatSortIdx.Location = new System.Drawing.Point(465, 70);
+            this.textStatSortIdx.Location = new System.Drawing.Point(453, 89);
             this.textStatSortIdx.Name = "textStatSortIdx";
             this.textStatSortIdx.Size = new System.Drawing.Size(100, 26);
             this.textStatSortIdx.TabIndex = 15;
@@ -609,7 +658,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(287, 73);
+            this.label16.Location = new System.Drawing.Point(275, 92);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(172, 20);
             this.label16.TabIndex = 8;
@@ -617,7 +666,7 @@
             // 
             // textStatDescriptionRussian
             // 
-            this.textStatDescriptionRussian.Location = new System.Drawing.Point(210, 140);
+            this.textStatDescriptionRussian.Location = new System.Drawing.Point(198, 159);
             this.textStatDescriptionRussian.MaxLength = 50;
             this.textStatDescriptionRussian.Name = "textStatDescriptionRussian";
             this.textStatDescriptionRussian.Size = new System.Drawing.Size(560, 26);
@@ -627,7 +676,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(16, 143);
+            this.label15.Location = new System.Drawing.Point(4, 162);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(159, 20);
             this.label15.TabIndex = 6;
@@ -635,7 +684,7 @@
             // 
             // textStatDescriptionEnglish
             // 
-            this.textStatDescriptionEnglish.Location = new System.Drawing.Point(210, 105);
+            this.textStatDescriptionEnglish.Location = new System.Drawing.Point(198, 124);
             this.textStatDescriptionEnglish.MaxLength = 50;
             this.textStatDescriptionEnglish.Name = "textStatDescriptionEnglish";
             this.textStatDescriptionEnglish.Size = new System.Drawing.Size(560, 26);
@@ -645,7 +694,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(16, 108);
+            this.label14.Location = new System.Drawing.Point(4, 127);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(188, 20);
             this.label14.TabIndex = 4;
@@ -653,17 +702,17 @@
             // 
             // textStatName
             // 
-            this.textStatName.Location = new System.Drawing.Point(233, 35);
+            this.textStatName.Location = new System.Drawing.Point(58, 57);
             this.textStatName.MaxLength = 50;
             this.textStatName.Name = "textStatName";
-            this.textStatName.Size = new System.Drawing.Size(332, 26);
+            this.textStatName.Size = new System.Drawing.Size(700, 26);
             this.textStatName.TabIndex = 3;
             this.textStatName.TextChanged += new System.EventHandler(this.textStatName_TextChanged);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(182, 38);
+            this.label13.Location = new System.Drawing.Point(7, 60);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(44, 20);
             this.label13.TabIndex = 2;
@@ -671,7 +720,7 @@
             // 
             // textStatId
             // 
-            this.textStatId.Location = new System.Drawing.Point(65, 35);
+            this.textStatId.Location = new System.Drawing.Point(58, 25);
             this.textStatId.Name = "textStatId";
             this.textStatId.ReadOnly = true;
             this.textStatId.Size = new System.Drawing.Size(100, 26);
@@ -681,7 +730,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(16, 38);
+            this.label12.Location = new System.Drawing.Point(9, 28);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(43, 20);
             this.label12.TabIndex = 0;
@@ -755,6 +804,111 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.GridStoryFlow);
+            this.tabPage7.Location = new System.Drawing.Point(4, 29);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage7.TabIndex = 4;
+            this.tabPage7.Text = "Сценарий";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            this.tabPage7.Click += new System.EventHandler(this.tabPage7_Click);
+            this.tabPage7.Enter += new System.EventHandler(this.tabPage7_Enter);
+            // 
+            // GridStoryFlow
+            // 
+            this.GridStoryFlow.AllowUserToDeleteRows = false;
+            this.GridStoryFlow.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.GridStoryFlow.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GridStoryFlow.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.s_id,
+            this.s_prev_name,
+            this.s_prev,
+            this.s_name,
+            this.s_code});
+            this.GridStoryFlow.Location = new System.Drawing.Point(8, 6);
+            this.GridStoryFlow.Name = "GridStoryFlow";
+            this.GridStoryFlow.Size = new System.Drawing.Size(764, 500);
+            this.GridStoryFlow.TabIndex = 0;
+            this.GridStoryFlow.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridStoryFlow_CellEndEdit);
+            // 
+            // s_id
+            // 
+            this.s_id.FillWeight = 50F;
+            this.s_id.HeaderText = "id";
+            this.s_id.Name = "s_id";
+            this.s_id.ReadOnly = true;
+            // 
+            // s_prev_name
+            // 
+            this.s_prev_name.HeaderText = "Имя предыдущего";
+            this.s_prev_name.MaxInputLength = 20;
+            this.s_prev_name.Name = "s_prev_name";
+            // 
+            // s_prev
+            // 
+            this.s_prev.FillWeight = 50F;
+            this.s_prev.HeaderText = "Код предыдущего";
+            this.s_prev.MaxInputLength = 3;
+            this.s_prev.Name = "s_prev";
+            // 
+            // s_name
+            // 
+            this.s_name.HeaderText = "Имя";
+            this.s_name.MaxInputLength = 20;
+            this.s_name.Name = "s_name";
+            // 
+            // s_code
+            // 
+            this.s_code.FillWeight = 50F;
+            this.s_code.HeaderText = "Код";
+            this.s_code.MaxInputLength = 3;
+            this.s_code.Name = "s_code";
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.buttonSsAddItem);
+            this.tabPage8.Controls.Add(this.buttonSsAddCategory);
+            this.tabPage8.Controls.Add(this.treeModules);
+            this.tabPage8.Location = new System.Drawing.Point(4, 29);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage8.TabIndex = 5;
+            this.tabPage8.Text = "Модули";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            this.tabPage8.Click += new System.EventHandler(this.tabPage8_Click);
+            this.tabPage8.Enter += new System.EventHandler(this.tabPage8_Enter);
+            // 
+            // treeModules
+            // 
+            this.treeModules.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeModules.Location = new System.Drawing.Point(6, 42);
+            this.treeModules.Name = "treeModules";
+            this.treeModules.Size = new System.Drawing.Size(234, 466);
+            this.treeModules.TabIndex = 0;
+            // 
+            // buttonSsAddCategory
+            // 
+            this.buttonSsAddCategory.Location = new System.Drawing.Point(8, 6);
+            this.buttonSsAddCategory.Name = "buttonSsAddCategory";
+            this.buttonSsAddCategory.Size = new System.Drawing.Size(103, 30);
+            this.buttonSsAddCategory.TabIndex = 1;
+            this.buttonSsAddCategory.Text = "Категория";
+            this.buttonSsAddCategory.UseVisualStyleBackColor = true;
+            // 
+            // buttonSsAddItem
+            // 
+            this.buttonSsAddItem.Location = new System.Drawing.Point(137, 6);
+            this.buttonSsAddItem.Name = "buttonSsAddItem";
+            this.buttonSsAddItem.Size = new System.Drawing.Size(103, 30);
+            this.buttonSsAddItem.TabIndex = 2;
+            this.buttonSsAddItem.Text = "Добавить";
+            this.buttonSsAddItem.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -784,6 +938,9 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage6.ResumeLayout(false);
+            this.tabPage7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).EndInit();
+            this.tabPage8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -850,6 +1007,19 @@
         private System.Windows.Forms.Button buttonDeleteAccount;
         private System.Windows.Forms.Button buttonRegisterAccount;
         private System.Windows.Forms.Button buttonTestPlayerStats;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboSkillGroup;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.DataGridView GridStoryFlow;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_prev_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_prev;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s_code;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.TreeView treeModules;
+        private System.Windows.Forms.Button buttonSsAddItem;
+        private System.Windows.Forms.Button buttonSsAddCategory;
     }
 }
 

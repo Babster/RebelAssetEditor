@@ -398,6 +398,7 @@ namespace AdmiralNamespace
     public class PlayerStat
     {
         public int Id { get; set; }
+        public string SkillGroup { get; set; }
         public string Name { get; set; }
         public int Value { get; set; }
         public string DescriptionEnglish { get; set; }
@@ -408,6 +409,7 @@ namespace AdmiralNamespace
         public PlayerStat(ref SqlDataReader r)
         {
             this.Id = Convert.ToInt32(r["id"]);
+            this.SkillGroup = Convert.ToString(r["skill_group"]);
             this.Name = Convert.ToString(r["name"]);
             this.OrderIdx = Convert.ToInt32(r["order_idx"]);
             this.Value = Convert.ToInt32(r["base_value"]);
@@ -418,6 +420,7 @@ namespace AdmiralNamespace
         public PlayerStat Copy()
         {
             PlayerStat newElement = new PlayerStat();
+            newElement.SkillGroup = this.SkillGroup;
             newElement.Id = this.Id;
             newElement.Name = this.Name;
             newElement.Value = this.Value;
@@ -433,6 +436,7 @@ namespace AdmiralNamespace
         {
             PlayerStatWithSql newElement = new PlayerStatWithSql();
             newElement.Id = this.Id;
+            newElement.SkillGroup = this.SkillGroup;
             newElement.Name = this.Name;
             newElement.Value = this.Value;
             newElement.DescriptionEnglish = this.DescriptionEnglish;
@@ -456,14 +460,16 @@ namespace AdmiralNamespace
             }
 
             List<String> names = new List<string>();
+            names.Add(this.SkillGroup);
             names.Add(this.Name);
             names.Add(DescriptionEnglish);
             names.Add(DescriptionRussian);
             q = @"UPDATE admiral_stat_types SET
-                        name = @str1,
+                        skill_group = @str1,
+                        name = @str2,
                         base_value = " + this.Value + @",
-                        description_english = @str2,
-                        description_russian = @str3,
+                        description_english = @str3,
+                        description_russian = @str4,
 						order_idx = " + this.OrderIdx + @"
                     WHERE id = " + Id.ToString();
             DataConnection.Execute(q, names);
@@ -482,6 +488,7 @@ namespace AdmiralNamespace
         public PlayerStatWithSql(ref SqlDataReader r)
         {
             this.Id = Convert.ToInt32(r["id"]);
+            this.SkillGroup = Convert.ToString(r["skill_group"]);
             this.Name = Convert.ToString(r["name"]);
             this.OrderIdx = Convert.ToInt32(r["order_idx"]);
             this.Value = Convert.ToInt32(r["base_value"]);

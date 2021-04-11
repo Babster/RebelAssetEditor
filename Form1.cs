@@ -324,7 +324,7 @@ namespace AssetEditor
 
         #endregion
 
-    #region "Изображения"
+        #region "Изображения"
 
         private class ImageTag : RebelImageWithSql
         {
@@ -585,13 +585,21 @@ namespace AssetEditor
         {
 
         }
+
+        private bool StatsFilled = false;
+
         private void tabPage5_Enter(object sender, EventArgs e)
         {
+
+            if (StatsFilled)
+                return;
+
             string q;
             SqlDataReader r;
 
             q = @"SELECT 
                     id,
+                    ISNULL(skill_group, '') AS skill_group,
                     name,
                     base_value,
                     description_english,
@@ -647,6 +655,7 @@ namespace AssetEditor
             textStatDescriptionEnglish.Text = "";
             textStatDescriptionRussian.Text = "";
             textStatSortIdx.Text = "";
+            comboSkillGroup.SelectedItem = null;
             NoEvents = false;
         }
 
@@ -660,6 +669,11 @@ namespace AssetEditor
 
             PlayerStatNode tNode = (PlayerStatNode) treeStats.SelectedNode.Tag;
             textStatId.Text = tNode.Id.ToString();
+            if(!string.IsNullOrEmpty(tNode.SkillGroup))
+            {
+                comboSkillGroup.SelectedItem = tNode.SkillGroup;
+            }
+            
             textStatName.Text = tNode.Name;
             textStatBaseValue.Text = tNode.Value.ToString();
             textStatDescriptionEnglish.Text = tNode.DescriptionEnglish;
@@ -689,6 +703,25 @@ namespace AssetEditor
             PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
             treeStats.SelectedNode.Text = textStatName.Text;
             tNode.Name = textStatName.Text;
+        }
+
+        private void comboSkillGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (treeStats.SelectedNode == null)
+                return;
+            if (NoEvents)
+                return;
+            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            if(comboSkillGroup.SelectedItem == null)
+            {
+                tNode.SkillGroup = "";
+            }
+            else
+            {
+                tNode.SkillGroup = (string)comboSkillGroup.SelectedItem;
+            }
+            
+
         }
 
         private void textStatBaseValue_TextChanged(object sender, EventArgs e)
@@ -842,6 +875,99 @@ namespace AssetEditor
             return tData;
 
         }
+
+
+
+        #endregion
+
+        #region История - какой объект за каким следует
+        private void tabPage7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage7_Enter(object sender, EventArgs e)
+        {
+            SqlDataReader r = DataConnection.GetReader(
+                @"SELECT 
+                    id,
+                    previous_object_type,
+                    previous_object_id,
+                    object_type,
+                    object_id
+                FROM 
+                    story_object_flow");
+            if (r.HasRows)
+            {
+                while (r.Read())
+                {
+                    GridStoryFlow.Rows.Add();
+                    DataGridViewRow row = GridStoryFlow.Rows[GridStoryFlow.Rows.Count - 2];
+                    row.Cells["s_id"].Value = Convert.ToString(r["id"]);
+                    row.Cells["s_prev_name"].Value = Convert.ToString(r["previous_object_type"]);
+                    row.Cells["s_prev"].Value = Convert.ToString(r["previous_object_id"]);
+                    row.Cells["s_name"].Value = Convert.ToString(r["object_type"]);
+                    row.Cells["s_code"].Value = Convert.ToString(r["object_id"]);
+                }
+            }
+            r.Close();
+        }
+
+        private Dictionary<string, string> storyObjectDisct;
+        private void GridStoryFlow_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if(storyObjectDisct==null)
+            {
+                storyObjectDisct = new Dictionary<string, string>();
+                storyObjectDisct.Add("s_prev_name", "previous_object_type");
+                storyObjectDisct.Add("s_prev", "previous_object_id");
+                storyObjectDisct.Add("s_name", "object_type");
+                storyObjectDisct.Add("s_code", "object_id");
+            }
+
+            string q;
+            DataGridViewRow row = GridStoryFlow.Rows[e.RowIndex];
+            int id = 0;
+            if(row.Cells["s_id"].Value!=null)
+            {
+                if(Convert.ToString(row.Cells["s_id"].Value) != "")
+                {
+                    id = Convert.ToInt32(row.Cells["s_id"].Value);
+                }
+            }
+            if(id==0)
+            {
+                q = @"
+                     INSERT INTO story_object_flow(previous_object_type) VALUES('')
+                     SELECT @@IDENTITY AS Result";
+                id = Convert.ToInt32(DataConnection.GetResult(q, null, 0));
+            }
+
+            string columnName = GridStoryFlow.Columns[e.ColumnIndex].Name;
+            string Value = Convert.ToString(row.Cells[e.ColumnIndex].Value);
+
+            List<String> names = new List<string> { Value };
+
+
+            q = $@"UPDATE story_object_flow SET " + storyObjectDisct[columnName] + " = @str1";
+            DataConnection.Execute(q,names);
+        }
+
+
+        #endregion
+
+        #region SS modules
+        private void tabPage8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage8_Enter(object sender, EventArgs e)
+        {
+
+        }
+
 
         #endregion
 
