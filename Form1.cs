@@ -1433,6 +1433,8 @@ namespace AssetEditor
             FillShips();
         }
 
+        private Dictionary<int, string> ModuleDict;
+
         private void FillShips()
         {
 
@@ -1468,7 +1470,32 @@ namespace AssetEditor
 
                 }
             }
+            r.Close();
 
+            LoadModuleDict();
+
+        }
+
+        private void buttonReloadModuleDict_Click(object sender, EventArgs e)
+        {
+            LoadModuleDict();
+        }
+
+        private void LoadModuleDict()
+        {
+            string q;
+            SqlDataReader r;
+            ModuleDict = new Dictionary<int, string>();
+            q = @"SELECT id, name FROM ss_modules";
+            r = DataConnection.GetReader(q);
+            if (r.HasRows)
+            {
+                while (r.Read())
+                {
+                    ModuleDict.Add(Convert.ToInt32(r["id"]), Convert.ToString(r["name"]));
+                }
+            }
+            r.Close();
         }
 
         private void buttonShipAdd_Click(object sender, EventArgs e)
@@ -1489,9 +1516,144 @@ namespace AssetEditor
             ShipNodeTag tag = new ShipNodeTag(parentId);
             n.Text = tag.Name;
             n.Tag = tag;
+            treeShips.SelectedNode = n;
+        }
+
+        private void treeShips_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ClearShip();
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            NoEvents = true;
+            textShipId.Text = tag.Id.ToString() ;
+            textShipName.Text = tag.Name;
+            textShipUnity.Text = tag.AssetName;
+            if(tag.slots.Count > 0)
+            {
+                foreach(ShipNodeTag.Slot slot in tag.slots)
+                {
+                    listShipSlots.Items.Add(slot);
+                }
+                listShipSlots.SelectedIndex = 0;
+            }
+            NoEvents = false;
+        }
+
+        private void ClearShip()
+        {
+            NoEvents = true;
+            textShipId.Text = "";
+            textShipName.Text = "";
+            textShipUnity.Text = "";
+            listShipSlots.Items.Clear();
+            NoEvents = false;
+            ClearShipSlot();
+        }
+
+        private ShipNodeTag GetCurrentShipTag()
+        {
+            if (treeShips.SelectedNode == null)
+                return null;
+            return (ShipNodeTag)treeShips.SelectedNode.Tag;
+        }
+        private void textShipName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            treeShips.SelectedNode.Text = textShipName.Text;
+            tag.Name = textShipName.Text;
+        }
+        private void textShipUnity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            tag.AssetName  = textShipUnity.Text;
+        }
+        private void listShipParts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+
+            ClearShipSlot();
+
+            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+
+            NoEvents = true;
+            textShipSlotId.Text = slot.Id.ToString();
+            textShipSlotNumber.Text = slot.SlotNumber.ToString();
+            if(!string.IsNullOrEmpty(slot.SlotType ))
+                comboShipSlotType.SelectedItem = slot.SlotType;
+            textShipSlotDefaultModule.Text = slot.DefaultModuleId.ToString();
+            textShipSlotDefaultModuleName.Text = "";
+            NoEvents = false;
+        }
+        private void ClearShipSlot()
+        {
+            NoEvents = true;
+            textShipSlotId.Text = "";
+            textShipSlotNumber.Text = "";
+            comboShipSlotType.SelectedItem = null;
+            textShipSlotDefaultModule.Text = "";
+            textShipSlotDefaultModuleName.Text = "";
+            NoEvents = false;
+        }
+        private ShipNodeTag.Slot GetCurrentShipSlot()
+        {
+            if (listShipSlots.SelectedItem == null)
+                return null;
+            return (ShipNodeTag.Slot)listShipSlots.SelectedItem;
+        }
+
+        private void textShipSlotNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            int amount = 0;
+            Int32.TryParse(textShipSlotNumber.Text, out amount);
+            slot.SlotNumber = amount;
+        }
+        private void comboShipSlotType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            string t;
+            if(comboShipSlotType.SelectedItem == null)
+            {
+                t = "";
+            }
+            else
+            {
+
+            }
+        }
+        private void textShipSlotDefaultModule_TextChanged(object sender, EventArgs e)
+        {
 
         }
 
+        private void buttonSaveShip_Click(object sender, EventArgs e)
+        {
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            tag.SaveData();
+            textShipId.Text = tag.Id.ToString(); ;
+        }
         private class ShipNodeTag
         {
 
@@ -1499,9 +1661,11 @@ namespace AssetEditor
             public int Parent { get; set; }
             public string Name { get; set; }
             public string AssetName { get; set; }
+            public List<Slot> slots;
 
             public ShipNodeTag(int parentId)
             {
+                slots = new List<Slot>();
                 this.Parent = parentId;
                 this.Name = "New design";
             }
@@ -1512,6 +1676,33 @@ namespace AssetEditor
                 this.Parent = Convert.ToInt32(r["parent"]);
                 this.Name = Convert.ToString(r["name"]);
                 this.AssetName = Convert.ToString(r["asset_name"]);
+
+                LoadSlots();
+
+            }
+
+            private void LoadSlots()
+            {
+                slots = new List<Slot>();
+                string q;
+                q = @"
+                    SELECT
+                        id,
+                        slot_number,
+                        slot_type,
+                        default_module_id
+                    WHERE
+                        ss_design_id = " + Id;
+                SqlDataReader r;
+                r = DataConnection.GetReader(q);
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        slots.Add(new Slot(ref r));
+                    }
+                }
+                r.Close();
             }
 
             public void SaveData()
@@ -1538,17 +1729,71 @@ namespace AssetEditor
 
                 DataConnection.Execute(q, names);
 
+                if(slots.Count>0)
+                {
+                    foreach(Slot slot in slots)
+                    {
+                        slot.SaveData();
+                    }
+                }
+
             }
 
+            public class Slot
+            {
+                public int Id { get; set; }
+                public int ShipDesignId { get; set; }
+                public int SlotNumber { get; set; }
+                public string SlotType { get; set; }
+                public int DefaultModuleId { get; set; }
+
+                public Slot(int SlotNumber)
+                {
+                    this.SlotNumber = SlotNumber;
+                }
+
+                public Slot(ref SqlDataReader r)
+                {
+                    Id = Convert.ToInt32(r["Id"]);
+                    ShipDesignId = Convert.ToInt32(r["ss_design_id"]);
+                    SlotNumber = Convert.ToInt32(r["slot_number"]);
+                    SlotType = Convert.ToString(r["slot_type"]);
+                    DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
+                }
+
+                public override string ToString()
+                {
+                    return SlotType + " (" + SlotNumber + "/" + Id + ")";
+                }
+
+                public void SaveData()
+                {
+                    string q;
+                    if(Id == 0)
+                    {
+                        q = "INSERT INTO ss_designs_slots(ss_design_id) VALUES(" + ShipDesignId + @")
+                                SELECT @@IDENTITY AS Result";
+                        Id = DataConnection.GetResultInt(q);
+                    }
+
+                    q = @"
+                        UPDATE ss_designs_slots SET
+                            slot_number = " + SlotNumber + @", 
+                            slot_type = @str1, 
+                            default_module_id = " + DefaultModuleId + @"
+                        WHERE id = " + Id.ToString();
+                    List<string> names = new List<string> { SlotType };
+                    DataConnection.Execute(q, names);
+                }
+
+            }
 
         }
+
 
 
         #endregion
 
-        private void textShipName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+  
     }
 }

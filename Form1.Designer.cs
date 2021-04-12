@@ -98,6 +98,8 @@
             this.buttonDeleteAccount = new System.Windows.Forms.Button();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textModuleId = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.textModuleEnergy = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.textModuleUnity = new System.Windows.Forms.TextBox();
@@ -133,20 +135,31 @@
             this.buttonSsAddItem = new System.Windows.Forms.Button();
             this.buttonSsAddCategory = new System.Windows.Forms.Button();
             this.treeModules = new System.Windows.Forms.TreeView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.buttonShipAdd = new System.Windows.Forms.Button();
-            this.treeShips = new System.Windows.Forms.TreeView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textShipId = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.buttonSaveShip = new System.Windows.Forms.Button();
             this.textShipUnity = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.textShipName = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.textModuleId = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.buttonSaveShip = new System.Windows.Forms.Button();
+            this.buttonShipAdd = new System.Windows.Forms.Button();
+            this.treeShips = new System.Windows.Forms.TreeView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.listShipSlots = new System.Windows.Forms.ListBox();
+            this.buttonAddShipPart = new System.Windows.Forms.Button();
+            this.buttonRemoveShipPart = new System.Windows.Forms.Button();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.textShipSlotId = new System.Windows.Forms.TextBox();
+            this.textShipSlotNumber = new System.Windows.Forms.TextBox();
+            this.comboShipSlotType = new System.Windows.Forms.ComboBox();
+            this.textShipSlotDefaultModule = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.textShipSlotDefaultModuleName = new System.Windows.Forms.TextBox();
+            this.buttonReloadModuleDict = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -309,7 +322,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1121, 514);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Scene editor";
+            this.tabPage1.Text = "Сцены";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -955,6 +968,23 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Редактирование модуля";
             // 
+            // textModuleId
+            // 
+            this.textModuleId.Location = new System.Drawing.Point(167, 27);
+            this.textModuleId.Name = "textModuleId";
+            this.textModuleId.ReadOnly = true;
+            this.textModuleId.Size = new System.Drawing.Size(100, 26);
+            this.textModuleId.TabIndex = 14;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(134, 30);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(27, 20);
+            this.label33.TabIndex = 13;
+            this.label33.Text = "Id:";
+            // 
             // textModuleEnergy
             // 
             this.textModuleEnergy.Location = new System.Drawing.Point(138, 105);
@@ -1290,10 +1320,6 @@
             this.treeModules.TabIndex = 0;
             this.treeModules.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeModules_AfterSelect);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.groupBox4);
@@ -1309,29 +1335,22 @@
             this.tabPage9.Click += new System.EventHandler(this.tabPage9_Click);
             this.tabPage9.Enter += new System.EventHandler(this.tabPage9_Enter);
             // 
-            // buttonShipAdd
-            // 
-            this.buttonShipAdd.Location = new System.Drawing.Point(8, 6);
-            this.buttonShipAdd.Name = "buttonShipAdd";
-            this.buttonShipAdd.Size = new System.Drawing.Size(103, 30);
-            this.buttonShipAdd.TabIndex = 5;
-            this.buttonShipAdd.Text = "Добавить";
-            this.buttonShipAdd.UseVisualStyleBackColor = true;
-            this.buttonShipAdd.Click += new System.EventHandler(this.buttonShipAdd_Click);
-            // 
-            // treeShips
-            // 
-            this.treeShips.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.treeShips.HideSelection = false;
-            this.treeShips.Location = new System.Drawing.Point(8, 42);
-            this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 466);
-            this.treeShips.TabIndex = 3;
-            // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.buttonReloadModuleDict);
+            this.groupBox4.Controls.Add(this.textShipSlotDefaultModuleName);
+            this.groupBox4.Controls.Add(this.label38);
+            this.groupBox4.Controls.Add(this.textShipSlotDefaultModule);
+            this.groupBox4.Controls.Add(this.comboShipSlotType);
+            this.groupBox4.Controls.Add(this.textShipSlotNumber);
+            this.groupBox4.Controls.Add(this.textShipSlotId);
+            this.groupBox4.Controls.Add(this.label37);
+            this.groupBox4.Controls.Add(this.label36);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.buttonRemoveShipPart);
+            this.groupBox4.Controls.Add(this.buttonAddShipPart);
+            this.groupBox4.Controls.Add(this.listShipSlots);
+            this.groupBox4.Controls.Add(this.textShipId);
             this.groupBox4.Controls.Add(this.label34);
             this.groupBox4.Controls.Add(this.buttonSaveShip);
             this.groupBox4.Controls.Add(this.textShipUnity);
@@ -1345,13 +1364,41 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Редактирование дизайна корабля";
             // 
+            // textShipId
+            // 
+            this.textShipId.Location = new System.Drawing.Point(165, 33);
+            this.textShipId.Name = "textShipId";
+            this.textShipId.ReadOnly = true;
+            this.textShipId.Size = new System.Drawing.Size(100, 26);
+            this.textShipId.TabIndex = 17;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(132, 36);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(27, 20);
+            this.label34.TabIndex = 16;
+            this.label34.Text = "Id:";
+            // 
+            // buttonSaveShip
+            // 
+            this.buttonSaveShip.Location = new System.Drawing.Point(10, 31);
+            this.buttonSaveShip.Name = "buttonSaveShip";
+            this.buttonSaveShip.Size = new System.Drawing.Size(103, 30);
+            this.buttonSaveShip.TabIndex = 15;
+            this.buttonSaveShip.Text = "Сохранить";
+            this.buttonSaveShip.UseVisualStyleBackColor = true;
+            this.buttonSaveShip.Click += new System.EventHandler(this.buttonSaveShip_Click);
+            // 
             // textShipUnity
             // 
             this.textShipUnity.Location = new System.Drawing.Point(562, 76);
             this.textShipUnity.MaxLength = 50;
             this.textShipUnity.Name = "textShipUnity";
-            this.textShipUnity.Size = new System.Drawing.Size(285, 26);
+            this.textShipUnity.Size = new System.Drawing.Size(297, 26);
             this.textShipUnity.TabIndex = 14;
+            this.textShipUnity.TextChanged += new System.EventHandler(this.textShipUnity_TextChanged);
             // 
             // label28
             // 
@@ -1380,48 +1427,146 @@
             this.label32.TabIndex = 11;
             this.label32.Text = "Наименование:";
             // 
-            // label33
+            // buttonShipAdd
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(134, 30);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(27, 20);
-            this.label33.TabIndex = 13;
-            this.label33.Text = "Id:";
+            this.buttonShipAdd.Location = new System.Drawing.Point(8, 6);
+            this.buttonShipAdd.Name = "buttonShipAdd";
+            this.buttonShipAdd.Size = new System.Drawing.Size(103, 30);
+            this.buttonShipAdd.TabIndex = 5;
+            this.buttonShipAdd.Text = "Добавить";
+            this.buttonShipAdd.UseVisualStyleBackColor = true;
+            this.buttonShipAdd.Click += new System.EventHandler(this.buttonShipAdd_Click);
             // 
-            // textModuleId
+            // treeShips
             // 
-            this.textModuleId.Location = new System.Drawing.Point(167, 27);
-            this.textModuleId.Name = "textModuleId";
-            this.textModuleId.ReadOnly = true;
-            this.textModuleId.Size = new System.Drawing.Size(100, 26);
-            this.textModuleId.TabIndex = 14;
+            this.treeShips.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeShips.HideSelection = false;
+            this.treeShips.Location = new System.Drawing.Point(8, 42);
+            this.treeShips.Name = "treeShips";
+            this.treeShips.Size = new System.Drawing.Size(234, 466);
+            this.treeShips.TabIndex = 3;
+            this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
-            // textBox1
+            // openFileDialog1
             // 
-            this.textBox1.Location = new System.Drawing.Point(165, 33);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(100, 26);
-            this.textBox1.TabIndex = 17;
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // label34
+            // listShipSlots
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(132, 36);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(27, 20);
-            this.label34.TabIndex = 16;
-            this.label34.Text = "Id:";
+            this.listShipSlots.FormattingEnabled = true;
+            this.listShipSlots.ItemHeight = 20;
+            this.listShipSlots.Location = new System.Drawing.Point(6, 150);
+            this.listShipSlots.Name = "listShipSlots";
+            this.listShipSlots.Size = new System.Drawing.Size(299, 344);
+            this.listShipSlots.TabIndex = 18;
+            this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
             // 
-            // buttonSaveShip
+            // buttonAddShipPart
             // 
-            this.buttonSaveShip.Location = new System.Drawing.Point(10, 31);
-            this.buttonSaveShip.Name = "buttonSaveShip";
-            this.buttonSaveShip.Size = new System.Drawing.Size(103, 30);
-            this.buttonSaveShip.TabIndex = 15;
-            this.buttonSaveShip.Text = "Сохранить";
-            this.buttonSaveShip.UseVisualStyleBackColor = true;
+            this.buttonAddShipPart.Location = new System.Drawing.Point(6, 114);
+            this.buttonAddShipPart.Name = "buttonAddShipPart";
+            this.buttonAddShipPart.Size = new System.Drawing.Size(103, 30);
+            this.buttonAddShipPart.TabIndex = 19;
+            this.buttonAddShipPart.Text = "Добавить";
+            this.buttonAddShipPart.UseVisualStyleBackColor = true;
+            // 
+            // buttonRemoveShipPart
+            // 
+            this.buttonRemoveShipPart.Location = new System.Drawing.Point(117, 114);
+            this.buttonRemoveShipPart.Name = "buttonRemoveShipPart";
+            this.buttonRemoveShipPart.Size = new System.Drawing.Size(103, 30);
+            this.buttonRemoveShipPart.TabIndex = 20;
+            this.buttonRemoveShipPart.Text = "Удалить";
+            this.buttonRemoveShipPart.UseVisualStyleBackColor = true;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(311, 187);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(112, 20);
+            this.label35.TabIndex = 21;
+            this.label35.Text = "Номер слота:";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(311, 153);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(92, 20);
+            this.label36.TabIndex = 22;
+            this.label36.Text = "Код слота:";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(311, 221);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(89, 20);
+            this.label37.TabIndex = 23;
+            this.label37.Text = "Тип слота:";
+            // 
+            // textShipSlotId
+            // 
+            this.textShipSlotId.Location = new System.Drawing.Point(429, 150);
+            this.textShipSlotId.Name = "textShipSlotId";
+            this.textShipSlotId.ReadOnly = true;
+            this.textShipSlotId.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotId.TabIndex = 24;
+            // 
+            // textShipSlotNumber
+            // 
+            this.textShipSlotNumber.Location = new System.Drawing.Point(429, 184);
+            this.textShipSlotNumber.Name = "textShipSlotNumber";
+            this.textShipSlotNumber.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotNumber.TabIndex = 25;
+            this.textShipSlotNumber.TextChanged += new System.EventHandler(this.textShipSlotNumber_TextChanged);
+            // 
+            // comboShipSlotType
+            // 
+            this.comboShipSlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboShipSlotType.FormattingEnabled = true;
+            this.comboShipSlotType.Location = new System.Drawing.Point(429, 218);
+            this.comboShipSlotType.Name = "comboShipSlotType";
+            this.comboShipSlotType.Size = new System.Drawing.Size(275, 28);
+            this.comboShipSlotType.TabIndex = 26;
+            this.comboShipSlotType.SelectedIndexChanged += new System.EventHandler(this.comboShipSlotType_SelectedIndexChanged);
+            // 
+            // textShipSlotDefaultModule
+            // 
+            this.textShipSlotDefaultModule.Location = new System.Drawing.Point(535, 254);
+            this.textShipSlotDefaultModule.Name = "textShipSlotDefaultModule";
+            this.textShipSlotDefaultModule.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotDefaultModule.TabIndex = 27;
+            this.textShipSlotDefaultModule.TextChanged += new System.EventHandler(this.textShipSlotDefaultModule_TextChanged);
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(314, 257);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(215, 20);
+            this.label38.TabIndex = 28;
+            this.label38.Text = "Код модуля по умолчанию:";
+            // 
+            // textShipSlotDefaultModuleName
+            // 
+            this.textShipSlotDefaultModuleName.Location = new System.Drawing.Point(641, 254);
+            this.textShipSlotDefaultModuleName.Name = "textShipSlotDefaultModuleName";
+            this.textShipSlotDefaultModuleName.ReadOnly = true;
+            this.textShipSlotDefaultModuleName.Size = new System.Drawing.Size(218, 26);
+            this.textShipSlotDefaultModuleName.TabIndex = 29;
+            // 
+            // buttonReloadModuleDict
+            // 
+            this.buttonReloadModuleDict.Location = new System.Drawing.Point(710, 286);
+            this.buttonReloadModuleDict.Name = "buttonReloadModuleDict";
+            this.buttonReloadModuleDict.Size = new System.Drawing.Size(149, 30);
+            this.buttonReloadModuleDict.TabIndex = 30;
+            this.buttonReloadModuleDict.Text = "Перезагрузить";
+            this.buttonReloadModuleDict.UseVisualStyleBackColor = true;
+            this.buttonReloadModuleDict.Click += new System.EventHandler(this.buttonReloadModuleDict_Click);
             // 
             // Form1
             // 
@@ -1591,9 +1736,22 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox textModuleId;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textShipId;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Button buttonSaveShip;
+        private System.Windows.Forms.Button buttonRemoveShipPart;
+        private System.Windows.Forms.Button buttonAddShipPart;
+        private System.Windows.Forms.ListBox listShipSlots;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.TextBox textShipSlotDefaultModuleName;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox textShipSlotDefaultModule;
+        private System.Windows.Forms.ComboBox comboShipSlotType;
+        private System.Windows.Forms.TextBox textShipSlotNumber;
+        private System.Windows.Forms.TextBox textShipSlotId;
+        private System.Windows.Forms.Button buttonReloadModuleDict;
     }
 }
 
