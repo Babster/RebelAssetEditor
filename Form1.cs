@@ -951,7 +951,7 @@ namespace AssetEditor
             List<String> names = new List<string> { Value };
 
 
-            q = $@"UPDATE story_object_flow SET " + storyObjectDisct[columnName] + " = @str1";
+            q = $@"UPDATE story_object_flow SET " + storyObjectDisct[columnName] + " = @str1 WHERE id = " + id;
             DataConnection.Execute(q,names);
         }
 
@@ -1445,7 +1445,7 @@ namespace AssetEditor
                     name,
                     asset_name
                 FROM
-                    ship_designs";
+                    ss_designs";
 
             SqlDataReader r = DataConnection.GetReader(q);
             if (r.HasRows)
@@ -1516,6 +1516,27 @@ namespace AssetEditor
 
             public void SaveData()
             {
+                string q;
+                if(this.Id == 0)
+                {
+                    q = @"INSERT INTO ss_designs(name) VALUES('')
+                            SELECT @@IDENTITY AS Result";
+                    this.Id = DataConnection.GetResultInt(q);
+                }
+
+                q = @"
+                    UPDATE ss_designs SET
+                        parent = " + this.Parent.ToString() + @",
+                        name = @str1,
+                        asset_name = @str2 
+                    WHERE
+                        id = " + this.Id.ToString();
+
+                List<string> names = new List<string>();
+                names.Add(this.Name);
+                names.Add(this.AssetName);
+
+                DataConnection.Execute(q, names);
 
             }
 

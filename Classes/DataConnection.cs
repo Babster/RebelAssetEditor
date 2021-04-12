@@ -13,7 +13,7 @@ public static class DataConnection
 
     public static void ConnectSQL()
     {
-        string connString = @"server=DESKTOP-JVHC8QF\SQLEXPRESS;Database=RebelSpaceAdmiral;User Id=sa;Password=123123;MultipleActiveResultSets=True";
+        string connString = @"server=localhost\SQLEXPRESS;Database=RebelSpaceAdmiral;User Id=sa;Password=123123;MultipleActiveResultSets=True";
         conn = new SqlConnection(connString);
         conn.Open();
     }
@@ -85,6 +85,16 @@ public static class DataConnection
         r.Close();
 
         return tempRes;
+    }
+
+    public static int GetResultInt(string Query, List<string> strParameters = null, object defaultValue = null)
+    {
+        return Convert.ToInt32(GetResult(Query, strParameters, defaultValue));
+    }
+
+    public static string GetResultStr(string Query, List<string> strParameters = null, object defaultValue = null)
+    {
+        return Convert.ToString(GetResult(Query, strParameters, defaultValue));
     }
 
     public static void Execute(string Query, List<string> strParameters = null, List<byte[]> files = null)
