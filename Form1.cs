@@ -977,23 +977,7 @@ namespace AssetEditor
         private void FillModules()
         {
             treeModules.Nodes.Clear();
-            string q = @"
-                SELECT 
-                    id,
-                    is_category,
-                    parent,
-                    name,
-                    asset_name,
-                    module_type,
-                    energy_needed,
-                    main_score,
-                    secondary_score,
-                    third_score
-                FROM
-                    ss_modules
-                --WHERE
-                --    parent = 0
-                    ";
+            string q = ModuleNodeTag.ModuleQuery();
 
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
@@ -1018,6 +1002,7 @@ namespace AssetEditor
 
                 }
             }
+            r.Close();
 
             if (moduleTabDict == null)
             {
@@ -1052,6 +1037,15 @@ namespace AssetEditor
             public int SecondaryScore { get; set; }
             public int ThirdScore { get; set; }
             
+            public enum EnumModuleType
+            {
+                None = 0,
+                Weapon = 1,
+                Defence = 2,
+                Engine = 3,
+                Thrusters = 4
+            }
+
             public ModuleNodeTag(int parentId, int isCategory) 
             { 
                 this.Parent = parentId;
@@ -1078,6 +1072,30 @@ namespace AssetEditor
                 this.MainScore = Convert.ToInt32(r["main_score"]);
                 this.SecondaryScore = Convert.ToInt32(r["secondary_score"]);
                 this.ThirdScore = Convert.ToInt32(r["third_score"]);
+            }
+
+            public EnumModuleType eType()
+            {
+                EnumModuleType tType;
+                switch(Name)
+                {
+                    case "Weapon":
+                        tType = EnumModuleType.Weapon;
+                        break;
+                    case "Defence":
+                        tType = EnumModuleType.Defence;
+                        break;
+                    case "Engine":
+                        tType = EnumModuleType.Engine;
+                        break;
+                    case "Thrusters":
+                        tType = EnumModuleType.Thrusters;
+                        break;
+                    default:
+                        tType = EnumModuleType.None;
+                        break;
+                }
+                return tType;
             }
 
             public void SaveData()
@@ -1110,6 +1128,66 @@ namespace AssetEditor
                 DataConnection.Execute(q, names);
 
             }
+
+            public static Dictionary<int, string> moduleNames()
+            {
+                string q;
+                SqlDataReader r;
+                Dictionary<int, string> ModuleDict = new Dictionary<int, string>();
+                q = @"SELECT id, name FROM ss_modules";
+                r = DataConnection.GetReader(q);
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        ModuleDict.Add(Convert.ToInt32(r["id"]), Convert.ToString(r["name"]));
+                    }
+                }
+                r.Close();
+                return ModuleDict;
+            }
+
+            public static Dictionary<int, ModuleNodeTag> CreateModuleDict()
+            {
+
+                Dictionary<int, ModuleNodeTag> tags = new Dictionary<int, ModuleNodeTag>();
+
+                string q = ModuleQuery();
+                SqlDataReader r = DataConnection.GetReader(q);
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        ModuleNodeTag tag = new ModuleNodeTag(ref r);
+                        tags.Add(tag.Id, tag);
+                    }
+                }
+                r.Close();
+                return tags;
+            }
+
+            public static string ModuleQuery()
+            {
+                string q = @"
+                SELECT 
+                    id,
+                    is_category,
+                    parent,
+                    name,
+                    asset_name,
+                    module_type,
+                    energy_needed,
+                    main_score,
+                    secondary_score,
+                    third_score
+                FROM
+                    ss_modules
+                --WHERE
+                --    parent = 0
+                    ";
+                return q;
+            }
+
 
         }
 
@@ -1444,6 +1522,8 @@ namespace AssetEditor
                 SELECT 
                     id,
                     parent,
+                    ISNULL(intensity_amount, 0) AS intensity_amount,
+                    ISNULL(base_structure_hp, 0) AS base_structure_hp,
                     name,
                     asset_name
                 FROM
@@ -1465,7 +1545,7 @@ namespace AssetEditor
                     {
                         n = treeShips.Nodes.Add(tag.Name);
                     }
-
+                    nodes.Add(tag.Id, n);
                     n.Tag = tag;
 
                 }
@@ -1483,19 +1563,7 @@ namespace AssetEditor
 
         private void LoadModuleDict()
         {
-            string q;
-            SqlDataReader r;
-            ModuleDict = new Dictionary<int, string>();
-            q = @"SELECT id, name FROM ss_modules";
-            r = DataConnection.GetReader(q);
-            if (r.HasRows)
-            {
-                while (r.Read())
-                {
-                    ModuleDict.Add(Convert.ToInt32(r["id"]), Convert.ToString(r["name"]));
-                }
-            }
-            r.Close();
+            ModuleDict = ModuleNodeTag.moduleNames();
         }
 
         private void buttonShipAdd_Click(object sender, EventArgs e)
@@ -1526,7 +1594,9 @@ namespace AssetEditor
             if (tag == null)
                 return;
             NoEvents = true;
-            textShipId.Text = tag.Id.ToString() ;
+            textShipId.Text = tag.Id.ToString();
+            textShipBaseStructure.Text = tag.BaseStructureHp.ToString();
+            textBattleIntensity.Text = tag.BattleIntensity.ToString();
             textShipName.Text = tag.Name;
             textShipUnity.Text = tag.AssetName;
             if(tag.slots.Count > 0)
@@ -1535,9 +1605,10 @@ namespace AssetEditor
                 {
                     listShipSlots.Items.Add(slot);
                 }
-                listShipSlots.SelectedIndex = 0;
             }
             NoEvents = false;
+            if(listShipSlots.Items.Count > 0)
+                listShipSlots.SelectedIndex = 0;
         }
 
         private void ClearShip()
@@ -1576,11 +1647,39 @@ namespace AssetEditor
                 return;
             tag.AssetName  = textShipUnity.Text;
         }
+        private void textShipBaseStructure_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            int amount = 0;
+            Int32.TryParse(textShipBaseStructure.Text, out amount);
+            tag.BaseStructureHp = amount;
+        }
+        private void textBattleIntensity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            int amount = 0;
+            Int32.TryParse(textBattleIntensity.Text, out amount);
+            tag.BattleIntensity = amount;
+        }
+
         private void listShipParts_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
+            FillShipSlot();
 
+        }
+
+        private void FillShipSlot()
+        {
             ClearShipSlot();
 
             ShipNodeTag.Slot slot = GetCurrentShipSlot();
@@ -1590,12 +1689,14 @@ namespace AssetEditor
             NoEvents = true;
             textShipSlotId.Text = slot.Id.ToString();
             textShipSlotNumber.Text = slot.SlotNumber.ToString();
-            if(!string.IsNullOrEmpty(slot.SlotType ))
+            if (!string.IsNullOrEmpty(slot.SlotType))
                 comboShipSlotType.SelectedItem = slot.SlotType;
             textShipSlotDefaultModule.Text = slot.DefaultModuleId.ToString();
-            textShipSlotDefaultModuleName.Text = "";
+            ShowDefaultSlotName();
             NoEvents = false;
+
         }
+
         private void ClearShipSlot()
         {
             NoEvents = true;
@@ -1623,6 +1724,7 @@ namespace AssetEditor
             int amount = 0;
             Int32.TryParse(textShipSlotNumber.Text, out amount);
             slot.SlotNumber = amount;
+            listShipSlots.Items[listShipSlots.SelectedIndex] = listShipSlots.SelectedItem;
         }
         private void comboShipSlotType_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1638,12 +1740,64 @@ namespace AssetEditor
             }
             else
             {
-
+                t = comboShipSlotType.SelectedItem.ToString();
             }
+            slot.SlotType = t;
+            listShipSlots.Items[listShipSlots.SelectedIndex] = listShipSlots.SelectedItem;
         }
         private void textShipSlotDefaultModule_TextChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+                return;
+            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            int moduleId;
+            Int32.TryParse(textShipSlotDefaultModule.Text, out moduleId);
+            slot.DefaultModuleId = moduleId;
+            ShowDefaultSlotName();
+        }
+        private void ShowDefaultSlotName()
+        {
+            int moduleId;
+            Int32.TryParse(textShipSlotDefaultModule.Text, out moduleId);
+            if (moduleId > 0)
+            {
+                if (ModuleDict.ContainsKey(moduleId))
+                {
+                    textShipSlotDefaultModuleName.Text = ModuleDict[moduleId];
+                }
+                else
+                {
+                    textShipSlotDefaultModuleName.Text = "";
+                }
 
+            }
+            else
+            {
+                textShipSlotDefaultModuleName.Text = "";
+            }
+        }
+        private void buttonAddShipPart_Click(object sender, EventArgs e)
+        {
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            ShipNodeTag.Slot slot = tag.AddSlot();
+            listShipSlots.Items.Add(slot);
+            listShipSlots.SelectedItem = slot;
+        }
+        private void buttonRemoveShipPart_Click(object sender, EventArgs e)
+        {
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            tag.DeleteSlot(ref slot);
+            listShipSlots.Items.Remove(slot);
+            ClearShipSlot();
         }
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
@@ -1652,28 +1806,38 @@ namespace AssetEditor
             if (tag == null)
                 return;
             tag.SaveData();
-            textShipId.Text = tag.Id.ToString(); ;
+            textShipId.Text = tag.Id.ToString();
+            FillShipSlot();
         }
+
         private class ShipNodeTag
         {
 
             public int Id { get; set; }
             public int Parent { get; set; }
+            public int BaseStructureHp { get; set; }
+            public int BattleIntensity { get; set; }
             public string Name { get; set; }
             public string AssetName { get; set; }
             public List<Slot> slots;
+            public List<int> slotsToDelete;
 
             public ShipNodeTag(int parentId)
             {
                 slots = new List<Slot>();
+                slotsToDelete = new List<int>();
                 this.Parent = parentId;
                 this.Name = "New design";
             }
 
             public ShipNodeTag(ref SqlDataReader  r)
             {
+                slotsToDelete = new List<int>();
+
                 this.Id = Convert.ToInt32(r["id"]);
                 this.Parent = Convert.ToInt32(r["parent"]);
+                this.BaseStructureHp = Convert.ToInt32(r["base_structure_hp"]);
+                this.BattleIntensity = Convert.ToInt32(r["intensity_amount"]);
                 this.Name = Convert.ToString(r["name"]);
                 this.AssetName = Convert.ToString(r["asset_name"]);
 
@@ -1688,9 +1852,12 @@ namespace AssetEditor
                 q = @"
                     SELECT
                         id,
+                        ss_design_id,
                         slot_number,
                         slot_type,
                         default_module_id
+                    FROM
+                        ss_designs_slots
                     WHERE
                         ss_design_id = " + Id;
                 SqlDataReader r;
@@ -1718,6 +1885,8 @@ namespace AssetEditor
                 q = @"
                     UPDATE ss_designs SET
                         parent = " + this.Parent.ToString() + @",
+                        base_structure_hp = " + this.BaseStructureHp.ToString() + @",
+                        intensity_amount= " + this.BattleIntensity.ToString() + @",
                         name = @str1,
                         asset_name = @str2 
                     WHERE
@@ -1733,10 +1902,40 @@ namespace AssetEditor
                 {
                     foreach(Slot slot in slots)
                     {
+                        if (slot.ShipDesignId == 0)
+                            slot.ShipDesignId = this.Id;
                         slot.SaveData();
                     }
                 }
+                if(slotsToDelete.Count > 0 )
+                {
+                    q = "DELETE FROM slots WHERE id IN";
+                    bool addComma = false;
+                    foreach(int slotId in slotsToDelete )
+                    {
+                        if (addComma)
+                            q = q + ",";
+                        q = q + slotId;
+                        addComma = true;
+                    }
+                    q = q + ")";
+                    DataConnection.Execute(q);
+                    slotsToDelete.Clear();
+                }
 
+            }
+
+            public Slot AddSlot()
+            {
+                Slot slot = new Slot(this.Id);
+                slots.Add(slot);
+                return slot;
+            }
+
+            public void DeleteSlot(ref Slot slot)
+            {
+                slots.Remove(slot);
+                slotsToDelete.Add(slot.Id);
             }
 
             public class Slot
@@ -1786,14 +1985,71 @@ namespace AssetEditor
                     DataConnection.Execute(q, names);
                 }
 
+                public ModuleNodeTag module(ref Dictionary<int, ModuleNodeTag> ModuleDict) 
+                {
+                    if(ModuleDict.ContainsKey(DefaultModuleId))
+                    {
+                        return ModuleDict[DefaultModuleId];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+            }
+
+            public enum EnumShipParameter
+            {
+                StructurePoints = 1,
+                ArmorPoints = 2,
+                ShieldPoints = 3,
+                ShieldRegen = 4,
+                ShieldDPS = 5,
+                StructureDPS = 6
+            }
+
+            public class Parameter
+            {
+                public EnumShipParameter ParamType { get; set; }
+                public int Value { get; set; }
+                public Parameter(EnumShipParameter p, int value)
+                {
+                    this.ParamType = p;
+                    this.Value = value;
+                }
+            }
+
+            public List<Parameter> GetParameters()
+            {
+                Dictionary<int, ModuleNodeTag> mDict = ModuleNodeTag.CreateModuleDict();
+                List<Parameter> pms = new List<Parameter>();
+                pms.Add(new Parameter(EnumShipParameter.ShieldPoints, this.BaseStructureHp));
+                foreach(Slot Slot in this.slots)
+                {
+                    ModuleNodeTag tag = Slot.module(ref mDict);
+                    if(tag != null)
+                    {
+                        ModuleNodeTag.EnumModuleType etype = tag.eType();
+                        switch(etype)
+                        {
+                            case ModuleNodeTag.EnumModuleType.Weapon:
+                                break;
+                        }
+                    }
+                }
+                return pms;
             }
 
         }
 
+        private void buttonReloadShipGrid_Click(object sender, EventArgs e)
+        {
 
+        }
 
         #endregion
 
-  
+
     }
 }

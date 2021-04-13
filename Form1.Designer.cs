@@ -137,6 +137,23 @@
             this.treeModules = new System.Windows.Forms.TreeView();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBattleIntensity = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.textShipBaseStructure = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.buttonReloadModuleDict = new System.Windows.Forms.Button();
+            this.textShipSlotDefaultModuleName = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.textShipSlotDefaultModule = new System.Windows.Forms.TextBox();
+            this.comboShipSlotType = new System.Windows.Forms.ComboBox();
+            this.textShipSlotNumber = new System.Windows.Forms.TextBox();
+            this.textShipSlotId = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.buttonRemoveShipPart = new System.Windows.Forms.Button();
+            this.buttonAddShipPart = new System.Windows.Forms.Button();
+            this.listShipSlots = new System.Windows.Forms.ListBox();
             this.textShipId = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
             this.buttonSaveShip = new System.Windows.Forms.Button();
@@ -147,19 +164,11 @@
             this.buttonShipAdd = new System.Windows.Forms.Button();
             this.treeShips = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.listShipSlots = new System.Windows.Forms.ListBox();
-            this.buttonAddShipPart = new System.Windows.Forms.Button();
-            this.buttonRemoveShipPart = new System.Windows.Forms.Button();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.textShipSlotId = new System.Windows.Forms.TextBox();
-            this.textShipSlotNumber = new System.Windows.Forms.TextBox();
-            this.comboShipSlotType = new System.Windows.Forms.ComboBox();
-            this.textShipSlotDefaultModule = new System.Windows.Forms.TextBox();
-            this.label38 = new System.Windows.Forms.Label();
-            this.textShipSlotDefaultModuleName = new System.Windows.Forms.TextBox();
-            this.buttonReloadModuleDict = new System.Windows.Forms.Button();
+            this.gridShipParameters = new System.Windows.Forms.DataGridView();
+            this.sp_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sp_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonReloadShipGrid = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -182,6 +191,7 @@
             this.tabThrusters.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridShipParameters)).BeginInit();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -1337,6 +1347,13 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.buttonReloadShipGrid);
+            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.gridShipParameters);
+            this.groupBox4.Controls.Add(this.textBattleIntensity);
+            this.groupBox4.Controls.Add(this.label40);
+            this.groupBox4.Controls.Add(this.textShipBaseStructure);
+            this.groupBox4.Controls.Add(this.label39);
             this.groupBox4.Controls.Add(this.buttonReloadModuleDict);
             this.groupBox4.Controls.Add(this.textShipSlotDefaultModuleName);
             this.groupBox4.Controls.Add(this.label38);
@@ -1363,6 +1380,173 @@
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Редактирование дизайна корабля";
+            // 
+            // textBattleIntensity
+            // 
+            this.textBattleIntensity.Location = new System.Drawing.Point(746, 33);
+            this.textBattleIntensity.Name = "textBattleIntensity";
+            this.textBattleIntensity.Size = new System.Drawing.Size(100, 26);
+            this.textBattleIntensity.TabIndex = 34;
+            this.textBattleIntensity.TextChanged += new System.EventHandler(this.textBattleIntensity_TextChanged);
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(622, 36);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(118, 20);
+            this.label40.TabIndex = 33;
+            this.label40.Text = "Боевой накал:";
+            // 
+            // textShipBaseStructure
+            // 
+            this.textShipBaseStructure.Location = new System.Drawing.Point(461, 33);
+            this.textShipBaseStructure.Name = "textShipBaseStructure";
+            this.textShipBaseStructure.Size = new System.Drawing.Size(100, 26);
+            this.textShipBaseStructure.TabIndex = 32;
+            this.textShipBaseStructure.TextChanged += new System.EventHandler(this.textShipBaseStructure_TextChanged);
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(288, 36);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(167, 20);
+            this.label39.TabIndex = 31;
+            this.label39.Text = "Базовое ХП корпуса:";
+            // 
+            // buttonReloadModuleDict
+            // 
+            this.buttonReloadModuleDict.Location = new System.Drawing.Point(710, 286);
+            this.buttonReloadModuleDict.Name = "buttonReloadModuleDict";
+            this.buttonReloadModuleDict.Size = new System.Drawing.Size(149, 30);
+            this.buttonReloadModuleDict.TabIndex = 30;
+            this.buttonReloadModuleDict.Text = "Перезагрузить";
+            this.buttonReloadModuleDict.UseVisualStyleBackColor = true;
+            this.buttonReloadModuleDict.Click += new System.EventHandler(this.buttonReloadModuleDict_Click);
+            // 
+            // textShipSlotDefaultModuleName
+            // 
+            this.textShipSlotDefaultModuleName.Location = new System.Drawing.Point(641, 254);
+            this.textShipSlotDefaultModuleName.Name = "textShipSlotDefaultModuleName";
+            this.textShipSlotDefaultModuleName.ReadOnly = true;
+            this.textShipSlotDefaultModuleName.Size = new System.Drawing.Size(218, 26);
+            this.textShipSlotDefaultModuleName.TabIndex = 29;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(311, 257);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(215, 20);
+            this.label38.TabIndex = 28;
+            this.label38.Text = "Код модуля по умолчанию:";
+            // 
+            // textShipSlotDefaultModule
+            // 
+            this.textShipSlotDefaultModule.Location = new System.Drawing.Point(535, 254);
+            this.textShipSlotDefaultModule.Name = "textShipSlotDefaultModule";
+            this.textShipSlotDefaultModule.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotDefaultModule.TabIndex = 27;
+            this.textShipSlotDefaultModule.TextChanged += new System.EventHandler(this.textShipSlotDefaultModule_TextChanged);
+            // 
+            // comboShipSlotType
+            // 
+            this.comboShipSlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboShipSlotType.FormattingEnabled = true;
+            this.comboShipSlotType.Items.AddRange(new object[] {
+            "Pilot cabin",
+            "Extended pilot cabin",
+            "Crew cabin",
+            "Engine slot",
+            "Extended engine slot",
+            "Small module slot",
+            "Medium module slot",
+            "Large module slot",
+            "Shield slot",
+            "Armor slot",
+            "Thrusters slot",
+            "Small weapon slot",
+            "Medium weapon slot",
+            "Large weapon slot"});
+            this.comboShipSlotType.Location = new System.Drawing.Point(429, 218);
+            this.comboShipSlotType.Name = "comboShipSlotType";
+            this.comboShipSlotType.Size = new System.Drawing.Size(275, 28);
+            this.comboShipSlotType.TabIndex = 26;
+            this.comboShipSlotType.SelectedIndexChanged += new System.EventHandler(this.comboShipSlotType_SelectedIndexChanged);
+            // 
+            // textShipSlotNumber
+            // 
+            this.textShipSlotNumber.Location = new System.Drawing.Point(429, 184);
+            this.textShipSlotNumber.Name = "textShipSlotNumber";
+            this.textShipSlotNumber.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotNumber.TabIndex = 25;
+            this.textShipSlotNumber.TextChanged += new System.EventHandler(this.textShipSlotNumber_TextChanged);
+            // 
+            // textShipSlotId
+            // 
+            this.textShipSlotId.Location = new System.Drawing.Point(429, 150);
+            this.textShipSlotId.Name = "textShipSlotId";
+            this.textShipSlotId.ReadOnly = true;
+            this.textShipSlotId.Size = new System.Drawing.Size(100, 26);
+            this.textShipSlotId.TabIndex = 24;
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(311, 221);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(89, 20);
+            this.label37.TabIndex = 23;
+            this.label37.Text = "Тип слота:";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(311, 153);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(92, 20);
+            this.label36.TabIndex = 22;
+            this.label36.Text = "Код слота:";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(311, 187);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(112, 20);
+            this.label35.TabIndex = 21;
+            this.label35.Text = "Номер слота:";
+            // 
+            // buttonRemoveShipPart
+            // 
+            this.buttonRemoveShipPart.Location = new System.Drawing.Point(117, 114);
+            this.buttonRemoveShipPart.Name = "buttonRemoveShipPart";
+            this.buttonRemoveShipPart.Size = new System.Drawing.Size(103, 30);
+            this.buttonRemoveShipPart.TabIndex = 20;
+            this.buttonRemoveShipPart.Text = "Удалить";
+            this.buttonRemoveShipPart.UseVisualStyleBackColor = true;
+            this.buttonRemoveShipPart.Click += new System.EventHandler(this.buttonRemoveShipPart_Click);
+            // 
+            // buttonAddShipPart
+            // 
+            this.buttonAddShipPart.Location = new System.Drawing.Point(6, 114);
+            this.buttonAddShipPart.Name = "buttonAddShipPart";
+            this.buttonAddShipPart.Size = new System.Drawing.Size(103, 30);
+            this.buttonAddShipPart.TabIndex = 19;
+            this.buttonAddShipPart.Text = "Добавить";
+            this.buttonAddShipPart.UseVisualStyleBackColor = true;
+            this.buttonAddShipPart.Click += new System.EventHandler(this.buttonAddShipPart_Click);
+            // 
+            // listShipSlots
+            // 
+            this.listShipSlots.FormattingEnabled = true;
+            this.listShipSlots.ItemHeight = 20;
+            this.listShipSlots.Location = new System.Drawing.Point(6, 150);
+            this.listShipSlots.Name = "listShipSlots";
+            this.listShipSlots.Size = new System.Drawing.Size(299, 344);
+            this.listShipSlots.TabIndex = 18;
+            this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
             // 
             // textShipId
             // 
@@ -1452,121 +1636,53 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // listShipSlots
+            // gridShipParameters
             // 
-            this.listShipSlots.FormattingEnabled = true;
-            this.listShipSlots.ItemHeight = 20;
-            this.listShipSlots.Location = new System.Drawing.Point(6, 150);
-            this.listShipSlots.Name = "listShipSlots";
-            this.listShipSlots.Size = new System.Drawing.Size(299, 344);
-            this.listShipSlots.TabIndex = 18;
-            this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
+            this.gridShipParameters.AllowUserToAddRows = false;
+            this.gridShipParameters.AllowUserToDeleteRows = false;
+            this.gridShipParameters.AllowUserToOrderColumns = true;
+            this.gridShipParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridShipParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridShipParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sp_name,
+            this.sp_value});
+            this.gridShipParameters.Location = new System.Drawing.Point(311, 362);
+            this.gridShipParameters.Name = "gridShipParameters";
+            this.gridShipParameters.ReadOnly = true;
+            this.gridShipParameters.Size = new System.Drawing.Size(548, 132);
+            this.gridShipParameters.TabIndex = 35;
             // 
-            // buttonAddShipPart
+            // sp_name
             // 
-            this.buttonAddShipPart.Location = new System.Drawing.Point(6, 114);
-            this.buttonAddShipPart.Name = "buttonAddShipPart";
-            this.buttonAddShipPart.Size = new System.Drawing.Size(103, 30);
-            this.buttonAddShipPart.TabIndex = 19;
-            this.buttonAddShipPart.Text = "Добавить";
-            this.buttonAddShipPart.UseVisualStyleBackColor = true;
+            this.sp_name.FillWeight = 300F;
+            this.sp_name.HeaderText = "Параметр";
+            this.sp_name.Name = "sp_name";
+            this.sp_name.ReadOnly = true;
             // 
-            // buttonRemoveShipPart
+            // sp_value
             // 
-            this.buttonRemoveShipPart.Location = new System.Drawing.Point(117, 114);
-            this.buttonRemoveShipPart.Name = "buttonRemoveShipPart";
-            this.buttonRemoveShipPart.Size = new System.Drawing.Size(103, 30);
-            this.buttonRemoveShipPart.TabIndex = 20;
-            this.buttonRemoveShipPart.Text = "Удалить";
-            this.buttonRemoveShipPart.UseVisualStyleBackColor = true;
+            this.sp_value.HeaderText = "Значение";
+            this.sp_value.Name = "sp_value";
+            this.sp_value.ReadOnly = true;
             // 
-            // label35
+            // textBox1
             // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(311, 187);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(112, 20);
-            this.label35.TabIndex = 21;
-            this.label35.Text = "Номер слота:";
+            this.textBox1.Location = new System.Drawing.Point(311, 330);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(393, 26);
+            this.textBox1.TabIndex = 36;
+            this.textBox1.Text = " Итоговые параметры корабля";
             // 
-            // label36
+            // buttonReloadShipGrid
             // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(311, 153);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(92, 20);
-            this.label36.TabIndex = 22;
-            this.label36.Text = "Код слота:";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(311, 221);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(89, 20);
-            this.label37.TabIndex = 23;
-            this.label37.Text = "Тип слота:";
-            // 
-            // textShipSlotId
-            // 
-            this.textShipSlotId.Location = new System.Drawing.Point(429, 150);
-            this.textShipSlotId.Name = "textShipSlotId";
-            this.textShipSlotId.ReadOnly = true;
-            this.textShipSlotId.Size = new System.Drawing.Size(100, 26);
-            this.textShipSlotId.TabIndex = 24;
-            // 
-            // textShipSlotNumber
-            // 
-            this.textShipSlotNumber.Location = new System.Drawing.Point(429, 184);
-            this.textShipSlotNumber.Name = "textShipSlotNumber";
-            this.textShipSlotNumber.Size = new System.Drawing.Size(100, 26);
-            this.textShipSlotNumber.TabIndex = 25;
-            this.textShipSlotNumber.TextChanged += new System.EventHandler(this.textShipSlotNumber_TextChanged);
-            // 
-            // comboShipSlotType
-            // 
-            this.comboShipSlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboShipSlotType.FormattingEnabled = true;
-            this.comboShipSlotType.Location = new System.Drawing.Point(429, 218);
-            this.comboShipSlotType.Name = "comboShipSlotType";
-            this.comboShipSlotType.Size = new System.Drawing.Size(275, 28);
-            this.comboShipSlotType.TabIndex = 26;
-            this.comboShipSlotType.SelectedIndexChanged += new System.EventHandler(this.comboShipSlotType_SelectedIndexChanged);
-            // 
-            // textShipSlotDefaultModule
-            // 
-            this.textShipSlotDefaultModule.Location = new System.Drawing.Point(535, 254);
-            this.textShipSlotDefaultModule.Name = "textShipSlotDefaultModule";
-            this.textShipSlotDefaultModule.Size = new System.Drawing.Size(100, 26);
-            this.textShipSlotDefaultModule.TabIndex = 27;
-            this.textShipSlotDefaultModule.TextChanged += new System.EventHandler(this.textShipSlotDefaultModule_TextChanged);
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(314, 257);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(215, 20);
-            this.label38.TabIndex = 28;
-            this.label38.Text = "Код модуля по умолчанию:";
-            // 
-            // textShipSlotDefaultModuleName
-            // 
-            this.textShipSlotDefaultModuleName.Location = new System.Drawing.Point(641, 254);
-            this.textShipSlotDefaultModuleName.Name = "textShipSlotDefaultModuleName";
-            this.textShipSlotDefaultModuleName.ReadOnly = true;
-            this.textShipSlotDefaultModuleName.Size = new System.Drawing.Size(218, 26);
-            this.textShipSlotDefaultModuleName.TabIndex = 29;
-            // 
-            // buttonReloadModuleDict
-            // 
-            this.buttonReloadModuleDict.Location = new System.Drawing.Point(710, 286);
-            this.buttonReloadModuleDict.Name = "buttonReloadModuleDict";
-            this.buttonReloadModuleDict.Size = new System.Drawing.Size(149, 30);
-            this.buttonReloadModuleDict.TabIndex = 30;
-            this.buttonReloadModuleDict.Text = "Перезагрузить";
-            this.buttonReloadModuleDict.UseVisualStyleBackColor = true;
-            this.buttonReloadModuleDict.Click += new System.EventHandler(this.buttonReloadModuleDict_Click);
+            this.buttonReloadShipGrid.Location = new System.Drawing.Point(710, 330);
+            this.buttonReloadShipGrid.Name = "buttonReloadShipGrid";
+            this.buttonReloadShipGrid.Size = new System.Drawing.Size(149, 26);
+            this.buttonReloadShipGrid.TabIndex = 37;
+            this.buttonReloadShipGrid.Text = "Перезагрузить";
+            this.buttonReloadShipGrid.UseVisualStyleBackColor = true;
+            this.buttonReloadShipGrid.Click += new System.EventHandler(this.buttonReloadShipGrid_Click);
             // 
             // Form1
             // 
@@ -1614,6 +1730,7 @@
             this.tabPage9.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridShipParameters)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1752,6 +1869,15 @@
         private System.Windows.Forms.TextBox textShipSlotNumber;
         private System.Windows.Forms.TextBox textShipSlotId;
         private System.Windows.Forms.Button buttonReloadModuleDict;
+        private System.Windows.Forms.TextBox textBattleIntensity;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.TextBox textShipBaseStructure;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.DataGridView gridShipParameters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sp_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sp_value;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonReloadShipGrid;
     }
 }
 
