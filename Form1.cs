@@ -1188,6 +1188,186 @@ namespace AssetEditor
                 return q;
             }
 
+            #region Specific modules properties
+
+            public enum enumSpecificProperty
+            {
+                FireRate = 1,
+                DeflectorsDamage = 2,
+                StructureDamage = 3,
+                Deflectors = 4,
+                DeflectorsRegen = 5,
+                Armor = 6,
+                Engine = 7,
+                ThrustersSpeed = 8,
+                ThrustersDexterity = 9
+            }
+
+            public int SpecificPropertiesCount() { return 9; }
+
+            public String PropertyToString(enumSpecificProperty prop)
+            {
+                switch(prop)
+                {
+                    case enumSpecificProperty.FireRate:
+                        return "Fire rate";
+                    case enumSpecificProperty.DeflectorsDamage:
+                        return "Deflectors damage";
+                    case enumSpecificProperty.StructureDamage:
+                        return "Structure damage";
+                    case enumSpecificProperty.Deflectors:
+                        return "Deflectors";
+                    case enumSpecificProperty.DeflectorsRegen:
+                        return "Deflectors regen";
+                    case enumSpecificProperty.Armor:
+                        return "Armor";
+                    case enumSpecificProperty.Engine:
+                        return "Engine";
+                    case enumSpecificProperty.ThrustersSpeed:
+                        return "Speed";
+                    case enumSpecificProperty.ThrustersDexterity:
+                        return "Dexterity";
+                    default:
+                        return "error: unknown module type";
+                }
+            }
+
+            public int PropertyValue(enumSpecificProperty prop)
+            {
+                switch (prop)
+                {
+                    case enumSpecificProperty.FireRate:
+                        return FireRate();
+                    case enumSpecificProperty.DeflectorsDamage:
+                        return DeflectorsDamage();
+                    case enumSpecificProperty.StructureDamage:
+                        return StructureDamage();
+                    case enumSpecificProperty.Deflectors:
+                        return Deflectors();
+                    case enumSpecificProperty.DeflectorsRegen:
+                        return DeflectorsRegen();
+                    case enumSpecificProperty.Armor:
+                        return Armor();
+                    case enumSpecificProperty.Engine:
+                        return Engine();
+                    case enumSpecificProperty.ThrustersSpeed:
+                        return ThrustersSpeed();
+                    case enumSpecificProperty.ThrustersDexterity:
+                        return ThrustersDexterity();
+                    default:
+                        return 0;
+                }
+            }
+
+            public int FireRate()
+            {
+                if (eType() == EnumModuleType.Weapon)
+                {
+                    return this.MainScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int DeflectorsDamage()
+            {
+                if (eType() == EnumModuleType.Weapon)
+                {
+                    return this.SecondaryScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int StructureDamage()
+            {
+                if (eType() == EnumModuleType.Weapon)
+                {
+                    return this.ThirdScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int Deflectors()
+            {
+                if (eType() == EnumModuleType.Defence)
+                {
+                    return this.MainScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int DeflectorsRegen()
+            {
+                if (eType() == EnumModuleType.Defence)
+                {
+                    return this.SecondaryScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int Armor()
+            {
+                if (eType() == EnumModuleType.Defence)
+                {
+                    return this.ThirdScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int Engine()
+            {
+                if (eType() == EnumModuleType.Engine)
+                {
+                    return this.ThirdScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int ThrustersSpeed()
+            {
+                if (eType() == EnumModuleType.Thrusters )
+                {
+                    return this.MainScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public int ThrustersDexterity()
+            {
+                if (eType() == EnumModuleType.Thrusters)
+                {
+                    return this.SecondaryScore;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            #endregion 
 
         }
 
@@ -2003,10 +2183,51 @@ namespace AssetEditor
             {
                 StructurePoints = 1,
                 ArmorPoints = 2,
-                ShieldPoints = 3,
-                ShieldRegen = 4,
+                DeflectorPoints = 3,
+                DeflectorRegen = 4,
                 ShieldDPS = 5,
-                StructureDPS = 6
+                StructureDPS = 6,
+                Speed = 7,
+                Dexterity = 8
+            }
+
+            public enum enumSpecificProperty
+            {
+                FireRate = 1,
+                DeflectorsDamage = 2,
+                StructureDamage = 3,
+                Deflectors = 4,
+                DeflectorsRegen = 5,
+                Armor = 6,
+                Engine = 7,
+                ThrustersSpeed = 8,
+                ThrustersDexterity = 9
+            }
+
+            public string PropertyString(EnumShipParameter prop)
+            {
+                switch(prop)
+                {
+                    case EnumShipParameter.StructurePoints:
+                        return "Fire rate";
+                    case EnumShipParameter.ArmorPoints:
+                        return "Armor points";
+                    case EnumShipParameter.DeflectorPoints:
+                        return "Deflector points";
+                    case EnumShipParameter.DeflectorRegen:
+                        return "Deflector regen";
+                    case EnumShipParameter.ShieldDPS:
+                        return "Shield DPS";
+                    case EnumShipParameter.StructureDPS:
+                        return "Structure DPS";
+                    case EnumShipParameter.Speed:
+                        return "Speed";
+                    case EnumShipParameter.Dexterity:
+                        return "Dexterity";
+                    default:
+                        return "";
+                            
+                }
             }
 
             public class Parameter
@@ -2020,22 +2241,72 @@ namespace AssetEditor
                 }
             }
 
+            public class DPSCounter
+            {
+                private float ShieldDPS;
+                private float StructureDPS;
+                public DPSCounter()
+                {
+
+                }
+
+                public void AddWeapon(ref ModuleNodeTag module)
+                {
+                    if(module.FireRate() > 0)
+                    {
+                        if (module.DeflectorsDamage() > 0)
+                        {
+                            ShieldDPS += (module.DeflectorsDamage() * (module.FireRate() / 60));
+                        }
+                        if (module.StructureDamage() > 0)
+                        {
+                            StructureDPS += (module.StructureDamage() * (module.FireRate() / 60));
+                        }
+                    }
+
+                }
+
+            }
+
+            public class DeflectorsCounter
+            {
+                public int Points;
+                public int Recharge;
+                public DeflectorsCounter() { }
+
+                public void AddModule(ref ModuleNodeTag tag)
+                {
+                    Points += tag.Deflectors();
+                    Recharge += tag.DeflectorsRegen();
+                }
+
+            }
+
+            public class ThrustersCounter
+            {
+                public int Speed;
+                public int Dexterity;
+                public ThrustersCounter() { }
+
+            }
+
             public List<Parameter> GetParameters()
             {
                 Dictionary<int, ModuleNodeTag> mDict = ModuleNodeTag.CreateModuleDict();
                 List<Parameter> pms = new List<Parameter>();
-                pms.Add(new Parameter(EnumShipParameter.ShieldPoints, this.BaseStructureHp));
-                foreach(Slot Slot in this.slots)
+                pms.Add(new Parameter(EnumShipParameter.StructurePoints, this.BaseStructureHp));
+
+                DPSCounter dps = new DPSCounter();
+                DeflectorsCounter deflect = new DeflectorsCounter();
+
+                foreach(Slot slot in this.slots)
                 {
-                    ModuleNodeTag tag = Slot.module(ref mDict);
+                    ModuleNodeTag tag = slot.module(ref mDict);
                     if(tag != null)
                     {
-                        ModuleNodeTag.EnumModuleType etype = tag.eType();
-                        switch(etype)
-                        {
-                            case ModuleNodeTag.EnumModuleType.Weapon:
-                                break;
-                        }
+                        dps.AddWeapon(ref tag);
+                        deflect.AddModule(ref tag);
+
                     }
                 }
                 return pms;
