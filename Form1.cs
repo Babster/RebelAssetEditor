@@ -1099,6 +1099,30 @@ namespace AssetEditor
                 this.ThirdScore = Convert.ToInt32(r["third_score"]);
             }
 
+            public EnumModuleType eType()
+            {
+                EnumModuleType tType;
+                switch(ModuleType)
+                {
+                    case "Weapon":
+                        tType = EnumModuleType.Weapon;
+                        break;
+                    case "Defence":
+                        tType = EnumModuleType.Defence;
+                        break;
+                    case "Engine":
+                        tType = EnumModuleType.Engine;
+                        break;
+                    case "Thrusters":
+                        tType = EnumModuleType.Thrusters;
+                        break;
+                    default:
+                        tType = EnumModuleType.None;
+                        break;
+                }
+                return tType;
+            }
+
             public void SaveData()
             {
                 string q;
@@ -1369,6 +1393,11 @@ namespace AssetEditor
             }
 
             #endregion 
+
+            public override string ToString()
+            {
+                return this.Name + " " + this.MainScore + "/" + this.SecondaryScore + "/" + this.ThirdScore;
+            }
 
         }
 
@@ -1860,7 +1889,7 @@ namespace AssetEditor
             if (NoEvents)
                 return;
             FillShipSlot();
-
+            FillShipParameters();
         }
 
         private void FillShipSlot()
@@ -1983,6 +2012,30 @@ namespace AssetEditor
             tag.DeleteSlot(ref slot);
             listShipSlots.Items.Remove(slot);
             ClearShipSlot();
+        }
+        private void buttonReloadShipGrid_Click(object sender, EventArgs e)
+        {
+            FillShipParameters();
+        }
+
+        private void FillShipParameters()
+        {
+            ShipNodeTag tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            List<ShipNodeTag.Parameter> param = tag.GetParameters();
+            gridShipParameters.Rows.Clear();
+            if (param.Count > 0)
+            {
+                for (int i = 0; i < param.Count; i++)
+                {
+                    DataGridViewRow row;
+                    gridShipParameters.Rows.Add();
+                    row = gridShipParameters.Rows[i];
+                    row.Cells["sp_name"].Value = ShipNodeTag.ParameterName(param[i].ParamType);
+                    row.Cells["sp_value"].Value = param[i].Value;
+                }
+            }
         }
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
@@ -2195,20 +2248,30 @@ namespace AssetEditor
                 Speed = 7,
                 Dexterity = 8
             }
-
-            public enum enumSpecificProperty
+            public static string ParameterName(EnumShipParameter param)
             {
-                FireRate = 1,
-                DeflectorsDamage = 2,
-                StructureDamage = 3,
-                Deflectors = 4,
-                DeflectorsRegen = 5,
-                Armor = 6,
-                Engine = 7,
-                ThrustersSpeed = 8,
-                ThrustersDexterity = 9
+                switch(param)
+                {
+                    case EnumShipParameter.StructurePoints:
+                        return "Structure points";
+                    case EnumShipParameter.ArmorPoints:
+                        return "Armor points";
+                    case EnumShipParameter.DeflectorPoints:
+                        return "Deflector points";
+                    case EnumShipParameter.DeflectorRegen:
+                        return "Deflector regen";
+                    case EnumShipParameter.ShieldDPS:
+                        return "Shield DPS";
+                    case EnumShipParameter.StructureDPS:
+                        return "Structure DPS";
+                    case EnumShipParameter.Speed:
+                        return "Speed";
+                    case EnumShipParameter.Dexterity:
+                        return "Dexterity";
+                    default:
+                        return "";
+                }
             }
-
             public string PropertyString(EnumShipParameter prop)
             {
                 switch(prop)
@@ -2238,18 +2301,18 @@ namespace AssetEditor
             public class Parameter
             {
                 public EnumShipParameter ParamType { get; set; }
-                public int Value { get; set; }
-                public Parameter(EnumShipParameter p, int value)
+                public float Value { get; set; }
+                public Parameter(EnumShipParameter p, float value)
                 {
                     this.ParamType = p;
-                    this.Value = value;
+                    this.Value = (float)Math.Round(value, 2);
                 }
             }
 
             public class DPSCounter
             {
-                private float ShieldDPS;
-                private float StructureDPS;
+                public float ShieldDPS { get; set; }
+                public float StructureDPS { get; set; }
                 public DPSCounter()
                 {
 
@@ -2261,11 +2324,11 @@ namespace AssetEditor
                     {
                         if (module.DeflectorsDamage() > 0)
                         {
-                            ShieldDPS += (module.DeflectorsDamage() * (module.FireRate() / 60));
+                            ShieldDPS += module.DeflectorsDamage() * ((float)module.FireRate() / 60);
                         }
                         if (module.StructureDamage() > 0)
                         {
-                            StructureDPS += (module.StructureDamage() * (module.FireRate() / 60));
+                            StructureDPS += module.StructureDamage() * ((float)module.FireRate() / 60);
                         }
                     }
 
@@ -2275,8 +2338,8 @@ namespace AssetEditor
 
             public class DeflectorsCounter
             {
-                public int Points;
-                public int Recharge;
+                public int Points { get; set; }
+                public int Recharge { get; set; }
                 public DeflectorsCounter() { }
 
                 public void AddModule(ref ModuleNodeTag tag)
@@ -2289,9 +2352,15 @@ namespace AssetEditor
 
             public class ThrustersCounter
             {
-                public int Speed;
-                public int Dexterity;
+                public int Speed { get; set; }
+                public int Dexterity { get; set; }
                 public ThrustersCounter() { }
+
+                public void AddThruster(ref ModuleNodeTag tag)
+                {
+                    this.Speed += tag.ThrustersSpeed();
+                    Dexterity += tag.ThrustersDexterity();
+                }
 
             }
 
@@ -2303,6 +2372,9 @@ namespace AssetEditor
 
                 DPSCounter dps = new DPSCounter();
                 DeflectorsCounter deflect = new DeflectorsCounter();
+                ThrustersCounter th = new ThrustersCounter();
+
+                int armor = 0;
 
                 foreach(Slot slot in this.slots)
                 {
@@ -2311,16 +2383,19 @@ namespace AssetEditor
                     {
                         dps.AddWeapon(ref tag);
                         deflect.AddModule(ref tag);
-
+                        th.AddThruster(ref tag);
+                        armor += tag.Armor();
                     }
                 }
+                pms.Add(new Parameter(EnumShipParameter.ArmorPoints, armor));
+                pms.Add(new Parameter(EnumShipParameter.DeflectorPoints, deflect.Points));
+                pms.Add(new Parameter(EnumShipParameter.DeflectorRegen, deflect.Recharge));
+                pms.Add(new Parameter(EnumShipParameter.ShieldDPS, dps.ShieldDPS));
+                pms.Add(new Parameter(EnumShipParameter.StructureDPS, dps.StructureDPS));
+                pms.Add(new Parameter(EnumShipParameter.Speed, th.Speed));
+                pms.Add(new Parameter(EnumShipParameter.Dexterity, th.Dexterity));
                 return pms;
             }
-
-        }
-
-        private void buttonReloadShipGrid_Click(object sender, EventArgs e)
-        {
 
         }
 

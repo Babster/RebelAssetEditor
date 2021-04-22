@@ -137,6 +137,11 @@
             this.treeModules = new System.Windows.Forms.TreeView();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.buttonReloadShipGrid = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.gridShipParameters = new System.Windows.Forms.DataGridView();
+            this.sp_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sp_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBattleIntensity = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
             this.textShipBaseStructure = new System.Windows.Forms.TextBox();
@@ -164,11 +169,7 @@
             this.buttonShipAdd = new System.Windows.Forms.Button();
             this.treeShips = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.gridShipParameters = new System.Windows.Forms.DataGridView();
-            this.sp_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sp_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.buttonReloadShipGrid = new System.Windows.Forms.Button();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -244,6 +245,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage9);
+            this.tabControl1.Controls.Add(this.tabPage10);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -330,7 +332,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage1.Size = new System.Drawing.Size(1121, 536);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Сцены";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -566,7 +568,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage2.Size = new System.Drawing.Size(1121, 536);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Картинки";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -684,7 +686,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage5.Size = new System.Drawing.Size(1121, 536);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Статы";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -906,7 +908,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage6.Size = new System.Drawing.Size(1121, 536);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Тесты API";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -950,7 +952,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 29);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage8.Size = new System.Drawing.Size(1121, 536);
             this.tabPage8.TabIndex = 5;
             this.tabPage8.Text = "Модули";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1347,6 +1349,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox4.Controls.Add(this.buttonReloadShipGrid);
             this.groupBox4.Controls.Add(this.textBox1);
             this.groupBox4.Controls.Add(this.gridShipParameters);
@@ -1376,10 +1380,60 @@
             this.groupBox4.Controls.Add(this.label32);
             this.groupBox4.Location = new System.Drawing.Point(248, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(865, 500);
+            this.groupBox4.Size = new System.Drawing.Size(865, 480);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Редактирование дизайна корабля";
+            // 
+            // buttonReloadShipGrid
+            // 
+            this.buttonReloadShipGrid.Location = new System.Drawing.Point(710, 330);
+            this.buttonReloadShipGrid.Name = "buttonReloadShipGrid";
+            this.buttonReloadShipGrid.Size = new System.Drawing.Size(149, 26);
+            this.buttonReloadShipGrid.TabIndex = 37;
+            this.buttonReloadShipGrid.Text = "Перезагрузить";
+            this.buttonReloadShipGrid.UseVisualStyleBackColor = true;
+            this.buttonReloadShipGrid.Click += new System.EventHandler(this.buttonReloadShipGrid_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(311, 330);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(393, 26);
+            this.textBox1.TabIndex = 36;
+            this.textBox1.Text = " Итоговые параметры корабля";
+            // 
+            // gridShipParameters
+            // 
+            this.gridShipParameters.AllowUserToAddRows = false;
+            this.gridShipParameters.AllowUserToDeleteRows = false;
+            this.gridShipParameters.AllowUserToOrderColumns = true;
+            this.gridShipParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gridShipParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridShipParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridShipParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sp_name,
+            this.sp_value});
+            this.gridShipParameters.Location = new System.Drawing.Point(311, 362);
+            this.gridShipParameters.Name = "gridShipParameters";
+            this.gridShipParameters.ReadOnly = true;
+            this.gridShipParameters.Size = new System.Drawing.Size(548, 112);
+            this.gridShipParameters.TabIndex = 35;
+            // 
+            // sp_name
+            // 
+            this.sp_name.FillWeight = 300F;
+            this.sp_name.HeaderText = "Параметр";
+            this.sp_name.Name = "sp_name";
+            this.sp_name.ReadOnly = true;
+            // 
+            // sp_value
+            // 
+            this.sp_value.HeaderText = "Значение";
+            this.sp_value.Name = "sp_value";
+            this.sp_value.ReadOnly = true;
             // 
             // textBattleIntensity
             // 
@@ -1540,11 +1594,13 @@
             // 
             // listShipSlots
             // 
+            this.listShipSlots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listShipSlots.FormattingEnabled = true;
             this.listShipSlots.ItemHeight = 20;
             this.listShipSlots.Location = new System.Drawing.Point(6, 150);
             this.listShipSlots.Name = "listShipSlots";
-            this.listShipSlots.Size = new System.Drawing.Size(299, 344);
+            this.listShipSlots.Size = new System.Drawing.Size(299, 304);
             this.listShipSlots.TabIndex = 18;
             this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
             // 
@@ -1628,7 +1684,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(8, 42);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 466);
+            this.treeShips.Size = new System.Drawing.Size(234, 444);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -1636,53 +1692,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // gridShipParameters
+            // tabPage10
             // 
-            this.gridShipParameters.AllowUserToAddRows = false;
-            this.gridShipParameters.AllowUserToDeleteRows = false;
-            this.gridShipParameters.AllowUserToOrderColumns = true;
-            this.gridShipParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gridShipParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridShipParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.sp_name,
-            this.sp_value});
-            this.gridShipParameters.Location = new System.Drawing.Point(311, 362);
-            this.gridShipParameters.Name = "gridShipParameters";
-            this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(548, 132);
-            this.gridShipParameters.TabIndex = 35;
-            // 
-            // sp_name
-            // 
-            this.sp_name.FillWeight = 300F;
-            this.sp_name.HeaderText = "Параметр";
-            this.sp_name.Name = "sp_name";
-            this.sp_name.ReadOnly = true;
-            // 
-            // sp_value
-            // 
-            this.sp_value.HeaderText = "Значение";
-            this.sp_value.Name = "sp_value";
-            this.sp_value.ReadOnly = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(311, 330);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(393, 26);
-            this.textBox1.TabIndex = 36;
-            this.textBox1.Text = " Итоговые параметры корабля";
-            // 
-            // buttonReloadShipGrid
-            // 
-            this.buttonReloadShipGrid.Location = new System.Drawing.Point(710, 330);
-            this.buttonReloadShipGrid.Name = "buttonReloadShipGrid";
-            this.buttonReloadShipGrid.Size = new System.Drawing.Size(149, 26);
-            this.buttonReloadShipGrid.TabIndex = 37;
-            this.buttonReloadShipGrid.Text = "Перезагрузить";
-            this.buttonReloadShipGrid.UseVisualStyleBackColor = true;
-            this.buttonReloadShipGrid.Click += new System.EventHandler(this.buttonReloadShipGrid_Click);
+            this.tabPage10.Location = new System.Drawing.Point(4, 29);
+            this.tabPage10.Name = "tabPage10";
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(1121, 514);
+            this.tabPage10.TabIndex = 7;
+            this.tabPage10.Text = "Экипажи";
+            this.tabPage10.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1878,6 +1896,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sp_value;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonReloadShipGrid;
+        private System.Windows.Forms.TabPage tabPage10;
     }
 }
 
