@@ -1099,30 +1099,6 @@ namespace AssetEditor
                 this.ThirdScore = Convert.ToInt32(r["third_score"]);
             }
 
-            public EnumModuleType eType()
-            {
-                EnumModuleType tType;
-                switch(ModuleType)
-                {
-                    case "Weapon":
-                        tType = EnumModuleType.Weapon;
-                        break;
-                    case "Defence":
-                        tType = EnumModuleType.Defence;
-                        break;
-                    case "Engine":
-                        tType = EnumModuleType.Engine;
-                        break;
-                    case "Thrusters":
-                        tType = EnumModuleType.Thrusters;
-                        break;
-                    default:
-                        tType = EnumModuleType.None;
-                        break;
-                }
-                return tType;
-            }
-
             public void SaveData()
             {
                 string q;
@@ -2398,6 +2374,182 @@ namespace AssetEditor
             }
 
         }
+
+
+        #endregion
+
+        #region Officer types
+
+        private bool officerTypesFilled;
+
+        private void tabPage11_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage11_Enter(object sender, EventArgs e)
+        {
+            if (officerTypesFilled)
+                return;
+            FillOfficerTypes();
+        }
+
+        private void tabPage10_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage10_Enter(object sender, EventArgs e)
+        {
+            if (officerTypesFilled)
+                return;
+            FillOfficerTypes();
+        }
+
+        private void FillOfficerTypes()
+        {
+
+            string q;
+            q = CrewOfficerType.OfficerTypeQuery();
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    CrewOfficerType curOfficer = new CrewOfficerType(ref r);
+                    TreeNode n = treeOfficerTypes.Nodes.Add(curOfficer.Name);
+                    n.Tag = curOfficer;
+                }
+            }
+            r.Close();
+
+            officerTypesFilled = true;
+        }
+
+        private void buttonAddOfficerType_Click(object sender, EventArgs e)
+        {
+            CrewOfficerType curOfficer = new CrewOfficerType(true);
+            TreeNode n = treeOfficerTypes.Nodes.Add(curOfficer.Name);
+            n.Tag = curOfficer;
+            treeOfficerTypes.SelectedNode = n;
+        }
+
+        private void ClearOfficerType()
+        {
+            NoEvents = true;
+            textOfficerTypeName.Text = "";
+            checkOfficerAvailableAtStart.Checked = false;
+            textOfficerPortraitId.Text = "";
+            textOfficerTypeBonusPoints.Text = "";
+            gridOfficerType.Rows.Clear();
+            NoEvents = false;
+        }
+
+        private CrewOfficerType GetCurrentOfficerType()
+        {
+            if (treeOfficerTypes.SelectedNode == null)
+                return null;
+            return (CrewOfficerType)treeOfficerTypes.SelectedNode.Tag;
+        }
+
+
+        private void treeOfficerTypes_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ClearOfficerType();
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+
+            NoEvents = true;
+            textOfficerTypeName.Text = curOfficerType.Name;
+            checkOfficerAvailableAtStart.Checked = curOfficerType.AvailableAtStart != 0;
+            textOfficerPortraitId.Text = curOfficerType.PortraitId.ToString();
+            textOfficerTypeBonusPoints.Text = curOfficerType.BonusPoints.ToString();
+            gridOfficerType.Rows.Clear();
+
+            List<CrewOfficerType.OfficerStat> stats = curOfficerType.Stats;
+            if(stats.Count > 0)
+            {
+                foreach(CrewOfficerType.OfficerStat stat in stats)
+                {
+                    DataGridViewRow row;
+                    gridOfficerType.Rows.Add();
+                    row = gridOfficerType.Rows[gridOfficerType.Rows.Count - 1];
+                    row.Cells["ot_name"].Value = stat.Name;
+                    row.Cells["ot_score"].Value = stat.PointsBase;
+                    
+                }
+            }
+
+            NoEvents = false;
+
+        }
+        private void textOfficerTypeName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            treeOfficerTypes.SelectedNode.Text = textOfficerTypeName.Text;
+            curOfficerType.Name = textOfficerTypeName.Text;
+        }
+        
+        private void checkOfficerAvailableAtStart_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            curOfficerType.AvailableAtStart = checkOfficerAvailableAtStart.Checked ? 1 : 0;
+
+        }
+        private void textOfficerPortraitId_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            int tVal = 0;
+            Int32.TryParse(textOfficerPortraitId.Text, out tVal);
+            curOfficerType.PortraitId = tVal;
+        }
+
+        private void textOfficerTypeBonusPoints_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            int tVal = 0;
+            Int32.TryParse(textOfficerTypeBonusPoints.Text, out tVal);
+            curOfficerType.BonusPoints = tVal;
+        }
+
+        private void gridOfficerType_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            DataGridViewRow row = gridOfficerType.Rows[e.RowIndex];
+            int baseValue = 0;
+            Int32.TryParse(Convert.ToString(row.Cells["ot_score"].Value), out baseValue);
+
+            curOfficerType.SetStatValue(Convert.ToString(row.Cells["ot_name"].Value), baseValue);
+
+        }
+
+        private void buttonSaveOfficerType_Click(object sender, EventArgs e)
+        {
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            curOfficerType.SaveData();
+        }
+
 
         #endregion
 

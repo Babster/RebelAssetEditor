@@ -138,7 +138,7 @@
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonReloadShipGrid = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textShipParameters = new System.Windows.Forms.TextBox();
             this.gridShipParameters = new System.Windows.Forms.DataGridView();
             this.sp_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sp_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -168,8 +168,24 @@
             this.label32 = new System.Windows.Forms.Label();
             this.buttonShipAdd = new System.Windows.Forms.Button();
             this.treeShips = new System.Windows.Forms.TreeView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.tabPage12 = new System.Windows.Forms.TabPage();
+            this.treeOfficerTypes = new System.Windows.Forms.TreeView();
+            this.buttonAddOfficerType = new System.Windows.Forms.Button();
+            this.label41 = new System.Windows.Forms.Label();
+            this.textOfficerTypeName = new System.Windows.Forms.TextBox();
+            this.checkOfficerAvailableAtStart = new System.Windows.Forms.CheckBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.textOfficerPortraitId = new System.Windows.Forms.TextBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.textOfficerTypeBonusPoints = new System.Windows.Forms.TextBox();
+            this.gridOfficerType = new System.Windows.Forms.DataGridView();
+            this.ot_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ot_score = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonSaveOfficerType = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -193,6 +209,10 @@
             this.tabPage9.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridShipParameters)).BeginInit();
+            this.tabPage10.SuspendLayout();
+            this.tabControl3.SuspendLayout();
+            this.tabPage11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).BeginInit();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -332,7 +352,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1121, 536);
+            this.tabPage1.Size = new System.Drawing.Size(1121, 514);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Сцены";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -568,7 +588,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1121, 536);
+            this.tabPage2.Size = new System.Drawing.Size(1121, 514);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Картинки";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -686,7 +706,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1121, 536);
+            this.tabPage5.Size = new System.Drawing.Size(1121, 514);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Статы";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -908,7 +928,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1121, 536);
+            this.tabPage6.Size = new System.Drawing.Size(1121, 514);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Тесты API";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -952,7 +972,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 29);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1121, 536);
+            this.tabPage8.Size = new System.Drawing.Size(1121, 514);
             this.tabPage8.TabIndex = 5;
             this.tabPage8.Text = "Модули";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1352,7 +1372,7 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox4.Controls.Add(this.buttonReloadShipGrid);
-            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.textShipParameters);
             this.groupBox4.Controls.Add(this.gridShipParameters);
             this.groupBox4.Controls.Add(this.textBattleIntensity);
             this.groupBox4.Controls.Add(this.label40);
@@ -1395,14 +1415,14 @@
             this.buttonReloadShipGrid.UseVisualStyleBackColor = true;
             this.buttonReloadShipGrid.Click += new System.EventHandler(this.buttonReloadShipGrid_Click);
             // 
-            // textBox1
+            // textShipParameters
             // 
-            this.textBox1.Location = new System.Drawing.Point(311, 330);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(393, 26);
-            this.textBox1.TabIndex = 36;
-            this.textBox1.Text = " Итоговые параметры корабля";
+            this.textShipParameters.Location = new System.Drawing.Point(311, 330);
+            this.textShipParameters.Name = "textShipParameters";
+            this.textShipParameters.ReadOnly = true;
+            this.textShipParameters.Size = new System.Drawing.Size(393, 26);
+            this.textShipParameters.TabIndex = 36;
+            this.textShipParameters.Text = " Итоговые параметры корабля";
             // 
             // gridShipParameters
             // 
@@ -1600,7 +1620,7 @@
             this.listShipSlots.ItemHeight = 20;
             this.listShipSlots.Location = new System.Drawing.Point(6, 150);
             this.listShipSlots.Name = "listShipSlots";
-            this.listShipSlots.Size = new System.Drawing.Size(299, 304);
+            this.listShipSlots.Size = new System.Drawing.Size(299, 324);
             this.listShipSlots.TabIndex = 18;
             this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
             // 
@@ -1688,19 +1708,193 @@
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.tabControl3);
             this.tabPage10.Location = new System.Drawing.Point(4, 29);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage10.Size = new System.Drawing.Size(1121, 514);
             this.tabPage10.TabIndex = 7;
-            this.tabPage10.Text = "Экипажи";
+            this.tabPage10.Text = "Экипажи/офицеры";
             this.tabPage10.UseVisualStyleBackColor = true;
+            this.tabPage10.Click += new System.EventHandler(this.tabPage10_Click);
+            this.tabPage10.Enter += new System.EventHandler(this.tabPage10_Enter);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // tabControl3
+            // 
+            this.tabControl3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControl3.Controls.Add(this.tabPage11);
+            this.tabControl3.Controls.Add(this.tabPage12);
+            this.tabControl3.Location = new System.Drawing.Point(6, 6);
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(1107, 500);
+            this.tabControl3.TabIndex = 0;
+            // 
+            // tabPage11
+            // 
+            this.tabPage11.Controls.Add(this.buttonSaveOfficerType);
+            this.tabPage11.Controls.Add(this.gridOfficerType);
+            this.tabPage11.Controls.Add(this.textOfficerTypeBonusPoints);
+            this.tabPage11.Controls.Add(this.label43);
+            this.tabPage11.Controls.Add(this.textOfficerPortraitId);
+            this.tabPage11.Controls.Add(this.label42);
+            this.tabPage11.Controls.Add(this.checkOfficerAvailableAtStart);
+            this.tabPage11.Controls.Add(this.textOfficerTypeName);
+            this.tabPage11.Controls.Add(this.label41);
+            this.tabPage11.Controls.Add(this.buttonAddOfficerType);
+            this.tabPage11.Controls.Add(this.treeOfficerTypes);
+            this.tabPage11.Location = new System.Drawing.Point(4, 29);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(1099, 467);
+            this.tabPage11.TabIndex = 0;
+            this.tabPage11.Text = "Типы офицеров";
+            this.tabPage11.UseVisualStyleBackColor = true;
+            this.tabPage11.Click += new System.EventHandler(this.tabPage11_Click);
+            this.tabPage11.Enter += new System.EventHandler(this.tabPage11_Enter);
+            // 
+            // tabPage12
+            // 
+            this.tabPage12.Location = new System.Drawing.Point(4, 29);
+            this.tabPage12.Name = "tabPage12";
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage12.Size = new System.Drawing.Size(192, 67);
+            this.tabPage12.TabIndex = 1;
+            this.tabPage12.Text = "tabPage12";
+            this.tabPage12.UseVisualStyleBackColor = true;
+            // 
+            // treeOfficerTypes
+            // 
+            this.treeOfficerTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeOfficerTypes.HideSelection = false;
+            this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
+            this.treeOfficerTypes.Name = "treeOfficerTypes";
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 410);
+            this.treeOfficerTypes.TabIndex = 0;
+            this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
+            // 
+            // buttonAddOfficerType
+            // 
+            this.buttonAddOfficerType.Location = new System.Drawing.Point(7, 8);
+            this.buttonAddOfficerType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonAddOfficerType.Name = "buttonAddOfficerType";
+            this.buttonAddOfficerType.Size = new System.Drawing.Size(111, 35);
+            this.buttonAddOfficerType.TabIndex = 2;
+            this.buttonAddOfficerType.Text = "Добавить";
+            this.buttonAddOfficerType.UseVisualStyleBackColor = true;
+            this.buttonAddOfficerType.Click += new System.EventHandler(this.buttonAddOfficerType_Click);
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(247, 51);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(44, 20);
+            this.label41.TabIndex = 3;
+            this.label41.Text = "Имя:";
+            // 
+            // textOfficerTypeName
+            // 
+            this.textOfficerTypeName.Location = new System.Drawing.Point(297, 48);
+            this.textOfficerTypeName.MaxLength = 50;
+            this.textOfficerTypeName.Name = "textOfficerTypeName";
+            this.textOfficerTypeName.Size = new System.Drawing.Size(254, 26);
+            this.textOfficerTypeName.TabIndex = 4;
+            this.textOfficerTypeName.TextChanged += new System.EventHandler(this.textOfficerTypeName_TextChanged);
+            // 
+            // checkOfficerAvailableAtStart
+            // 
+            this.checkOfficerAvailableAtStart.AutoSize = true;
+            this.checkOfficerAvailableAtStart.Location = new System.Drawing.Point(573, 50);
+            this.checkOfficerAvailableAtStart.Name = "checkOfficerAvailableAtStart";
+            this.checkOfficerAvailableAtStart.Size = new System.Drawing.Size(179, 24);
+            this.checkOfficerAvailableAtStart.TabIndex = 5;
+            this.checkOfficerAvailableAtStart.Text = "Доступен на старте";
+            this.checkOfficerAvailableAtStart.UseVisualStyleBackColor = true;
+            this.checkOfficerAvailableAtStart.CheckedChanged += new System.EventHandler(this.checkOfficerAvailableAtStart_CheckedChanged);
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(247, 86);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(119, 20);
+            this.label42.TabIndex = 6;
+            this.label42.Text = "Код портрета:";
+            // 
+            // textOfficerPortraitId
+            // 
+            this.textOfficerPortraitId.Location = new System.Drawing.Point(372, 83);
+            this.textOfficerPortraitId.MaxLength = 10;
+            this.textOfficerPortraitId.Name = "textOfficerPortraitId";
+            this.textOfficerPortraitId.Size = new System.Drawing.Size(100, 26);
+            this.textOfficerPortraitId.TabIndex = 7;
+            this.textOfficerPortraitId.TextChanged += new System.EventHandler(this.textOfficerPortraitId_TextChanged);
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(491, 86);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(132, 20);
+            this.label43.TabIndex = 8;
+            this.label43.Text = "Бонусных очков:";
+            // 
+            // textOfficerTypeBonusPoints
+            // 
+            this.textOfficerTypeBonusPoints.Location = new System.Drawing.Point(629, 83);
+            this.textOfficerTypeBonusPoints.MaxLength = 10;
+            this.textOfficerTypeBonusPoints.Name = "textOfficerTypeBonusPoints";
+            this.textOfficerTypeBonusPoints.Size = new System.Drawing.Size(123, 26);
+            this.textOfficerTypeBonusPoints.TabIndex = 9;
+            this.textOfficerTypeBonusPoints.TextChanged += new System.EventHandler(this.textOfficerTypeBonusPoints_TextChanged);
+            // 
+            // gridOfficerType
+            // 
+            this.gridOfficerType.AllowUserToAddRows = false;
+            this.gridOfficerType.AllowUserToDeleteRows = false;
+            this.gridOfficerType.AllowUserToOrderColumns = true;
+            this.gridOfficerType.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridOfficerType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridOfficerType.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ot_name,
+            this.ot_score});
+            this.gridOfficerType.Location = new System.Drawing.Point(251, 124);
+            this.gridOfficerType.Name = "gridOfficerType";
+            this.gridOfficerType.Size = new System.Drawing.Size(501, 337);
+            this.gridOfficerType.TabIndex = 10;
+            this.gridOfficerType.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfficerType_CellEndEdit);
+            // 
+            // ot_name
+            // 
+            this.ot_name.FillWeight = 300F;
+            this.ot_name.HeaderText = "Имя";
+            this.ot_name.Name = "ot_name";
+            this.ot_name.ReadOnly = true;
+            // 
+            // ot_score
+            // 
+            this.ot_score.HeaderText = "Значение";
+            this.ot_score.Name = "ot_score";
+            // 
+            // buttonSaveOfficerType
+            // 
+            this.buttonSaveOfficerType.Location = new System.Drawing.Point(251, 5);
+            this.buttonSaveOfficerType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonSaveOfficerType.Name = "buttonSaveOfficerType";
+            this.buttonSaveOfficerType.Size = new System.Drawing.Size(111, 35);
+            this.buttonSaveOfficerType.TabIndex = 11;
+            this.buttonSaveOfficerType.Text = "Сохранить";
+            this.buttonSaveOfficerType.UseVisualStyleBackColor = true;
+            this.buttonSaveOfficerType.Click += new System.EventHandler(this.buttonSaveOfficerType_Click);
             // 
             // Form1
             // 
@@ -1749,6 +1943,11 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridShipParameters)).EndInit();
+            this.tabPage10.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
+            this.tabPage11.ResumeLayout(false);
+            this.tabPage11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1894,9 +2093,25 @@
         private System.Windows.Forms.DataGridView gridShipParameters;
         private System.Windows.Forms.DataGridViewTextBoxColumn sp_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn sp_value;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textShipParameters;
         private System.Windows.Forms.Button buttonReloadShipGrid;
         private System.Windows.Forms.TabPage tabPage10;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.TreeView treeOfficerTypes;
+        private System.Windows.Forms.TabPage tabPage12;
+        private System.Windows.Forms.Button buttonAddOfficerType;
+        private System.Windows.Forms.TextBox textOfficerTypeName;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.TextBox textOfficerPortraitId;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.CheckBox checkOfficerAvailableAtStart;
+        private System.Windows.Forms.DataGridView gridOfficerType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ot_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ot_score;
+        private System.Windows.Forms.TextBox textOfficerTypeBonusPoints;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Button buttonSaveOfficerType;
     }
 }
 
