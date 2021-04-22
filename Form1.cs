@@ -13,6 +13,7 @@ using System.Linq.Expressions;
 using System.IO;
 using System.Reflection.Emit;
 using Story;
+using Crew;
 using AdmiralNamespace;
 
 namespace AssetEditor
@@ -577,7 +578,7 @@ namespace AssetEditor
 
         #endregion
 
-        #region "Характеристики адмиралов"
+        #region Статы адмиралов
 
         private int statStartPointsId;
 
@@ -1046,6 +1047,30 @@ namespace AssetEditor
                 Thrusters = 4
             }
 
+            public EnumModuleType eType()
+            {
+                EnumModuleType tType;
+                switch (Name)
+                {
+                    case "Weapon":
+                        tType = EnumModuleType.Weapon;
+                        break;
+                    case "Defence":
+                        tType = EnumModuleType.Defence;
+                        break;
+                    case "Engine":
+                        tType = EnumModuleType.Engine;
+                        break;
+                    case "Thrusters":
+                        tType = EnumModuleType.Thrusters;
+                        break;
+                    default:
+                        tType = EnumModuleType.None;
+                        break;
+                }
+                return tType;
+            }
+
             public ModuleNodeTag(int parentId, int isCategory) 
             { 
                 this.Parent = parentId;
@@ -1072,30 +1097,6 @@ namespace AssetEditor
                 this.MainScore = Convert.ToInt32(r["main_score"]);
                 this.SecondaryScore = Convert.ToInt32(r["secondary_score"]);
                 this.ThirdScore = Convert.ToInt32(r["third_score"]);
-            }
-
-            public EnumModuleType eType()
-            {
-                EnumModuleType tType;
-                switch(Name)
-                {
-                    case "Weapon":
-                        tType = EnumModuleType.Weapon;
-                        break;
-                    case "Defence":
-                        tType = EnumModuleType.Defence;
-                        break;
-                    case "Engine":
-                        tType = EnumModuleType.Engine;
-                        break;
-                    case "Thrusters":
-                        tType = EnumModuleType.Thrusters;
-                        break;
-                    default:
-                        tType = EnumModuleType.None;
-                        break;
-                }
-                return tType;
             }
 
             public void SaveData()
@@ -1676,6 +1677,10 @@ namespace AssetEditor
 
         #endregion
 
+
+        /// <summary>
+        /// Ship designs!!!!
+        /// </summary>
         #region Ship designs
 
         private bool ShipFilled;
