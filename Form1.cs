@@ -820,7 +820,6 @@ namespace AssetEditor
 
         }
 
-
         #endregion
 
         #region "Тестирование"
@@ -978,7 +977,7 @@ namespace AssetEditor
         private void FillModules()
         {
             treeModules.Nodes.Clear();
-            string q = ModuleNodeTag.ModuleQuery();
+            string q = ShipModuleType.ModuleQuery();
 
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
@@ -987,7 +986,7 @@ namespace AssetEditor
             {
                 while(r.Read())
                 {
-                    ModuleNodeTag tag = new ModuleNodeTag(ref r);
+                    ShipModuleType tag = new ShipModuleType(ref r);
                     TreeNode n;
                     if(tag.Parent == 0)
                     {
@@ -1025,358 +1024,6 @@ namespace AssetEditor
 
         }
 
-        private class ModuleNodeTag
-        {
-            public int Id { get; set; }
-            public int IsCategory { get; set; }
-            public int Parent { get; set; }
-            public string Name { get; set; }
-            public string AssetName { get; set; }
-            public string ModuleType { get; set; }
-            public int EnergyNeeded { get; set; }
-            public int MainScore { get; set; }
-            public int SecondaryScore { get; set; }
-            public int ThirdScore { get; set; }
-            
-            public enum EnumModuleType
-            {
-                None = 0,
-                Weapon = 1,
-                Defence = 2,
-                Engine = 3,
-                Thrusters = 4
-            }
-
-            public EnumModuleType eType()
-            {
-                EnumModuleType tType;
-                switch (Name)
-                {
-                    case "Weapon":
-                        tType = EnumModuleType.Weapon;
-                        break;
-                    case "Defence":
-                        tType = EnumModuleType.Defence;
-                        break;
-                    case "Engine":
-                        tType = EnumModuleType.Engine;
-                        break;
-                    case "Thrusters":
-                        tType = EnumModuleType.Thrusters;
-                        break;
-                    default:
-                        tType = EnumModuleType.None;
-                        break;
-                }
-                return tType;
-            }
-
-            public ModuleNodeTag(int parentId, int isCategory) 
-            { 
-                this.Parent = parentId;
-                this.IsCategory = isCategory;
-                if(IsCategory == 1)
-                {
-                    this.Name = "New category";
-                }
-                else
-                {
-                    this.Name = "New module";
-                }
-            }
-
-            public ModuleNodeTag(ref SqlDataReader r)
-            {
-                this.Id = Convert.ToInt32(r["id"]);
-                this.IsCategory = Convert.ToInt32(r["is_category"]);
-                this.Parent = Convert.ToInt32(r["parent"]);
-                this.Name = Convert.ToString(r["name"]);
-                this.AssetName = Convert.ToString(r["asset_name"]);
-                this.ModuleType = Convert.ToString(r["module_type"]);
-                this.EnergyNeeded = Convert.ToInt32(r["energy_needed"]);
-                this.MainScore = Convert.ToInt32(r["main_score"]);
-                this.SecondaryScore = Convert.ToInt32(r["secondary_score"]);
-                this.ThirdScore = Convert.ToInt32(r["third_score"]);
-            }
-
-            public void SaveData()
-            {
-                string q;
-                if(this.Id==0)
-                {
-                    q = @"INSERT INTO ss_modules(parent) VALUES(" + this.Parent.ToString() + @")
-                            SELECT @@IDENTITY AS Result";
-                    this.Id = Convert.ToInt32(DataConnection.GetResult(q));
-                        
-                }
-                q = @"UPDATE ss_modules SET 
-                        is_category = " + this.IsCategory.ToString() + @",
-                        parent = " + this.Parent.ToString() + @",
-                        name = @str1,
-                        asset_name = @str2,
-                        module_type = @str3,
-                        energy_needed = " + this.EnergyNeeded + @",
-                        main_score = " + this.MainScore + @",
-                        secondary_score = " + this.SecondaryScore + @",
-                        third_score = " + this.ThirdScore + @"
-                    WHERE id = " + this.Id.ToString();
-
-                List<string> names = new List<string>();
-                names.Add(this.Name);
-                names.Add(this.AssetName);
-                names.Add(this.ModuleType);
-
-                DataConnection.Execute(q, names);
-
-            }
-
-            public static Dictionary<int, string> moduleNames()
-            {
-                string q;
-                SqlDataReader r;
-                Dictionary<int, string> ModuleDict = new Dictionary<int, string>();
-                q = @"SELECT id, name FROM ss_modules";
-                r = DataConnection.GetReader(q);
-                if (r.HasRows)
-                {
-                    while (r.Read())
-                    {
-                        ModuleDict.Add(Convert.ToInt32(r["id"]), Convert.ToString(r["name"]));
-                    }
-                }
-                r.Close();
-                return ModuleDict;
-            }
-
-            public static Dictionary<int, ModuleNodeTag> CreateModuleDict()
-            {
-
-                Dictionary<int, ModuleNodeTag> tags = new Dictionary<int, ModuleNodeTag>();
-
-                string q = ModuleQuery();
-                SqlDataReader r = DataConnection.GetReader(q);
-                if (r.HasRows)
-                {
-                    while (r.Read())
-                    {
-                        ModuleNodeTag tag = new ModuleNodeTag(ref r);
-                        tags.Add(tag.Id, tag);
-                    }
-                }
-                r.Close();
-                return tags;
-            }
-
-            public static string ModuleQuery()
-            {
-                string q = @"
-                SELECT 
-                    id,
-                    is_category,
-                    parent,
-                    name,
-                    asset_name,
-                    module_type,
-                    energy_needed,
-                    main_score,
-                    secondary_score,
-                    third_score
-                FROM
-                    ss_modules
-                --WHERE
-                --    parent = 0
-                    ";
-                return q;
-            }
-
-            #region Specific modules properties
-
-            public enum enumSpecificProperty
-            {
-                FireRate = 1,
-                DeflectorsDamage = 2,
-                StructureDamage = 3,
-                Deflectors = 4,
-                DeflectorsRegen = 5,
-                Armor = 6,
-                Engine = 7,
-                ThrustersSpeed = 8,
-                ThrustersDexterity = 9
-            }
-
-            public int SpecificPropertiesCount() { return 9; }
-
-            public String PropertyToString(enumSpecificProperty prop)
-            {
-                switch(prop)
-                {
-                    case enumSpecificProperty.FireRate:
-                        return "Fire rate";
-                    case enumSpecificProperty.DeflectorsDamage:
-                        return "Deflectors damage";
-                    case enumSpecificProperty.StructureDamage:
-                        return "Structure damage";
-                    case enumSpecificProperty.Deflectors:
-                        return "Deflectors";
-                    case enumSpecificProperty.DeflectorsRegen:
-                        return "Deflectors regen";
-                    case enumSpecificProperty.Armor:
-                        return "Armor";
-                    case enumSpecificProperty.Engine:
-                        return "Engine";
-                    case enumSpecificProperty.ThrustersSpeed:
-                        return "Speed";
-                    case enumSpecificProperty.ThrustersDexterity:
-                        return "Dexterity";
-                    default:
-                        return "error: unknown module type";
-                }
-            }
-
-            public int PropertyValue(enumSpecificProperty prop)
-            {
-                switch (prop)
-                {
-                    case enumSpecificProperty.FireRate:
-                        return FireRate();
-                    case enumSpecificProperty.DeflectorsDamage:
-                        return DeflectorsDamage();
-                    case enumSpecificProperty.StructureDamage:
-                        return StructureDamage();
-                    case enumSpecificProperty.Deflectors:
-                        return Deflectors();
-                    case enumSpecificProperty.DeflectorsRegen:
-                        return DeflectorsRegen();
-                    case enumSpecificProperty.Armor:
-                        return Armor();
-                    case enumSpecificProperty.Engine:
-                        return Engine();
-                    case enumSpecificProperty.ThrustersSpeed:
-                        return ThrustersSpeed();
-                    case enumSpecificProperty.ThrustersDexterity:
-                        return ThrustersDexterity();
-                    default:
-                        return 0;
-                }
-            }
-
-            public int FireRate()
-            {
-                if (eType() == EnumModuleType.Weapon)
-                {
-                    return this.MainScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int DeflectorsDamage()
-            {
-                if (eType() == EnumModuleType.Weapon)
-                {
-                    return this.SecondaryScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int StructureDamage()
-            {
-                if (eType() == EnumModuleType.Weapon)
-                {
-                    return this.ThirdScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int Deflectors()
-            {
-                if (eType() == EnumModuleType.Defence)
-                {
-                    return this.MainScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int DeflectorsRegen()
-            {
-                if (eType() == EnumModuleType.Defence)
-                {
-                    return this.SecondaryScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int Armor()
-            {
-                if (eType() == EnumModuleType.Defence)
-                {
-                    return this.ThirdScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int Engine()
-            {
-                if (eType() == EnumModuleType.Engine)
-                {
-                    return this.ThirdScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int ThrustersSpeed()
-            {
-                if (eType() == EnumModuleType.Thrusters )
-                {
-                    return this.MainScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            public int ThrustersDexterity()
-            {
-                if (eType() == EnumModuleType.Thrusters)
-                {
-                    return this.SecondaryScore;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            #endregion 
-
-            public override string ToString()
-            {
-                return this.Name + " " + this.MainScore + "/" + this.SecondaryScore + "/" + this.ThirdScore;
-            }
-
-        }
-
         private void buttonSsAddCategory_Click(object sender, EventArgs e)
         {
             AddModuleNode(1);
@@ -1399,12 +1046,12 @@ namespace AssetEditor
             else
             {
                 nodesCollection = treeModules.SelectedNode.Nodes;
-                ModuleNodeTag tTag = (ModuleNodeTag)treeModules.SelectedNode.Tag;
+                ShipModuleType tTag = (ShipModuleType)treeModules.SelectedNode.Tag;
                 parentTag = tTag.Id;
 
             }
 
-            ModuleNodeTag tag = new ModuleNodeTag(parentTag, isCategory);
+            ShipModuleType tag = new ShipModuleType(parentTag, isCategory);
             newNode = nodesCollection.Add(tag.Name);
             newNode.Tag = tag;
             treeModules.SelectedNode = newNode;
@@ -1415,7 +1062,7 @@ namespace AssetEditor
 
         private void treeModules_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             ClearModule();
@@ -1474,12 +1121,12 @@ namespace AssetEditor
             NoEvents = false;
         }
 
-        private ModuleNodeTag GetModuleTag()
+        private ShipModuleType GetModuleTag()
         {
             if (treeModules.SelectedNode == null)
                 return null;
 
-            ModuleNodeTag tag = (ModuleNodeTag)treeModules.SelectedNode.Tag;
+            ShipModuleType tag = (ShipModuleType)treeModules.SelectedNode.Tag;
             return tag;
         }
 
@@ -1487,7 +1134,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             tag.Name = textName.Text;
@@ -1498,7 +1145,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             tag.AssetName  = textModuleUnity.Text;
@@ -1508,7 +1155,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1524,7 +1171,7 @@ namespace AssetEditor
         private void FillModuleTab()
         {
             textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             tag.ModuleType = textModuleType.Text;
@@ -1559,7 +1206,7 @@ namespace AssetEditor
         private void buttonSaveModule_Click(object sender, EventArgs e)
         {
             textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             tag.SaveData();
@@ -1572,7 +1219,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1584,7 +1231,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1596,7 +1243,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1608,7 +1255,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1620,7 +1267,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1632,7 +1279,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1644,7 +1291,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1656,7 +1303,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1668,7 +1315,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ModuleNodeTag tag = GetModuleTag();
+            ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
             int tNumber = 0;
@@ -1708,16 +1355,7 @@ namespace AssetEditor
 
             treeShips.Nodes.Clear();
             ShipFilled = true;
-            string q = @"
-                SELECT 
-                    id,
-                    parent,
-                    ISNULL(intensity_amount, 0) AS intensity_amount,
-                    ISNULL(base_structure_hp, 0) AS base_structure_hp,
-                    name,
-                    asset_name
-                FROM
-                    ss_designs";
+            string q = ShipModel.ShipModelQuery();
 
             SqlDataReader r = DataConnection.GetReader(q);
             if (r.HasRows)
@@ -1725,7 +1363,7 @@ namespace AssetEditor
                 Dictionary<int, TreeNode> nodes = new Dictionary<int, TreeNode>();
                 while(r.Read())
                 {
-                    ShipNodeTag tag = new ShipNodeTag(ref r);
+                    ShipModel tag = new ShipModel(ref r);
                     TreeNode n;
                     if (tag.Parent > 0)
                     {
@@ -1753,7 +1391,7 @@ namespace AssetEditor
 
         private void LoadModuleDict()
         {
-            ModuleDict = ModuleNodeTag.moduleNames();
+            ModuleDict = ShipModuleType.moduleNames();
         }
 
         private void buttonShipAdd_Click(object sender, EventArgs e)
@@ -1767,11 +1405,11 @@ namespace AssetEditor
             }
             else
             {
-                ShipNodeTag tTag = (ShipNodeTag)treeShips.SelectedNode.Tag;
+                ShipModel tTag = (ShipModel)treeShips.SelectedNode.Tag;
                 parentId = tTag.Id;
                 n = treeShips.SelectedNode.Nodes.Add("");
             }
-            ShipNodeTag tag = new ShipNodeTag(parentId);
+            ShipModel tag = new ShipModel(parentId);
             n.Text = tag.Name;
             n.Tag = tag;
             treeShips.SelectedNode = n;
@@ -1780,7 +1418,7 @@ namespace AssetEditor
         private void treeShips_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ClearShip();
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             NoEvents = true;
@@ -1791,7 +1429,7 @@ namespace AssetEditor
             textShipUnity.Text = tag.AssetName;
             if(tag.slots.Count > 0)
             {
-                foreach(ShipNodeTag.Slot slot in tag.slots)
+                foreach(ShipModel.Slot slot in tag.slots)
                 {
                     listShipSlots.Items.Add(slot);
                 }
@@ -1812,17 +1450,17 @@ namespace AssetEditor
             ClearShipSlot();
         }
 
-        private ShipNodeTag GetCurrentShipTag()
+        private ShipModel GetCurrentShipTag()
         {
             if (treeShips.SelectedNode == null)
                 return null;
-            return (ShipNodeTag)treeShips.SelectedNode.Tag;
+            return (ShipModel)treeShips.SelectedNode.Tag;
         }
         private void textShipName_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             treeShips.SelectedNode.Text = textShipName.Text;
@@ -1832,7 +1470,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             tag.AssetName  = textShipUnity.Text;
@@ -1841,7 +1479,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             int amount = 0;
@@ -1852,7 +1490,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             int amount = 0;
@@ -1872,7 +1510,7 @@ namespace AssetEditor
         {
             ClearShipSlot();
 
-            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            ShipModel.Slot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
 
@@ -1897,18 +1535,18 @@ namespace AssetEditor
             textShipSlotDefaultModuleName.Text = "";
             NoEvents = false;
         }
-        private ShipNodeTag.Slot GetCurrentShipSlot()
+        private ShipModel.Slot GetCurrentShipSlot()
         {
             if (listShipSlots.SelectedItem == null)
                 return null;
-            return (ShipNodeTag.Slot)listShipSlots.SelectedItem;
+            return (ShipModel.Slot)listShipSlots.SelectedItem;
         }
 
         private void textShipSlotNumber_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
-            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            ShipModel.Slot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             int amount = 0;
@@ -1920,7 +1558,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            ShipModel.Slot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             string t;
@@ -1939,7 +1577,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            ShipModel.Slot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             int moduleId;
@@ -1970,19 +1608,19 @@ namespace AssetEditor
         }
         private void buttonAddShipPart_Click(object sender, EventArgs e)
         {
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            ShipNodeTag.Slot slot = tag.AddSlot();
+            ShipModel.Slot slot = tag.AddSlot();
             listShipSlots.Items.Add(slot);
             listShipSlots.SelectedItem = slot;
         }
         private void buttonRemoveShipPart_Click(object sender, EventArgs e)
         {
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            ShipNodeTag.Slot slot = GetCurrentShipSlot();
+            ShipModel.Slot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             tag.DeleteSlot(ref slot);
@@ -1996,10 +1634,10 @@ namespace AssetEditor
 
         private void FillShipParameters()
         {
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            List<ShipNodeTag.Parameter> param = tag.GetParameters();
+            List<ShipModel.Parameter> param = tag.GetParameters();
             gridShipParameters.Rows.Clear();
             if (param.Count > 0)
             {
@@ -2008,7 +1646,7 @@ namespace AssetEditor
                     DataGridViewRow row;
                     gridShipParameters.Rows.Add();
                     row = gridShipParameters.Rows[i];
-                    row.Cells["sp_name"].Value = ShipNodeTag.ParameterName(param[i].ParamType);
+                    row.Cells["sp_name"].Value = ShipModel.ParameterName(param[i].ParamType);
                     row.Cells["sp_value"].Value = param[i].Value;
                 }
             }
@@ -2016,7 +1654,7 @@ namespace AssetEditor
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
         {
-            ShipNodeTag tag = GetCurrentShipTag();
+            ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
             tag.SaveData();
@@ -2024,357 +1662,20 @@ namespace AssetEditor
             FillShipSlot();
         }
 
-        private class ShipNodeTag
+
+        #endregion
+
+        #region Ship assemble
+
+        private void buttonSaUpdate_Click(object sender, EventArgs e)
         {
-
-            public int Id { get; set; }
-            public int Parent { get; set; }
-            public int BaseStructureHp { get; set; }
-            public int BattleIntensity { get; set; }
-            public string Name { get; set; }
-            public string AssetName { get; set; }
-            public List<Slot> slots;
-            public List<int> slotsToDelete;
-
-            public ShipNodeTag(int parentId)
+            comboSaShip.Items.Clear();
+            List<ShipModel> models = ShipModel.GetModelList();
+            foreach (ShipModel model in models)
             {
-                slots = new List<Slot>();
-                slotsToDelete = new List<int>();
-                this.Parent = parentId;
-                this.Name = "New design";
+                comboSaShip.Items.Add(model);
             }
-
-            public ShipNodeTag(ref SqlDataReader  r)
-            {
-                slotsToDelete = new List<int>();
-
-                this.Id = Convert.ToInt32(r["id"]);
-                this.Parent = Convert.ToInt32(r["parent"]);
-                this.BaseStructureHp = Convert.ToInt32(r["base_structure_hp"]);
-                this.BattleIntensity = Convert.ToInt32(r["intensity_amount"]);
-                this.Name = Convert.ToString(r["name"]);
-                this.AssetName = Convert.ToString(r["asset_name"]);
-
-                LoadSlots();
-
-            }
-
-            private void LoadSlots()
-            {
-                slots = new List<Slot>();
-                string q;
-                q = @"
-                    SELECT
-                        id,
-                        ss_design_id,
-                        slot_number,
-                        slot_type,
-                        default_module_id
-                    FROM
-                        ss_designs_slots
-                    WHERE
-                        ss_design_id = " + Id;
-                SqlDataReader r;
-                r = DataConnection.GetReader(q);
-                if (r.HasRows)
-                {
-                    while (r.Read())
-                    {
-                        slots.Add(new Slot(ref r));
-                    }
-                }
-                r.Close();
-            }
-
-            public void SaveData()
-            {
-                string q;
-                if(this.Id == 0)
-                {
-                    q = @"INSERT INTO ss_designs(name) VALUES('')
-                            SELECT @@IDENTITY AS Result";
-                    this.Id = DataConnection.GetResultInt(q);
-                }
-
-                q = @"
-                    UPDATE ss_designs SET
-                        parent = " + this.Parent.ToString() + @",
-                        base_structure_hp = " + this.BaseStructureHp.ToString() + @",
-                        intensity_amount= " + this.BattleIntensity.ToString() + @",
-                        name = @str1,
-                        asset_name = @str2 
-                    WHERE
-                        id = " + this.Id.ToString();
-
-                List<string> names = new List<string>();
-                names.Add(this.Name);
-                names.Add(this.AssetName);
-
-                DataConnection.Execute(q, names);
-
-                if(slots.Count>0)
-                {
-                    foreach(Slot slot in slots)
-                    {
-                        if (slot.ShipDesignId == 0)
-                            slot.ShipDesignId = this.Id;
-                        slot.SaveData();
-                    }
-                }
-                if(slotsToDelete.Count > 0 )
-                {
-                    q = "DELETE FROM slots WHERE id IN";
-                    bool addComma = false;
-                    foreach(int slotId in slotsToDelete )
-                    {
-                        if (addComma)
-                            q = q + ",";
-                        q = q + slotId;
-                        addComma = true;
-                    }
-                    q = q + ")";
-                    DataConnection.Execute(q);
-                    slotsToDelete.Clear();
-                }
-
-            }
-
-            public Slot AddSlot()
-            {
-                Slot slot = new Slot(this.Id);
-                slots.Add(slot);
-                return slot;
-            }
-
-            public void DeleteSlot(ref Slot slot)
-            {
-                slots.Remove(slot);
-                slotsToDelete.Add(slot.Id);
-            }
-
-            public class Slot
-            {
-                public int Id { get; set; }
-                public int ShipDesignId { get; set; }
-                public int SlotNumber { get; set; }
-                public string SlotType { get; set; }
-                public int DefaultModuleId { get; set; }
-
-                public Slot(int SlotNumber)
-                {
-                    this.SlotNumber = SlotNumber;
-                }
-
-                public Slot(ref SqlDataReader r)
-                {
-                    Id = Convert.ToInt32(r["Id"]);
-                    ShipDesignId = Convert.ToInt32(r["ss_design_id"]);
-                    SlotNumber = Convert.ToInt32(r["slot_number"]);
-                    SlotType = Convert.ToString(r["slot_type"]);
-                    DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
-                }
-
-                public override string ToString()
-                {
-                    return SlotType + " (" + SlotNumber + "/" + Id + ")";
-                }
-
-                public void SaveData()
-                {
-                    string q;
-                    if(Id == 0)
-                    {
-                        q = "INSERT INTO ss_designs_slots(ss_design_id) VALUES(" + ShipDesignId + @")
-                                SELECT @@IDENTITY AS Result";
-                        Id = DataConnection.GetResultInt(q);
-                    }
-
-                    q = @"
-                        UPDATE ss_designs_slots SET
-                            slot_number = " + SlotNumber + @", 
-                            slot_type = @str1, 
-                            default_module_id = " + DefaultModuleId + @"
-                        WHERE id = " + Id.ToString();
-                    List<string> names = new List<string> { SlotType };
-                    DataConnection.Execute(q, names);
-                }
-
-                public ModuleNodeTag module(ref Dictionary<int, ModuleNodeTag> ModuleDict) 
-                {
-                    if(ModuleDict.ContainsKey(DefaultModuleId))
-                    {
-                        return ModuleDict[DefaultModuleId];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-
-            }
-
-            public enum EnumShipParameter
-            {
-                StructurePoints = 1,
-                ArmorPoints = 2,
-                DeflectorPoints = 3,
-                DeflectorRegen = 4,
-                ShieldDPS = 5,
-                StructureDPS = 6,
-                Speed = 7,
-                Dexterity = 8
-            }
-            public static string ParameterName(EnumShipParameter param)
-            {
-                switch(param)
-                {
-                    case EnumShipParameter.StructurePoints:
-                        return "Structure points";
-                    case EnumShipParameter.ArmorPoints:
-                        return "Armor points";
-                    case EnumShipParameter.DeflectorPoints:
-                        return "Deflector points";
-                    case EnumShipParameter.DeflectorRegen:
-                        return "Deflector regen";
-                    case EnumShipParameter.ShieldDPS:
-                        return "Shield DPS";
-                    case EnumShipParameter.StructureDPS:
-                        return "Structure DPS";
-                    case EnumShipParameter.Speed:
-                        return "Speed";
-                    case EnumShipParameter.Dexterity:
-                        return "Dexterity";
-                    default:
-                        return "";
-                }
-            }
-            public string PropertyString(EnumShipParameter prop)
-            {
-                switch(prop)
-                {
-                    case EnumShipParameter.StructurePoints:
-                        return "Fire rate";
-                    case EnumShipParameter.ArmorPoints:
-                        return "Armor points";
-                    case EnumShipParameter.DeflectorPoints:
-                        return "Deflector points";
-                    case EnumShipParameter.DeflectorRegen:
-                        return "Deflector regen";
-                    case EnumShipParameter.ShieldDPS:
-                        return "Shield DPS";
-                    case EnumShipParameter.StructureDPS:
-                        return "Structure DPS";
-                    case EnumShipParameter.Speed:
-                        return "Speed";
-                    case EnumShipParameter.Dexterity:
-                        return "Dexterity";
-                    default:
-                        return "";
-                            
-                }
-            }
-
-            public class Parameter
-            {
-                public EnumShipParameter ParamType { get; set; }
-                public float Value { get; set; }
-                public Parameter(EnumShipParameter p, float value)
-                {
-                    this.ParamType = p;
-                    this.Value = (float)Math.Round(value, 2);
-                }
-            }
-
-            public class DPSCounter
-            {
-                public float ShieldDPS { get; set; }
-                public float StructureDPS { get; set; }
-                public DPSCounter()
-                {
-
-                }
-
-                public void AddWeapon(ref ModuleNodeTag module)
-                {
-                    if(module.FireRate() > 0)
-                    {
-                        if (module.DeflectorsDamage() > 0)
-                        {
-                            ShieldDPS += module.DeflectorsDamage() * ((float)module.FireRate() / 60);
-                        }
-                        if (module.StructureDamage() > 0)
-                        {
-                            StructureDPS += module.StructureDamage() * ((float)module.FireRate() / 60);
-                        }
-                    }
-
-                }
-
-            }
-
-            public class DeflectorsCounter
-            {
-                public int Points { get; set; }
-                public int Recharge { get; set; }
-                public DeflectorsCounter() { }
-
-                public void AddModule(ref ModuleNodeTag tag)
-                {
-                    Points += tag.Deflectors();
-                    Recharge += tag.DeflectorsRegen();
-                }
-
-            }
-
-            public class ThrustersCounter
-            {
-                public int Speed { get; set; }
-                public int Dexterity { get; set; }
-                public ThrustersCounter() { }
-
-                public void AddThruster(ref ModuleNodeTag tag)
-                {
-                    this.Speed += tag.ThrustersSpeed();
-                    Dexterity += tag.ThrustersDexterity();
-                }
-
-            }
-
-            public List<Parameter> GetParameters()
-            {
-                Dictionary<int, ModuleNodeTag> mDict = ModuleNodeTag.CreateModuleDict();
-                List<Parameter> pms = new List<Parameter>();
-                pms.Add(new Parameter(EnumShipParameter.StructurePoints, this.BaseStructureHp));
-
-                DPSCounter dps = new DPSCounter();
-                DeflectorsCounter deflect = new DeflectorsCounter();
-                ThrustersCounter th = new ThrustersCounter();
-
-                int armor = 0;
-
-                foreach(Slot slot in this.slots)
-                {
-                    ModuleNodeTag tag = slot.module(ref mDict);
-                    if(tag != null)
-                    {
-                        dps.AddWeapon(ref tag);
-                        deflect.AddModule(ref tag);
-                        th.AddThruster(ref tag);
-                        armor += tag.Armor();
-                    }
-                }
-                pms.Add(new Parameter(EnumShipParameter.ArmorPoints, armor));
-                pms.Add(new Parameter(EnumShipParameter.DeflectorPoints, deflect.Points));
-                pms.Add(new Parameter(EnumShipParameter.DeflectorRegen, deflect.Recharge));
-                pms.Add(new Parameter(EnumShipParameter.ShieldDPS, dps.ShieldDPS));
-                pms.Add(new Parameter(EnumShipParameter.StructureDPS, dps.StructureDPS));
-                pms.Add(new Parameter(EnumShipParameter.Speed, th.Speed));
-                pms.Add(new Parameter(EnumShipParameter.Dexterity, th.Dexterity));
-                return pms;
-            }
-
         }
-
 
         #endregion
 
@@ -2549,6 +1850,7 @@ namespace AssetEditor
                 return;
             curOfficerType.SaveData();
         }
+
 
 
         #endregion

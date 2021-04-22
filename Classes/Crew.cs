@@ -264,4 +264,16 @@ namespace Crew
 
     }
 
+    public class CrewOfficer
+    {
+        public CrewOfficerType OfficerType { get; set; }
+
+
+        public CrewOfficer(CrewOfficerType officerType)
+        {
+
+        }
+
+    }
+
 }
