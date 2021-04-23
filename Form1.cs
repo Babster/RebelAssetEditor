@@ -977,7 +977,7 @@ namespace AssetEditor
         private void FillModules()
         {
             treeModules.Nodes.Clear();
-            string q = ShipModuleType.ModuleQuery();
+            string q = ShipModuleType.ModuleQuery(true);
 
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
@@ -1008,15 +1008,17 @@ namespace AssetEditor
             {
                 moduleTabDict = new Dictionary<string, TabPage>();
                 moduleTabDict.Add("Weapon", tabWeapon);
-                moduleTabDict.Add("Defence", tabDefence);
+                moduleTabDict.Add("Armor", tabArmor);
                 moduleTabDict.Add("Engine", tabEngine);
                 moduleTabDict.Add("Thrusters", tabThrusters);
-
+                moduleTabDict.Add("Misc", tabMisc);
+                
                 moduleTypeDict = new Dictionary<TabPage, string>();
                 moduleTypeDict.Add(tabWeapon, "Weapon");
-                moduleTypeDict.Add(tabDefence, "Defence");
+                moduleTypeDict.Add(tabArmor, "Armor");
                 moduleTypeDict.Add(tabEngine, "Engine");
                 moduleTypeDict.Add(tabThrusters, "Thrusters");
+                moduleTypeDict.Add(tabMisc, "Misc");
 
             }
 
@@ -1667,14 +1669,111 @@ namespace AssetEditor
 
         #region Ship assemble
 
+        private bool SaModuleFilled;
+
+        private void tabPage14_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage14_Enter(object sender, EventArgs e)
+        {
+            if (SaModuleFilled)
+                return;
+            FillSaModule();
+        }
+
         private void buttonSaUpdate_Click(object sender, EventArgs e)
         {
+            FillSaModule();
+        }
+
+        private void FillSaModule()
+        {
+            //Spaceship models combo
             comboSaShip.Items.Clear();
             List<ShipModel> models = ShipModel.GetModelList();
             foreach (ShipModel model in models)
             {
                 comboSaShip.Items.Add(model);
             }
+
+            //Module types grid
+            gridSaModules.Rows.Clear();
+            List<ShipModuleType> moduleTypes = ShipModuleType.CreateModuleList();
+            if(moduleTypes.Count > 0)
+            {
+                foreach(ShipModuleType moduleType in moduleTypes)
+                {
+                    DataGridViewRow row;
+                    gridSaModules.Rows.Add();
+                    row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
+                    row.Cells["sam_module"].Value = moduleType;
+                    row.Cells["sam_score"].Value = $"{moduleType.MainScore}/{moduleType.SecondaryScore}/{moduleType.ThirdScore}";
+                    row.Cells["sam_energy"].Value = moduleType.EnergyNeeded;
+                }
+            }
+
+
+            SaModuleFilled = true;
+        }
+
+        private ShipModel GetCurrentModel()
+        {
+            if(comboSaShip.SelectedItem == null)
+            {
+                return null;
+            }
+            else
+            {
+                return (ShipModel)comboSaShip.SelectedItem;
+            }
+        }
+
+        private void comboSaShip_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridSaSlots.Rows.Clear();
+            ShipModel curModel = GetCurrentModel();
+            foreach(ShipModel.Slot slot in curModel.slots)
+            {
+                DataGridViewRow row;
+                gridSaSlots.Rows.Add();
+                row = gridSaSlots.Rows[gridSaSlots.Rows.Count - 1];
+                row.Cells["sas_object"].Value = slot;
+                row.Cells["sas_name"].Value = slot.SlotType;
+                row.Cells["sas_content"].Value = null;
+            }
+        }
+
+        private void gridSaModules_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+            DataGridViewRow row = gridSaModules.Rows[e.RowIndex];
+            PlaceModuleToShipSlot(row);
+
+        }
+        private void buttonSaMountModule_Click(object sender, EventArgs e)
+        {
+            if (gridSaModules.SelectedCells.Count == 0)
+                return;
+            DataGridViewRow row = gridSaModules.Rows[gridSaModules.SelectedCells[0].RowIndex];
+            PlaceModuleToShipSlot(row);
+        }
+
+        private void PlaceModuleToShipSlot(DataGridViewRow moduleRow)
+        {
+
+            if (gridSaSlots.SelectedCells.Count == 0)
+                return;
+            DataGridViewRow slotRow = gridSaSlots.Rows[gridSaSlots.SelectedCells[0].RowIndex];
+
+            ShipModuleType module = (ShipModuleType)moduleRow.Cells["sam_module"].Value;
+
+            ShipModel.Slot slot;
+            slot = (ShipModel.Slot)slotRow.Cells["sas_object"].Value;
+
+            
+
         }
 
         #endregion
@@ -1850,6 +1949,9 @@ namespace AssetEditor
                 return;
             curOfficerType.SaveData();
         }
+
+
+
 
 
 

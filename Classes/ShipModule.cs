@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 public  class ShipModuleType
 {
@@ -17,6 +18,8 @@ public  class ShipModuleType
     public int MainScore { get; set; }
     public int SecondaryScore { get; set; }
     public int ThirdScore { get; set; }
+    public List<ModuleProperty> ModuleProperties { get; set; }
+    
 
     public enum EnumModuleType
     {
@@ -133,7 +136,7 @@ public  class ShipModuleType
 
         Dictionary<int, ShipModuleType> tags = new Dictionary<int, ShipModuleType>();
 
-        string q = ModuleQuery();
+        string q = ModuleQuery(false);
         SqlDataReader r = DataConnection.GetReader(q);
         if (r.HasRows)
         {
@@ -147,7 +150,25 @@ public  class ShipModuleType
         return tags;
     }
 
-    public static string ModuleQuery()
+    public static List<ShipModuleType> CreateModuleList()
+    {
+        List<ShipModuleType> moduleTypes = new List<ShipModuleType>();
+
+        string q = ModuleQuery(false);
+        SqlDataReader r = DataConnection.GetReader(q);
+        if (r.HasRows)
+        {
+            while (r.Read())
+            {
+                ShipModuleType moduleType = new ShipModuleType(ref r);
+                moduleTypes.Add(moduleType);
+            }
+        }
+        r.Close();
+        return moduleTypes;
+    }
+
+    public static string ModuleQuery(bool includeGroups)
     {
         string q = @"
                 SELECT 
@@ -160,18 +181,25 @@ public  class ShipModuleType
                     energy_needed,
                     main_score,
                     secondary_score,
-                    third_score
+                    third_score,
+                    ISNULL(params_structure, '') AS params_structure
                 FROM
                     ss_modules
-                --WHERE
-                --    parent = 0
                     ";
+
+        if(includeGroups)
+        {
+            q = q + @"
+                WHERE
+                    is_category = 0";
+        }
+
         return q;
     }
 
     #region Specific modules properties
 
-    public enum enumSpecificProperty
+    public enum enumModuleProperty
     {
         FireRate = 1,
         DeflectorsDamage = 2,
@@ -184,63 +212,68 @@ public  class ShipModuleType
         ThrustersDexterity = 9
     }
 
-    public int SpecificPropertiesCount() { return 9; }
+    public class ModuleProperty
+    {
+        public enumModuleProperty PropertyType { get; set; }
+        public int PropertyValue { get; set; }
+    }
 
-    public String PropertyToString(enumSpecificProperty prop)
+    
+    public String PropertyToString(enumModuleProperty prop)
     {
         switch (prop)
         {
-            case enumSpecificProperty.FireRate:
+            case enumModuleProperty.FireRate:
                 return "Fire rate";
-            case enumSpecificProperty.DeflectorsDamage:
+            case enumModuleProperty.DeflectorsDamage:
                 return "Deflectors damage";
-            case enumSpecificProperty.StructureDamage:
+            case enumModuleProperty.StructureDamage:
                 return "Structure damage";
-            case enumSpecificProperty.Deflectors:
+            case enumModuleProperty.Deflectors:
                 return "Deflectors";
-            case enumSpecificProperty.DeflectorsRegen:
+            case enumModuleProperty.DeflectorsRegen:
                 return "Deflectors regen";
-            case enumSpecificProperty.Armor:
+            case enumModuleProperty.Armor:
                 return "Armor";
-            case enumSpecificProperty.Engine:
+            case enumModuleProperty.Engine:
                 return "Engine";
-            case enumSpecificProperty.ThrustersSpeed:
+            case enumModuleProperty.ThrustersSpeed:
                 return "Speed";
-            case enumSpecificProperty.ThrustersDexterity:
+            case enumModuleProperty.ThrustersDexterity:
                 return "Dexterity";
             default:
                 return "error: unknown module type";
         }
     }
 
-    public int PropertyValue(enumSpecificProperty prop)
+    public int PropertyValue(enumModuleProperty prop)
     {
         switch (prop)
         {
-            case enumSpecificProperty.FireRate:
+            case enumModuleProperty.FireRate:
                 return FireRate();
-            case enumSpecificProperty.DeflectorsDamage:
+            case enumModuleProperty.DeflectorsDamage:
                 return DeflectorsDamage();
-            case enumSpecificProperty.StructureDamage:
+            case enumModuleProperty.StructureDamage:
                 return StructureDamage();
-            case enumSpecificProperty.Deflectors:
+            case enumModuleProperty.Deflectors:
                 return Deflectors();
-            case enumSpecificProperty.DeflectorsRegen:
+            case enumModuleProperty.DeflectorsRegen:
                 return DeflectorsRegen();
-            case enumSpecificProperty.Armor:
+            case enumModuleProperty.Armor:
                 return Armor();
-            case enumSpecificProperty.Engine:
+            case enumModuleProperty.Engine:
                 return Engine();
-            case enumSpecificProperty.ThrustersSpeed:
+            case enumModuleProperty.ThrustersSpeed:
                 return ThrustersSpeed();
-            case enumSpecificProperty.ThrustersDexterity:
+            case enumModuleProperty.ThrustersDexterity:
                 return ThrustersDexterity();
             default:
                 return 0;
         }
     }
 
-    public int FireRate()
+    private int FireRate()
     {
         if (eType() == EnumModuleType.Weapon)
         {
@@ -252,7 +285,7 @@ public  class ShipModuleType
         }
     }
 
-    public int DeflectorsDamage()
+    private int DeflectorsDamage()
     {
         if (eType() == EnumModuleType.Weapon)
         {
@@ -264,7 +297,7 @@ public  class ShipModuleType
         }
     }
 
-    public int StructureDamage()
+    private int StructureDamage()
     {
         if (eType() == EnumModuleType.Weapon)
         {
@@ -276,7 +309,7 @@ public  class ShipModuleType
         }
     }
 
-    public int Deflectors()
+    private int Deflectors()
     {
         if (eType() == EnumModuleType.Defence)
         {
@@ -288,7 +321,7 @@ public  class ShipModuleType
         }
     }
 
-    public int DeflectorsRegen()
+    private int DeflectorsRegen()
     {
         if (eType() == EnumModuleType.Defence)
         {
@@ -300,7 +333,7 @@ public  class ShipModuleType
         }
     }
 
-    public int Armor()
+    private int Armor()
     {
         if (eType() == EnumModuleType.Defence)
         {
@@ -312,7 +345,7 @@ public  class ShipModuleType
         }
     }
 
-    public int Engine()
+    private int Engine()
     {
         if (eType() == EnumModuleType.Engine)
         {
@@ -324,7 +357,7 @@ public  class ShipModuleType
         }
     }
 
-    public int ThrustersSpeed()
+    private int ThrustersSpeed()
     {
         if (eType() == EnumModuleType.Thrusters)
         {
@@ -336,7 +369,7 @@ public  class ShipModuleType
         }
     }
 
-    public int ThrustersDexterity()
+    private int ThrustersDexterity()
     {
         if (eType() == EnumModuleType.Thrusters)
         {

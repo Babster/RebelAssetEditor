@@ -55,6 +55,7 @@
     <Compile Include="Classes\DataConnection.cs" />
     <Compile Include="Classes\ShipModel.cs" />
     <Compile Include="Classes\ShipModule.cs" />
+    <Compile Include="Classes\SpaceshipParameters.cs" />
     <Compile Include="Classes\StoryClasses.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -88,6 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

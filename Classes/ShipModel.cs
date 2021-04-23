@@ -192,6 +192,11 @@ public class ShipModel
             }
         }
 
+        public bool ModuleFitsSlot(ShipModuleType module)
+        {
+            return true;
+        }
+
     }
 
     public enum EnumShipParameter
