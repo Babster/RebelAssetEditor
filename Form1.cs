@@ -1074,7 +1074,7 @@ namespace AssetEditor
             textModuleId.Text = tag.Id.ToString();
             textName.Text = tag.Name;
             textModuleUnity.Text = tag.AssetName;
-            textModuleType.Text = tag.ModuleType;
+            textModuleType.Text = tag.ModuleTypeStr;
             textModuleEnergy.Text = tag.EnergyNeeded.ToString();
 
             if(tag.IsCategory==1)
@@ -1083,12 +1083,12 @@ namespace AssetEditor
                 return;
             }
 
-            if (string.IsNullOrEmpty(tag.ModuleType))
-                tag.ModuleType = "Weapon";
+            if (string.IsNullOrEmpty(tag.ModuleTypeStr))
+                tag.ModuleTypeStr = "Weapon";
             
             NoEvents = false;
 
-            tabControlModule.SelectedTab = moduleTabDict[tag.ModuleType];
+            tabControlModule.SelectedTab = moduleTabDict[tag.ModuleTypeStr];
             FillModuleTab();
         }
 
@@ -1176,30 +1176,32 @@ namespace AssetEditor
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
-            tag.ModuleType = textModuleType.Text;
+            tag.ModuleTypeStr = textModuleType.Text;
 
             ClearModuleTabs();
 
             NoEvents = true;
 
-            switch (tag.ModuleType)
+            switch (tag.ModuleTypeStr)
             {
                 case "Weapon":
-                    textModuleFireRate.Text = tag.MainScore.ToString();
-                    textModuleDeflectorDamage.Text = tag.SecondaryScore.ToString();
-                    textModuleStructureDamage.Text = tag.ThirdScore.ToString();
+                    textModuleFireRate.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.FireRate).ToString();
+                    textModuleDeflectorDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorsDamage).ToString();
+                    textModuleStructureDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureDamage).ToString();
                     break;
-                case "Defence":
-                    textModuleDeflectors.Text = tag.MainScore.ToString();
-                    textModuleDeflectorsRegen.Text = tag.SecondaryScore.ToString();
-                    textModuleArmor.Text = tag.ThirdScore.ToString();
+                case "Armor":
+                    textModuleArmor.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ArmorPoints).ToString();
                     break;
                 case "Engine":
-                    textModuleEngine.Text = tag.MainScore.ToString();
+                    textModuleEngine.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Engine).ToString();
                     break;
                 case "Thrusters":
-                    textModuleSpeed.Text = tag.MainScore.ToString();
-                    textDexterity.Text = tag.SecondaryScore.ToString();
+                    textModuleSpeed.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Speed).ToString();
+                    textDexterity.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Dexterity).ToString();
+                    break;
+                case "Misc":
+                    textModuleDeflectors.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorPoints).ToString();
+                    textModuleDeflectorsRegen.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorRegen).ToString();
                     break;
             }
             NoEvents = false;
@@ -1226,7 +1228,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleFireRate.Text, out tNumber);
-            tag.MainScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.FireRate, tNumber);
         }
 
         private void textModuleDeflectorDamage_TextChanged(object sender, EventArgs e)
@@ -1238,7 +1240,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectorDamage.Text, out tNumber);
-            tag.SecondaryScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorsDamage, tNumber);
         }
 
         private void textModuleStructureDamage_TextChanged(object sender, EventArgs e)
@@ -1250,7 +1252,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleStructureDamage.Text, out tNumber);
-            tag.ThirdScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.StructureDamage, tNumber);
         }
 
         private void textModuleDeflectors_TextChanged(object sender, EventArgs e)
@@ -1262,7 +1264,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectors.Text, out tNumber);
-            tag.MainScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorPoints, tNumber);
         }
 
         private void textModuleDeflectorsRegen_TextChanged(object sender, EventArgs e)
@@ -1274,7 +1276,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectorsRegen.Text, out tNumber);
-            tag.SecondaryScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorRegen, tNumber);
         }
 
         private void textModuleArmor_TextChanged(object sender, EventArgs e)
@@ -1286,7 +1288,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleArmor.Text, out tNumber);
-            tag.ThirdScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ArmorPoints, tNumber);
         }
 
         private void textModuleEngine_TextChanged(object sender, EventArgs e)
@@ -1298,7 +1300,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleEngine.Text, out tNumber);
-            tag.MainScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Engine, tNumber);
         }
 
         private void textModuleSpeed_TextChanged(object sender, EventArgs e)
@@ -1310,7 +1312,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleSpeed.Text, out tNumber);
-            tag.MainScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Speed, tNumber);
         }
 
         private void textDexterity_TextChanged(object sender, EventArgs e)
@@ -1322,10 +1324,8 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textDexterity.Text, out tNumber);
-            tag.SecondaryScore = tNumber;
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Dexterity, tNumber);
         }
-
-
 
         #endregion
 
@@ -1636,22 +1636,22 @@ namespace AssetEditor
 
         private void FillShipParameters()
         {
-            ShipModel tag = GetCurrentShipTag();
-            if (tag == null)
-                return;
-            List<ShipModel.Parameter> param = tag.GetParameters();
-            gridShipParameters.Rows.Clear();
-            if (param.Count > 0)
-            {
-                for (int i = 0; i < param.Count; i++)
-                {
-                    DataGridViewRow row;
-                    gridShipParameters.Rows.Add();
-                    row = gridShipParameters.Rows[i];
-                    row.Cells["sp_name"].Value = ShipModel.ParameterName(param[i].ParamType);
-                    row.Cells["sp_value"].Value = param[i].Value;
-                }
-            }
+            //ShipModel tag = GetCurrentShipTag();
+            //if (tag == null)
+            //    return;
+            //List<ShipModel.Parameter> param = tag.GetParameters();
+            //gridShipParameters.Rows.Clear();
+            //if (param.Count > 0)
+            //{
+            //    for (int i = 0; i < param.Count; i++)
+            //    {
+            //        DataGridViewRow row;
+            //        gridShipParameters.Rows.Add();
+            //        row = gridShipParameters.Rows[i];
+            //        row.Cells["sp_name"].Value = ShipModel.ParameterName(param[i].ParamType);
+            //        row.Cells["sp_value"].Value = param[i].Value;
+            //    }
+            //}
         }
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
@@ -1708,7 +1708,7 @@ namespace AssetEditor
                     gridSaModules.Rows.Add();
                     row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
                     row.Cells["sam_module"].Value = moduleType;
-                    row.Cells["sam_score"].Value = $"{moduleType.MainScore}/{moduleType.SecondaryScore}/{moduleType.ThirdScore}";
+                    row.Cells["sam_score"].Value = moduleType.ToString();
                     row.Cells["sam_energy"].Value = moduleType.EnergyNeeded;
                 }
             }
@@ -1949,6 +1949,7 @@ namespace AssetEditor
                 return;
             curOfficerType.SaveData();
         }
+
 
 
 

@@ -54,7 +54,7 @@
     <Compile Include="Classes\CommonFunctions.cs" />
     <Compile Include="Classes\DataConnection.cs" />
     <Compile Include="Classes\ShipModel.cs" />
-    <Compile Include="Classes\ShipModule.cs" />
+    <Compile Include="Classes\ShipModuleType.cs" />
     <Compile Include="Classes\SpaceshipParameters.cs" />
     <Compile Include="Classes\StoryClasses.cs" />
     <Compile Include="Form1.cs">
