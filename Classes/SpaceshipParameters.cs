@@ -10,6 +10,14 @@ public class SpaceshipParameters
 
     public List<ParameterAndValue> ParameterList { get; set; }
 
+    public int Count
+    {
+        get
+        {
+            return ParameterList.Count;
+        }
+    }
+
     public SpaceshipParameters() 
     {
         ParameterList = new List<ParameterAndValue>();
@@ -128,9 +136,43 @@ public class SpaceshipParameters
 
     }
     
-      public string ToDbString()
+    public string ToDbString()
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
+    }
+
+    public void AddShipModelParameters(ShipModel model)
+    {
+        AddParameter(SpaceShipParameter.StructureHitpoints, model.BaseStructureHp);
+    }
+
+    public void AddModuleParameters(ShipModuleType module)
+    {
+        foreach(ParameterAndValue param in module.parameters.ParameterList)
+        {
+            if(param.Value > 0)
+            {
+                this.AddParameter(param.ParamType, param.Value);
+                if(param.ParamType == SpaceShipParameter.DeflectorsDamage)
+                {
+                    this.AddParameter(SpaceShipParameter.ShieldDPS, CalculateDPS(module.parameters, param));
+                }
+                if(param.ParamType == SpaceShipParameter.StructureDamage)
+                {
+                    this.AddParameter(SpaceShipParameter.StructureDPS, CalculateDPS(module.parameters, param));
+                }
+            }
+        }
+    }
+
+    private int CalculateDPS(SpaceshipParameters parameters, ParameterAndValue curParameter)
+    {
+        double DPS = 0;
+        double fireRate = parameters.ParameterValue(SpaceShipParameter.FireRate);
+        double secondsInMinute = 60; //В редакторе Fire rate указывается как количество выстрелов в минуту
+        double deflectorsDamage = curParameter.Value;
+        DPS = deflectorsDamage * fireRate / secondsInMinute;
+        return Convert.ToInt32(DPS);
     }
 
     public override string ToString()
@@ -139,11 +181,13 @@ public class SpaceshipParameters
         bool stringStarted = false;
         foreach(ParameterAndValue param in this.ParameterList)
         {
-            if (stringStarted)
-                t.Append("/");
+
             if(param.Value > 0)
             {
+                if (stringStarted)
+                    t.Append("/");
                 t.Append(param.Value.ToString());
+                stringStarted = true;
             }
         }
         return t.ToString();

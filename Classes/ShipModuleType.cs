@@ -13,6 +13,7 @@ public  class ShipModuleType
     public int Parent { get; set; }
     public string Name { get; set; }
     public string ModuleTypeStr { get; set; }
+    public int Size { get; set; }
     public string AssetName { get; set; }
     public int EnergyNeeded { get; set; }
     public SpaceshipParameters parameters { get; set; }
@@ -68,7 +69,7 @@ public  class ShipModuleType
         }
 
         parameters = new SpaceshipParameters();
-
+        Size = 1;
     }
 
     public ShipModuleType(ref SqlDataReader r)
@@ -78,6 +79,7 @@ public  class ShipModuleType
         this.Parent = Convert.ToInt32(r["parent"]);
         this.Name = Convert.ToString(r["name"]);
         this.ModuleTypeStr = Convert.ToString(r["module_type"]);
+        this.Size = Convert.ToInt32(r["size"]);
         this.AssetName = Convert.ToString(r["asset_name"]);
         this.EnergyNeeded = Convert.ToInt32(r["energy_needed"]);
 
@@ -85,7 +87,8 @@ public  class ShipModuleType
 
         if(!String.IsNullOrEmpty(paramStr))
             this.parameters = SpaceshipParameters.CreateFromString(paramStr);
-
+        if (Size < 1)
+            Size = 1;
     }
 
     public void SaveData()
@@ -98,13 +101,14 @@ public  class ShipModuleType
             this.Id = Convert.ToInt32(DataConnection.GetResult(q));
 
         }
-        q = @"UPDATE ss_modules SET 
-                        is_category = " + this.IsCategory.ToString() + @",
-                        parent = " + this.Parent.ToString() + @",
+        q = $@"UPDATE ss_modules SET 
+                        is_category = {IsCategory},
+                        parent = {Parent},
                         name = @str1,
                         asset_name = @str2,
                         module_type = @str3,
-                        energy_needed = " + this.EnergyNeeded + @",
+                        size = {Size},
+                        energy_needed = {EnergyNeeded},
                         params_structure = @str4
                     WHERE id = " + this.Id.ToString();
 
@@ -157,6 +161,23 @@ public  class ShipModuleType
         return tags;
     }
 
+    private static Dictionary<int, ShipModuleType> pModuleDict;
+    public static ShipModuleType ModuleById(int ShipModuleId)
+    {
+        if (pModuleDict == null)
+            pModuleDict = CreateModuleDict();
+
+        if(pModuleDict.ContainsKey(ShipModuleId))
+        {
+            return pModuleDict[ShipModuleId];
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
     public static List<ShipModuleType> CreateModuleList()
     {
         List<ShipModuleType> moduleTypes = new List<ShipModuleType>();
@@ -185,6 +206,7 @@ public  class ShipModuleType
                     name,
                     asset_name,
                     module_type,
+                    ISNULL(size, 1) AS size,
                     energy_needed,
                     ISNULL(params_structure, '') AS params_structure
                 FROM
@@ -214,4 +236,5 @@ public  class ShipModuleType
     {
         parameters.SetParameter(paramType, Value);
     }
+
 }

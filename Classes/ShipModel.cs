@@ -50,6 +50,8 @@ public class ShipModel
                     ss_design_id,
                     slot_number,
                     slot_type,
+                    ISNULL(slot_control, '') AS slot_control, 
+                    ISNULL(size, 1) AS size,
                     default_module_id
                 FROM
                     ss_designs_slots
@@ -138,12 +140,15 @@ public class ShipModel
         public int Id { get; set; }
         public int ShipDesignId { get; set; }
         public int SlotNumber { get; set; }
-        public string SlotType { get; set; }
+        public string SlotTypeStr { get; set; }
+        public int Size { get; set; }
+        public string SlotControl { get; set; }
         public int DefaultModuleId { get; set; }
 
         public Slot(int SlotNumber)
         {
             this.SlotNumber = SlotNumber;
+            this.Size = 1;
         }
 
         public Slot(ref SqlDataReader r)
@@ -151,13 +156,17 @@ public class ShipModel
             Id = Convert.ToInt32(r["Id"]);
             ShipDesignId = Convert.ToInt32(r["ss_design_id"]);
             SlotNumber = Convert.ToInt32(r["slot_number"]);
-            SlotType = Convert.ToString(r["slot_type"]);
+            SlotTypeStr = Convert.ToString(r["slot_type"]);
+            Size = Convert.ToInt32(r["size"]);
+            SlotControl = Convert.ToString(r["slot_control"]);
             DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
+            if (Size < 1)
+                Size = 1;
         }
 
         public override string ToString()
         {
-            return SlotType + " (" + SlotNumber + "/" + Id + ")";
+            return SlotTypeStr + " (" + SlotNumber + "/" + Id + ")";
         }
 
         public void SaveData()
@@ -170,13 +179,15 @@ public class ShipModel
                 Id = DataConnection.GetResultInt(q);
             }
 
-            q = @"
+            q = $@"
                     UPDATE ss_designs_slots SET
-                        slot_number = " + SlotNumber + @", 
-                        slot_type = @str1, 
-                        default_module_id = " + DefaultModuleId + @"
-                    WHERE id = " + Id.ToString();
-            List<string> names = new List<string> { SlotType };
+                        slot_number = {SlotNumber}, 
+                        slot_type = @str1,
+                        size = {Size},
+                        slot_control = @str2,
+                        default_module_id = {DefaultModuleId}
+                    WHERE id = {Id}";
+            List<string> names = new List<string> { SlotTypeStr, SlotControl };
             DataConnection.Execute(q, names);
         }
 
@@ -192,9 +203,72 @@ public class ShipModel
             }
         }
 
-        public bool ModuleFitsSlot(ShipModuleType module)
+        public enum SlotType
         {
-            return true;
+            None = 0,
+            Weapon = 1,
+            Armor = 2,
+            Engine = 3,
+            Thrusters = 4,
+            Misc = 5,
+            Cabin = 20,
+            ExtendedCabin = 21,
+            ControlRoom = 22,
+            ExtendedControlRoom = 23
+        }
+
+        private static Dictionary<string, SlotType> StringToSlotDict;
+        private static Dictionary<SlotType, string> SlotToStringDict;
+        private void FillDicts()
+        {
+            StringToSlotDict = new Dictionary<string, SlotType>();
+            StringToSlotDict.Add("None", SlotType.None);
+            StringToSlotDict.Add("Weapon", SlotType.Weapon);
+            StringToSlotDict.Add("Armor", SlotType.Armor);
+            StringToSlotDict.Add("Engine", SlotType.Engine);
+            StringToSlotDict.Add("Thrusters", SlotType.Thrusters);
+            StringToSlotDict.Add("Misc", SlotType.Misc);
+            StringToSlotDict.Add("Cabin", SlotType.Cabin);
+            StringToSlotDict.Add("ExtendedCabin", SlotType.ExtendedCabin);
+            StringToSlotDict.Add("ControlRoom", SlotType.ControlRoom);
+            StringToSlotDict.Add("ExtendedControlRoom", SlotType.ExtendedControlRoom);
+
+            SlotToStringDict = new Dictionary<SlotType, string>();
+            SlotToStringDict.Add(SlotType.None, "None");
+            SlotToStringDict.Add(SlotType.Weapon, "Weapon");
+            SlotToStringDict.Add(SlotType.Armor, "Armor");
+            SlotToStringDict.Add(SlotType.Engine, "Engine");
+            SlotToStringDict.Add(SlotType.Thrusters, "Thrusters");
+            SlotToStringDict.Add(SlotType.Misc, "Misc");
+            SlotToStringDict.Add(SlotType.Cabin, "Cabin");
+            SlotToStringDict.Add(SlotType.ExtendedCabin, "ExtendedCabin");
+            SlotToStringDict.Add(SlotType.ControlRoom, "ControlRoom");
+            SlotToStringDict.Add(SlotType.ExtendedControlRoom, "ExtendedControlRoom");
+
+        }
+        public SlotType sType 
+        { 
+            get
+            {
+                if (StringToSlotDict == null)
+                    FillDicts();
+                return StringToSlotDict[SlotTypeStr];
+            }
+            set
+            {
+                if (StringToSlotDict == null)
+                    FillDicts();
+                SlotTypeStr = SlotToStringDict[value];
+            }
+        }
+
+        public string ModuleFitsSlot(ShipModuleType module)
+        {
+            if ((int)module.ModuleTypeFromStr() != (int)this.sType)
+                return "Slot type doesn't fit module type";
+            if (module.Size != this.Size)
+                return "Slot size is too small";
+            return "";
         }
 
     }
@@ -229,6 +303,34 @@ public class ShipModel
         }
         r.Close();
         return modelList;
+    }
+
+    public static Dictionary<int, ShipModel> GetModelDict()
+    {
+        List<ShipModel> list = GetModelList();
+        Dictionary<int, ShipModel> mDict = new Dictionary<int, ShipModel>();
+        foreach(ShipModel model in list)
+        {
+            mDict.Add(model.Id, model);
+        }
+        return mDict;
+    }
+
+    private static Dictionary<int, ShipModel> pModels;
+    public static ShipModel ModelById(int id)
+    {
+        if(pModels == null)
+        {
+            pModels = GetModelDict();
+        }
+        if(pModels.ContainsKey(id))
+        {
+            return pModels[id];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public override string ToString()

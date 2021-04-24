@@ -93,20 +93,21 @@
             this.treeStats = new System.Windows.Forms.TreeView();
             this.buttonCreateStat = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonClearPlayerProgress = new System.Windows.Forms.Button();
             this.buttonTestPlayerStats = new System.Windows.Forms.Button();
             this.buttonRegisterAccount = new System.Windows.Forms.Button();
             this.buttonDeleteAccount = new System.Windows.Forms.Button();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioModule3 = new System.Windows.Forms.RadioButton();
+            this.radioModule2 = new System.Windows.Forms.RadioButton();
+            this.radioModule1 = new System.Windows.Forms.RadioButton();
+            this.label50 = new System.Windows.Forms.Label();
             this.textModuleId = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
-            this.textModuleDeflectorsRegen = new System.Windows.Forms.TextBox();
             this.textModuleEnergy = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.textModuleDeflectors = new System.Windows.Forms.TextBox();
             this.textModuleUnity = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -133,6 +134,10 @@
             this.textModuleSpeed = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.textModuleDeflectors = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textModuleDeflectorsRegen = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.buttonSsAddItem = new System.Windows.Forms.Button();
             this.buttonSsAddCategory = new System.Windows.Forms.Button();
             this.treeModules = new System.Windows.Forms.TreeView();
@@ -140,6 +145,13 @@
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label49 = new System.Windows.Forms.Label();
+            this.textShipSlotControl = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.radioSize3 = new System.Windows.Forms.RadioButton();
+            this.radioSize2 = new System.Windows.Forms.RadioButton();
+            this.radioSize1 = new System.Windows.Forms.RadioButton();
+            this.label47 = new System.Windows.Forms.Label();
             this.buttonReloadShipGrid = new System.Windows.Forms.Button();
             this.gridShipParameters = new System.Windows.Forms.DataGridView();
             this.sp_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -185,14 +197,16 @@
             this.buttonSaMountModule = new System.Windows.Forms.Button();
             this.gridSaModules = new System.Windows.Forms.DataGridView();
             this.sam_module = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sam_score = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sam_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sam_energy_needed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage16 = new System.Windows.Forms.TabPage();
+            this.buttonSaDeleteOfficer = new System.Windows.Forms.Button();
             this.gridSaOfficer = new System.Windows.Forms.DataGridView();
             this.listSaOfficers = new System.Windows.Forms.ListBox();
             this.comboSaOfficers = new System.Windows.Forms.ComboBox();
             this.buttonSaCreateOfficer = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
-            this.buttonSaUpdate = new System.Windows.Forms.Button();
+            this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
@@ -213,6 +227,8 @@
             this.treeOfficerTypes = new System.Windows.Forms.TreeView();
             this.tabPage12 = new System.Windows.Forms.TabPage();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.sao_stat_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sao_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -967,6 +983,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.buttonClearPlayerProgress);
             this.tabPage6.Controls.Add(this.buttonTestPlayerStats);
             this.tabPage6.Controls.Add(this.buttonRegisterAccount);
             this.tabPage6.Controls.Add(this.buttonDeleteAccount);
@@ -975,8 +992,18 @@
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage6.Size = new System.Drawing.Size(1233, 517);
             this.tabPage6.TabIndex = 3;
-            this.tabPage6.Text = "Тесты API";
+            this.tabPage6.Text = "Служебная";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // buttonClearPlayerProgress
+            // 
+            this.buttonClearPlayerProgress.Location = new System.Drawing.Point(183, 6);
+            this.buttonClearPlayerProgress.Name = "buttonClearPlayerProgress";
+            this.buttonClearPlayerProgress.Size = new System.Drawing.Size(239, 31);
+            this.buttonClearPlayerProgress.TabIndex = 3;
+            this.buttonClearPlayerProgress.Text = "Стереть прогресс игрока";
+            this.buttonClearPlayerProgress.UseVisualStyleBackColor = true;
+            this.buttonClearPlayerProgress.Click += new System.EventHandler(this.buttonClearPlayerProgress_Click);
             // 
             // buttonTestPlayerStats
             // 
@@ -1026,6 +1053,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.radioModule3);
+            this.groupBox3.Controls.Add(this.radioModule2);
+            this.groupBox3.Controls.Add(this.radioModule1);
+            this.groupBox3.Controls.Add(this.label50);
             this.groupBox3.Controls.Add(this.textModuleId);
             this.groupBox3.Controls.Add(this.label33);
             this.groupBox3.Controls.Add(this.textModuleEnergy);
@@ -1045,6 +1076,51 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Редактирование модуля";
             // 
+            // radioModule3
+            // 
+            this.radioModule3.AutoSize = true;
+            this.radioModule3.Location = new System.Drawing.Point(616, 106);
+            this.radioModule3.Name = "radioModule3";
+            this.radioModule3.Size = new System.Drawing.Size(36, 24);
+            this.radioModule3.TabIndex = 45;
+            this.radioModule3.TabStop = true;
+            this.radioModule3.Text = "3";
+            this.radioModule3.UseVisualStyleBackColor = true;
+            this.radioModule3.CheckedChanged += new System.EventHandler(this.radioModule3_CheckedChanged);
+            // 
+            // radioModule2
+            // 
+            this.radioModule2.AutoSize = true;
+            this.radioModule2.Location = new System.Drawing.Point(574, 106);
+            this.radioModule2.Name = "radioModule2";
+            this.radioModule2.Size = new System.Drawing.Size(36, 24);
+            this.radioModule2.TabIndex = 44;
+            this.radioModule2.TabStop = true;
+            this.radioModule2.Text = "2";
+            this.radioModule2.UseVisualStyleBackColor = true;
+            this.radioModule2.CheckedChanged += new System.EventHandler(this.radioModule2_CheckedChanged);
+            // 
+            // radioModule1
+            // 
+            this.radioModule1.AutoSize = true;
+            this.radioModule1.Location = new System.Drawing.Point(532, 106);
+            this.radioModule1.Name = "radioModule1";
+            this.radioModule1.Size = new System.Drawing.Size(36, 24);
+            this.radioModule1.TabIndex = 43;
+            this.radioModule1.TabStop = true;
+            this.radioModule1.Text = "1";
+            this.radioModule1.UseVisualStyleBackColor = true;
+            this.radioModule1.CheckedChanged += new System.EventHandler(this.radioModule1_CheckedChanged);
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(457, 108);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(69, 20);
+            this.label50.TabIndex = 42;
+            this.label50.Text = "Размер:";
+            // 
             // textModuleId
             // 
             this.textModuleId.Location = new System.Drawing.Point(167, 27);
@@ -1062,14 +1138,6 @@
             this.label33.TabIndex = 13;
             this.label33.Text = "Id:";
             // 
-            // textModuleDeflectorsRegen
-            // 
-            this.textModuleDeflectorsRegen.Location = new System.Drawing.Point(263, 45);
-            this.textModuleDeflectorsRegen.Name = "textModuleDeflectorsRegen";
-            this.textModuleDeflectorsRegen.Size = new System.Drawing.Size(100, 26);
-            this.textModuleDeflectorsRegen.TabIndex = 9;
-            this.textModuleDeflectorsRegen.TextChanged += new System.EventHandler(this.textModuleDeflectorsRegen_TextChanged);
-            // 
             // textModuleEnergy
             // 
             this.textModuleEnergy.Location = new System.Drawing.Point(138, 105);
@@ -1077,15 +1145,6 @@
             this.textModuleEnergy.Size = new System.Drawing.Size(100, 26);
             this.textModuleEnergy.TabIndex = 12;
             this.textModuleEnergy.TextChanged += new System.EventHandler(this.textModuleEnergy_TextChanged);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(6, 48);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(251, 20);
-            this.label26.TabIndex = 8;
-            this.label26.Text = "Восстановление дефлекторов:";
             // 
             // label21
             // 
@@ -1096,14 +1155,6 @@
             this.label21.TabIndex = 11;
             this.label21.Text = "Потребление:";
             // 
-            // textModuleDeflectors
-            // 
-            this.textModuleDeflectors.Location = new System.Drawing.Point(263, 12);
-            this.textModuleDeflectors.Name = "textModuleDeflectors";
-            this.textModuleDeflectors.Size = new System.Drawing.Size(100, 26);
-            this.textModuleDeflectors.TabIndex = 7;
-            this.textModuleDeflectors.TextChanged += new System.EventHandler(this.textModuleDeflectors_TextChanged);
-            // 
             // textModuleUnity
             // 
             this.textModuleUnity.Location = new System.Drawing.Point(574, 68);
@@ -1112,15 +1163,6 @@
             this.textModuleUnity.Size = new System.Drawing.Size(285, 26);
             this.textModuleUnity.TabIndex = 10;
             this.textModuleUnity.TextChanged += new System.EventHandler(this.textModuleUnity_TextChanged);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(6, 15);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(203, 20);
-            this.label27.TabIndex = 6;
-            this.label27.Text = "Мощность дефлекторов:";
             // 
             // label20
             // 
@@ -1377,6 +1419,40 @@
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
+            // textModuleDeflectors
+            // 
+            this.textModuleDeflectors.Location = new System.Drawing.Point(263, 12);
+            this.textModuleDeflectors.Name = "textModuleDeflectors";
+            this.textModuleDeflectors.Size = new System.Drawing.Size(100, 26);
+            this.textModuleDeflectors.TabIndex = 7;
+            this.textModuleDeflectors.TextChanged += new System.EventHandler(this.textModuleDeflectors_TextChanged);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 15);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(203, 20);
+            this.label27.TabIndex = 6;
+            this.label27.Text = "Мощность дефлекторов:";
+            // 
+            // textModuleDeflectorsRegen
+            // 
+            this.textModuleDeflectorsRegen.Location = new System.Drawing.Point(263, 45);
+            this.textModuleDeflectorsRegen.Name = "textModuleDeflectorsRegen";
+            this.textModuleDeflectorsRegen.Size = new System.Drawing.Size(100, 26);
+            this.textModuleDeflectorsRegen.TabIndex = 9;
+            this.textModuleDeflectorsRegen.TextChanged += new System.EventHandler(this.textModuleDeflectorsRegen_TextChanged);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 48);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(251, 20);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "Восстановление дефлекторов:";
+            // 
             // buttonSsAddItem
             // 
             this.buttonSsAddItem.Location = new System.Drawing.Point(137, 6);
@@ -1449,6 +1525,13 @@
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.label49);
+            this.groupBox5.Controls.Add(this.textShipSlotControl);
+            this.groupBox5.Controls.Add(this.label48);
+            this.groupBox5.Controls.Add(this.radioSize3);
+            this.groupBox5.Controls.Add(this.radioSize2);
+            this.groupBox5.Controls.Add(this.radioSize1);
+            this.groupBox5.Controls.Add(this.label47);
             this.groupBox5.Controls.Add(this.buttonReloadShipGrid);
             this.groupBox5.Controls.Add(this.gridShipParameters);
             this.groupBox5.Controls.Add(this.buttonSaveShip);
@@ -1478,10 +1561,82 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 466);
+            this.groupBox5.Size = new System.Drawing.Size(947, 473);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(672, 164);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(223, 20);
+            this.label49.TabIndex = 44;
+            this.label49.Text = "Коды слотов через запятую";
+            // 
+            // textShipSlotControl
+            // 
+            this.textShipSlotControl.Location = new System.Drawing.Point(449, 161);
+            this.textShipSlotControl.MaxLength = 50;
+            this.textShipSlotControl.Name = "textShipSlotControl";
+            this.textShipSlotControl.Size = new System.Drawing.Size(206, 26);
+            this.textShipSlotControl.TabIndex = 43;
+            this.textShipSlotControl.TextChanged += new System.EventHandler(this.textShipSlotControl_TextChanged);
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(331, 164);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(105, 20);
+            this.label48.TabIndex = 42;
+            this.label48.Text = "Управление:";
+            // 
+            // radioSize3
+            // 
+            this.radioSize3.AutoSize = true;
+            this.radioSize3.Location = new System.Drawing.Point(826, 194);
+            this.radioSize3.Name = "radioSize3";
+            this.radioSize3.Size = new System.Drawing.Size(36, 24);
+            this.radioSize3.TabIndex = 41;
+            this.radioSize3.TabStop = true;
+            this.radioSize3.Text = "3";
+            this.radioSize3.UseVisualStyleBackColor = true;
+            this.radioSize3.CheckedChanged += new System.EventHandler(this.radioSize3_CheckedChanged);
+            // 
+            // radioSize2
+            // 
+            this.radioSize2.AutoSize = true;
+            this.radioSize2.Location = new System.Drawing.Point(784, 194);
+            this.radioSize2.Name = "radioSize2";
+            this.radioSize2.Size = new System.Drawing.Size(36, 24);
+            this.radioSize2.TabIndex = 40;
+            this.radioSize2.TabStop = true;
+            this.radioSize2.Text = "2";
+            this.radioSize2.UseVisualStyleBackColor = true;
+            this.radioSize2.CheckedChanged += new System.EventHandler(this.radioSize2_CheckedChanged);
+            // 
+            // radioSize1
+            // 
+            this.radioSize1.AutoSize = true;
+            this.radioSize1.Location = new System.Drawing.Point(742, 194);
+            this.radioSize1.Name = "radioSize1";
+            this.radioSize1.Size = new System.Drawing.Size(36, 24);
+            this.radioSize1.TabIndex = 39;
+            this.radioSize1.TabStop = true;
+            this.radioSize1.Text = "1";
+            this.radioSize1.UseVisualStyleBackColor = true;
+            this.radioSize1.CheckedChanged += new System.EventHandler(this.radioSize1_CheckedChanged);
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(667, 196);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(69, 20);
+            this.label47.TabIndex = 38;
+            this.label47.Text = "Размер:";
             // 
             // buttonReloadShipGrid
             // 
@@ -1508,7 +1663,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 120);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 122);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -1658,23 +1813,17 @@
             this.comboShipSlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboShipSlotType.FormattingEnabled = true;
             this.comboShipSlotType.Items.AddRange(new object[] {
-            "Pilot cabin",
-            "Extended pilot cabin",
-            "Crew cabin",
-            "Engine slot",
-            "Extended engine slot",
-            "Small module slot",
-            "Medium module slot",
-            "Large module slot",
-            "Shield slot",
-            "Armor slot",
-            "Thrusters slot",
-            "Small weapon slot",
-            "Medium weapon slot",
-            "Large weapon slot"});
+            "Cabin",
+            "Extended cabin",
+            "Control room",
+            "Engine",
+            "Armor",
+            "Thrusters",
+            "Weapon",
+            "Misc"});
             this.comboShipSlotType.Location = new System.Drawing.Point(449, 193);
             this.comboShipSlotType.Name = "comboShipSlotType";
-            this.comboShipSlotType.Size = new System.Drawing.Size(275, 28);
+            this.comboShipSlotType.Size = new System.Drawing.Size(206, 28);
             this.comboShipSlotType.TabIndex = 26;
             this.comboShipSlotType.SelectedIndexChanged += new System.EventHandler(this.comboShipSlotType_SelectedIndexChanged);
             // 
@@ -1697,7 +1846,7 @@
             // 
             // textShipSlotNumber
             // 
-            this.textShipSlotNumber.Location = new System.Drawing.Point(449, 161);
+            this.textShipSlotNumber.Location = new System.Drawing.Point(676, 129);
             this.textShipSlotNumber.Name = "textShipSlotNumber";
             this.textShipSlotNumber.Size = new System.Drawing.Size(100, 26);
             this.textShipSlotNumber.TabIndex = 25;
@@ -1715,7 +1864,7 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(331, 164);
+            this.label35.Location = new System.Drawing.Point(558, 132);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(112, 20);
             this.label35.TabIndex = 21;
@@ -1772,7 +1921,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 430);
+            this.treeShips.Size = new System.Drawing.Size(234, 437);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -1789,7 +1938,7 @@
             // tabPage14
             // 
             this.tabPage14.Controls.Add(this.splitContainer1);
-            this.tabPage14.Controls.Add(this.buttonSaUpdate);
+            this.tabPage14.Controls.Add(this.buttonCreateRig);
             this.tabPage14.Controls.Add(this.label44);
             this.tabPage14.Controls.Add(this.comboSaShip);
             this.tabPage14.Location = new System.Drawing.Point(4, 29);
@@ -1804,6 +1953,9 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(10, 64);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -1904,10 +2056,10 @@
             // 
             this.tabPage15.Controls.Add(this.buttonSaMountModule);
             this.tabPage15.Controls.Add(this.gridSaModules);
-            this.tabPage15.Location = new System.Drawing.Point(4, 22);
+            this.tabPage15.Location = new System.Drawing.Point(4, 29);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 373);
+            this.tabPage15.Size = new System.Drawing.Size(696, 366);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -1934,12 +2086,14 @@
             this.gridSaModules.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridSaModules.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.sam_module,
-            this.sam_score});
+            this.sam_type,
+            this.sam_energy_needed});
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(684, 327);
+            this.gridSaModules.Size = new System.Drawing.Size(684, 320);
             this.gridSaModules.TabIndex = 6;
+            this.gridSaModules.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellContentClick);
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
             // sam_module
@@ -1948,43 +2102,75 @@
             this.sam_module.Name = "sam_module";
             this.sam_module.ReadOnly = true;
             // 
-            // sam_score
+            // sam_type
             // 
-            this.sam_score.HeaderText = "Очки";
-            this.sam_score.Name = "sam_score";
-            this.sam_score.ReadOnly = true;
+            this.sam_type.FillWeight = 50F;
+            this.sam_type.HeaderText = "Тип";
+            this.sam_type.Name = "sam_type";
+            this.sam_type.ReadOnly = true;
+            // 
+            // sam_energy_needed
+            // 
+            this.sam_energy_needed.FillWeight = 50F;
+            this.sam_energy_needed.HeaderText = "Энергия";
+            this.sam_energy_needed.Name = "sam_energy_needed";
+            this.sam_energy_needed.ReadOnly = true;
             // 
             // tabPage16
             // 
+            this.tabPage16.Controls.Add(this.buttonSaDeleteOfficer);
             this.tabPage16.Controls.Add(this.gridSaOfficer);
             this.tabPage16.Controls.Add(this.listSaOfficers);
             this.tabPage16.Controls.Add(this.comboSaOfficers);
             this.tabPage16.Controls.Add(this.buttonSaCreateOfficer);
             this.tabPage16.Controls.Add(this.label46);
-            this.tabPage16.Location = new System.Drawing.Point(4, 22);
+            this.tabPage16.Location = new System.Drawing.Point(4, 29);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 373);
+            this.tabPage16.Size = new System.Drawing.Size(696, 366);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
             // 
+            // buttonSaDeleteOfficer
+            // 
+            this.buttonSaDeleteOfficer.Location = new System.Drawing.Point(489, 10);
+            this.buttonSaDeleteOfficer.Name = "buttonSaDeleteOfficer";
+            this.buttonSaDeleteOfficer.Size = new System.Drawing.Size(98, 28);
+            this.buttonSaDeleteOfficer.TabIndex = 7;
+            this.buttonSaDeleteOfficer.Text = "Удалить";
+            this.buttonSaDeleteOfficer.UseVisualStyleBackColor = true;
+            this.buttonSaDeleteOfficer.Click += new System.EventHandler(this.buttonSaDeleteOfficer_Click);
+            // 
             // gridSaOfficer
             // 
+            this.gridSaOfficer.AllowUserToAddRows = false;
+            this.gridSaOfficer.AllowUserToDeleteRows = false;
+            this.gridSaOfficer.AllowUserToOrderColumns = true;
+            this.gridSaOfficer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gridSaOfficer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridSaOfficer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridSaOfficer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sao_stat_name,
+            this.sao_value});
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
+            this.gridSaOfficer.ReadOnly = true;
             this.gridSaOfficer.Size = new System.Drawing.Size(469, 304);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // listSaOfficers
             // 
+            this.listSaOfficers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listSaOfficers.FormattingEnabled = true;
             this.listSaOfficers.ItemHeight = 20;
             this.listSaOfficers.Location = new System.Drawing.Point(10, 55);
             this.listSaOfficers.Name = "listSaOfficers";
             this.listSaOfficers.Size = new System.Drawing.Size(205, 304);
             this.listSaOfficers.TabIndex = 5;
+            this.listSaOfficers.SelectedIndexChanged += new System.EventHandler(this.listSaOfficers_SelectedIndexChanged);
             // 
             // comboSaOfficers
             // 
@@ -2003,6 +2189,7 @@
             this.buttonSaCreateOfficer.TabIndex = 3;
             this.buttonSaCreateOfficer.Text = "Создать";
             this.buttonSaCreateOfficer.UseVisualStyleBackColor = true;
+            this.buttonSaCreateOfficer.Click += new System.EventHandler(this.buttonSaCreateOfficer_Click);
             // 
             // label46
             // 
@@ -2013,15 +2200,15 @@
             this.label46.TabIndex = 0;
             this.label46.Text = "Выберите шаблон:";
             // 
-            // buttonSaUpdate
+            // buttonCreateRig
             // 
-            this.buttonSaUpdate.Location = new System.Drawing.Point(386, 15);
-            this.buttonSaUpdate.Name = "buttonSaUpdate";
-            this.buttonSaUpdate.Size = new System.Drawing.Size(98, 28);
-            this.buttonSaUpdate.TabIndex = 2;
-            this.buttonSaUpdate.Text = "Обновить";
-            this.buttonSaUpdate.UseVisualStyleBackColor = true;
-            this.buttonSaUpdate.Click += new System.EventHandler(this.buttonSaUpdate_Click);
+            this.buttonCreateRig.Location = new System.Drawing.Point(386, 15);
+            this.buttonCreateRig.Name = "buttonCreateRig";
+            this.buttonCreateRig.Size = new System.Drawing.Size(98, 28);
+            this.buttonCreateRig.TabIndex = 2;
+            this.buttonCreateRig.Text = "Обновить";
+            this.buttonCreateRig.UseVisualStyleBackColor = true;
+            this.buttonCreateRig.Click += new System.EventHandler(this.buttonCreateRig_Click);
             // 
             // label44
             // 
@@ -2040,7 +2227,6 @@
             this.comboSaShip.Name = "comboSaShip";
             this.comboSaShip.Size = new System.Drawing.Size(220, 28);
             this.comboSaShip.TabIndex = 0;
-            this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
             // 
             // tabPage10
             // 
@@ -2212,7 +2398,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 417);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 438);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2229,6 +2415,19 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // sao_stat_name
+            // 
+            this.sao_stat_name.HeaderText = "Умение";
+            this.sao_stat_name.Name = "sao_stat_name";
+            this.sao_stat_name.ReadOnly = true;
+            // 
+            // sao_value
+            // 
+            this.sao_value.FillWeight = 50F;
+            this.sao_value.HeaderText = "Значение";
+            this.sao_value.Name = "sao_value";
+            this.sao_value.ReadOnly = true;
             // 
             // Form1
             // 
@@ -2468,7 +2667,7 @@
         private System.Windows.Forms.TabPage tabPage13;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TabPage tabPage14;
-        private System.Windows.Forms.Button buttonSaUpdate;
+        private System.Windows.Forms.Button buttonCreateRig;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.ComboBox comboSaShip;
         private System.Windows.Forms.Label label45;
@@ -2489,9 +2688,25 @@
         private System.Windows.Forms.Button buttonSaCreateOfficer;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Button buttonSaMountModule;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sam_module;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sam_score;
         private System.Windows.Forms.TabPage tabMisc;
+        private System.Windows.Forms.Button buttonClearPlayerProgress;
+        private System.Windows.Forms.RadioButton radioSize3;
+        private System.Windows.Forms.RadioButton radioSize2;
+        private System.Windows.Forms.RadioButton radioSize1;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.TextBox textShipSlotControl;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.RadioButton radioModule3;
+        private System.Windows.Forms.RadioButton radioModule2;
+        private System.Windows.Forms.RadioButton radioModule1;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sam_module;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sam_type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sam_energy_needed;
+        private System.Windows.Forms.Button buttonSaDeleteOfficer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sao_stat_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sao_value;
     }
 }
 

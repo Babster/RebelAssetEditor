@@ -46,15 +46,9 @@ namespace Crew
         {
             Stats = new List<OfficerStat>();
             string q;
-            q = @"SELECT
-                id,
-                crew_officer_type_id,
-                stat_name,
-                points_base
-            FROM
-                crew_officers_types_stats
-            WHERE
-                crew_officer_type_id = " + this.Id;
+            q = StatsQuery() + $@"
+                WHERE
+                    crew_officer_type_id = {Id}";
 
             SqlDataReader r = DataConnection.GetReader(q);
             if (r.HasRows)
@@ -67,6 +61,19 @@ namespace Crew
             }
             r.Close();
 
+        }
+
+        private static string StatsQuery()
+        {
+            string q = $@"
+            SELECT
+                id,
+                crew_officer_type_id,
+                stat_name,
+                points_base
+            FROM
+                crew_officers_types_stats";
+            return q;
         }
 
         private void CreateStats()
@@ -227,6 +234,42 @@ namespace Crew
 
             }
 
+            public override string ToString()
+            {
+                return $"{Name} ({PointsBase})";
+            }
+
+        }
+
+        private static Dictionary<int, OfficerStat> statDict;
+        private static void CreateStatDict()
+        {
+            statDict = new Dictionary<int, OfficerStat>();
+            string q;
+            q = StatsQuery();
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    OfficerStat tStat = new OfficerStat(ref r);
+                    statDict.Add(tStat.Id, tStat);
+                }
+            }
+        }
+        public static OfficerStat OfficerStatById(int Id)
+        {
+            if (statDict == null)
+                CreateStatDict();
+            if(statDict.ContainsKey(Id))
+            {
+                return statDict[Id];
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         public override string ToString()
@@ -262,16 +305,181 @@ namespace Crew
             return q;
         }
 
+        public static List<CrewOfficerType> GetTypeList()
+        {
+            List<CrewOfficerType> res = new List<CrewOfficerType>();
+            string q = OfficerTypeQuery();
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    CrewOfficerType cType = new CrewOfficerType(ref r);
+                    res.Add(cType);
+                }
+            }
+            return res;
+        }
+
+        private static void CreateDict()
+        {
+            OfficerDict = new Dictionary<int, CrewOfficerType>();
+            List<CrewOfficerType> lst = GetTypeList();
+            foreach(CrewOfficerType t in lst)
+            {
+                OfficerDict.Add(t.Id, t);
+            }
+        }
+
+        private static Dictionary<int, CrewOfficerType> OfficerDict;
+        public static CrewOfficerType OfficerById(int Id)
+        {
+            if (OfficerDict == null)
+                CreateDict();
+            if(OfficerDict.ContainsKey(Id))
+            {
+                return OfficerDict[Id];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 
     public class CrewOfficer
     {
+        public int Id { get; set; }
+
         public CrewOfficerType OfficerType { get; set; }
 
+        public List<Stat> Stats { get; set; }
 
+        public CrewOfficer() { }
+
+        /// <summary>
+        /// Generates new officer from template (officerType)
+        /// </summary>
+        /// <param name="officerType"></param>
         public CrewOfficer(CrewOfficerType officerType)
         {
+            this.OfficerType = officerType;
+            Stats = new List<Stat>();
+            foreach (CrewOfficerType.OfficerStat curStat in OfficerType.Stats)
+            {
+                Stat newStat = new Stat();
+                newStat.BaseStat = CrewOfficerType.OfficerStatById(curStat.Id);
+                Stats.Add(newStat);
+            }
 
+            Random rnd = new Random();
+            int maxRange = Stats.Count;
+            for(int i=0; i < officerType.BonusPoints; i++)
+            {
+                Stats[rnd.Next(0, maxRange)].AddStat();
+            }
+
+        }
+
+        public CrewOfficer(SqlDataReader r)
+        {
+
+        }
+
+        public class Stat
+        {
+            public int Id { get; set; } //Таблица crew_officers_stats
+            public int BonusPoints { get; set; }
+            public CrewOfficerType.OfficerStat BaseStat { get; set; }
+            public int BaseStatId
+            {
+                get
+                {
+                    return BaseStat.Id;
+                }
+            } //Read-only
+
+            public int Value //Read-only
+            {
+                get
+                {
+                    return BaseStat.PointsBase + BonusPoints;
+                }
+            }
+
+            public Stat() { }
+
+            public void AddStat() { BonusPoints += 1; }
+
+            public override string ToString()
+            {
+                return BaseStat.ToString();
+            }
+
+            public void SaveData(int OfficerId)
+            {
+                string q;
+                if(Id == 0)
+                {
+                    q = $@"
+                        INSERT INTO crew_officers_stats(crew_officer_id) VALUES({OfficerId})
+                        SELECT @@IDENTITY AS Result";
+                    Id = DataConnection.GetResultInt(q);
+                }
+
+                q = $@"
+                    UPDATE crew_officers_stats SET 
+                        stat_id = {BaseStatId}, 
+                        bonus_points = {BonusPoints}
+                    WHERE
+                        id = {Id}";
+                DataConnection.Execute(q);
+            }
+
+        }
+
+        public void Save(int PlayerId)
+        {
+            string q;
+            if(Id == 0)
+            {
+                q = $@"
+                    INSERT INTO crew_officers(player_id) VALUES({PlayerId})
+                    SELECT @@IDENTITY AS Result";
+                Id = DataConnection.GetResultInt(q);
+            }
+            q = $@"
+                UPDATE crew_officers SET
+                    officer_type_id = {OfficerType.Id}
+                WHERE
+                    id = {Id}";
+            DataConnection.Execute(q);
+
+            string IdsDoNotDelete = "";
+            foreach(Stat stat in Stats)
+            {
+                stat.SaveData(Id);
+                if (IdsDoNotDelete != "")
+                    IdsDoNotDelete += ",";
+                IdsDoNotDelete += stat.Id.ToString();
+            }
+
+            q = $@"DELETE FROM crew_officers_stats WHERE crew_officer_id = {Id} AND id NOT IN({IdsDoNotDelete})";
+            DataConnection.Execute(q);
+
+        }
+
+        public override string ToString()
+        {
+            return $"{OfficerType.Name} ({OfficerType.Id})";
+        }
+
+        public void Delete()
+        {
+            if (Id == 0)
+                return;
+            string q;
         }
 
     }
