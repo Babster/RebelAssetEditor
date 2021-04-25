@@ -479,5 +479,31 @@ public class SpaceshipRig
 
     }
 
+    public void Delete()
+    {
+        if (Id == 0)
+            return;
+        string q = $@"
+            DELETE FROM ss_rigs WHERE id = {Id};
+            DELETE FROM ss_rigs_slots WHERE ss_rig_id = {Id}";
+        DataConnection.Execute(q);
+    }
+
+    public override string ToString()
+    {
+        if(PlayerId > 0)
+        {
+            return "player " + PlayerId;
+        }
+        else if(Tag != "")
+        {
+            return Tag;
+        }
+        else
+        {
+            return sModel.Name;
+        }
+    }
+
 }
 

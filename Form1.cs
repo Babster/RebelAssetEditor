@@ -2129,7 +2129,7 @@ namespace AssetEditor
                 while(r.Read())
                 {
                     SpaceshipRig rig = new SpaceshipRig(r);
-                    TreeNode n = treeSaRigs.Nodes.Add(rig.sModel.Name);
+                    TreeNode n = treeSaRigs.Nodes.Add(rig.ToString());
                     n.Tag = rig;
                 }
             }
@@ -2148,6 +2148,21 @@ namespace AssetEditor
             FillRig();
             saRig.RecalculateParameters();
             textSaBottomLine.Text = saRig.Params.BottomlineString();
+        }
+
+        private void buttonSaDeleteRig_Click(object sender, EventArgs e)
+        {
+            TreeNode n = treeSaRigs.SelectedNode;
+            if (n == null)
+                return;
+            SpaceshipRig rig = (SpaceshipRig)n.Tag;
+
+            if (MessageBox.Show(null, "Delete rig?","", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            rig.Delete();
+            treeSaRigs.Nodes.Remove(n);
+
         }
 
         #endregion
@@ -2347,6 +2362,110 @@ namespace AssetEditor
 
 
 
+
+
+
+        #endregion
+
+        #region Игровые события
+
+        private bool eventsFilled;
+
+        private void tabPage19_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage19_Enter(object sender, EventArgs e)
+        {
+            if (eventsFilled)
+                return;
+            FillEvents();
+        }
+        private void buttonEventUpdate_Click(object sender, EventArgs e)
+        {
+            FillEvents();
+        }
+
+        private void FillEvents()
+        {
+            treeEvents.Nodes.Clear();
+            TreeNode mainNode = treeEvents.Nodes.Add("События в игре");
+
+            List<GameEvent> events = GameEvent.EventList();
+            Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
+            foreach(GameEvent gameEvent in events)
+            {
+                TreeNode n;
+                if(gameEvent.ParentId == 0)
+                {
+                    n = mainNode.Nodes.Add(gameEvent.Name);
+                }
+                else
+                {
+                    n = nodeDict[gameEvent.ParentId].Nodes.Add(gameEvent.Name);
+                }
+
+                n.Tag = gameEvent;
+
+            }
+
+        }
+
+        private void buttonEventAdd_Click(object sender, EventArgs e)
+        {
+            if (treeEvents.SelectedNode == null)
+                return;
+            TreeNode n;
+            int parentId = 0;
+            GameEvent newEvent = new GameEvent();
+            if (treeEvents.SelectedNode.Tag != null)
+            {
+                GameEvent gEvent = (GameEvent)treeEvents.SelectedNode.Tag;
+                parentId = gEvent.Id;
+                n = treeEvents.SelectedNode.Nodes.Add(newEvent.Name);
+            }
+            else
+            {
+                parentId = 0;
+                n = treeEvents.Nodes[0].Nodes.Add(newEvent.Name);
+            }
+
+            newEvent.ParentId = parentId;
+            n.Tag = newEvent;
+            
+        }
+
+        private GameEvent GetCurrentEvent()
+        {
+            if(treeEvents.SelectedNode == null)
+            {
+                return null;
+            }
+            if(treeEvents.SelectedNode.Tag == null)
+            {
+                return null;
+            }
+
+            GameEvent gEvent = (GameEvent)treeEvents.SelectedNode.Tag;
+            return gEvent;
+
+        }
+
+        private void textEventName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent gEvent = GetCurrentEvent();
+            if (gEvent == null)
+                return;
+            gEvent.Name = textEventName.Text;
+            treeEvents.SelectedNode.Text = textEventName.Text;
+        }
+
+        private void buttonSaveEvent_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #endregion
 

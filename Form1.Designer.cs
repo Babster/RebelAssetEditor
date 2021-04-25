@@ -240,6 +240,17 @@
             this.buttonSaLoadRig = new System.Windows.Forms.Button();
             this.buttonSaDeleteRig = new System.Windows.Forms.Button();
             this.treeSaRigs = new System.Windows.Forms.TreeView();
+            this.tabPage19 = new System.Windows.Forms.TabPage();
+            this.treeEvents = new System.Windows.Forms.TreeView();
+            this.buttonEventUpdate = new System.Windows.Forms.Button();
+            this.buttonEventAdd = new System.Windows.Forms.Button();
+            this.buttonEventDelete = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.textEventName = new System.Windows.Forms.TextBox();
+            this.textEventId = new System.Windows.Forms.TextBox();
+            this.label53 = new System.Windows.Forms.Label();
+            this.buttonSaveEvent = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -283,6 +294,8 @@
             this.tabPage11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).BeginInit();
             this.tabPage18.SuspendLayout();
+            this.tabPage19.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -336,6 +349,7 @@
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Controls.Add(this.tabPage10);
+            this.tabControl1.Controls.Add(this.tabPage19);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -2563,14 +2577,133 @@
             this.buttonSaDeleteRig.TabIndex = 1;
             this.buttonSaDeleteRig.Text = "Удалить";
             this.buttonSaDeleteRig.UseVisualStyleBackColor = true;
+            this.buttonSaDeleteRig.Click += new System.EventHandler(this.buttonSaDeleteRig_Click);
             // 
             // treeSaRigs
             // 
+            this.treeSaRigs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(266, 315);
+            this.treeSaRigs.Size = new System.Drawing.Size(684, 315);
             this.treeSaRigs.TabIndex = 2;
+            // 
+            // tabPage19
+            // 
+            this.tabPage19.Controls.Add(this.groupBox4);
+            this.tabPage19.Controls.Add(this.buttonEventDelete);
+            this.tabPage19.Controls.Add(this.buttonEventAdd);
+            this.tabPage19.Controls.Add(this.buttonEventUpdate);
+            this.tabPage19.Controls.Add(this.treeEvents);
+            this.tabPage19.Location = new System.Drawing.Point(4, 29);
+            this.tabPage19.Name = "tabPage19";
+            this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage19.Size = new System.Drawing.Size(1233, 517);
+            this.tabPage19.TabIndex = 8;
+            this.tabPage19.Text = "Игровые события";
+            this.tabPage19.UseVisualStyleBackColor = true;
+            this.tabPage19.Click += new System.EventHandler(this.tabPage19_Click);
+            this.tabPage19.Enter += new System.EventHandler(this.tabPage19_Enter);
+            // 
+            // treeEvents
+            // 
+            this.treeEvents.HideSelection = false;
+            this.treeEvents.Location = new System.Drawing.Point(8, 40);
+            this.treeEvents.Name = "treeEvents";
+            this.treeEvents.Size = new System.Drawing.Size(297, 469);
+            this.treeEvents.TabIndex = 0;
+            // 
+            // buttonEventUpdate
+            // 
+            this.buttonEventUpdate.Location = new System.Drawing.Point(8, 6);
+            this.buttonEventUpdate.Name = "buttonEventUpdate";
+            this.buttonEventUpdate.Size = new System.Drawing.Size(95, 28);
+            this.buttonEventUpdate.TabIndex = 1;
+            this.buttonEventUpdate.Text = "Обновить";
+            this.buttonEventUpdate.UseVisualStyleBackColor = true;
+            this.buttonEventUpdate.Click += new System.EventHandler(this.buttonEventUpdate_Click);
+            // 
+            // buttonEventAdd
+            // 
+            this.buttonEventAdd.Location = new System.Drawing.Point(109, 6);
+            this.buttonEventAdd.Name = "buttonEventAdd";
+            this.buttonEventAdd.Size = new System.Drawing.Size(95, 28);
+            this.buttonEventAdd.TabIndex = 2;
+            this.buttonEventAdd.Text = "Добавить";
+            this.buttonEventAdd.UseVisualStyleBackColor = true;
+            this.buttonEventAdd.Click += new System.EventHandler(this.buttonEventAdd_Click);
+            // 
+            // buttonEventDelete
+            // 
+            this.buttonEventDelete.Location = new System.Drawing.Point(210, 6);
+            this.buttonEventDelete.Name = "buttonEventDelete";
+            this.buttonEventDelete.Size = new System.Drawing.Size(95, 28);
+            this.buttonEventDelete.TabIndex = 3;
+            this.buttonEventDelete.Text = "Удалить";
+            this.buttonEventDelete.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.buttonSaveEvent);
+            this.groupBox4.Controls.Add(this.textEventId);
+            this.groupBox4.Controls.Add(this.label53);
+            this.groupBox4.Controls.Add(this.textEventName);
+            this.groupBox4.Controls.Add(this.label52);
+            this.groupBox4.Location = new System.Drawing.Point(319, 9);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(908, 499);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Редактирование события";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(302, 31);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(44, 20);
+            this.label52.TabIndex = 0;
+            this.label52.Text = "Имя:";
+            // 
+            // textEventName
+            // 
+            this.textEventName.Location = new System.Drawing.Point(352, 28);
+            this.textEventName.Name = "textEventName";
+            this.textEventName.Size = new System.Drawing.Size(236, 26);
+            this.textEventName.TabIndex = 1;
+            this.textEventName.TextChanged += new System.EventHandler(this.textEventName_TextChanged);
+            // 
+            // textEventId
+            // 
+            this.textEventId.Location = new System.Drawing.Point(193, 28);
+            this.textEventId.Name = "textEventId";
+            this.textEventId.ReadOnly = true;
+            this.textEventId.Size = new System.Drawing.Size(82, 26);
+            this.textEventId.TabIndex = 3;
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(144, 31);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(43, 20);
+            this.label53.TabIndex = 2;
+            this.label53.Text = "Код:";
+            // 
+            // buttonSaveEvent
+            // 
+            this.buttonSaveEvent.Location = new System.Drawing.Point(6, 27);
+            this.buttonSaveEvent.Name = "buttonSaveEvent";
+            this.buttonSaveEvent.Size = new System.Drawing.Size(119, 28);
+            this.buttonSaveEvent.TabIndex = 4;
+            this.buttonSaveEvent.Text = "Сохранить";
+            this.buttonSaveEvent.UseVisualStyleBackColor = true;
+            this.buttonSaveEvent.Click += new System.EventHandler(this.buttonSaveEvent_Click);
             // 
             // Form1
             // 
@@ -2645,6 +2778,9 @@
             this.tabPage11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).EndInit();
             this.tabPage18.ResumeLayout(false);
+            this.tabPage19.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2863,6 +2999,17 @@
         private System.Windows.Forms.TreeView treeSaRigs;
         private System.Windows.Forms.Button buttonSaDeleteRig;
         private System.Windows.Forms.Button buttonSaLoadRig;
+        private System.Windows.Forms.TabPage tabPage19;
+        private System.Windows.Forms.Button buttonEventDelete;
+        private System.Windows.Forms.Button buttonEventAdd;
+        private System.Windows.Forms.Button buttonEventUpdate;
+        private System.Windows.Forms.TreeView treeEvents;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox textEventId;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.TextBox textEventName;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Button buttonSaveEvent;
     }
 }
 
