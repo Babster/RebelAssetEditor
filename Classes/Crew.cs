@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdmiralNamespace;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -26,7 +27,7 @@ namespace Crew
             if(fillObject)
             {
                 this.Name = "New officer type";
-                CreateStats();
+                Stats = CreateStats();
             }
         }
 
@@ -76,9 +77,9 @@ namespace Crew
             return q;
         }
 
-        private void CreateStats()
+        public static List<OfficerStat> CreateStats()
         {
-            Stats = new List<OfficerStat>();
+            List<OfficerStat> Stats = new List<OfficerStat>();
             List<OfficerStat.StatType> statTypeList = Enum.GetValues(typeof(OfficerStat.StatType))
                     .Cast<OfficerStat.StatType>()
                     .ToList();
@@ -92,6 +93,7 @@ namespace Crew
                     Stats.Add(curStat);
                 }
             }
+            return Stats;
         }
 
         public void SaveData()
@@ -146,9 +148,9 @@ namespace Crew
             public enum StatType
             {
                 None = 0,
-                FireRate = 1,
-                ShieldDamage = 2,
-                StructureDamage = 3,
+                EnergyWeapons = 1,
+                KineticWeapons = 2,
+                RocketWeapons = 3,
                 EngineBoost = 4,
                 ThrustersBoost = 5,
                 ShieldsBoost = 6,
@@ -158,31 +160,35 @@ namespace Crew
                 LootBoost = 10
             }
 
-            public static StatType StatTypeFromString(string statType)
+            public StatType StatTypeFromString
             {
-                switch(statType)
+                get
                 {
-                    case "Fire rate":
-                        return StatType.FireRate;
-                    case "Shield damage":
-                        return StatType.ShieldDamage;
-                    case "Structure damage":
-                        return StatType.StructureDamage;
-                    case "Engine boost":
-                        return StatType.EngineBoost;
-                    case "Thrusters boost":
-                        return StatType.ThrustersBoost;
-                    case "Shields boost":
-                        return StatType.ShieldsBoost;
-                    case "Repair":
-                        return StatType.Repair;
-                    case "Dexterity":
-                        return StatType.Dexterity;
-                    case "Loot boost":
-                        return StatType.LootBoost;
-                    default:
-                        return StatType.None;
-
+                    switch (Name)
+                    {
+                        case "Energy weapons":
+                            return StatType.EnergyWeapons;
+                        case "Kinetic weapons":
+                            return StatType.KineticWeapons;
+                        case "Rocket weapons":
+                            return StatType.RocketWeapons;
+                        case "Engine boost":
+                            return StatType.EngineBoost;
+                        case "Thrusters boost":
+                            return StatType.ThrustersBoost;
+                        case "Shields boost":
+                            return StatType.ShieldsBoost;
+                        case "Armor boost":
+                            return StatType.ArmorBoost;
+                        case "Repair":
+                            return StatType.Repair;
+                        case "Dexterity":
+                            return StatType.Dexterity;
+                        case "Loot boost":
+                            return StatType.LootBoost;
+                        default:
+                            return StatType.None;
+                    }
                 }
             }
 
@@ -190,12 +196,12 @@ namespace Crew
             {
                 switch(sType)
                 {
-                    case StatType.FireRate:
-                        return "Fire rate";
-                    case StatType.ShieldDamage:
-                        return "Shield damage";
-                    case StatType.StructureDamage:
-                        return "Structure damage";
+                    case StatType.EnergyWeapons:
+                        return "Energy weapons";
+                    case StatType.KineticWeapons:
+                        return "Kinetic weapons";
+                    case StatType.RocketWeapons:
+                        return "Rocket weapons";
                     case StatType.EngineBoost:
                         return "Engine boost";
                     case StatType.ThrustersBoost:
@@ -356,13 +362,19 @@ namespace Crew
 
         public List<Stat> Stats { get; set; }
 
+        public int PlayerId { get; set; }
+
+        //Для тех объектов, которые созданы на основе статов игрока
+        private AccountData acc;
+        private AdmiralStats playerStats;
+
         public CrewOfficer() { }
 
         /// <summary>
         /// Generates new officer from template (officerType)
         /// </summary>
         /// <param name="officerType"></param>
-        public CrewOfficer(CrewOfficerType officerType)
+        public CrewOfficer(CrewOfficerType officerType, int PlayerId)
         {
             this.OfficerType = officerType;
             Stats = new List<Stat>();
@@ -384,7 +396,88 @@ namespace Crew
 
         public CrewOfficer(SqlDataReader r)
         {
+            Id = Convert.ToInt32(r["id"]);
+            OfficerType = CrewOfficerType.OfficerById(Convert.ToInt32(r["officer_type_id"]));
+            LoadStats();
+        }
 
+        /// <summary>
+        /// Создание офицера из персонажа игрока.
+        /// Главная фишка процедуры - трансляция параметров игрока в параметры офицера
+        /// </summary>
+        /// <param name="acc"></param>
+        public CrewOfficer(AccountData acc)
+        {
+            Stats = new List<Stat>();
+            this.acc = acc;
+            this.playerStats = new AdmiralStats(ref acc);
+            PlayerId = acc.Id;// Не нужно, но пусть будет
+            List<CrewOfficerType.OfficerStat> statTypes = CrewOfficerType.CreateStats();
+            foreach(CrewOfficerType.OfficerStat statType in statTypes)
+            {
+                int score = 0;
+                switch(statType.StatTypeFromString)
+                {
+                    case CrewOfficerType.OfficerStat.StatType.ArmorBoost:
+                        score = playerStats.GetSpecificStat("Armor mastery").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.Dexterity:
+                        score = playerStats.GetSpecificStat("Thrusters").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.EngineBoost:
+                        score = playerStats.GetSpecificStat("Engines").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.EnergyWeapons:
+                        score = playerStats.GetSpecificStat("Energy weapons").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.KineticWeapons:
+                        score = playerStats.GetSpecificStat("Kinetic weapons").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.RocketWeapons:
+                        score = playerStats.GetSpecificStat("Rocket weapons").Value;
+                        break;
+                    case CrewOfficerType.OfficerStat.StatType.ShieldsBoost:
+                        score = playerStats.GetSpecificStat("Shield mastery").Value;
+                        break;
+
+                    default:
+                        break;
+                }
+                if (score > 0)
+                {
+                    Stat stat = new Stat();
+                    stat.BaseStat = statType;
+                    stat.BonusPoints = Convert.ToInt32(score * 3.14);
+                    Stats.Add(stat);
+                }
+                    
+
+            }
+        }
+
+        private void LoadStats()
+        {
+            string q;
+            q = $@"
+                SELECT
+                    id,
+                    crew_officer_id,
+                    stat_id,
+                    bonus_points
+                FROM
+                    crew_officers_stats
+                WHERE
+                    crew_officer_id = {Id}";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    Stat stat = new Stat(r);
+                    Stats.Add(stat);
+                }
+            }
+            r.Close();
         }
 
         public class Stat
@@ -409,7 +502,13 @@ namespace Crew
             }
 
             public Stat() { }
-
+            public Stat(SqlDataReader r)
+            {
+                Id = Convert.ToInt32(r["id"]);
+                BonusPoints = Convert.ToInt32(r["bonus_points"]);
+                int bsId = Convert.ToInt32(r["stat_id"]);
+                BaseStat = CrewOfficerType.OfficerStatById(bsId);
+            }
             public void AddStat() { BonusPoints += 1; }
 
             public override string ToString()
@@ -439,8 +538,11 @@ namespace Crew
 
         }
 
-        public void Save(int PlayerId)
+        public void Save()
         {
+            if (IsPlayer)//Из игрока офицера сохранять не нужно
+                return;
+
             string q;
             if(Id == 0)
             {
@@ -448,6 +550,7 @@ namespace Crew
                     INSERT INTO crew_officers(player_id) VALUES({PlayerId})
                     SELECT @@IDENTITY AS Result";
                 Id = DataConnection.GetResultInt(q);
+                CrewOfficer.OfficerDict.Add(Id, this);
             }
             q = $@"
                 UPDATE crew_officers SET
@@ -470,16 +573,112 @@ namespace Crew
 
         }
 
+        public bool IsPlayer
+        {
+            get
+            {
+                return acc != null;
+            }
+        }
+
         public override string ToString()
         {
-            return $"{OfficerType.Name} ({OfficerType.Id})";
+            if(acc == null)
+            {
+                return $"{OfficerType.Name} ({OfficerType.Id})";
+            }
+            else
+            {
+                return acc.Name;
+            }
+            
         }
 
         public void Delete()
         {
-            if (Id == 0)
+            if (Id == 0) //Если еще не записан то удалять нечего
+                return;
+            if (acc != null)//Если создан из офицера, то тоже (это лишняя проверка, т.к. идентификатора всё равно не будет, но пусть)
                 return;
             string q;
+            q = $@"
+                DELETE FROM crew_officers WHERE id = {Id};
+                DELETE FROM crew_officers_stats WHERE crew_officer_id = {Id}";
+
+            DataConnection.Execute(q);
+        }
+
+        private static Dictionary<int, CrewOfficer> OfficerDict;
+        private static void CreateDictionary()
+        {
+            OfficerDict = new Dictionary<int, CrewOfficer>();
+            string q = OfficerQuery();
+            SqlDataReader r = DataConnection.GetReader(q);
+            if (r.HasRows)
+            {
+                while(r.Read())
+                {
+                    CrewOfficer curOfficer = new CrewOfficer(r);
+                    OfficerDict.Add(curOfficer.Id, curOfficer);
+                }
+            }
+            r.Close();
+        }
+        public static CrewOfficer OfficerById(int Id)
+        {
+            if (OfficerDict == null)
+                CreateDictionary();
+
+            if(OfficerDict.ContainsKey(Id))
+            {
+                return OfficerDict[Id];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static List<CrewOfficer> OfficersForPlayer(int playerId)
+        {
+            List<CrewOfficer> tList = new List<CrewOfficer>();
+            string q = $"SELECT id FROM crew_officers WHERE player_id = {playerId}";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    int id = Convert.ToInt32(r["id"]);
+                    tList.Add(OfficerById(id));
+                }
+            }
+            r.Close();
+            return tList;
+        }
+        private static string OfficerQuery()
+        {
+            string q;
+            q = $@"
+                SELECT
+                    id,
+                    player_id,
+                    officer_type_id
+                FROM
+                    crew_officers";
+            return q;
+        }
+
+        public int StatValue(CrewOfficerType.OfficerStat.StatType param)
+        {
+            if (Stats.Count == 0)
+                return 0;
+            foreach(Stat stat in Stats)
+            {
+                if(stat.BaseStat.StatTypeFromString == param)
+                {
+                    return stat.Value;
+                }
+            }
+            return 0;
         }
 
     }

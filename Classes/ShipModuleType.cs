@@ -13,6 +13,7 @@ public  class ShipModuleType
     public int Parent { get; set; }
     public string Name { get; set; }
     public string ModuleTypeStr { get; set; }
+    public WeaponType wType { get; set; }
     public int Size { get; set; }
     public string AssetName { get; set; }
     public int EnergyNeeded { get; set; }
@@ -26,6 +27,32 @@ public  class ShipModuleType
         Engine = 3,
         Thrusters = 4,
         Misc = 5
+    }
+
+    public enum WeaponType
+    {
+        None = 0,
+        Energy = 10,
+        Kinetic = 11,
+        Rocket = 12
+    }
+
+    public string wTypeStr
+    {
+        get
+        {
+            switch(wType)
+            {
+                case WeaponType.Energy:
+                    return "Energy";
+                case WeaponType.Kinetic:
+                    return "Kinetic";
+                case WeaponType.Rocket:
+                    return "Rocket";
+                default:
+                    return "";
+            }
+        }
     }
 
     public ModuleType ModuleTypeFromStr()
@@ -79,6 +106,7 @@ public  class ShipModuleType
         this.Parent = Convert.ToInt32(r["parent"]);
         this.Name = Convert.ToString(r["name"]);
         this.ModuleTypeStr = Convert.ToString(r["module_type"]);
+        this.wType = (WeaponType)Convert.ToInt32(r["weapon_type"]);
         this.Size = Convert.ToInt32(r["size"]);
         this.AssetName = Convert.ToString(r["asset_name"]);
         this.EnergyNeeded = Convert.ToInt32(r["energy_needed"]);
@@ -87,6 +115,8 @@ public  class ShipModuleType
 
         if(!String.IsNullOrEmpty(paramStr))
             this.parameters = SpaceshipParameters.CreateFromString(paramStr);
+        if (parameters == null)
+            parameters = new SpaceshipParameters();
         if (Size < 1)
             Size = 1;
     }
@@ -107,6 +137,7 @@ public  class ShipModuleType
                         name = @str1,
                         asset_name = @str2,
                         module_type = @str3,
+                        weapon_type = {(int)wType},
                         size = {Size},
                         energy_needed = {EnergyNeeded},
                         params_structure = @str4
@@ -119,8 +150,6 @@ public  class ShipModuleType
         names.Add(this.parameters.ToDbString());
 
         DataConnection.Execute(q, names);
-
-        
 
     }
 
@@ -206,6 +235,7 @@ public  class ShipModuleType
                     name,
                     asset_name,
                     module_type,
+                    ISNULL(weapon_type, 0) AS weapon_type,
                     ISNULL(size, 1) AS size,
                     energy_needed,
                     ISNULL(params_structure, '') AS params_structure
@@ -228,7 +258,7 @@ public  class ShipModuleType
         return this.Name + " " + this.parameters.ToString() ;
     }
 
-    public int GetParameter(SpaceshipParameters.SpaceShipParameter paramType)
+    public double GetParameter(SpaceshipParameters.SpaceShipParameter paramType)
     {
         return parameters.ParameterValue(paramType);
     }

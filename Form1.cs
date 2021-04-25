@@ -863,7 +863,7 @@ namespace AssetEditor
 
 
         }
-        private AccountData GetLatestUser()
+        public static AccountData GetLatestUser()
         {
             string q = "SELECT MAX(id) AS max_id FROM admirals";
             int admiralId = Convert.ToInt32(DataConnection.GetResult(q));
@@ -974,6 +974,7 @@ namespace AssetEditor
                 return;
             FillModules();
             FillModuleSizeDict();
+            FillModuleWeaponType();
         }
 
         private void FillModules()
@@ -1042,6 +1043,20 @@ namespace AssetEditor
             ModuleRadioToSizeDict.Add(radioModule3, 3);
         }
 
+        private Dictionary<ShipModuleType.WeaponType, RadioButton> ModuleWeaponTypeToRadioDict;
+        private Dictionary<RadioButton, ShipModuleType.WeaponType> ModuleRadioToWeaponTypeDict;
+        private void FillModuleWeaponType()
+        {
+            ModuleWeaponTypeToRadioDict = new Dictionary<ShipModuleType.WeaponType, RadioButton>();
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Energy, radioEnergy);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Kinetic, radioKinetic);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Rocket, radioRocket);
+            ModuleRadioToWeaponTypeDict = new Dictionary<RadioButton, ShipModuleType.WeaponType>();
+            ModuleRadioToWeaponTypeDict.Add(radioEnergy, ShipModuleType.WeaponType.Energy);
+            ModuleRadioToWeaponTypeDict.Add(radioKinetic, ShipModuleType.WeaponType.Kinetic);
+            ModuleRadioToWeaponTypeDict.Add(radioRocket, ShipModuleType.WeaponType.Rocket);
+        }
+
         private void buttonSsAddCategory_Click(object sender, EventArgs e)
         {
             AddModuleNode(1);
@@ -1103,6 +1118,8 @@ namespace AssetEditor
                 tag.ModuleTypeStr = "Weapon";
 
             ModuleSizeToRadioDict[tag.Size].Checked = true;
+            if (ModuleWeaponTypeToRadioDict.ContainsKey(tag.wType))
+                ModuleWeaponTypeToRadioDict[tag.wType].Checked = true;
 
             NoEvents = false;
 
@@ -1233,7 +1250,7 @@ namespace AssetEditor
             {
                 case "Weapon":
                     textModuleFireRate.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.FireRate).ToString();
-                    textModuleDeflectorDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorsDamage).ToString();
+                    textModuleDeflectorDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldDamage).ToString();
                     textModuleStructureDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureDamage).ToString();
                     break;
                 case "Armor":
@@ -1247,8 +1264,8 @@ namespace AssetEditor
                     textDexterity.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Dexterity).ToString();
                     break;
                 case "Misc":
-                    textModuleDeflectors.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorPoints).ToString();
-                    textModuleDeflectorsRegen.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.DeflectorRegen).ToString();
+                    textModuleDeflectors.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldPoints).ToString();
+                    textModuleDeflectorsRegen.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen).ToString();
                     break;
             }
             NoEvents = false;
@@ -1287,7 +1304,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectorDamage.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorsDamage, tNumber);
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldDamage, tNumber);
         }
 
         private void textModuleStructureDamage_TextChanged(object sender, EventArgs e)
@@ -1311,7 +1328,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectors.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorPoints, tNumber);
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldPoints, tNumber);
         }
 
         private void textModuleDeflectorsRegen_TextChanged(object sender, EventArgs e)
@@ -1323,8 +1340,38 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleDeflectorsRegen.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.DeflectorRegen, tNumber);
+            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldRegen, tNumber);
         }
+
+        private void radioEnergy_CheckedChanged(object sender, EventArgs e)
+        {
+            SetWeaponType();
+        }
+        private void radioKinetic_CheckedChanged(object sender, EventArgs e)
+        {
+            SetWeaponType();
+        }
+        private void radioRocket_CheckedChanged(object sender, EventArgs e)
+        {
+            SetWeaponType();
+        }
+        private void SetWeaponType()
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            foreach (RadioButton key in ModuleRadioToWeaponTypeDict.Keys)
+            {
+                if (key.Checked)
+                {
+                    tag.wType = ModuleRadioToWeaponTypeDict[key];
+                    return;
+                }
+            }
+        }
+
 
         private void textModuleArmor_TextChanged(object sender, EventArgs e)
         {
@@ -1751,15 +1798,11 @@ namespace AssetEditor
                     DataGridViewRow row;
                     gridShipParameters.Rows.Add();
                     row = gridShipParameters.Rows[gridShipParameters.Rows.Count - 1];
-                    row.Cells["sp_name"].Value = param.TypeToString(); 
+                    row.Cells["sp_name"].Value = param.tString; 
                     row.Cells["sp_value"].Value = param.Value;
                 }
             }
-            //{
-            //    for (int i = 0; i < param.Count; i++)
-            //    {
-            //    }
-            
+           
         }
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
@@ -1792,13 +1835,17 @@ namespace AssetEditor
 
         private void buttonCreateRig_Click(object sender, EventArgs e)
         {
-            ClearRig();
             ShipModel curModel = GetCurrentModel();
             if (curModel == null)
                 return;
 
             saRig = new SpaceshipRig();
             saRig.LoadShipModel(curModel);
+            FillRig();
+        }
+        private void FillRig()
+        {
+            ClearRig();
             foreach (SpaceshipRig.RigSlot rigSlot in saRig.Slots)
             {
                 DataGridViewRow row;
@@ -1806,12 +1853,18 @@ namespace AssetEditor
                 row = gridSaSlots.Rows[gridSaSlots.Rows.Count - 1];
                 row.Cells["sas_object"].Value = rigSlot;
                 row.Cells["sas_name"].Value = rigSlot.Slot.SlotTypeStr;
-                row.Cells["sas_content"].Value = null;
+                row.Cells["sas_content"].Value = rigSlot;
             }
         }
+        private void comboSaShip_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
+        
         private void FillSaModule()
         {
+
+            
             //Spaceship models combo
             comboSaShip.Items.Clear();
             List<ShipModel> models = ShipModel.GetModelList();
@@ -1865,7 +1918,6 @@ namespace AssetEditor
             textSaBottomLine.Text = "";
         }
 
-
         private void gridSaModules_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -1876,7 +1928,6 @@ namespace AssetEditor
                 return;
             DataGridViewRow row = gridSaModules.Rows[e.RowIndex];
             PlaceModuleToShipSlot(row);
-
         }
         private void buttonSaMountModule_Click(object sender, EventArgs e)
         {
@@ -1891,7 +1942,6 @@ namespace AssetEditor
             if (gridSaSlots.SelectedCells.Count == 0)
                 return;
             DataGridViewRow slotRow = gridSaSlots.Rows[gridSaSlots.SelectedCells[0].RowIndex];
-
             ShipModuleType module = (ShipModuleType)moduleRow.Cells["sam_module"].Value;
 
             SpaceshipRig.RigSlot slot;
@@ -1905,27 +1955,93 @@ namespace AssetEditor
             }
 
             slot.LoadModuleType(module);
-            slotRow.Cells["sas_content"].Value = module;
+            slotRow.Cells["sas_content"].Value = null;
+            slotRow.Cells["sas_content"].Value = slot;
+
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
 
         }
+        private void listSaOfficers_DoubleClick(object sender, EventArgs e)
+        {
+            if (gridSaSlots.SelectedCells.Count == 0)
+                return;
+            DataGridViewRow slotRow = gridSaSlots.Rows[gridSaSlots.SelectedCells[0].RowIndex];
 
+            CrewOfficer officer = (CrewOfficer)listSaOfficers.SelectedItem;
+
+            SpaceshipRig.RigSlot slot;
+            slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
+
+            string fitMsg = slot.LoadOfficer(officer);
+            if(fitMsg != "")
+            {
+                MessageBox.Show(fitMsg);
+                return;
+            }
+
+            slotRow.Cells["sas_content"].Value = null;
+            slotRow.Cells["sas_content"].Value = slot;
+
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
+
+        }
+        private void gridSaSlots_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void gridSaSlots_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+            string columnName = gridSaSlots.Columns[e.ColumnIndex].Name;
+            DataGridViewRow slotRow = gridSaSlots.Rows[e.RowIndex];
+            if (columnName == "sas_content")
+            {
+                SpaceshipRig.RigSlot slot;
+                slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
+                slot.ClearSlot();
+                slotRow.Cells["sas_content"].Value = null;
+                slotRow.Cells["sas_content"].Value = slot;
+            }
+
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
+
+        }
+        private void textSaBottomLine_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textSaBottomLine_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
+        }
         private void buttonSaCreateOfficer_Click(object sender, EventArgs e)
         {
             if (comboSaOfficers.SelectedItem == null)
                 return;
             CrewOfficerType ofType = (CrewOfficerType)comboSaOfficers.SelectedItem;
-            CrewOfficer newOfficer = new CrewOfficer(ofType);
+            int playerId = GetLatestUser().Id;
+            CrewOfficer newOfficer = new CrewOfficer(ofType, playerId);
             listSaOfficers.Items.Add(newOfficer);
         }
         private void buttonSaDeleteOfficer_Click(object sender, EventArgs e)
         {
+            if (listSaOfficers.SelectedItem == null)
+                return;
+            CrewOfficer ofType = (CrewOfficer)listSaOfficers.SelectedItem;
+            ofType.Delete();
+            listSaOfficers.Items.Remove(ofType);
 
         }
 
         private void listSaOfficers_SelectedIndexChanged(object sender, EventArgs e)
         {
             gridSaOfficer.Rows.Clear();
-            if (comboSaOfficers.SelectedItem == null)
+            if (listSaOfficers.SelectedItem == null)
                 return;
             CrewOfficer ofType = (CrewOfficer)listSaOfficers.SelectedItem;
 
@@ -1938,6 +2054,100 @@ namespace AssetEditor
                 row.Cells["sao_value"].Value = stat.Value;
             }
 
+        }
+
+        private bool playersOfficersFilled;
+        private void tabPage16_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage16_Enter(object sender, EventArgs e)
+        {
+            if (playersOfficersFilled)
+                return;
+            FillPlayersOfficers();
+        }
+
+        private void FillPlayersOfficers()
+        {
+            AccountData playerAcc = GetLatestUser();
+
+            //Player's officers. 
+            listSaOfficers.Items.Clear();
+            CrewOfficer playerOfficer = new CrewOfficer(playerAcc);
+            listSaOfficers.Items.Add(playerOfficer);
+            List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(playerAcc.Id);
+            if (officers.Count > 0)
+            {
+                foreach (CrewOfficer off in officers)
+                {
+                    listSaOfficers.Items.Add(off);
+                }
+            }
+
+            playersOfficersFilled = true;
+        }
+
+        private void buttonSaSave_Click(object sender, EventArgs e)
+        {
+            int playerId = 0;
+            string tg = "";
+            if(checkSaForPlayer.Checked )
+            {
+                playerId = GetLatestUser().Id;
+            }
+            else
+            {
+                if (textSaRigTag.Text == "")
+                {
+                    MessageBox.Show("Не выбран тег и не помечено что это для игрока");
+                    return;
+                }
+                tg = textSaRigTag.Text;
+            }
+
+            saRig.SaveData(playerId, tg);
+        }
+
+        private void tabPage18_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage18_Enter(object sender, EventArgs e)
+        {
+            FillRigTree();
+        }
+
+        private void FillRigTree()
+        {
+            treeSaRigs.Nodes.Clear();
+            string rigQuery;
+            rigQuery = SpaceshipRig.SpaceshipRigQuery(0, 0, "");
+            SqlDataReader r = DataConnection.GetReader(rigQuery);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    SpaceshipRig rig = new SpaceshipRig(r);
+                    TreeNode n = treeSaRigs.Nodes.Add(rig.sModel.Name);
+                    n.Tag = rig;
+                }
+            }
+            r.Close();
+        }
+
+        private void buttonSaLoadRig_Click(object sender, EventArgs e)
+        {
+            TreeNode n = treeSaRigs.SelectedNode;
+            if (n == null)
+                return;
+            SpaceshipRig rig = (SpaceshipRig)n.Tag;
+            saRig = rig;
+            textSaRigTag.Text = rig.Tag;
+            checkSaForPlayer.Checked = saRig.PlayerId > 0;
+            FillRig();
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
         }
 
         #endregion
@@ -2113,6 +2323,17 @@ namespace AssetEditor
                 return;
             curOfficerType.SaveData();
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -262,6 +262,44 @@ public class ShipModel
             }
         }
 
+        public bool SlotForModule
+        {
+            get
+            {
+                List<SlotType> forModules = new List<SlotType>();
+                forModules.Add(SlotType.Armor);
+                forModules.Add(SlotType.Engine);
+                forModules.Add(SlotType.Misc);
+                forModules.Add(SlotType.Thrusters);
+                forModules.Add(SlotType.Weapon);
+                return forModules.Contains(sType);
+            }
+        }
+
+        public bool SlotForOfficer
+        {
+            get
+            {
+                List<SlotType> forOfficers = new List<SlotType>();
+                forOfficers.Add(SlotType.Cabin);
+                forOfficers.Add(SlotType.ExtendedCabin);
+                forOfficers.Add(SlotType.ControlRoom);
+                forOfficers.Add(SlotType.ExtendedControlRoom);
+                return forOfficers.Contains(sType);
+            }
+        }
+
+        public bool SlotForCrew
+        {
+            get
+            {
+                List<SlotType> forCrew = new List<SlotType>();
+                forCrew.Add(SlotType.ExtendedCabin);
+                forCrew.Add(SlotType.ExtendedControlRoom);
+                return forCrew.Contains(sType);
+            }
+        }
+
         public string ModuleFitsSlot(ShipModuleType module)
         {
             if ((int)module.ModuleTypeFromStr() != (int)this.sType)

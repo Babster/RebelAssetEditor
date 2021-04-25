@@ -278,6 +278,7 @@ namespace AdmiralNamespace
 
             q = @"SELECT 
                     id,
+                    skill_group,
                     name,
                     base_value,
                     description_english,
@@ -496,34 +497,6 @@ namespace AdmiralNamespace
             this.DescriptionRussian = Convert.ToString(r["description_russian"]);
         }
 
-      //  public void SaveData()
-      //  {
-
-      //      string q;
-
-      //      if (this.Id == 0)
-      //      {
-      //          q = @"INSERT INTO admiral_stat_types(name) VALUES('')
-      //                   SELECT @@IDENTITY AS field0";
-      //          this.Id = Convert.ToInt32(DataConnection.GetResult(q));
-      //      }
-
-      //      List<String> names = new List<string>();
-      //      names.Add(this.Name);
-      //      names.Add(DescriptionEnglish);
-      //      names.Add(DescriptionRussian);
-      //      q = @"UPDATE admiral_stat_types SET
-      //                  name = @str1,
-      //                  base_value = " + this.Value + @",
-      //                  description_english = @str2,
-      //                  description_russian = @str3,
-						//order_idx = " + this.OrderIdx + @"
-      //              WHERE id = " + Id.ToString();
-      //      DataConnection.Execute(q, names);
-      //  }
-
-
-
     }
 
     public class AdmiralStats
@@ -574,6 +547,22 @@ namespace AdmiralNamespace
 
             this.StatPointsLeft = Convert.ToInt32(DataConnection.GetResult(q));
 
+        }
+
+        private Dictionary<string, PlayerStat> pStats;
+        private void CreatePlayerStats()
+        {
+            pStats = new Dictionary<string, PlayerStat>();
+            foreach(PlayerStat stat in Stats)
+            {
+                pStats.Add(stat.Name, stat);
+            }
+        }
+        public PlayerStat GetSpecificStat(string statName)
+        {
+            if (pStats == null)
+                CreatePlayerStats();
+            return pStats[statName];
         }
 
     }

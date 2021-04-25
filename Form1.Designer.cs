@@ -202,6 +202,8 @@
             this.tabPage16 = new System.Windows.Forms.TabPage();
             this.buttonSaDeleteOfficer = new System.Windows.Forms.Button();
             this.gridSaOfficer = new System.Windows.Forms.DataGridView();
+            this.sao_stat_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sao_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.listSaOfficers = new System.Windows.Forms.ListBox();
             this.comboSaOfficers = new System.Windows.Forms.ComboBox();
             this.buttonSaCreateOfficer = new System.Windows.Forms.Button();
@@ -227,8 +229,17 @@
             this.treeOfficerTypes = new System.Windows.Forms.TreeView();
             this.tabPage12 = new System.Windows.Forms.TabPage();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.sao_stat_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sao_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage18 = new System.Windows.Forms.TabPage();
+            this.radioEnergy = new System.Windows.Forms.RadioButton();
+            this.radioKinetic = new System.Windows.Forms.RadioButton();
+            this.radioRocket = new System.Windows.Forms.RadioButton();
+            this.buttonSaSave = new System.Windows.Forms.Button();
+            this.checkSaForPlayer = new System.Windows.Forms.CheckBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.textSaRigTag = new System.Windows.Forms.TextBox();
+            this.buttonSaLoadRig = new System.Windows.Forms.Button();
+            this.buttonSaDeleteRig = new System.Windows.Forms.Button();
+            this.treeSaRigs = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -271,6 +282,7 @@
             this.tabControl3.SuspendLayout();
             this.tabPage11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).BeginInit();
+            this.tabPage18.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -1234,6 +1246,9 @@
             // 
             // tabWeapon
             // 
+            this.tabWeapon.Controls.Add(this.radioRocket);
+            this.tabWeapon.Controls.Add(this.radioKinetic);
+            this.tabWeapon.Controls.Add(this.radioEnergy);
             this.tabWeapon.Controls.Add(this.label24);
             this.tabWeapon.Controls.Add(this.textModuleStructureDamage);
             this.tabWeapon.Controls.Add(this.textModuleDeflectorDamage);
@@ -1561,7 +1576,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 473);
+            this.groupBox5.Size = new System.Drawing.Size(947, 459);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1663,7 +1678,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 122);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 113);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -1766,7 +1781,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listShipSlots.FormattingEnabled = true;
             this.listShipSlots.ItemHeight = 20;
-            this.listShipSlots.Location = new System.Drawing.Point(10, 164);
+            this.listShipSlots.Location = new System.Drawing.Point(10, 169);
             this.listShipSlots.Name = "listShipSlots";
             this.listShipSlots.Size = new System.Drawing.Size(299, 284);
             this.listShipSlots.TabIndex = 18;
@@ -1921,7 +1936,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 437);
+            this.treeShips.Size = new System.Drawing.Size(234, 423);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -1994,11 +2009,13 @@
             this.sas_object,
             this.sas_name,
             this.sas_content});
-            this.gridSaSlots.Location = new System.Drawing.Point(7, 30);
+            this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 369);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 354);
             this.gridSaSlots.TabIndex = 3;
+            this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
+            this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
             // 
             // sas_object
             // 
@@ -2027,6 +2044,7 @@
             this.tabControl5.Controls.Add(this.tabPage17);
             this.tabControl5.Controls.Add(this.tabPage15);
             this.tabControl5.Controls.Add(this.tabPage16);
+            this.tabControl5.Controls.Add(this.tabPage18);
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
@@ -2035,7 +2053,11 @@
             // 
             // tabPage17
             // 
+            this.tabPage17.Controls.Add(this.textSaRigTag);
+            this.tabPage17.Controls.Add(this.label51);
+            this.tabPage17.Controls.Add(this.checkSaForPlayer);
             this.tabPage17.Controls.Add(this.textSaBottomLine);
+            this.tabPage17.Controls.Add(this.buttonSaSave);
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
@@ -2046,11 +2068,13 @@
             // 
             // textSaBottomLine
             // 
-            this.textSaBottomLine.Location = new System.Drawing.Point(6, 6);
+            this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(684, 354);
+            this.textSaBottomLine.Size = new System.Drawing.Size(684, 313);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
+            this.textSaBottomLine.TextChanged += new System.EventHandler(this.textSaBottomLine_TextChanged);
+            this.textSaBottomLine.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textSaBottomLine_MouseDoubleClick);
             // 
             // tabPage15
             // 
@@ -2131,6 +2155,8 @@
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
+            this.tabPage16.Click += new System.EventHandler(this.tabPage16_Click);
+            this.tabPage16.Enter += new System.EventHandler(this.tabPage16_Enter);
             // 
             // buttonSaDeleteOfficer
             // 
@@ -2157,8 +2183,21 @@
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(469, 304);
+            this.gridSaOfficer.Size = new System.Drawing.Size(469, 301);
             this.gridSaOfficer.TabIndex = 6;
+            // 
+            // sao_stat_name
+            // 
+            this.sao_stat_name.HeaderText = "Умение";
+            this.sao_stat_name.Name = "sao_stat_name";
+            this.sao_stat_name.ReadOnly = true;
+            // 
+            // sao_value
+            // 
+            this.sao_value.FillWeight = 50F;
+            this.sao_value.HeaderText = "Значение";
+            this.sao_value.Name = "sao_value";
+            this.sao_value.ReadOnly = true;
             // 
             // listSaOfficers
             // 
@@ -2171,6 +2210,7 @@
             this.listSaOfficers.Size = new System.Drawing.Size(205, 304);
             this.listSaOfficers.TabIndex = 5;
             this.listSaOfficers.SelectedIndexChanged += new System.EventHandler(this.listSaOfficers_SelectedIndexChanged);
+            this.listSaOfficers.DoubleClick += new System.EventHandler(this.listSaOfficers_DoubleClick);
             // 
             // comboSaOfficers
             // 
@@ -2227,6 +2267,7 @@
             this.comboSaShip.Name = "comboSaShip";
             this.comboSaShip.Size = new System.Drawing.Size(220, 28);
             this.comboSaShip.TabIndex = 0;
+            this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
             // 
             // tabPage10
             // 
@@ -2398,7 +2439,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 438);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 452);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2416,18 +2457,120 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // sao_stat_name
+            // tabPage18
             // 
-            this.sao_stat_name.HeaderText = "Умение";
-            this.sao_stat_name.Name = "sao_stat_name";
-            this.sao_stat_name.ReadOnly = true;
+            this.tabPage18.Controls.Add(this.treeSaRigs);
+            this.tabPage18.Controls.Add(this.buttonSaDeleteRig);
+            this.tabPage18.Controls.Add(this.buttonSaLoadRig);
+            this.tabPage18.Location = new System.Drawing.Point(4, 29);
+            this.tabPage18.Name = "tabPage18";
+            this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage18.Size = new System.Drawing.Size(696, 366);
+            this.tabPage18.TabIndex = 3;
+            this.tabPage18.Text = "Архив";
+            this.tabPage18.UseVisualStyleBackColor = true;
+            this.tabPage18.Click += new System.EventHandler(this.tabPage18_Click);
+            this.tabPage18.Enter += new System.EventHandler(this.tabPage18_Enter);
             // 
-            // sao_value
+            // radioEnergy
             // 
-            this.sao_value.FillWeight = 50F;
-            this.sao_value.HeaderText = "Значение";
-            this.sao_value.Name = "sao_value";
-            this.sao_value.ReadOnly = true;
+            this.radioEnergy.AutoSize = true;
+            this.radioEnergy.Location = new System.Drawing.Point(10, 132);
+            this.radioEnergy.Name = "radioEnergy";
+            this.radioEnergy.Size = new System.Drawing.Size(77, 24);
+            this.radioEnergy.TabIndex = 6;
+            this.radioEnergy.TabStop = true;
+            this.radioEnergy.Text = "Energy";
+            this.radioEnergy.UseVisualStyleBackColor = true;
+            this.radioEnergy.CheckedChanged += new System.EventHandler(this.radioEnergy_CheckedChanged);
+            // 
+            // radioKinetic
+            // 
+            this.radioKinetic.AutoSize = true;
+            this.radioKinetic.Location = new System.Drawing.Point(10, 162);
+            this.radioKinetic.Name = "radioKinetic";
+            this.radioKinetic.Size = new System.Drawing.Size(74, 24);
+            this.radioKinetic.TabIndex = 7;
+            this.radioKinetic.TabStop = true;
+            this.radioKinetic.Text = "Kinetic";
+            this.radioKinetic.UseVisualStyleBackColor = true;
+            this.radioKinetic.CheckedChanged += new System.EventHandler(this.radioKinetic_CheckedChanged);
+            // 
+            // radioRocket
+            // 
+            this.radioRocket.AutoSize = true;
+            this.radioRocket.Location = new System.Drawing.Point(10, 192);
+            this.radioRocket.Name = "radioRocket";
+            this.radioRocket.Size = new System.Drawing.Size(78, 24);
+            this.radioRocket.TabIndex = 8;
+            this.radioRocket.TabStop = true;
+            this.radioRocket.Text = "Rocket";
+            this.radioRocket.UseVisualStyleBackColor = true;
+            this.radioRocket.CheckedChanged += new System.EventHandler(this.radioRocket_CheckedChanged);
+            // 
+            // buttonSaSave
+            // 
+            this.buttonSaSave.Location = new System.Drawing.Point(6, 6);
+            this.buttonSaSave.Name = "buttonSaSave";
+            this.buttonSaSave.Size = new System.Drawing.Size(192, 35);
+            this.buttonSaSave.TabIndex = 0;
+            this.buttonSaSave.Text = "Сохранить";
+            this.buttonSaSave.UseVisualStyleBackColor = true;
+            this.buttonSaSave.Click += new System.EventHandler(this.buttonSaSave_Click);
+            // 
+            // checkSaForPlayer
+            // 
+            this.checkSaForPlayer.AutoSize = true;
+            this.checkSaForPlayer.Location = new System.Drawing.Point(215, 12);
+            this.checkSaForPlayer.Name = "checkSaForPlayer";
+            this.checkSaForPlayer.Size = new System.Drawing.Size(114, 24);
+            this.checkSaForPlayer.TabIndex = 1;
+            this.checkSaForPlayer.Text = "Для игрока";
+            this.checkSaForPlayer.UseVisualStyleBackColor = true;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(350, 13);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(38, 20);
+            this.label51.TabIndex = 2;
+            this.label51.Text = "Тег:";
+            // 
+            // textSaRigTag
+            // 
+            this.textSaRigTag.Location = new System.Drawing.Point(394, 10);
+            this.textSaRigTag.MaxLength = 50;
+            this.textSaRigTag.Name = "textSaRigTag";
+            this.textSaRigTag.Size = new System.Drawing.Size(296, 26);
+            this.textSaRigTag.TabIndex = 3;
+            // 
+            // buttonSaLoadRig
+            // 
+            this.buttonSaLoadRig.Location = new System.Drawing.Point(6, 6);
+            this.buttonSaLoadRig.Name = "buttonSaLoadRig";
+            this.buttonSaLoadRig.Size = new System.Drawing.Size(130, 33);
+            this.buttonSaLoadRig.TabIndex = 0;
+            this.buttonSaLoadRig.Text = "Загрузить";
+            this.buttonSaLoadRig.UseVisualStyleBackColor = true;
+            this.buttonSaLoadRig.Click += new System.EventHandler(this.buttonSaLoadRig_Click);
+            // 
+            // buttonSaDeleteRig
+            // 
+            this.buttonSaDeleteRig.Location = new System.Drawing.Point(142, 6);
+            this.buttonSaDeleteRig.Name = "buttonSaDeleteRig";
+            this.buttonSaDeleteRig.Size = new System.Drawing.Size(130, 33);
+            this.buttonSaDeleteRig.TabIndex = 1;
+            this.buttonSaDeleteRig.Text = "Удалить";
+            this.buttonSaDeleteRig.UseVisualStyleBackColor = true;
+            // 
+            // treeSaRigs
+            // 
+            this.treeSaRigs.HideSelection = false;
+            this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
+            this.treeSaRigs.Name = "treeSaRigs";
+            this.treeSaRigs.Size = new System.Drawing.Size(266, 315);
+            this.treeSaRigs.TabIndex = 2;
             // 
             // Form1
             // 
@@ -2490,6 +2633,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridSaSlots)).EndInit();
             this.tabControl5.ResumeLayout(false);
             this.tabPage17.ResumeLayout(false);
+            this.tabPage17.PerformLayout();
             this.tabPage15.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridSaModules)).EndInit();
             this.tabPage16.ResumeLayout(false);
@@ -2500,6 +2644,7 @@
             this.tabPage11.ResumeLayout(false);
             this.tabPage11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridOfficerType)).EndInit();
+            this.tabPage18.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2707,6 +2852,17 @@
         private System.Windows.Forms.Button buttonSaDeleteOfficer;
         private System.Windows.Forms.DataGridViewTextBoxColumn sao_stat_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn sao_value;
+        private System.Windows.Forms.TabPage tabPage18;
+        private System.Windows.Forms.RadioButton radioRocket;
+        private System.Windows.Forms.RadioButton radioKinetic;
+        private System.Windows.Forms.RadioButton radioEnergy;
+        private System.Windows.Forms.CheckBox checkSaForPlayer;
+        private System.Windows.Forms.Button buttonSaSave;
+        private System.Windows.Forms.TextBox textSaRigTag;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.TreeView treeSaRigs;
+        private System.Windows.Forms.Button buttonSaDeleteRig;
+        private System.Windows.Forms.Button buttonSaLoadRig;
     }
 }
 
