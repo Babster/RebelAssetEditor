@@ -10,10 +10,14 @@ public class GameEvent
     public int Id { get; set; }
     public int ParentId { get; set; }
     public string Name { get; set; }
+    public int Repeatable { get; set; }
 
     public List<EventElement> Elements { get; set; }
 
-    public GameEvent() { }
+    public GameEvent() 
+    {
+        Elements = new List<EventElement>();
+    }
     public GameEvent(int parentId)
     {
         this.ParentId = parentId;
@@ -25,6 +29,7 @@ public class GameEvent
         Id = Convert.ToInt32(r["id"]);
         ParentId = Convert.ToInt32(r["parent_id"]);
         Name = Convert.ToString(r["name"]);
+        Repeatable = Convert.ToInt32(r["repeatable"]);
 
         Elements = new List<EventElement>();
         string q = EventElementsQuery(Id);
@@ -60,7 +65,8 @@ public class GameEvent
             SELECT
                 id,
                 parent_id,
-                name
+                name,
+                ISNULL(repeatable, 0) AS repeatable
             FROM
                 game_events";
         return q;
@@ -83,6 +89,29 @@ public class GameEvent
 
         return eventList;
 
+    }
+    private static Dictionary<int, GameEvent> EventDict;
+    private static void FillEventsDictionary()
+    {
+        EventDict = new Dictionary<int, GameEvent>();
+        List<GameEvent> events = EventList();
+        foreach(GameEvent evnt in events)
+        {
+            EventDict.Add(evnt.Id, evnt);
+        }
+    }
+    public static GameEvent EventById(int Id)
+    {
+        if (EventDict == null)
+            FillEventsDictionary();
+        if(EventDict.ContainsKey(Id))
+        {
+            return EventDict[Id];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public class EventElement
@@ -130,6 +159,7 @@ public class GameEvent
     public EventElement AddElement()
     {
         EventElement newElement = new EventElement();
+        newElement.ElementType = "spaceship";
         Elements.Add(newElement);
         return newElement;
     }
@@ -147,7 +177,8 @@ public class GameEvent
 
         q = $@"
             UPDATE game_events SET
-                name = @str1
+                name = @str1,
+                repeatable = {Repeatable}
             WHERE
                 id = {Id}";
         List<string> names = new List<string> { Name };
@@ -171,6 +202,17 @@ public class GameEvent
         }
         DataConnection.Execute(q);
 
+    }
+
+    public void Delete()
+    {
+        if (Id == 0)
+            return;
+        string q = $@"
+            DELETE FROM game_events WHERE id = {Id};
+            DELETE FROM game_events_elements WHERE game_event_id = {Id}
+            ";
+        DataConnection.Execute(q);
     }
 
 }

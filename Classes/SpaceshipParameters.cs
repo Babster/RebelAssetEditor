@@ -9,8 +9,6 @@ using Crew;
 public class SpaceshipParameters
 {
 
-    //Каждый 5 очков параметров офицера дают 100% прирост соответствующей характеристики
-    private const int BasePointForHundredPercent = 5;
 
     public List<ParameterAndValue> ParameterList { get; set; }
 
@@ -216,12 +214,12 @@ public class SpaceshipParameters
             AdjustParameter(SpaceShipParameter.Dexterity, ThrustersBoost);
 
             double ShieldsBoost = curOfficer.StatValue(CrewOfficerType.OfficerStat.StatType.ShieldsBoost);
-            ShieldsBoost = (1 + (ShieldsBoost / BasePointForHundredPercent));
+            ShieldsBoost = (1 + (ShieldsBoost / 5));
             AdjustParameter(SpaceShipParameter.ShieldPoints, ShieldsBoost);
             AdjustParameter(SpaceShipParameter.ShieldRegen, ShieldsBoost);
 
             double ArmorBoost = curOfficer.StatValue(CrewOfficerType.OfficerStat.StatType.ArmorBoost);
-            ArmorBoost = (1 + (ArmorBoost / BasePointForHundredPercent));
+            ArmorBoost = (1 + (ArmorBoost / 5));
             AdjustParameter(SpaceShipParameter.ArmorPoints, ArmorBoost);
 
             //Добавление параметров вооружения
@@ -255,9 +253,6 @@ public class SpaceshipParameters
 
     public class WeaponParameters
     {
-
-        //Количество очков навыка, которые дают 100% бонуса к статам
-        private const int BasePointForHundredPercent = 5;
 
         public double ShieldDPS { get; set; }
         public double StructureDPS { get; set; }
@@ -301,8 +296,8 @@ public class SpaceshipParameters
             if (Bonus < 1)
                 return;
 
-            ShieldDamage = (ShieldDamage * (1 + (Bonus / BasePointForHundredPercent)));
-            StructureDamage = (StructureDamage * (1 + (Bonus / BasePointForHundredPercent)));
+            ShieldDamage = (ShieldDamage * (1 + (Bonus / 5)));
+            StructureDamage = (StructureDamage * (1 + (Bonus / 5)));
 
             CalculateDPS();
 

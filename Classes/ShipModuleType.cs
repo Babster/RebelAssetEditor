@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 
-public  class ShipModuleType
+public class ShipModuleType
 {
     public int Id { get; set; }
     public int IsCategory { get; set; }
@@ -176,6 +176,19 @@ public  class ShipModuleType
 
         Dictionary<int, ShipModuleType> tags = new Dictionary<int, ShipModuleType>();
 
+        List<ShipModuleType> lst = GetModuleList();
+        foreach(ShipModuleType module in lst)
+        {
+            tags.Add(module.Id, module);
+        }
+
+        return tags;
+       
+    }
+
+    public static List<ShipModuleType> GetModuleList()
+    {
+        List<ShipModuleType> lst = new List<ShipModuleType>();
         string q = ModuleQuery(false);
         SqlDataReader r = DataConnection.GetReader(q);
         if (r.HasRows)
@@ -183,11 +196,11 @@ public  class ShipModuleType
             while (r.Read())
             {
                 ShipModuleType tag = new ShipModuleType(ref r);
-                tags.Add(tag.Id, tag);
+                lst.Add(tag);
             }
         }
         r.Close();
-        return tags;
+        return lst;
     }
 
     private static Dictionary<int, ShipModuleType> pModuleDict;

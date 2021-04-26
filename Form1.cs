@@ -2390,7 +2390,7 @@ namespace AssetEditor
         {
             treeEvents.Nodes.Clear();
             TreeNode mainNode = treeEvents.Nodes.Add("События в игре");
-
+            
             List<GameEvent> events = GameEvent.EventList();
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
             foreach(GameEvent gameEvent in events)
@@ -2406,8 +2406,57 @@ namespace AssetEditor
                 }
 
                 n.Tag = gameEvent;
-
+                nodeDict.Add(gameEvent.Id, n);
             }
+
+            comboEventSpaceship.Items.Clear();
+            List<ShipModel> ships = ShipModel.GetModelList();
+            foreach(ShipModel model in ships)
+            {
+                comboEventSpaceship.Items.Add(model);
+            }
+
+            comboEventModule.Items.Clear();
+            List<ShipModuleType> modules = ShipModuleType.GetModuleList();
+            foreach(ShipModuleType module in modules)
+            {
+                comboEventModule.Items.Add(module);
+            }
+
+            comboEventOfficer.Items.Clear();
+            List<CrewOfficerType> officerTypes = CrewOfficerType.GetTypeList();
+            foreach(CrewOfficerType ofType in officerTypes)
+            {
+                comboEventOfficer.Items.Add(ofType);
+            }
+
+            mainNode.Expand();
+
+            FillEventDictionaries();
+
+            eventsFilled = true;
+
+        }
+
+        private Dictionary<string, TabPage> eventStringToTabDict;
+        private Dictionary<TabPage, string> eventTabToStringDict;
+
+        private void FillEventDictionaries()
+        {
+            if (eventTabToStringDict != null)
+                return;
+
+            eventStringToTabDict = new Dictionary<string, TabPage>();
+            eventStringToTabDict.Add("spaceship", tabGiveSpaceShip);
+            eventStringToTabDict.Add("module", tabGiveModule);
+            eventStringToTabDict.Add("resources", tabGiveResources);
+            eventStringToTabDict.Add("officer", tabCreateOfficer);
+
+            eventTabToStringDict = new Dictionary<TabPage, string>();
+            eventTabToStringDict.Add(tabGiveSpaceShip, "spaceship");
+            eventTabToStringDict.Add(tabGiveModule, "module");
+            eventTabToStringDict.Add(tabGiveResources, "resources" );
+            eventTabToStringDict.Add(tabCreateOfficer, "officer" );
 
         }
 
@@ -2418,11 +2467,12 @@ namespace AssetEditor
             TreeNode n;
             int parentId = 0;
             GameEvent newEvent = new GameEvent();
+            newEvent.Name = "New game event";
             if (treeEvents.SelectedNode.Tag != null)
             {
                 GameEvent gEvent = (GameEvent)treeEvents.SelectedNode.Tag;
                 parentId = gEvent.Id;
-                n = treeEvents.SelectedNode.Nodes.Add(newEvent.Name);
+                n = treeEvents.SelectedNode.Nodes.Add(newEvent.Name );
             }
             else
             {
@@ -2432,7 +2482,7 @@ namespace AssetEditor
 
             newEvent.ParentId = parentId;
             n.Tag = newEvent;
-            
+            treeEvents.SelectedNode = n;
         }
 
         private GameEvent GetCurrentEvent()
@@ -2451,18 +2501,100 @@ namespace AssetEditor
 
         }
 
+        private void treeEvents_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ClearEvent();
+            if (NoEvents)
+                return;
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            NoEvents = true;
+            textEventId.Text = curEvent.Id.ToString();
+            textEventName.Text = curEvent.Name;
+            checkEventRepeatable.Checked = curEvent.Repeatable == 1;
+            NoEvents = false;
+        }
+
+        private void ClearEvent()
+        {
+            NoEvents = true;
+            textEventId.Text = "";
+            textEventName.Text = "";
+            NoEvents = false;
+        }
+
         private void textEventName_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
-            GameEvent gEvent = GetCurrentEvent();
-            if (gEvent == null)
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
                 return;
-            gEvent.Name = textEventName.Text;
+            curEvent.Name = textEventName.Text;
             treeEvents.SelectedNode.Text = textEventName.Text;
         }
 
+        private void checkEventRepeatable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            curEvent.Repeatable = checkEventRepeatable.Checked ? 1 : 0;
+        }
+
         private void buttonSaveEvent_Click(object sender, EventArgs e)
+        {
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            curEvent.Save();
+            textEventId.Text = curEvent.Id.ToString();
+        }
+
+        private void buttonEventDelete_Click(object sender, EventArgs e)
+        {
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            if (treeEvents.SelectedNode.Nodes.Count > 0)
+            {
+                MessageBox.Show("Нельзя удалять события, если у них есть подчиненные");
+                return;
+            }
+            if (MessageBox.Show("Удалить событие?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            curEvent.Delete();
+            treeEvents.SelectedNode.Parent.Nodes.Remove(treeEvents.SelectedNode);
+        }
+
+        private void buttonAddEventElement_Click(object sender, EventArgs e)
+        {
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            GameEvent.EventElement elem = curEvent.AddElement();
+            listEventElements.Items.Add(elem);
+            listEventElements.SelectedItem = elem;
+        }
+
+        private void buttonDeleteEventElement_Click(object sender, EventArgs e)
+        {
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            curEvent.Delete();
+            listEventElements.Items.Remove(curEvent);
+        }
+
+        private void listEventElements_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ClearEventElement()
         {
 
         }
