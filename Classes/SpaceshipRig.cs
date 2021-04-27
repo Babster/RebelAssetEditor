@@ -24,7 +24,7 @@ public class SpaceshipRig
     {
         this.Id = id;
 
-        SqlDataReader r = DataConnection.GetReader(SpaceshipRigQuery(id, 0, ""));
+        SqlDataReader r = DataConnection.GetReader(SpaceshipRigQuery(id, 0, "", false));
         r.Read();
         LoadRigInner(r);
         r.Close();
@@ -100,7 +100,7 @@ public class SpaceshipRig
 
     }
 
-    public static string SpaceshipRigQuery(int id, int playerId, string tag)
+    public static string SpaceshipRigQuery(int id, int playerId, string tag, bool builtIn)
     {
         string q;
         q = $@"
@@ -132,6 +132,13 @@ public class SpaceshipRig
                 ss_rigs.player_id = '{tag}'
             ";
         }
+        else if(builtIn)
+        {
+            q += $@" 
+            WHERE
+                ISNULL(ss_rigs.tag, '') <> ''
+            ";
+        }
         return q;
     }
 
@@ -155,6 +162,23 @@ public class SpaceshipRig
             
         return rigsDict[id];
 
+    }
+    public static List<SpaceshipRig> BuiltInRigs()
+    {
+        List<SpaceshipRig> rigs = new List<SpaceshipRig>();
+        string q = SpaceshipRigQuery(0, 0, "", true);
+        SqlDataReader r = DataConnection.GetReader(q);
+        if(r.HasRows)
+        {
+            while(r.Read())
+            {
+                rigs.Add(new SpaceshipRig(r));
+            }
+        }
+        r.Close();
+
+        return rigs;
+        
     }
 
     public class RigSlot

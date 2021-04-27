@@ -30,7 +30,7 @@ class BattleSceneType
         enemies = new List<Enemy>();
         string q = $@"
             SELECT
-                id
+                id,
                 battle_scene_id,
                 stage_number,
                 ship_rig_id,
@@ -235,7 +235,7 @@ class BattleSceneType
         }
 
         q = $"DELETE FROM battle_scenes_enemies WHERE battle_scene_id = {Id}";
-        if(idsDoNotDelete == "")
+        if(idsDoNotDelete != "")
         {
             q += $" AND id NOT IN({idsDoNotDelete})";
         }

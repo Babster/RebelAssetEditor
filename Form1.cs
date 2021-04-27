@@ -2130,7 +2130,7 @@ namespace AssetEditor
         {
             treeSaRigs.Nodes.Clear();
             string rigQuery;
-            rigQuery = SpaceshipRig.SpaceshipRigQuery(0, 0, "");
+            rigQuery = SpaceshipRig.SpaceshipRigQuery(0, 0, "", false);
             SqlDataReader r = DataConnection.GetReader(rigQuery);
             if (r.HasRows)
             {
@@ -2804,7 +2804,7 @@ namespace AssetEditor
             FillBattleScenes();
         }
 
-
+        
 
         private void buttonBsUpdate_Click(object sender, EventArgs e)
         {
@@ -2836,7 +2836,17 @@ namespace AssetEditor
                 }
             }
 
-            
+            comboBsEnemy.Items.Clear();
+            List<SpaceshipRig> rigs = SpaceshipRig.BuiltInRigs();
+            if (rigs.Count > 0)
+            {
+                foreach (SpaceshipRig rig in rigs)
+                {
+                    comboBsEnemy.Items.Add(rig);
+                }
+            }
+
+
             mainNode.Expand();
             battleScenesFilled = true;
         }
@@ -2844,6 +2854,7 @@ namespace AssetEditor
         private void treeBs_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ClearBs();
+
             BattleSceneType sceneType = GetCurrentBattleScene();
             if (sceneType == null)
                 return;
@@ -2851,6 +2862,15 @@ namespace AssetEditor
             textBsId.Text = sceneType.Id.ToString();
             textBsName.Text = sceneType.Name;
             checkBsAssembleShip.Checked = sceneType.AssembleShip == 1;
+            listBsEnemies.Items.Clear();
+            ClearBsEnemy();
+            if (sceneType.enemies.Count > 0)
+            {
+                foreach(BattleSceneType.Enemy enemy in sceneType.enemies)
+                {
+                    listBsEnemies.Items.Add(enemy);
+                }
+            }
             NoEvents = false;
         }
 
@@ -2992,16 +3012,27 @@ namespace AssetEditor
 
         private void listBsEnemies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ClearBsEnemy();
             if (NoEvents)
                 return;
-
+            ClearBsEnemy();
             BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
 
             NoEvents = true;
-            comboBsEnemy.SelectedItem = enemy.Rig;
+            if(enemy.Rig != null)
+            {
+                foreach (var item in comboBsEnemy.Items)
+                {
+                    SpaceshipRig rig = (SpaceshipRig)item;
+                    if (rig.Id == enemy.Rig.Id)
+                    {
+                        comboBsEnemy.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
             textBsStageNumber.Text = enemy.StageNumber.ToString() ;
             textBsEnemyCount.Text = enemy.Count.ToString();
             textBsCycleMultiplier.Text = enemy.CycleMultiplier.ToString();
@@ -3027,8 +3058,10 @@ namespace AssetEditor
                 SpaceshipRig rig = (SpaceshipRig)comboBsEnemy.SelectedItem;
                 enemy.ShipRigId = rig.Id;
             }
-            
-            
+            NoEvents = true;
+            listBsEnemies.Items[listBsEnemies.SelectedIndex] = listBsEnemies.SelectedItem;
+            NoEvents = false;
+
         }
         private void textBsStageNumber_TextChanged(object sender, EventArgs e)
         {
@@ -3054,22 +3087,42 @@ namespace AssetEditor
         }
         private void textBsCycleMultiplier_TextChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsCycleMultiplier.Text, out value);
+            enemy.CycleMultiplier = value;
         }
         private void textBsBattleIntensity_TextChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsBattleIntensity.Text, out value);
+            enemy.BaseBattleIntensity = value;
         }
         private void textBsIntensityMultiplier_TextChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsIntensityMultiplier.Text, out value);
+            enemy.CycleIntensityMult = value;
         }
+
 
 
 
 
         #endregion
-
-
     }
 }
