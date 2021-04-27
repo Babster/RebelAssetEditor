@@ -3124,5 +3124,102 @@ namespace AssetEditor
 
 
         #endregion
+
+        #region
+
+        private bool resourcesFilled;
+
+        private void tabPage23_Enter(object sender, EventArgs e)
+        {
+            if (resourcesFilled)
+                return;
+            FillResources();
+        }
+
+        private void buttonResRefresh_Click(object sender, EventArgs e)
+        {
+            FillResources();
+        }
+
+        private void FillResources()
+        {
+            TreeNode mainNode = treeRes.Nodes.Add("Ресурсы");
+            
+            Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
+            List<ResourceType> resList = ResourceType.GetResouceList();
+            if(resList.Count > 0)
+            {
+                foreach(ResourceType res in resList)
+                {
+                    TreeNodeCollection hostNodes;
+                    if(res.ParentId == 0)
+                    {
+                        hostNodes = mainNode.Nodes;
+                    }    
+                    else
+                    {
+                        hostNodes = nodeDict[res.ParentId].Nodes;
+                    }
+                    TreeNode n = hostNodes.Add(res.Name);
+                    n.Tag = res;
+                }
+            }
+
+
+            mainNode.Expand();
+            resourcesFilled = true;
+        }
+
+
+        private void buttonResAdd_Click(object sender, EventArgs e)
+        {
+            int parentId = 0;
+            ResourceType res = new ResourceType();
+            TreeNodeCollection hostNodes;
+            if(treeRes.SelectedNode == null)
+            {
+                hostNodes = treeRes.Nodes[0].Nodes;
+            }
+            else if(treeRes.SelectedNode.Tag == null)
+            {
+                hostNodes = treeRes.Nodes[0].Nodes;
+            }
+            else
+            {
+                ResourceType hostRes = (ResourceType)treeRes.SelectedNode.Tag;
+                parentId = hostRes.Id;
+                hostNodes = treeRes.SelectedNode.Nodes;
+            }
+            res.Name = "new resource";
+            TreeNode n = hostNodes.Add(res.Name);
+            n.Tag = res;
+            treeRes.SelectedNode = n;
+            
+        }
+
+        private void buttonResDelete_Click(object sender, EventArgs e)
+        {
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+        }
+
+        private ResourceType CurrentRes()
+        {
+            if (treeRes.SelectedNode == null)
+                return null;
+            if (treeRes.SelectedNode.Tag == null)
+                return null;
+            return (ResourceType)treeRes.SelectedNode.Tag;
+        }
+
+        private void treeRes_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+
     }
 }

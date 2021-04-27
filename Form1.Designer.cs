@@ -307,11 +307,27 @@
             this.buttonBsAdd = new System.Windows.Forms.Button();
             this.buttonBsUpdate = new System.Windows.Forms.Button();
             this.treeBs = new System.Windows.Forms.TreeView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage23 = new System.Windows.Forms.TabPage();
             this.tabControl7 = new System.Windows.Forms.TabControl();
             this.tabPage24 = new System.Windows.Forms.TabPage();
             this.tabPage25 = new System.Windows.Forms.TabPage();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.buttonResDelete = new System.Windows.Forms.Button();
+            this.buttonResAdd = new System.Windows.Forms.Button();
+            this.buttonResRefresh = new System.Windows.Forms.Button();
+            this.treeRes = new System.Windows.Forms.TreeView();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label73 = new System.Windows.Forms.Label();
+            this.buttonResSave = new System.Windows.Forms.Button();
+            this.textResId = new System.Windows.Forms.TextBox();
+            this.label74 = new System.Windows.Forms.Label();
+            this.textResName = new System.Windows.Forms.TextBox();
+            this.label75 = new System.Windows.Forms.Label();
+            this.textResDecriptionEng = new System.Windows.Forms.TextBox();
+            this.textResDescriptionRus = new System.Windows.Forms.TextBox();
+            this.label76 = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
+            this.textResImg = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -367,6 +383,8 @@
             this.tabPage21.SuspendLayout();
             this.tabPage23.SuspendLayout();
             this.tabControl7.SuspendLayout();
+            this.tabPage24.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -1699,7 +1717,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 466);
+            this.groupBox5.Size = new System.Drawing.Size(947, 473);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1801,7 +1819,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 120);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 127);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2059,7 +2077,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 424);
+            this.treeShips.Size = new System.Drawing.Size(234, 431);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2105,7 +2123,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 451);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 458);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2135,7 +2153,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 403);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 410);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2171,7 +2189,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 448);
+            this.tabControl5.Size = new System.Drawing.Size(704, 455);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2184,7 +2202,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 415);
+            this.tabPage17.Size = new System.Drawing.Size(696, 422);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2243,7 +2261,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 422);
+            this.tabPage15.Size = new System.Drawing.Size(696, 429);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2311,7 +2329,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 422);
+            this.tabPage16.Size = new System.Drawing.Size(696, 429);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2408,7 +2426,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 422);
+            this.tabPage18.Size = new System.Drawing.Size(696, 429);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2645,7 +2663,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 501);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 508);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3377,10 +3395,6 @@
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // tabPage23
             // 
             this.tabPage23.Controls.Add(this.tabControl7);
@@ -3391,6 +3405,7 @@
             this.tabPage23.TabIndex = 10;
             this.tabPage23.Text = "Ресурсы";
             this.tabPage23.UseVisualStyleBackColor = true;
+            this.tabPage23.Enter += new System.EventHandler(this.tabPage23_Enter);
             // 
             // tabControl7
             // 
@@ -3404,6 +3419,11 @@
             // 
             // tabPage24
             // 
+            this.tabPage24.Controls.Add(this.groupBox7);
+            this.tabPage24.Controls.Add(this.buttonResDelete);
+            this.tabPage24.Controls.Add(this.buttonResAdd);
+            this.tabPage24.Controls.Add(this.buttonResRefresh);
+            this.tabPage24.Controls.Add(this.treeRes);
             this.tabPage24.Location = new System.Drawing.Point(4, 29);
             this.tabPage24.Name = "tabPage24";
             this.tabPage24.Padding = new System.Windows.Forms.Padding(3);
@@ -3421,6 +3441,168 @@
             this.tabPage25.TabIndex = 1;
             this.tabPage25.Text = "Рецепты";
             this.tabPage25.UseVisualStyleBackColor = true;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // buttonResDelete
+            // 
+            this.buttonResDelete.Location = new System.Drawing.Point(208, 6);
+            this.buttonResDelete.Name = "buttonResDelete";
+            this.buttonResDelete.Size = new System.Drawing.Size(95, 28);
+            this.buttonResDelete.TabIndex = 11;
+            this.buttonResDelete.Text = "Delete";
+            this.buttonResDelete.UseVisualStyleBackColor = true;
+            this.buttonResDelete.Click += new System.EventHandler(this.buttonResDelete_Click);
+            // 
+            // buttonResAdd
+            // 
+            this.buttonResAdd.Location = new System.Drawing.Point(107, 6);
+            this.buttonResAdd.Name = "buttonResAdd";
+            this.buttonResAdd.Size = new System.Drawing.Size(95, 28);
+            this.buttonResAdd.TabIndex = 10;
+            this.buttonResAdd.Text = "Add";
+            this.buttonResAdd.UseVisualStyleBackColor = true;
+            this.buttonResAdd.Click += new System.EventHandler(this.buttonResAdd_Click);
+            // 
+            // buttonResRefresh
+            // 
+            this.buttonResRefresh.Location = new System.Drawing.Point(6, 6);
+            this.buttonResRefresh.Name = "buttonResRefresh";
+            this.buttonResRefresh.Size = new System.Drawing.Size(95, 28);
+            this.buttonResRefresh.TabIndex = 9;
+            this.buttonResRefresh.Text = "Refresh";
+            this.buttonResRefresh.UseVisualStyleBackColor = true;
+            this.buttonResRefresh.Click += new System.EventHandler(this.buttonResRefresh_Click);
+            // 
+            // treeRes
+            // 
+            this.treeRes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeRes.HideSelection = false;
+            this.treeRes.Location = new System.Drawing.Point(6, 40);
+            this.treeRes.Name = "treeRes";
+            this.treeRes.Size = new System.Drawing.Size(297, 424);
+            this.treeRes.TabIndex = 8;
+            this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.textResImg);
+            this.groupBox7.Controls.Add(this.label77);
+            this.groupBox7.Controls.Add(this.textResDescriptionRus);
+            this.groupBox7.Controls.Add(this.label76);
+            this.groupBox7.Controls.Add(this.textResDecriptionEng);
+            this.groupBox7.Controls.Add(this.label75);
+            this.groupBox7.Controls.Add(this.textResName);
+            this.groupBox7.Controls.Add(this.label74);
+            this.groupBox7.Controls.Add(this.textResId);
+            this.groupBox7.Controls.Add(this.buttonResSave);
+            this.groupBox7.Controls.Add(this.label73);
+            this.groupBox7.Location = new System.Drawing.Point(309, 6);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(894, 458);
+            this.groupBox7.TabIndex = 12;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Редактирование ресурса";
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Location = new System.Drawing.Point(6, 68);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(43, 20);
+            this.label73.TabIndex = 0;
+            this.label73.Text = "Код:";
+            // 
+            // buttonResSave
+            // 
+            this.buttonResSave.Location = new System.Drawing.Point(10, 25);
+            this.buttonResSave.Name = "buttonResSave";
+            this.buttonResSave.Size = new System.Drawing.Size(109, 28);
+            this.buttonResSave.TabIndex = 10;
+            this.buttonResSave.Text = "Сохранить";
+            this.buttonResSave.UseVisualStyleBackColor = true;
+            // 
+            // textResId
+            // 
+            this.textResId.Location = new System.Drawing.Point(55, 65);
+            this.textResId.Name = "textResId";
+            this.textResId.ReadOnly = true;
+            this.textResId.Size = new System.Drawing.Size(100, 26);
+            this.textResId.TabIndex = 11;
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Location = new System.Drawing.Point(171, 68);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(87, 20);
+            this.label74.TabIndex = 12;
+            this.label74.Text = "Название:";
+            // 
+            // textResName
+            // 
+            this.textResName.Location = new System.Drawing.Point(264, 65);
+            this.textResName.MaxLength = 50;
+            this.textResName.Name = "textResName";
+            this.textResName.Size = new System.Drawing.Size(262, 26);
+            this.textResName.TabIndex = 13;
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Location = new System.Drawing.Point(6, 109);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(140, 20);
+            this.label75.TabIndex = 14;
+            this.label75.Text = "Описание (англ.):";
+            // 
+            // textResDecriptionEng
+            // 
+            this.textResDecriptionEng.Location = new System.Drawing.Point(152, 106);
+            this.textResDecriptionEng.MaxLength = 100;
+            this.textResDecriptionEng.Name = "textResDecriptionEng";
+            this.textResDecriptionEng.Size = new System.Drawing.Size(736, 26);
+            this.textResDecriptionEng.TabIndex = 15;
+            // 
+            // textResDescriptionRus
+            // 
+            this.textResDescriptionRus.Location = new System.Drawing.Point(152, 138);
+            this.textResDescriptionRus.MaxLength = 100;
+            this.textResDescriptionRus.Name = "textResDescriptionRus";
+            this.textResDescriptionRus.Size = new System.Drawing.Size(736, 26);
+            this.textResDescriptionRus.TabIndex = 17;
+            // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Location = new System.Drawing.Point(6, 141);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(129, 20);
+            this.label76.TabIndex = 16;
+            this.label76.Text = "Описание (рус.):";
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Location = new System.Drawing.Point(6, 173);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(115, 20);
+            this.label77.TabIndex = 18;
+            this.label77.Text = "Изображение:";
+            // 
+            // textResImg
+            // 
+            this.textResImg.Location = new System.Drawing.Point(152, 170);
+            this.textResImg.MaxLength = 10;
+            this.textResImg.Name = "textResImg";
+            this.textResImg.Size = new System.Drawing.Size(100, 26);
+            this.textResImg.TabIndex = 19;
             // 
             // Form1
             // 
@@ -3513,6 +3695,9 @@
             this.tabPage21.PerformLayout();
             this.tabPage23.ResumeLayout(false);
             this.tabControl7.ResumeLayout(false);
+            this.tabPage24.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -3803,6 +3988,22 @@
         private System.Windows.Forms.TabControl tabControl7;
         private System.Windows.Forms.TabPage tabPage24;
         private System.Windows.Forms.TabPage tabPage25;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button buttonResDelete;
+        private System.Windows.Forms.Button buttonResAdd;
+        private System.Windows.Forms.Button buttonResRefresh;
+        private System.Windows.Forms.TreeView treeRes;
+        private System.Windows.Forms.TextBox textResImg;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.TextBox textResDescriptionRus;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.TextBox textResDecriptionEng;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.TextBox textResName;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.TextBox textResId;
+        private System.Windows.Forms.Button buttonResSave;
+        private System.Windows.Forms.Label label73;
     }
 }
 
