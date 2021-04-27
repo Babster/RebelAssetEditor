@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BattleSceneType.cs" />
     <Compile Include="Classes\Crew.cs" />
     <Compile Include="Classes\AdmiralLogic.cs" />
     <Compile Include="Classes\CommonFunctions.cs" />

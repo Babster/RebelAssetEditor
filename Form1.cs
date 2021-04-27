@@ -61,7 +61,7 @@ namespace AssetEditor
                 while (r.Read())
                 {
                     SceneNodeTag nTag = new SceneNodeTag(ref r);
-                    
+
                     TreeNode nNode = nodeScenes.Nodes.Add(nTag.Name);
                     nNode.Tag = nTag;
                     nTag.Node = nNode;
@@ -95,7 +95,7 @@ namespace AssetEditor
                 textSceneBackgroundId.Text = tTag.BackgroundImageId.ToString();
                 groupBox1.Enabled = true;
 
-                foreach(SceneElement curScene in tTag.Elements )
+                foreach (SceneElement curScene in tTag.Elements)
                 {
                     listSceneElements.Items.Add(curScene);
                 }
@@ -137,10 +137,10 @@ namespace AssetEditor
             NoEvents = false;
         }
 
- 
+
 
         private class SceneNodeTag : RebelSceneWithSql
-        { 
+        {
             public string NodeType { get; set; }
             public TreeNode Node { get; set; }
 
@@ -249,7 +249,7 @@ namespace AssetEditor
             if (listSceneElements.SelectedItem == null)
                 return;
 
-            SceneElement curElement = (SceneElement ) listSceneElements.SelectedItem;
+            SceneElement curElement = (SceneElement)listSceneElements.SelectedItem;
 
             NoEvents = true;
             comboSceneElementType.SelectedItem = curElement.Type;
@@ -298,9 +298,9 @@ namespace AssetEditor
                 return;
 
             SceneElement curElement = (SceneElement)listSceneElements.SelectedItem;
-            curElement.TextRussian = textSceneRussian.Text ;
+            curElement.TextRussian = textSceneRussian.Text;
             NoEvents = true;
-            listSceneElements.Items[listSceneElements.SelectedIndex] = curElement ;
+            listSceneElements.Items[listSceneElements.SelectedIndex] = curElement;
             NoEvents = false;
         }
 
@@ -320,7 +320,7 @@ namespace AssetEditor
                 return;
 
             SceneElement curElement = (SceneElement)listSceneElements.SelectedItem;
-            curElement.NextScreen  = checkNextScreen.Checked;
+            curElement.NextScreen = checkNextScreen.Checked;
         }
 
         #endregion
@@ -340,7 +340,7 @@ namespace AssetEditor
 
             public ImageTag(ref SqlDataReader r) : base(ref r)
             {
-                
+
             }
 
         }
@@ -382,7 +382,7 @@ namespace AssetEditor
             List<string> names = new List<string>();
             names.Add(partitionNode.Text);
             SqlDataReader r = DataConnection.GetReader(q, names);
-            while(r.Read())
+            while (r.Read())
             {
                 ImageTag tTag = new ImageTag(ref r);
                 TreeNode tNode = partitionNode.Nodes.Add(tTag.Name);
@@ -401,7 +401,7 @@ namespace AssetEditor
             pictureBox1.Image = null;
             buttonImageLoad.Enabled = false;
             textImageId.Text = "";
-            NoEvents = false;  
+            NoEvents = false;
         }
 
         private void buttonAddPartition_Click(object sender, EventArgs e)
@@ -415,7 +415,7 @@ namespace AssetEditor
 
             if (treeImages.SelectedNode != null)
             {
-                if(treeImages.SelectedNode.Tag == null)
+                if (treeImages.SelectedNode.Tag == null)
                 {
                     addType = "partition";
                 }
@@ -426,7 +426,7 @@ namespace AssetEditor
             }
 
             if (addType == "partition")
-            { 
+            {
 
                 TreeNode tNode = treeImages.Nodes[0].Nodes.Add("Новый раздел");
                 ImageTag tTag = new ImageTag();
@@ -441,7 +441,7 @@ namespace AssetEditor
             {
                 TreeNode tNode;
                 ImageTag cTag = (ImageTag)treeImages.SelectedNode.Tag;
-                if (cTag.IsPartition )
+                if (cTag.IsPartition)
                 {
                     tNode = treeImages.SelectedNode.Nodes.Add("Новое изображение");
                 }
@@ -473,7 +473,7 @@ namespace AssetEditor
 
             ImageTag tTag = (ImageTag)e.Node.Tag;
 
-            if(tTag.IsPartition )
+            if (tTag.IsPartition)
             {
                 textImagePartition.Text = tTag.Name;
                 textImagePartition.ReadOnly = false;
@@ -501,16 +501,16 @@ namespace AssetEditor
             if (textImagePartition.ReadOnly == true)
                 return;
 
-            if (e.KeyData == Keys.Enter )
+            if (e.KeyData == Keys.Enter)
             {
                 treeImages.SelectedNode.Text = textImagePartition.Text;
-                ImageTag tTag = (ImageTag) treeImages.SelectedNode.Tag;
+                ImageTag tTag = (ImageTag)treeImages.SelectedNode.Tag;
                 tTag.Name = textImagePartition.Text;
 
-                if(treeImages.SelectedNode.Nodes.Count > 0)
+                if (treeImages.SelectedNode.Nodes.Count > 0)
                 {
                     string ids = "";
-                    foreach(TreeNode curNode in treeImages.SelectedNode.Nodes )
+                    foreach (TreeNode curNode in treeImages.SelectedNode.Nodes)
                     {
                         ImageTag curTag = (ImageTag)curNode.Tag;
                         if (ids != "")
@@ -617,7 +617,7 @@ namespace AssetEditor
                 {
                     PlayerStatNode tStat = new PlayerStatNode(ref r);
                     TreeNode tNode = treeStats.Nodes.Add(tStat.Name);
-                    
+
                     tNode.Tag = tStat;
                     tStat.Node = tNode;
                 }
@@ -646,7 +646,7 @@ namespace AssetEditor
                 NoEvents = false;
             }
         }
-        
+
         private void ClearStat()
         {
             NoEvents = true;
@@ -668,13 +668,13 @@ namespace AssetEditor
 
             NoEvents = true;
 
-            PlayerStatNode tNode = (PlayerStatNode) treeStats.SelectedNode.Tag;
+            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
             textStatId.Text = tNode.Id.ToString();
-            if(!string.IsNullOrEmpty(tNode.SkillGroup))
+            if (!string.IsNullOrEmpty(tNode.SkillGroup))
             {
                 comboSkillGroup.SelectedItem = tNode.SkillGroup;
             }
-            
+
             textStatName.Text = tNode.Name;
             textStatBaseValue.Text = tNode.Value.ToString();
             textStatDescriptionEnglish.Text = tNode.DescriptionEnglish;
@@ -713,7 +713,7 @@ namespace AssetEditor
             if (NoEvents)
                 return;
             PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
-            if(comboSkillGroup.SelectedItem == null)
+            if (comboSkillGroup.SelectedItem == null)
             {
                 tNode.SkillGroup = "";
             }
@@ -721,7 +721,7 @@ namespace AssetEditor
             {
                 tNode.SkillGroup = (string)comboSkillGroup.SelectedItem;
             }
-            
+
 
         }
 
@@ -874,9 +874,17 @@ namespace AssetEditor
         }
         private void buttonClearPlayerProgress_Click(object sender, EventArgs e)
         {
+            AccountData tData = GetLatestUser();
+            int Id = tData.Id;
             string q;
-            q = "DELETE FROM [admirals_log];";
+            q = $@" 
+                DELETE FROM [admirals_log] WHERE admiral = {Id};
+                DELETE FROM [admirals_ships] WHERE player_id = {Id};
+                DELETE FROM game_events_log WHERE player_id = {Id}
+                DELETE FROM crew_officers_stats WHERE crew_officer_id IN (SELECT id FROM crew_officers WHERE player_id = {Id});
+                DELETE FROM crew_officers WHERE player_id = {Id}; ";
             DataConnection.Execute(q);
+            MessageBox.Show("Стерто");
         }
 
         #endregion
@@ -919,7 +927,7 @@ namespace AssetEditor
         private void GridStoryFlow_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
 
-            if(storyObjectDisct==null)
+            if (storyObjectDisct == null)
             {
                 storyObjectDisct = new Dictionary<string, string>();
                 storyObjectDisct.Add("s_prev_name", "previous_object_type");
@@ -931,14 +939,14 @@ namespace AssetEditor
             string q;
             DataGridViewRow row = GridStoryFlow.Rows[e.RowIndex];
             int id = 0;
-            if(row.Cells["s_id"].Value!=null)
+            if (row.Cells["s_id"].Value != null)
             {
-                if(Convert.ToString(row.Cells["s_id"].Value) != "")
+                if (Convert.ToString(row.Cells["s_id"].Value) != "")
                 {
                     id = Convert.ToInt32(row.Cells["s_id"].Value);
                 }
             }
-            if(id==0)
+            if (id == 0)
             {
                 q = @"
                      INSERT INTO story_object_flow(previous_object_type) VALUES('')
@@ -953,7 +961,7 @@ namespace AssetEditor
 
 
             q = $@"UPDATE story_object_flow SET " + storyObjectDisct[columnName] + " = @str1 WHERE id = " + id;
-            DataConnection.Execute(q,names);
+            DataConnection.Execute(q, names);
         }
 
 
@@ -985,13 +993,13 @@ namespace AssetEditor
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
             SqlDataReader r = DataConnection.GetReader(q);
-            if(r.HasRows)
+            if (r.HasRows)
             {
-                while(r.Read())
+                while (r.Read())
                 {
                     ShipModuleType tag = new ShipModuleType(ref r);
                     TreeNode n;
-                    if(tag.Parent == 0)
+                    if (tag.Parent == 0)
                     {
                         n = treeModules.Nodes.Add(tag.Name);
                     }
@@ -1015,7 +1023,7 @@ namespace AssetEditor
                 moduleTabDict.Add("Engine", tabEngine);
                 moduleTabDict.Add("Thrusters", tabThrusters);
                 moduleTabDict.Add("Misc", tabMisc);
-                
+
                 moduleTypeDict = new Dictionary<TabPage, string>();
                 moduleTypeDict.Add(tabWeapon, "Weapon");
                 moduleTypeDict.Add(tabArmor, "Armor");
@@ -1108,7 +1116,7 @@ namespace AssetEditor
             textModuleType.Text = tag.ModuleTypeStr;
             textModuleEnergy.Text = tag.EnergyNeeded.ToString();
 
-            if(tag.IsCategory==1)
+            if (tag.IsCategory == 1)
             {
                 NoEvents = false;
                 return;
@@ -1185,7 +1193,7 @@ namespace AssetEditor
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
-            tag.AssetName  = textModuleUnity.Text;
+            tag.AssetName = textModuleUnity.Text;
         }
 
         private void textModuleEnergy_TextChanged(object sender, EventArgs e)
@@ -1219,9 +1227,9 @@ namespace AssetEditor
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
-            foreach(RadioButton key in ModuleRadioToSizeDict.Keys)
+            foreach (RadioButton key in ModuleRadioToSizeDict.Keys)
             {
-                if(key.Checked)
+                if (key.Checked)
                 {
                     tag.Size = ModuleRadioToSizeDict[key];
                     return;
@@ -1459,14 +1467,14 @@ namespace AssetEditor
             if (r.HasRows)
             {
                 Dictionary<int, TreeNode> nodes = new Dictionary<int, TreeNode>();
-                while(r.Read())
+                while (r.Read())
                 {
                     ShipModel tag = new ShipModel(ref r);
                     TreeNode n;
                     if (tag.Parent > 0)
                     {
                         n = nodes[tag.Parent].Nodes.Add(tag.Name);
-                    }    
+                    }
                     else
                     {
                         n = treeShips.Nodes.Add(tag.Name);
@@ -1509,7 +1517,7 @@ namespace AssetEditor
         {
             int parentId;
             TreeNode n;
-            if(treeShips.SelectedNode == null)
+            if (treeShips.SelectedNode == null)
             {
                 parentId = 0;
                 n = treeShips.Nodes.Add("");
@@ -1538,15 +1546,15 @@ namespace AssetEditor
             textBattleIntensity.Text = tag.BattleIntensity.ToString();
             textShipName.Text = tag.Name;
             textShipUnity.Text = tag.AssetName;
-            if(tag.slots.Count > 0)
+            if (tag.slots.Count > 0)
             {
-                foreach(ShipModel.Slot slot in tag.slots)
+                foreach (ShipModel.Slot slot in tag.slots)
                 {
                     listShipSlots.Items.Add(slot);
                 }
             }
             NoEvents = false;
-            if(listShipSlots.Items.Count > 0)
+            if (listShipSlots.Items.Count > 0)
                 listShipSlots.SelectedIndex = 0;
         }
 
@@ -1584,7 +1592,7 @@ namespace AssetEditor
             ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            tag.AssetName  = textShipUnity.Text;
+            tag.AssetName = textShipUnity.Text;
         }
         private void textShipBaseStructure_TextChanged(object sender, EventArgs e)
         {
@@ -1652,7 +1660,7 @@ namespace AssetEditor
                     slot.Size = SlotSizeRadioToIntDict[key];
                     return;
                 }
-                    
+
 
             }
         }
@@ -1701,7 +1709,7 @@ namespace AssetEditor
             if (slot == null)
                 return;
             string t;
-            if(comboShipSlotType.SelectedItem == null)
+            if (comboShipSlotType.SelectedItem == null)
             {
                 t = "";
             }
@@ -1781,7 +1789,7 @@ namespace AssetEditor
             Dictionary<int, ShipModuleType> moduleDict = ShipModuleType.CreateModuleDict();
             foreach (ShipModel.Slot slot in tag.slots)
             {
-                if(moduleDict.ContainsKey(slot.DefaultModuleId))
+                if (moduleDict.ContainsKey(slot.DefaultModuleId))
                 {
                     ShipModuleType mType = moduleDict[slot.DefaultModuleId];
                     if (mType != null)
@@ -1793,16 +1801,16 @@ namespace AssetEditor
             gridShipParameters.Rows.Clear();
             if (curParams.Count > 0)
             {
-                foreach(SpaceshipParameters.ParameterAndValue param in curParams.ParameterList )
+                foreach (SpaceshipParameters.ParameterAndValue param in curParams.ParameterList)
                 {
                     DataGridViewRow row;
                     gridShipParameters.Rows.Add();
                     row = gridShipParameters.Rows[gridShipParameters.Rows.Count - 1];
-                    row.Cells["sp_name"].Value = param.tString; 
+                    row.Cells["sp_name"].Value = param.tString;
                     row.Cells["sp_value"].Value = param.Value;
                 }
             }
-           
+
         }
 
         private void buttonSaveShip_Click(object sender, EventArgs e)
@@ -1860,11 +1868,11 @@ namespace AssetEditor
         {
 
         }
-        
+
         private void FillSaModule()
         {
 
-            
+
             //Spaceship models combo
             comboSaShip.Items.Clear();
             List<ShipModel> models = ShipModel.GetModelList();
@@ -1876,9 +1884,9 @@ namespace AssetEditor
             //Module types grid
             gridSaModules.Rows.Clear();
             List<ShipModuleType> moduleTypes = ShipModuleType.CreateModuleList();
-            if(moduleTypes.Count > 0)
+            if (moduleTypes.Count > 0)
             {
-                foreach(ShipModuleType moduleType in moduleTypes)
+                foreach (ShipModuleType moduleType in moduleTypes)
                 {
                     DataGridViewRow row;
                     gridSaModules.Rows.Add();
@@ -1892,7 +1900,7 @@ namespace AssetEditor
             //Officer type combo
             comboSaOfficers.Items.Clear();
             List<CrewOfficerType> tOff = CrewOfficerType.GetTypeList();
-            foreach(CrewOfficerType curType in tOff)
+            foreach (CrewOfficerType curType in tOff)
             {
                 comboSaOfficers.Items.Add(curType);
             }
@@ -1902,7 +1910,7 @@ namespace AssetEditor
 
         private ShipModel GetCurrentModel()
         {
-            if(comboSaShip.SelectedItem == null)
+            if (comboSaShip.SelectedItem == null)
             {
                 return null;
             }
@@ -1974,7 +1982,7 @@ namespace AssetEditor
             slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
 
             string fitMsg = slot.LoadOfficer(officer);
-            if(fitMsg != "")
+            if (fitMsg != "")
             {
                 MessageBox.Show(fitMsg);
                 return;
@@ -2045,7 +2053,7 @@ namespace AssetEditor
                 return;
             CrewOfficer ofType = (CrewOfficer)listSaOfficers.SelectedItem;
 
-            foreach(CrewOfficer.Stat stat in ofType.Stats)
+            foreach (CrewOfficer.Stat stat in ofType.Stats)
             {
                 DataGridViewRow row;
                 gridSaOfficer.Rows.Add();
@@ -2092,7 +2100,7 @@ namespace AssetEditor
         {
             int playerId = 0;
             string tg = "";
-            if(checkSaForPlayer.Checked )
+            if (checkSaForPlayer.Checked)
             {
                 playerId = GetLatestUser().Id;
             }
@@ -2124,9 +2132,9 @@ namespace AssetEditor
             string rigQuery;
             rigQuery = SpaceshipRig.SpaceshipRigQuery(0, 0, "");
             SqlDataReader r = DataConnection.GetReader(rigQuery);
-            if(r.HasRows)
+            if (r.HasRows)
             {
-                while(r.Read())
+                while (r.Read())
                 {
                     SpaceshipRig rig = new SpaceshipRig(r);
                     TreeNode n = treeSaRigs.Nodes.Add(rig.ToString());
@@ -2157,7 +2165,7 @@ namespace AssetEditor
                 return;
             SpaceshipRig rig = (SpaceshipRig)n.Tag;
 
-            if (MessageBox.Show(null, "Delete rig?","", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (MessageBox.Show(null, "Delete rig?", "", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
             rig.Delete();
@@ -2199,9 +2207,9 @@ namespace AssetEditor
             string q;
             q = CrewOfficerType.OfficerTypeQuery();
             SqlDataReader r = DataConnection.GetReader(q);
-            if(r.HasRows)
+            if (r.HasRows)
             {
-                while(r.Read())
+                while (r.Read())
                 {
                     CrewOfficerType curOfficer = new CrewOfficerType(ref r);
                     TreeNode n = treeOfficerTypes.Nodes.Add(curOfficer.Name);
@@ -2255,16 +2263,16 @@ namespace AssetEditor
             gridOfficerType.Rows.Clear();
 
             List<CrewOfficerType.OfficerStat> stats = curOfficerType.Stats;
-            if(stats.Count > 0)
+            if (stats.Count > 0)
             {
-                foreach(CrewOfficerType.OfficerStat stat in stats)
+                foreach (CrewOfficerType.OfficerStat stat in stats)
                 {
                     DataGridViewRow row;
                     gridOfficerType.Rows.Add();
                     row = gridOfficerType.Rows[gridOfficerType.Rows.Count - 1];
                     row.Cells["ot_name"].Value = stat.Name;
                     row.Cells["ot_score"].Value = stat.PointsBase;
-                    
+
                 }
             }
 
@@ -2281,7 +2289,7 @@ namespace AssetEditor
             treeOfficerTypes.SelectedNode.Text = textOfficerTypeName.Text;
             curOfficerType.Name = textOfficerTypeName.Text;
         }
-        
+
         private void checkOfficerAvailableAtStart_CheckedChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -2390,13 +2398,13 @@ namespace AssetEditor
         {
             treeEvents.Nodes.Clear();
             TreeNode mainNode = treeEvents.Nodes.Add("События в игре");
-            
+
             List<GameEvent> events = GameEvent.EventList();
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
-            foreach(GameEvent gameEvent in events)
+            foreach (GameEvent gameEvent in events)
             {
                 TreeNode n;
-                if(gameEvent.ParentId == 0)
+                if (gameEvent.ParentId == 0)
                 {
                     n = mainNode.Nodes.Add(gameEvent.Name);
                 }
@@ -2411,21 +2419,21 @@ namespace AssetEditor
 
             comboEventSpaceship.Items.Clear();
             List<ShipModel> ships = ShipModel.GetModelList();
-            foreach(ShipModel model in ships)
+            foreach (ShipModel model in ships)
             {
                 comboEventSpaceship.Items.Add(model);
             }
 
             comboEventModule.Items.Clear();
             List<ShipModuleType> modules = ShipModuleType.GetModuleList();
-            foreach(ShipModuleType module in modules)
+            foreach (ShipModuleType module in modules)
             {
                 comboEventModule.Items.Add(module);
             }
 
             comboEventOfficer.Items.Clear();
             List<CrewOfficerType> officerTypes = CrewOfficerType.GetTypeList();
-            foreach(CrewOfficerType ofType in officerTypes)
+            foreach (CrewOfficerType ofType in officerTypes)
             {
                 comboEventOfficer.Items.Add(ofType);
             }
@@ -2447,16 +2455,16 @@ namespace AssetEditor
                 return;
 
             eventStringToTabDict = new Dictionary<string, TabPage>();
-            eventStringToTabDict.Add("spaceship", tabGiveSpaceShip);
-            eventStringToTabDict.Add("module", tabGiveModule);
-            eventStringToTabDict.Add("resources", tabGiveResources);
-            eventStringToTabDict.Add("officer", tabCreateOfficer);
+            eventStringToTabDict.Add("Give spaceship", tabGiveSpaceShip);
+            eventStringToTabDict.Add("Give module", tabGiveModule);
+            eventStringToTabDict.Add("Give resources", tabGiveResources);
+            eventStringToTabDict.Add("Create officer", tabCreateOfficer);
 
             eventTabToStringDict = new Dictionary<TabPage, string>();
-            eventTabToStringDict.Add(tabGiveSpaceShip, "spaceship");
-            eventTabToStringDict.Add(tabGiveModule, "module");
-            eventTabToStringDict.Add(tabGiveResources, "resources" );
-            eventTabToStringDict.Add(tabCreateOfficer, "officer" );
+            eventTabToStringDict.Add(tabGiveSpaceShip, "Give spaceship");
+            eventTabToStringDict.Add(tabGiveModule, "Give module");
+            eventTabToStringDict.Add(tabGiveResources, "Give resources");
+            eventTabToStringDict.Add(tabCreateOfficer, "Create officer");
 
         }
 
@@ -2472,7 +2480,7 @@ namespace AssetEditor
             {
                 GameEvent gEvent = (GameEvent)treeEvents.SelectedNode.Tag;
                 parentId = gEvent.Id;
-                n = treeEvents.SelectedNode.Nodes.Add(newEvent.Name );
+                n = treeEvents.SelectedNode.Nodes.Add(newEvent.Name);
             }
             else
             {
@@ -2487,11 +2495,11 @@ namespace AssetEditor
 
         private GameEvent GetCurrentEvent()
         {
-            if(treeEvents.SelectedNode == null)
+            if (treeEvents.SelectedNode == null)
             {
                 return null;
             }
-            if(treeEvents.SelectedNode.Tag == null)
+            if (treeEvents.SelectedNode.Tag == null)
             {
                 return null;
             }
@@ -2513,6 +2521,15 @@ namespace AssetEditor
             textEventId.Text = curEvent.Id.ToString();
             textEventName.Text = curEvent.Name;
             checkEventRepeatable.Checked = curEvent.Repeatable == 1;
+
+            listEventElements.Items.Clear();
+            if (curEvent.Elements.Count > 0)
+            {
+                foreach (GameEvent.EventElement eventElement in curEvent.Elements)
+                {
+                    listEventElements.Items.Add(eventElement);
+                }
+            }
             NoEvents = false;
         }
 
@@ -2591,13 +2608,465 @@ namespace AssetEditor
 
         private void listEventElements_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+                return;
+            ClearEventElement();
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            NoEvents = true;
+            if (String.IsNullOrEmpty(curElement.ElementType))
+            {
+                tabControlEventElements.SelectedTab = tabGiveSpaceShip;
+            }
+            else
+            {
+                tabControlEventElements.SelectedTab = eventStringToTabDict[curElement.ElementType];
+            }
+            textEventSpaceshipExperience.Text = curElement.Experience.ToString();
+            textEventModuleExperience.Text = curElement.Experience.ToString();
+            textEventOfficerExperience.Text = curElement.Experience.ToString();
+            SetEventElementCombos(curElement);
+            NoEvents = false;
+        }
 
+        private void SetEventElementCombos(GameEvent.EventElement element)
+        {
+            if (element.ShipModel != null)
+            {
+                foreach (ShipModel item in comboEventSpaceship.Items)
+                {
+                    if (item.Id == element.ShipModel.Id)
+                    {
+                        comboEventSpaceship.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
+            if (element.ModuleType != null)
+            {
+                foreach (ShipModuleType item in comboEventModule.Items)
+                {
+                    if (item.Id == element.ModuleType.Id)
+                    {
+                        comboEventModule.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
+            if (element.Officer != null)
+            {
+                foreach (CrewOfficerType item in comboEventOfficer.Items)
+                {
+                    if (item.Id == element.Officer.Id)
+                    {
+                        comboEventOfficer.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        private GameEvent.EventElement GetCurrentEventElement()
+        {
+            if (listEventElements.SelectedItem == null)
+                return null;
+            return (GameEvent.EventElement)listEventElements.SelectedItem;
         }
 
         private void ClearEventElement()
         {
+            NoEvents = true;
+            comboEventModule.SelectedItem = null;
+            comboEventOfficer.SelectedItem = null;
+            comboEventSpaceship.SelectedItem = null;
+            textEventSpaceshipExperience.Text = "";
+            textEventModuleExperience.Text = "";
+            textEventOfficerExperience.Text = "";
+            NoEvents = false;
+        }
+        private void tabControlEventElements_Selected(object sender, TabControlEventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.ElementType = eventTabToStringDict[tabControlEventElements.SelectedTab];
+            NoEvents = true;
+            listEventElements.Items[listEventElements.SelectedIndex] = listEventElements.SelectedItem;
+            comboEventSpaceship.SelectedItem = null;
+            comboEventModule.SelectedItem = null;
+            comboEventOfficer.SelectedItem = null;
+            NoEvents = false;
+        }
+
+        private void comboEventSpaceship_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.ShipModel = (ShipModel)comboEventSpaceship.SelectedItem;
+        }
+
+        private void textEventSpaceshipExperience_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textEventSpaceshipExperience.Text, out value);
+            curElement.Experience = value;
+            textEventModuleExperience.Text = curElement.Experience.ToString();
+            textEventOfficerExperience.Text = curElement.Experience.ToString();
+        }
+
+        private void comboEventModule_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.ModuleType = (ShipModuleType)comboEventModule.SelectedItem;
+        }
+
+        private void textEventModuleExperience_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textEventModuleExperience.Text, out value);
+            curElement.Experience = value;
+            textEventSpaceshipExperience.Text = curElement.Experience.ToString();
+            textEventOfficerExperience.Text = curElement.Experience.ToString();
+        }
+
+        private void comboEventOfficer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.Officer = (CrewOfficerType)comboEventOfficer.SelectedItem;
+        }
+
+        private void textEventOfficerExperience_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textEventOfficerExperience.Text, out value);
+            curElement.Experience = value;
+            textEventSpaceshipExperience.Text = curElement.Experience.ToString();
+            textEventModuleExperience.Text = curElement.Experience.ToString();
+        }
+
+        private void buttonEventTest_Click(object sender, EventArgs e)
+        {
+            AccountData curPlayer = GetLatestUser();
+            GameEvent curEvent = GetCurrentEvent();
+            if (curEvent == null)
+                return;
+            curEvent.ExecuteEvent(curPlayer);
+            MessageBox.Show("Успешно");
+        }
+
+        #endregion
+
+        #region Battle scenes
+
+        private bool battleScenesFilled;
+
+        private void tabPage20_Click(object sender, EventArgs e)
+        {
 
         }
+
+        private void tabPage20_Enter(object sender, EventArgs e)
+        {
+            if (battleScenesFilled)
+                return;
+            FillBattleScenes();
+        }
+
+
+
+        private void buttonBsUpdate_Click(object sender, EventArgs e)
+        {
+            FillBattleScenes();
+        }
+
+        private void FillBattleScenes()
+        {
+            treeBs.Nodes.Clear();
+            TreeNode mainNode = treeBs.Nodes.Add("Battle scenes");
+            Dictionary<int, TreeNode> nodes = new Dictionary<int, TreeNode>();
+            List<BattleSceneType> scenes = BattleSceneType.SceneList();
+            if (scenes.Count > 0)
+            {
+                foreach (BattleSceneType scene in scenes)
+                {
+                    TreeNode n;
+                    if (scene.ParentId > 0)
+                    {
+                        n = nodes[scene.ParentId].Nodes.Add(scene.ToString());
+
+                    }
+                    else
+                    {
+                        n = mainNode.Nodes.Add(scene.ToString());
+                    }
+                    n.Tag = scene;
+                    nodes.Add(scene.Id, n);
+                }
+            }
+
+            
+            mainNode.Expand();
+            battleScenesFilled = true;
+        }
+
+        private void treeBs_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ClearBs();
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            NoEvents = true;
+            textBsId.Text = sceneType.Id.ToString();
+            textBsName.Text = sceneType.Name;
+            checkBsAssembleShip.Checked = sceneType.AssembleShip == 1;
+            NoEvents = false;
+        }
+
+        private BattleSceneType GetCurrentBattleScene()
+        {
+            if (treeBs.SelectedNode == null)
+                return null;
+            if (treeBs.SelectedNode.Tag == null)
+                return null;
+            return (BattleSceneType)treeBs.SelectedNode.Tag;
+        }
+
+        private void ClearBs()
+        {
+            NoEvents = true;
+            textBsId.Text = "";
+            textBsName.Text = "";
+            NoEvents = false;
+        }
+
+        private void buttonBsAdd_Click(object sender, EventArgs e)
+        {
+            TreeNodeCollection hostNodes;
+            int parentId = 0;
+            if (treeBs.SelectedNode == null)
+            {
+                hostNodes = treeBs.Nodes[0].Nodes;
+            }
+            else if(treeBs.SelectedNode.Tag == null)
+            {
+                hostNodes = treeBs.Nodes[0].Nodes;
+            }
+            else
+            {
+                hostNodes = treeBs.SelectedNode.Nodes;
+                BattleSceneType bsToAttach = (BattleSceneType)treeBs.SelectedNode.Tag;
+                parentId = bsToAttach.Id;
+            }
+
+            BattleSceneType bs = new BattleSceneType();
+            bs.ParentId = parentId;
+            bs.Name = "new battle scene";
+            TreeNode n = hostNodes.Add(bs.Name);
+            n.Tag = bs;
+            treeBs.SelectedNode = n;
+        }
+
+        private void buttonBsSave_Click(object sender, EventArgs e)
+        {
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            sceneType.Save();
+            textBsId.Text = sceneType.Id.ToString();
+        }
+
+        private void buttonBsDelete_Click(object sender, EventArgs e)
+        {
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            if (treeBs.SelectedNode.Nodes.Count > 0)
+            {
+                MessageBox.Show("Нельзя удалять событие, у которого есть подчиненные события");
+                return;
+            }
+
+            if (MessageBox.Show("Удалить событие?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            sceneType.Delete();
+            treeBs.SelectedNode.Parent.Nodes.Remove(treeBs.SelectedNode);
+            ClearBs();
+        }
+
+        private void textBsName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            sceneType.Name = textBsName.Text;
+            treeBs.SelectedNode.Text = sceneType.Name;
+        }
+        private void checkBsAssembleShip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            sceneType.AssembleShip = checkBsAssembleShip.Checked ? 1 : 0;
+        }
+
+        private void buttonBsAddEnemy_Click(object sender, EventArgs e)
+        {            
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            BattleSceneType.Enemy enemy = sceneType.AddEnemy();
+            listBsEnemies.Items.Add(enemy);
+            listBsEnemies.SelectedItem = enemy;
+        }
+
+        private void buttonBsDeleteEnemy_Click(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            BattleSceneType.Enemy curEnemy = GetCurrentBsEnemy();
+            if (curEnemy == null)
+                return;
+            sceneType.DeleteEnemy(curEnemy);
+            listBsEnemies.Items.Remove(curEnemy);
+        }
+
+        private BattleSceneType.Enemy GetCurrentBsEnemy()
+        {
+            if (listBsEnemies.SelectedItem == null)
+                return null;
+            return (BattleSceneType.Enemy)listBsEnemies.SelectedItem;
+        }
+
+        private void ClearBsEnemy()
+        {
+            NoEvents = true;
+            comboBsEnemy.SelectedItem = null;
+            textBsStageNumber.Text = "";
+            textBsEnemyCount.Text = "";
+            textBsCycleMultiplier.Text = "";
+            textBsBattleIntensity.Text = "";
+            textBsIntensityMultiplier.Text = "";
+            NoEvents = false;
+        }
+
+        private void listBsEnemies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearBsEnemy();
+            if (NoEvents)
+                return;
+
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+
+            NoEvents = true;
+            comboBsEnemy.SelectedItem = enemy.Rig;
+            textBsStageNumber.Text = enemy.StageNumber.ToString() ;
+            textBsEnemyCount.Text = enemy.Count.ToString();
+            textBsCycleMultiplier.Text = enemy.CycleMultiplier.ToString();
+            textBsBattleIntensity.Text = enemy.BaseBattleIntensity.ToString();
+            textBsIntensityMultiplier.Text = enemy.CycleIntensityMult.ToString();
+            NoEvents = false;
+
+        }
+
+        private void comboBsEnemy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            if(comboBsEnemy.SelectedItem == null)
+            {
+                enemy.ShipRigId = 0;
+            }
+            else
+            {
+                SpaceshipRig rig = (SpaceshipRig)comboBsEnemy.SelectedItem;
+                enemy.ShipRigId = rig.Id;
+            }
+            
+            
+        }
+        private void textBsStageNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsStageNumber.Text, out value);
+            enemy.StageNumber = value;
+        }
+        private void textBsEnemyCount_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsEnemyCount.Text, out value);
+            enemy.Count = value;
+        }
+        private void textBsCycleMultiplier_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBsBattleIntensity_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBsIntensityMultiplier_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+
 
         #endregion
 

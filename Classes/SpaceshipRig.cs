@@ -135,6 +135,28 @@ public class SpaceshipRig
         return q;
     }
 
+    private static Dictionary<int, SpaceshipRig> rigsDict;
+    private static void UpdateRigDict(SpaceshipRig rig)
+    {
+        if (rigsDict == null)
+            rigsDict = new Dictionary<int, SpaceshipRig>();
+        if (!rigsDict.ContainsKey(rig.Id))
+            rigsDict.Add(rig.Id, rig);
+    }
+    public static SpaceshipRig RigById(int id)
+    {
+        if (rigsDict == null)
+            rigsDict = new Dictionary<int, SpaceshipRig>();
+        if (!rigsDict.ContainsKey(id))
+        {
+            SpaceshipRig newRig = new SpaceshipRig(id);
+            rigsDict.Add(newRig.Id, newRig);
+        }
+            
+        return rigsDict[id];
+
+    }
+
     public class RigSlot
     {
         public int Id { get; set; }
@@ -476,6 +498,7 @@ public class SpaceshipRig
             q += " AND id NOT IN (" + idsDoNotDelete + ")";
         DataConnection.Execute(q);
 
+        UpdateRigDict(this);
 
     }
 

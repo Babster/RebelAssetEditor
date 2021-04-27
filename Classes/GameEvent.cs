@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Crew;
 
 public class GameEvent
 {
@@ -118,7 +119,6 @@ public class GameEvent
     {
         public int Id { get; set; }
         public int GameEventId { get; set; }
-        public string ElementType { get; set; }
         public string ElementInfo { get; set; }
 
         public EventElement() { }
@@ -137,7 +137,7 @@ public class GameEvent
             if(Id == 0)
             {
                 q = $@"
-                    INSERT INTO game_events_elements(game_event_id) VALUES{gameEventId}
+                    INSERT INTO game_events_elements(game_event_id) VALUES({gameEventId})
                     SELECT @@IDENTITY AS Result";
                 Id = DataConnection.GetResultInt(q);
             }
@@ -154,12 +154,228 @@ public class GameEvent
 
         }
 
+        public override string ToString()
+        {
+            return ElementType;
+        }
+
+        #region Specific parameters
+
+        private void ConvertStringArrayToElementInfo(string[] s)
+        {
+            ElementInfo = "";
+            if (s == null)
+                return;
+            if (s.Length == 0)
+                return;
+            for(int i = 0; i < s.Length; i++)
+            {
+                if (i > 0)
+                    ElementInfo += ";";
+                ElementInfo += s[i];
+            }
+        }
+
+        private string pElementType;
+        public string ElementType 
+        { 
+            get
+            {
+                return pElementType;
+            }
+            set
+            {
+                pElementType = value;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return;
+                string[] s = ElementInfo.Split(';');
+                s[0] = "";
+                //s[1] = "";
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
+
+        public ShipModel ShipModel
+        {
+            get
+            {
+                if (pElementType != "Give spaceship")
+                    return null;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return null;
+                string[] s = ElementInfo.Split(';');
+                if (s[0] != "")
+                {
+                    return ShipModel.ModelById(Convert.ToInt32(s[0]));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[1] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+                if(value == null)
+                {
+                    s[0] = "0";
+                }
+                else
+                {
+                    s[0] = value.Id.ToString();
+                }
+                
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
+
+        public ShipModuleType ModuleType
+        {
+            get
+            {
+                if (pElementType != "Give module")
+                    return null;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return null;
+                string[] s = ElementInfo.Split(';');
+                if (s[0] != "")
+                {
+                    return ShipModuleType.ModuleById(Convert.ToInt32(s[0]));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[1] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+
+                if (value == null)
+                {
+                    s[0] = "0";
+                }
+                else
+                {
+                    s[0] = value.Id.ToString();
+                }
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
+
+        public CrewOfficerType Officer
+        {
+            get
+            {
+                if (pElementType != "Create officer")
+                    return null;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return null;
+                string[] s = ElementInfo.Split(';');
+                if (s[0] != "")
+                {
+                    return CrewOfficerType.OfficerById(Convert.ToInt32(s[0]));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[1] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+
+                if (value == null)
+                {
+                    s[0] = "0";
+                }
+                else
+                {
+                    s[0] = value.Id.ToString();
+                }
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
+
+        public int Experience
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return 0;
+                string[] s = ElementInfo.Split(';');
+                if (s[1] != "")
+                {
+                    return Convert.ToInt32(s[1]);
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[0] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+
+                s[1] = value.ToString();
+
+                ConvertStringArrayToElementInfo(s);
+            }
+        }
+
+        #endregion
+
     }
 
     public EventElement AddElement()
     {
         EventElement newElement = new EventElement();
-        newElement.ElementType = "spaceship";
+        newElement.ElementType = "Give spaceship";
         Elements.Add(newElement);
         return newElement;
     }
@@ -198,7 +414,7 @@ public class GameEvent
         q = $@"DELETE FROM game_events_elements WHERE game_event_id = {Id}";
         if(idsDoNotDelete != "")
         {
-            q += $@" AND id NOT IN({idsDoNotDelete}";
+            q += $@" AND id NOT IN({idsDoNotDelete})";
         }
         DataConnection.Execute(q);
 
@@ -213,6 +429,88 @@ public class GameEvent
             DELETE FROM game_events_elements WHERE game_event_id = {Id}
             ";
         DataConnection.Execute(q);
+    }
+
+    public void ExecuteEvent(AdmiralNamespace.AccountData player)
+    {
+
+        if(Elements.Count == 0)
+        {
+            return;
+        }
+
+        //Repeatable events - check if already happend
+        if(Repeatable == 0)
+        {
+            if (EventHappened(player.Id, Id))
+                return;
+        }
+
+        string q;
+
+        foreach (EventElement element in Elements)
+        {
+
+            if(element.ShipModel != null)
+            {
+                q = $@"
+                    INSERT INTO admirals_ships
+                    (
+                        player_id,
+                        ss_design_id,
+                        experience,
+                        ship_level
+                    ) VALUES (
+                        {player.Id},
+                        {element.ShipModel.Id},
+                        {element.Experience},
+                        1
+                    )";
+                DataConnection.Execute(q);
+            }
+
+            if(element.ModuleType != null)
+            {
+                q = $@"
+                    INSERT INTO admirals_modules (
+                        player_id,
+                        module_id,
+                        experience,
+                        module_level
+                    ) VALUES (
+                        {player.Id},
+                        {element.ModuleType.Id},
+                        {element.Experience},
+                        1
+                    )";
+                DataConnection.Execute(q);
+            }
+
+            if(element.Officer != null)
+            {
+                CrewOfficer officer = new CrewOfficer(element.Officer, player.Id);
+                officer.Save();
+            }
+
+        }
+
+        q = $@"INSERT INTO game_events_log(
+                player_id,
+                event_id,
+                occurs
+            ) VALUES (
+                {player.Id},
+                {Id},
+                GETDATE()
+            )";
+        DataConnection.Execute(q);
+    }
+
+    public static bool EventHappened(int playerId, int eventId)
+    {
+        string q = $"SELECT id FROM game_events_log WHERE player_id = {playerId} AND event_id = {eventId}";
+        int Id = DataConnection.GetResultInt(q, null, 0);
+        return Id > 0;
     }
 
 }

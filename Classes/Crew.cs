@@ -377,6 +377,7 @@ namespace Crew
         public CrewOfficer(CrewOfficerType officerType, int PlayerId)
         {
             this.OfficerType = officerType;
+            this.PlayerId = PlayerId;
             Stats = new List<Stat>();
             foreach (CrewOfficerType.OfficerStat curStat in OfficerType.Stats)
             {
@@ -542,6 +543,9 @@ namespace Crew
         {
             if (IsPlayer)//Из игрока офицера сохранять не нужно
                 return;
+
+            if (CrewOfficer.OfficerDict == null)
+                CrewOfficer.CreateDictionary();
 
             string q;
             if(Id == 0)
