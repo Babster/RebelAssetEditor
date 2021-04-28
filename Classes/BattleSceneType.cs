@@ -12,8 +12,9 @@ class BattleSceneType
     public int ParentId { get; set; }
     public int AssembleShip { get; set; }
     public List<Enemy> enemies { get; set; }
+    public List<Resource> resources { get; set; }
 
-    public BattleSceneType() { enemies = new List<Enemy>(); }
+    public BattleSceneType() { enemies = new List<Enemy>(); resources = new List<Resource>(); }
     public BattleSceneType(SqlDataReader r)
     {
         Id = Convert.ToInt32(r["id"]);
@@ -22,6 +23,7 @@ class BattleSceneType
         AssembleShip = Convert.ToInt32(r["assemble_ship"]);
 
         LoadEnemies();
+        LoadResources();
 
     }
 
@@ -48,6 +50,41 @@ class BattleSceneType
             while (r.Read())
             {
                 enemies.Add(new Enemy(r));
+            }
+        }
+        r.Close();
+    }
+
+    private void LoadResources()
+    {
+        resources = new List<Resource>();
+
+        string q = $@"
+            SELECT
+                id,
+                battle_scene_id,
+                enemy_id,
+                any_enemy,
+                resource_id,
+                amount_from,
+                amount_to,
+                variable_chance_from,
+                variable_chance_to,
+                min_cycle,
+                max_cycle,
+                blueprint_id,
+                blueprint_bonus_points,
+                guaranteed_amount
+            FROM
+                battle_scenes_resources
+            WHERE
+                battle_scene_id = {Id}";
+        SqlDataReader r = DataConnection.GetReader(q);
+        if (r.HasRows)
+        {
+            while (r.Read())
+            {
+                resources.Add(new Resource(r));
             }
         }
         r.Close();
@@ -200,6 +237,105 @@ class BattleSceneType
         enemies.Remove(enemy);
     }
 
+    public class Resource
+    {
+        public int Id { get; set; }
+        public int BattleSceneId { get; set; }
+        public int EnemyId { get; set; }
+        public int AnyEnemy { get; set; }
+        public int ResourceId { get; set; }
+        public int AmountFrom { get; set; }
+        public int AmountTo { get; set; }
+        public int VariableChanceFrom { get; set; } // x 0.01 percent = 10000 for guaranteed drop
+        public int VariableChanceTo { get; set; } // x 0.01 percent = 10000 for guaranteed drop
+        public int MinimumCycle { get; set; }
+        public int MaximumCycle { get; set; } //after it server gives player maximum chance of drop and maximum amount of good
+        public int BlueprintId { get; set; }
+        public int BlueprintBonusPoints { get; set; }
+        public int GuaranteedAmount { get; set; } //this count will drop from ONE random of the enemy in a given cycle range
+        public ResourceType ResourceType
+        {
+            get { return ResourceType.ResourceById(ResourceId); }
+        }
+
+        public Resource(){}
+
+        public Resource(SqlDataReader r)
+        {
+            Id = Convert.ToInt32(r["id"]);
+            BattleSceneId = Convert.ToInt32(r["battle_scene_id"]);
+            EnemyId = Convert.ToInt32(r["enemy_id"]);
+            this.AnyEnemy = Convert.ToInt32(r["any_enemy"]);
+            this.ResourceId = Convert.ToInt32(r["resource_id"]);
+            this.AmountFrom = Convert.ToInt32(r["amount_from"]);
+            this.AmountTo = Convert.ToInt32(r["amount_to"]);
+            this.VariableChanceFrom = Convert.ToInt32(r["variable_chance_from"]);
+            this.VariableChanceTo = Convert.ToInt32(r["variable_chance_to"]);
+            this.MinimumCycle = Convert.ToInt32(r["min_cycle"]);
+            this.MaximumCycle = Convert.ToInt32(r["max_cycle"]);
+            this.BlueprintId = Convert.ToInt32(r["blueprint_id"]);
+            this.BlueprintBonusPoints = Convert.ToInt32(r["blueprint_bonus_points"]);
+            this.GuaranteedAmount = Convert.ToInt32(r["guaranteed_amount"]);
+        }
+
+        public void Save(int battleSceneId)
+        {
+            this.BattleSceneId = battleSceneId;
+            string q;
+            if(Id == 0)
+            {
+                q = $@"
+                    INSERT INTO battle_scenes_resources(battle_scene_id) VALUES({battleSceneId})
+                    SELECT @@IDENTITY AS Result";
+                Id = DataConnection.GetResultInt(q);
+            }
+
+            q = $@"
+                UPDATE battle_scenes_resources SET
+                    battle_scene_id = {battleSceneId},
+                    enemy_id = {EnemyId},
+                    any_enemy = {AnyEnemy},
+                    resource_id = {ResourceId},
+                    amount_from = {AmountFrom},
+                    amount_to = {AmountTo},
+                    variable_chance_from = {VariableChanceFrom},
+                    variable_chance_to = {VariableChanceTo},
+                    min_cycle = {MinimumCycle},
+                    max_cycle = {MaximumCycle},
+                    blueprint_id = {BlueprintId},
+                    blueprint_bonus_points = {BlueprintBonusPoints},
+                    guaranteed_amount = {GuaranteedAmount}
+                WHERE
+                    id = {Id}";
+            DataConnection.Execute(q);
+
+        }
+
+        public void Delete()
+        {
+            if (Id == 0)
+                return;
+            string q = $@"DELETE FROM battle_scenes_resources WHERE id = {Id}";
+            DataConnection.Execute(q);
+        }
+
+        public override string ToString()
+        {
+            if (ResourceType == null)
+                return "new resource drop";
+            else
+                return ResourceType.Name;
+        }
+
+    }
+
+    public Resource AddResource()
+    {
+        Resource resource = new Resource();
+        resources.Add(resource);
+        return resource;
+    }
+
     public void Save()
     {
         string q;
@@ -241,6 +377,25 @@ class BattleSceneType
         }
         DataConnection.Execute(q);
 
+        idsDoNotDelete = "";
+        if(resources.Count > 0)
+        {
+            foreach(BattleSceneType.Resource resource in resources)
+            {
+                resource.Save(Id);
+                if (idsDoNotDelete != "")
+                    idsDoNotDelete += ",";
+                idsDoNotDelete += resource.Id;
+            }
+        }
+
+        q = $"DELETE FROM battle_scenes_resources WHERE battle_scene_id = {Id}";
+        if (idsDoNotDelete != "")
+        {
+            q += $" AND id NOT IN({idsDoNotDelete})";
+        }
+        DataConnection.Execute(q);
+
     }
 
     public void Delete()
@@ -248,7 +403,10 @@ class BattleSceneType
         if (Id == 0)
             return;
         string q;
-        q = $"DELETE FROM battle_scenes WHERE id = {Id}";
+        q = $@"
+            DELETE FROM battle_scenes WHERE id = {Id};
+            DELETE FROM battle_scenes_enemies WHERE battle_scene_id = {Id};
+            DELETE FROM battle_scenes_resources WHERE battle_scene_id = {Id};";
         DataConnection.Execute(q);
     }
 

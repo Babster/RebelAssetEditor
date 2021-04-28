@@ -19,7 +19,7 @@ class ResourceType
     public ResourceType(SqlDataReader r)
     {
         Id = Convert.ToInt32(r["id"]);
-        ParentId = Convert.ToInt32(r["id"]);
+        ParentId = Convert.ToInt32(r["parent_id"]);
         Name = Convert.ToString(r["name"]);
         DescriptionEng = Convert.ToString(r["description_english"]);
         DescriptionRus = Convert.ToString(r["description_russian"]);

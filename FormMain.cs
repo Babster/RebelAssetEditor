@@ -18,11 +18,11 @@ using AdmiralNamespace;
 
 namespace AssetEditor
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
         private bool NoEvents;
 
-        public Form1()
+        public FormMain()
         {
             NoEvents = false;
             InitializeComponent();
@@ -2809,6 +2809,9 @@ namespace AssetEditor
         private void buttonBsUpdate_Click(object sender, EventArgs e)
         {
             FillBattleScenes();
+            ClearBs();
+            ClearBsEnemy();
+            ClearBsResource();
         }
 
         private void FillBattleScenes()
@@ -2847,6 +2850,16 @@ namespace AssetEditor
             }
 
 
+            comboBsResourceType.Items.Clear();
+            List<ResourceType> resources = ResourceType.GetResouceList();
+            if(resources.Count > 0)
+            {
+                foreach(ResourceType resource in resources)
+                {
+                    comboBsResourceType.Items.Add(resource);
+                }
+            }
+
             mainNode.Expand();
             battleScenesFilled = true;
         }
@@ -2871,7 +2884,22 @@ namespace AssetEditor
                     listBsEnemies.Items.Add(enemy);
                 }
             }
+
+            listBsResources.Items.Clear();
+            List<BattleSceneType.Resource> list = sceneType.resources;
+            if(list.Count > 0)
+            {
+                foreach(BattleSceneType.Resource resource in list)
+                {
+                    listBsResources.Items.Add(resource);
+                }
+            }
+
             NoEvents = false;
+
+            FillBsEnemyInResource();
+
+
         }
 
         private BattleSceneType GetCurrentBattleScene()
@@ -2888,6 +2916,9 @@ namespace AssetEditor
             NoEvents = true;
             textBsId.Text = "";
             textBsName.Text = "";
+            checkBsAssembleShip.Checked = false;
+            listBsEnemies.Items.Clear();
+            listBsResources.Items.Clear();
             NoEvents = false;
         }
 
@@ -2925,6 +2956,13 @@ namespace AssetEditor
                 return;
             sceneType.Save();
             textBsId.Text = sceneType.Id.ToString();
+
+            BattleSceneType.Enemy curEnemy = GetCurrentBsEnemy();
+            if (curEnemy != null)
+            {
+                textBsEnemyId.Text = curEnemy.Id.ToString();
+            }
+
         }
 
         private void buttonBsDelete_Click(object sender, EventArgs e)
@@ -3001,6 +3039,7 @@ namespace AssetEditor
         private void ClearBsEnemy()
         {
             NoEvents = true;
+            textBsEnemyId.Text = "";
             comboBsEnemy.SelectedItem = null;
             textBsStageNumber.Text = "";
             textBsEnemyCount.Text = "";
@@ -3033,6 +3072,7 @@ namespace AssetEditor
                 }
             }
 
+            textBsEnemyId.Text = enemy.Id.ToString();
             textBsStageNumber.Text = enemy.StageNumber.ToString() ;
             textBsEnemyCount.Text = enemy.Count.ToString();
             textBsCycleMultiplier.Text = enemy.CycleMultiplier.ToString();
@@ -3119,9 +3159,256 @@ namespace AssetEditor
             enemy.CycleIntensityMult = value;
         }
 
+        private void FillBsEnemyInResource()
+        {
+            NoEvents = true;
+            comboBsEnemyInResource.Items.Clear();
+            NoEvents = false;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            if (sceneType.enemies.Count == 0)
+                return;
+            NoEvents = true;
+            foreach(BattleSceneType.Enemy enemy in sceneType.enemies)
+            {
+                comboBsEnemyInResource.Items.Add(enemy);
+            }
+            NoEvents = false;
+        }
+        private void buttonBsRefreshEnemy_Click(object sender, EventArgs e)
+        {
+            FillBsEnemyInResource();
+        }
 
+        private void buttonBsAddResource_Click(object sender, EventArgs e)
+        {
+            BattleSceneType bs = GetCurrentBattleScene();
+            if (bs == null)
+                return;
+            BattleSceneType.Resource res = bs.AddResource();
+            listBsResources.Items.Add(res);
+            listBsResources.SelectedItem = res;
 
+        } 
+        private void buttonBsDeleteResource_Click(object sender, EventArgs e)
+        {
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            if (MessageBox.Show("Удалить данный ресурс?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            res.Delete();
+            listBsResources.Items.Remove(listBsResources.SelectedItem);
+            ClearBsResource();
+        }
+        private void listBsResources_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearBsResource();
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
 
+            NoEvents = true;
+            checkBsAnyEnemy.Checked = res.AnyEnemy == 1;
+            if(res.EnemyId > 0)
+            {
+                foreach(var item in comboBsEnemyInResource.Items)
+                {
+                    BattleSceneType.Enemy enemy = (BattleSceneType.Enemy)item;
+                    if(enemy.Id == res.EnemyId)
+                    {
+                        comboBsEnemyInResource.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+            if(res.ResourceId > 0)
+            {
+                foreach (var item in comboBsResourceType.Items)
+                {
+                    ResourceType resType = (ResourceType)item;
+                    if (resType.Id == res.ResourceId)
+                    {
+                        comboBsResourceType.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+            comboBsBlueprint.SelectedItem = null;
+
+            textBsBlueprintBonus.Text = res.BlueprintBonusPoints.ToString(); ;
+            textBsAmountFrom.Text = res.AmountFrom.ToString();
+            textBsAmountTo.Text = res.AmountTo.ToString();
+            textBsChanceFrom.Text = res.VariableChanceFrom.ToString();
+            textBsChanceTo.Text = res.VariableChanceTo.ToString();
+            textBsCycleFrom.Text = res.MinimumCycle.ToString();
+            textBsCycleTo.Text = res.MaximumCycle.ToString();
+            textBsGuaranteedAmount.Text = res.GuaranteedAmount.ToString();
+            NoEvents = false;
+
+        }
+
+        private BattleSceneType.Resource GetBsCurrentResource()
+        {
+            if (listBsResources.SelectedItem == null)
+                return null;
+            return (BattleSceneType.Resource)listBsResources.SelectedItem;
+        }
+        private void ClearBsResource()
+        {
+            NoEvents = true;
+            comboBsEnemyInResource.SelectedItem = null;
+            checkBsAnyEnemy.Checked = false;
+            comboBsResourceType.SelectedItem = null;
+            comboBsBlueprint.SelectedItem = null;
+            textBsBlueprintBonus.Text = "";
+            textBsAmountFrom.Text = "";
+            textBsAmountTo.Text = "";
+            textBsChanceFrom.Text = "";
+            textBsChanceTo.Text = "";
+            textBsCycleFrom.Text = "";
+            textBsCycleTo.Text = "";
+            textBsGuaranteedAmount.Text = "";
+            NoEvents = false;
+        }
+
+        private void comboBsEnemyInResource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            if(comboBsEnemyInResource.SelectedItem == null)
+            {
+                res.EnemyId = 0;
+            }
+            else
+            {
+                BattleSceneType.Enemy enemy = (BattleSceneType.Enemy)comboBsEnemyInResource.SelectedItem;
+                res.EnemyId = enemy.Id;
+            }
+        }
+        private void checkBsAnyEnemy_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            res.AnyEnemy = checkBsAnyEnemy.Checked ? 1 : 0;
+        }
+        private void comboBsResourceType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            if (comboBsResourceType.SelectedItem == null)
+            {
+                res.ResourceId = 0;
+            }
+            else
+            {
+                ResourceType resType = (ResourceType)comboBsResourceType.SelectedItem;
+                res.ResourceId = resType.Id;
+            }
+        }
+        private void comboBsBlueprint_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBsBlueprintBonus_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsBlueprintBonus.Text, out value);
+            res.BlueprintBonusPoints = value;
+        }
+        private void textBsAmountFrom_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsAmountFrom.Text, out value);
+            res.AmountFrom = value;
+        }
+        private void textBsAmountTo_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsAmountTo.Text, out value);
+            res.AmountTo = value;
+        }
+        private void textBsChanceFrom_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsChanceFrom.Text, out value);
+            res.VariableChanceFrom = value;
+        }
+        private void textBsChanceTo_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsChanceTo.Text, out value);
+            res.VariableChanceTo = value;
+        }
+        private void textBsCycleFrom_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsCycleFrom.Text, out value);
+            res.MinimumCycle = value;
+        }
+        private void textBsCycleTo_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsCycleTo.Text, out value);
+            res.MaximumCycle = value;
+        }
+        private void textBsGuaranteedAmount_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsGuaranteedAmount.Text, out value);
+            res.GuaranteedAmount = value;
+        }
 
         #endregion
 
@@ -3143,6 +3430,7 @@ namespace AssetEditor
 
         private void FillResources()
         {
+            treeRes.Nodes.Clear();
             TreeNode mainNode = treeRes.Nodes.Add("Ресурсы");
             
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
@@ -3162,6 +3450,9 @@ namespace AssetEditor
                     }
                     TreeNode n = hostNodes.Add(res.Name);
                     n.Tag = res;
+
+                    nodeDict.Add(res.Id, n);
+
                 }
             }
 
@@ -3191,6 +3482,7 @@ namespace AssetEditor
                 hostNodes = treeRes.SelectedNode.Nodes;
             }
             res.Name = "new resource";
+            res.ParentId = parentId;
             TreeNode n = hostNodes.Add(res.Name);
             n.Tag = res;
             treeRes.SelectedNode = n;
@@ -3202,6 +3494,15 @@ namespace AssetEditor
             ResourceType res = CurrentRes();
             if (res == null)
                 return;
+            if(treeRes.SelectedNode.Nodes.Count > 0)
+            {
+                MessageBox.Show("Нельзя удалять узел, на котором есть другие узлы");
+                return;
+            }
+            if(MessageBox.Show("Удалить данный ресурс?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+            res.Delete();
+            treeRes.SelectedNode.Parent.Nodes.Remove(treeRes.SelectedNode);
         }
 
         private ResourceType CurrentRes()
@@ -3213,13 +3514,88 @@ namespace AssetEditor
             return (ResourceType)treeRes.SelectedNode.Tag;
         }
 
+        private void ClearResource()
+        {
+            NoEvents = true;
+            textResId.Text = "";
+            textResName.Text = "";
+            textResDecriptionEng.Text = "";
+            textResDescriptionRus.Text = "";
+            textResImg.Text = "";
+            NoEvents = false;
+        }
+
         private void treeRes_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            ClearResource();
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            NoEvents = true;
+            textResId.Text = res.Id.ToString();
+            textResName.Text = res.Name;
+            textResDecriptionEng.Text = res.DescriptionEng;
+            textResDescriptionRus.Text = res.DescriptionRus;
+            textResImg.Text = res.ImgId.ToString();
+            NoEvents = false;
+        }
+
+        private void textResName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            res.Name = textResName.Text;
+            treeRes.SelectedNode.Text = res.Name;
+        }
+        private void textResDecriptionEng_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            res.DescriptionEng = textResDecriptionEng.Text;
+        }
+        private void textResDescriptionRus_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            res.DescriptionRus = textResDescriptionRus.Text;
+        }
+        private void textResImg_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textResImg.Text, out value);
+            res.ImgId = value;
+        }
+
+        private void buttonResSave_Click(object sender, EventArgs e)
+        {
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            res.Save();
+            textResId.Text = res.Id.ToString();
 
         }
 
+
+
+
+
         #endregion
 
-
+ 
     }
 }

@@ -255,7 +255,7 @@ public class SpaceshipRig
                     {
                         if (s2 == "player")
                         {
-                            AccountData playerAcc = AssetEditor.Form1.GetLatestUser();
+                            AccountData playerAcc = AssetEditor.FormMain.GetLatestUser();
                             OfficerList.Add(new CrewOfficer(playerAcc));
                         }
                         else
