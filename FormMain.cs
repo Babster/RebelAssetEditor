@@ -3412,7 +3412,7 @@ namespace AssetEditor
 
         #endregion
 
-        #region
+        #region Resource types
 
         private bool resourcesFilled;
 
@@ -3594,8 +3594,32 @@ namespace AssetEditor
 
 
 
+
         #endregion
 
- 
+        #region Blueprints
+        private void tabPage25_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonRefreshBlueprint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAddBlueprint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDeleteBlueprint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+
     }
 }

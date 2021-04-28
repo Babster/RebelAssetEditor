@@ -360,6 +360,11 @@
             this.textBsGuaranteedAmount = new System.Windows.Forms.TextBox();
             this.label91 = new System.Windows.Forms.Label();
             this.label92 = new System.Windows.Forms.Label();
+            this.buttonDeleteBlueprint = new System.Windows.Forms.Button();
+            this.buttonAddBlueprint = new System.Windows.Forms.Button();
+            this.buttonRefreshBlueprint = new System.Windows.Forms.Button();
+            this.treeBlueprint = new System.Windows.Forms.TreeView();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -418,6 +423,7 @@
             this.tabControl7.SuspendLayout();
             this.tabPage24.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.tabPage25.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -3564,7 +3570,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 465);
+            this.groupBox7.Size = new System.Drawing.Size(894, 458);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3705,12 +3711,17 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 431);
+            this.treeRes.Size = new System.Drawing.Size(297, 424);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
             // tabPage25
             // 
+            this.tabPage25.Controls.Add(this.groupBox8);
+            this.tabPage25.Controls.Add(this.buttonDeleteBlueprint);
+            this.tabPage25.Controls.Add(this.buttonAddBlueprint);
+            this.tabPage25.Controls.Add(this.buttonRefreshBlueprint);
+            this.tabPage25.Controls.Add(this.treeBlueprint);
             this.tabPage25.Location = new System.Drawing.Point(4, 29);
             this.tabPage25.Name = "tabPage25";
             this.tabPage25.Padding = new System.Windows.Forms.Padding(3);
@@ -3718,6 +3729,7 @@
             this.tabPage25.TabIndex = 1;
             this.tabPage25.Text = "Чертежи";
             this.tabPage25.UseVisualStyleBackColor = true;
+            this.tabPage25.Enter += new System.EventHandler(this.tabPage25_Enter);
             // 
             // openFileDialog1
             // 
@@ -3964,6 +3976,55 @@
             this.label92.TabIndex = 38;
             this.label92.Text = "Выпадет в один из циклов (случайно)";
             // 
+            // buttonDeleteBlueprint
+            // 
+            this.buttonDeleteBlueprint.Location = new System.Drawing.Point(208, 6);
+            this.buttonDeleteBlueprint.Name = "buttonDeleteBlueprint";
+            this.buttonDeleteBlueprint.Size = new System.Drawing.Size(95, 28);
+            this.buttonDeleteBlueprint.TabIndex = 15;
+            this.buttonDeleteBlueprint.Text = "Delete";
+            this.buttonDeleteBlueprint.UseVisualStyleBackColor = true;
+            this.buttonDeleteBlueprint.Click += new System.EventHandler(this.buttonDeleteBlueprint_Click);
+            // 
+            // buttonAddBlueprint
+            // 
+            this.buttonAddBlueprint.Location = new System.Drawing.Point(107, 6);
+            this.buttonAddBlueprint.Name = "buttonAddBlueprint";
+            this.buttonAddBlueprint.Size = new System.Drawing.Size(95, 28);
+            this.buttonAddBlueprint.TabIndex = 14;
+            this.buttonAddBlueprint.Text = "Add";
+            this.buttonAddBlueprint.UseVisualStyleBackColor = true;
+            this.buttonAddBlueprint.Click += new System.EventHandler(this.buttonAddBlueprint_Click);
+            // 
+            // buttonRefreshBlueprint
+            // 
+            this.buttonRefreshBlueprint.Location = new System.Drawing.Point(6, 6);
+            this.buttonRefreshBlueprint.Name = "buttonRefreshBlueprint";
+            this.buttonRefreshBlueprint.Size = new System.Drawing.Size(95, 28);
+            this.buttonRefreshBlueprint.TabIndex = 13;
+            this.buttonRefreshBlueprint.Text = "Refresh";
+            this.buttonRefreshBlueprint.UseVisualStyleBackColor = true;
+            this.buttonRefreshBlueprint.Click += new System.EventHandler(this.buttonRefreshBlueprint_Click);
+            // 
+            // treeBlueprint
+            // 
+            this.treeBlueprint.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeBlueprint.HideSelection = false;
+            this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
+            this.treeBlueprint.Name = "treeBlueprint";
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
+            this.treeBlueprint.TabIndex = 12;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Location = new System.Drawing.Point(309, 6);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.TabIndex = 16;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Blueprint editing";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4060,6 +4121,7 @@
             this.tabPage24.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            this.tabPage25.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4398,6 +4460,11 @@
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.TextBox textBsCycleFrom;
         private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.Button buttonDeleteBlueprint;
+        private System.Windows.Forms.Button buttonAddBlueprint;
+        private System.Windows.Forms.Button buttonRefreshBlueprint;
+        private System.Windows.Forms.TreeView treeBlueprint;
+        private System.Windows.Forms.GroupBox groupBox8;
     }
 }
 
