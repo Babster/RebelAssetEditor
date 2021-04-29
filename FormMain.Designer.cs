@@ -299,6 +299,33 @@
             this.buttonBsDeleteEnemy = new System.Windows.Forms.Button();
             this.buttonBsAddEnemy = new System.Windows.Forms.Button();
             this.tabPage22 = new System.Windows.Forms.TabPage();
+            this.label92 = new System.Windows.Forms.Label();
+            this.textBsGuaranteedAmount = new System.Windows.Forms.TextBox();
+            this.label91 = new System.Windows.Forms.Label();
+            this.label90 = new System.Windows.Forms.Label();
+            this.textBsCycleTo = new System.Windows.Forms.TextBox();
+            this.label88 = new System.Windows.Forms.Label();
+            this.textBsCycleFrom = new System.Windows.Forms.TextBox();
+            this.label89 = new System.Windows.Forms.Label();
+            this.label87 = new System.Windows.Forms.Label();
+            this.textBsChanceTo = new System.Windows.Forms.TextBox();
+            this.label85 = new System.Windows.Forms.Label();
+            this.textBsChanceFrom = new System.Windows.Forms.TextBox();
+            this.label86 = new System.Windows.Forms.Label();
+            this.textBsAmountTo = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.textBsAmountFrom = new System.Windows.Forms.TextBox();
+            this.label83 = new System.Windows.Forms.Label();
+            this.textBsBlueprintBonus = new System.Windows.Forms.TextBox();
+            this.label82 = new System.Windows.Forms.Label();
+            this.comboBsBlueprint = new System.Windows.Forms.ComboBox();
+            this.label81 = new System.Windows.Forms.Label();
+            this.comboBsResourceType = new System.Windows.Forms.ComboBox();
+            this.label80 = new System.Windows.Forms.Label();
+            this.checkBsAnyEnemy = new System.Windows.Forms.CheckBox();
+            this.buttonBsRefreshEnemy = new System.Windows.Forms.Button();
+            this.comboBsEnemyInResource = new System.Windows.Forms.ComboBox();
+            this.label79 = new System.Windows.Forms.Label();
             this.listBsResources = new System.Windows.Forms.ListBox();
             this.buttonBsDeleteResource = new System.Windows.Forms.Button();
             this.buttonBsAddResource = new System.Windows.Forms.Button();
@@ -332,39 +359,34 @@
             this.buttonResRefresh = new System.Windows.Forms.Button();
             this.treeRes = new System.Windows.Forms.TreeView();
             this.tabPage25 = new System.Windows.Forms.TabPage();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label79 = new System.Windows.Forms.Label();
-            this.comboBsEnemyInResource = new System.Windows.Forms.ComboBox();
-            this.buttonBsRefreshEnemy = new System.Windows.Forms.Button();
-            this.checkBsAnyEnemy = new System.Windows.Forms.CheckBox();
-            this.label80 = new System.Windows.Forms.Label();
-            this.comboBsResourceType = new System.Windows.Forms.ComboBox();
-            this.comboBsBlueprint = new System.Windows.Forms.ComboBox();
-            this.label81 = new System.Windows.Forms.Label();
-            this.label82 = new System.Windows.Forms.Label();
-            this.textBsBlueprintBonus = new System.Windows.Forms.TextBox();
-            this.label83 = new System.Windows.Forms.Label();
-            this.textBsAmountFrom = new System.Windows.Forms.TextBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.textBsAmountTo = new System.Windows.Forms.TextBox();
-            this.textBsChanceTo = new System.Windows.Forms.TextBox();
-            this.label85 = new System.Windows.Forms.Label();
-            this.textBsChanceFrom = new System.Windows.Forms.TextBox();
-            this.label86 = new System.Windows.Forms.Label();
-            this.label87 = new System.Windows.Forms.Label();
-            this.textBsCycleTo = new System.Windows.Forms.TextBox();
-            this.label88 = new System.Windows.Forms.Label();
-            this.textBsCycleFrom = new System.Windows.Forms.TextBox();
-            this.label89 = new System.Windows.Forms.Label();
-            this.label90 = new System.Windows.Forms.Label();
-            this.textBsGuaranteedAmount = new System.Windows.Forms.TextBox();
-            this.label91 = new System.Windows.Forms.Label();
-            this.label92 = new System.Windows.Forms.Label();
-            this.buttonDeleteBlueprint = new System.Windows.Forms.Button();
-            this.buttonAddBlueprint = new System.Windows.Forms.Button();
-            this.buttonRefreshBlueprint = new System.Windows.Forms.Button();
-            this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBpProductionPoints = new System.Windows.Forms.TextBox();
+            this.label99 = new System.Windows.Forms.Label();
+            this.textBpFailChance = new System.Windows.Forms.TextBox();
+            this.label98 = new System.Windows.Forms.Label();
+            this.textBpBonus = new System.Windows.Forms.TextBox();
+            this.label97 = new System.Windows.Forms.Label();
+            this.comboBpProduct = new System.Windows.Forms.ComboBox();
+            this.label96 = new System.Windows.Forms.Label();
+            this.label95 = new System.Windows.Forms.Label();
+            this.comboBpProductType = new System.Windows.Forms.ComboBox();
+            this.textBpName = new System.Windows.Forms.TextBox();
+            this.label94 = new System.Windows.Forms.Label();
+            this.textBpId = new System.Windows.Forms.TextBox();
+            this.label93 = new System.Windows.Forms.Label();
+            this.buttonBpSave = new System.Windows.Forms.Button();
+            this.buttonBpDelete = new System.Windows.Forms.Button();
+            this.buttonBpAdd = new System.Windows.Forms.Button();
+            this.buttonBpRefresh = new System.Windows.Forms.Button();
+            this.treeBlueprint = new System.Windows.Forms.TreeView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.listBpResources = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label100 = new System.Windows.Forms.Label();
+            this.label101 = new System.Windows.Forms.Label();
+            this.comboBpResource = new System.Windows.Forms.ComboBox();
+            this.textBpResourceCount = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -424,6 +446,7 @@
             this.tabPage24.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tabPage25.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -495,7 +518,7 @@
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(1233, 517);
             this.tabPage7.TabIndex = 4;
-            this.tabPage7.Text = "Сценарий";
+            this.tabPage7.Text = "Scenario";
             this.tabPage7.UseVisualStyleBackColor = true;
             this.tabPage7.Click += new System.EventHandler(this.tabPage7_Click);
             this.tabPage7.Enter += new System.EventHandler(this.tabPage7_Enter);
@@ -571,7 +594,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1233, 517);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Сцены";
+            this.tabPage1.Text = "Scene";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -807,7 +830,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1233, 517);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Картинки";
+            this.tabPage2.Text = "Pictures";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // textImageId
@@ -925,7 +948,7 @@
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(1233, 517);
             this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "Статы";
+            this.tabPage5.Text = "Stats";
             this.tabPage5.UseVisualStyleBackColor = true;
             this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
             this.tabPage5.Enter += new System.EventHandler(this.tabPage5_Enter);
@@ -1148,7 +1171,7 @@
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage6.Size = new System.Drawing.Size(1233, 517);
             this.tabPage6.TabIndex = 3;
-            this.tabPage6.Text = "Служебная";
+            this.tabPage6.Text = "Tests";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // buttonClearPlayerProgress
@@ -1202,7 +1225,7 @@
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage8.Size = new System.Drawing.Size(1233, 517);
             this.tabPage8.TabIndex = 5;
-            this.tabPage8.Text = "Модули";
+            this.tabPage8.Text = "SS modules";
             this.tabPage8.UseVisualStyleBackColor = true;
             this.tabPage8.Click += new System.EventHandler(this.tabPage8_Click);
             this.tabPage8.Enter += new System.EventHandler(this.tabPage8_Enter);
@@ -1685,7 +1708,7 @@
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage9.Size = new System.Drawing.Size(1233, 517);
             this.tabPage9.TabIndex = 6;
-            this.tabPage9.Text = "Корабли";
+            this.tabPage9.Text = "Spaceships";
             this.tabPage9.UseVisualStyleBackColor = true;
             this.tabPage9.Click += new System.EventHandler(this.tabPage9_Click);
             this.tabPage9.Enter += new System.EventHandler(this.tabPage9_Enter);
@@ -1756,7 +1779,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 480);
+            this.groupBox5.Size = new System.Drawing.Size(947, 494);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1858,7 +1881,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 134);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 148);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2116,7 +2139,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 438);
+            this.treeShips.Size = new System.Drawing.Size(234, 452);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2162,7 +2185,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 465);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 479);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2192,7 +2215,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 417);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 431);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2228,7 +2251,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 462);
+            this.tabControl5.Size = new System.Drawing.Size(704, 476);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2241,7 +2264,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 429);
+            this.tabPage17.Size = new System.Drawing.Size(696, 443);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2300,7 +2323,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 436);
+            this.tabPage15.Size = new System.Drawing.Size(696, 450);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2368,7 +2391,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 436);
+            this.tabPage16.Size = new System.Drawing.Size(696, 450);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2465,7 +2488,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 436);
+            this.tabPage18.Size = new System.Drawing.Size(696, 450);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2540,7 +2563,7 @@
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage10.Size = new System.Drawing.Size(1233, 517);
             this.tabPage10.TabIndex = 7;
-            this.tabPage10.Text = "Экипажи/офицеры";
+            this.tabPage10.Text = "Officers/crew";
             this.tabPage10.UseVisualStyleBackColor = true;
             this.tabPage10.Click += new System.EventHandler(this.tabPage10_Click);
             this.tabPage10.Enter += new System.EventHandler(this.tabPage10_Enter);
@@ -2702,7 +2725,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 515);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 529);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2728,7 +2751,7 @@
             this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage19.Size = new System.Drawing.Size(1233, 517);
             this.tabPage19.TabIndex = 8;
-            this.tabPage19.Text = "Игровые события";
+            this.tabPage19.Text = "Events";
             this.tabPage19.UseVisualStyleBackColor = true;
             this.tabPage19.Click += new System.EventHandler(this.tabPage19_Click);
             this.tabPage19.Enter += new System.EventHandler(this.tabPage19_Enter);
@@ -3079,7 +3102,7 @@
             this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage20.Size = new System.Drawing.Size(1233, 517);
             this.tabPage20.TabIndex = 9;
-            this.tabPage20.Text = "Боевые сцены";
+            this.tabPage20.Text = "Battle scenes";
             this.tabPage20.UseVisualStyleBackColor = true;
             this.tabPage20.Click += new System.EventHandler(this.tabPage20_Click);
             this.tabPage20.Enter += new System.EventHandler(this.tabPage20_Enter);
@@ -3386,6 +3409,247 @@
             this.tabPage22.Text = "Ресурсы";
             this.tabPage22.UseVisualStyleBackColor = true;
             // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(554, 229);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(296, 20);
+            this.label92.TabIndex = 38;
+            this.label92.Text = "Выпадет в один из циклов (случайно)";
+            // 
+            // textBsGuaranteedAmount
+            // 
+            this.textBsGuaranteedAmount.Location = new System.Drawing.Point(468, 226);
+            this.textBsGuaranteedAmount.Name = "textBsGuaranteedAmount";
+            this.textBsGuaranteedAmount.Size = new System.Drawing.Size(80, 26);
+            this.textBsGuaranteedAmount.TabIndex = 37;
+            this.textBsGuaranteedAmount.TextChanged += new System.EventHandler(this.textBsGuaranteedAmount_TextChanged);
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(221, 229);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(241, 20);
+            this.label91.TabIndex = 36;
+            this.label91.Text = "Гарантированное количество:";
+            // 
+            // label90
+            // 
+            this.label90.AutoSize = true;
+            this.label90.Location = new System.Drawing.Point(509, 197);
+            this.label90.Name = "label90";
+            this.label90.Size = new System.Drawing.Size(418, 20);
+            this.label90.TabIndex = 35;
+            this.label90.Text = "Раньше \"от\" не падает, больше \"до\" шансы не растут";
+            // 
+            // textBsCycleTo
+            // 
+            this.textBsCycleTo.Location = new System.Drawing.Point(423, 194);
+            this.textBsCycleTo.Name = "textBsCycleTo";
+            this.textBsCycleTo.Size = new System.Drawing.Size(80, 26);
+            this.textBsCycleTo.TabIndex = 34;
+            this.textBsCycleTo.TextChanged += new System.EventHandler(this.textBsCycleTo_TextChanged);
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Location = new System.Drawing.Point(388, 197);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(29, 20);
+            this.label88.TabIndex = 33;
+            this.label88.Text = "до";
+            // 
+            // textBsCycleFrom
+            // 
+            this.textBsCycleFrom.Location = new System.Drawing.Point(302, 194);
+            this.textBsCycleFrom.Name = "textBsCycleFrom";
+            this.textBsCycleFrom.Size = new System.Drawing.Size(80, 26);
+            this.textBsCycleFrom.TabIndex = 32;
+            this.textBsCycleFrom.TextChanged += new System.EventHandler(this.textBsCycleFrom_TextChanged);
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Location = new System.Drawing.Point(222, 197);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(74, 20);
+            this.label89.TabIndex = 31;
+            this.label89.Text = "Цикл от:";
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = true;
+            this.label87.Location = new System.Drawing.Point(609, 165);
+            this.label87.Name = "label87";
+            this.label87.Size = new System.Drawing.Size(316, 20);
+            this.label87.TabIndex = 30;
+            this.label87.Text = "Растет по мере продвижения по циклам";
+            // 
+            // textBsChanceTo
+            // 
+            this.textBsChanceTo.Location = new System.Drawing.Point(512, 162);
+            this.textBsChanceTo.Name = "textBsChanceTo";
+            this.textBsChanceTo.Size = new System.Drawing.Size(80, 26);
+            this.textBsChanceTo.TabIndex = 29;
+            this.textBsChanceTo.TextChanged += new System.EventHandler(this.textBsChanceTo_TextChanged);
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(477, 165);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(29, 20);
+            this.label85.TabIndex = 28;
+            this.label85.Text = "до";
+            // 
+            // textBsChanceFrom
+            // 
+            this.textBsChanceFrom.Location = new System.Drawing.Point(391, 162);
+            this.textBsChanceFrom.Name = "textBsChanceFrom";
+            this.textBsChanceFrom.Size = new System.Drawing.Size(80, 26);
+            this.textBsChanceFrom.TabIndex = 27;
+            this.textBsChanceFrom.TextChanged += new System.EventHandler(this.textBsChanceFrom_TextChanged);
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Location = new System.Drawing.Point(222, 165);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(163, 20);
+            this.label86.TabIndex = 26;
+            this.label86.Text = "Шанс выпадения от:";
+            // 
+            // textBsAmountTo
+            // 
+            this.textBsAmountTo.Location = new System.Drawing.Point(475, 130);
+            this.textBsAmountTo.Name = "textBsAmountTo";
+            this.textBsAmountTo.Size = new System.Drawing.Size(80, 26);
+            this.textBsAmountTo.TabIndex = 25;
+            this.textBsAmountTo.TextChanged += new System.EventHandler(this.textBsAmountTo_TextChanged);
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(440, 133);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(29, 20);
+            this.label84.TabIndex = 24;
+            this.label84.Text = "до";
+            // 
+            // textBsAmountFrom
+            // 
+            this.textBsAmountFrom.Location = new System.Drawing.Point(354, 130);
+            this.textBsAmountFrom.Name = "textBsAmountFrom";
+            this.textBsAmountFrom.Size = new System.Drawing.Size(80, 26);
+            this.textBsAmountFrom.TabIndex = 23;
+            this.textBsAmountFrom.TextChanged += new System.EventHandler(this.textBsAmountFrom_TextChanged);
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(222, 133);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(126, 20);
+            this.label83.TabIndex = 22;
+            this.label83.Text = "Количество от:";
+            // 
+            // textBsBlueprintBonus
+            // 
+            this.textBsBlueprintBonus.Location = new System.Drawing.Point(821, 83);
+            this.textBsBlueprintBonus.Name = "textBsBlueprintBonus";
+            this.textBsBlueprintBonus.Size = new System.Drawing.Size(65, 26);
+            this.textBsBlueprintBonus.TabIndex = 21;
+            this.textBsBlueprintBonus.TextChanged += new System.EventHandler(this.textBsBlueprintBonus_TextChanged);
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(758, 86);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(57, 20);
+            this.label82.TabIndex = 20;
+            this.label82.Text = "Бонус:";
+            // 
+            // comboBsBlueprint
+            // 
+            this.comboBsBlueprint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBsBlueprint.FormattingEnabled = true;
+            this.comboBsBlueprint.Location = new System.Drawing.Point(562, 83);
+            this.comboBsBlueprint.Name = "comboBsBlueprint";
+            this.comboBsBlueprint.Size = new System.Drawing.Size(190, 28);
+            this.comboBsBlueprint.TabIndex = 19;
+            this.comboBsBlueprint.SelectedIndexChanged += new System.EventHandler(this.comboBsBlueprint_SelectedIndexChanged);
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Location = new System.Drawing.Point(484, 86);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(72, 20);
+            this.label81.TabIndex = 18;
+            this.label81.Text = "Чертеж:";
+            // 
+            // comboBsResourceType
+            // 
+            this.comboBsResourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBsResourceType.FormattingEnabled = true;
+            this.comboBsResourceType.Location = new System.Drawing.Point(292, 83);
+            this.comboBsResourceType.Name = "comboBsResourceType";
+            this.comboBsResourceType.Size = new System.Drawing.Size(178, 28);
+            this.comboBsResourceType.TabIndex = 1;
+            this.comboBsResourceType.SelectedIndexChanged += new System.EventHandler(this.comboBsResourceType_SelectedIndexChanged);
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Location = new System.Drawing.Point(222, 86);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(64, 20);
+            this.label80.TabIndex = 0;
+            this.label80.Text = "Ресурс:";
+            // 
+            // checkBsAnyEnemy
+            // 
+            this.checkBsAnyEnemy.AutoSize = true;
+            this.checkBsAnyEnemy.Location = new System.Drawing.Point(567, 43);
+            this.checkBsAnyEnemy.Name = "checkBsAnyEnemy";
+            this.checkBsAnyEnemy.Size = new System.Drawing.Size(117, 24);
+            this.checkBsAnyEnemy.TabIndex = 17;
+            this.checkBsAnyEnemy.Text = "Любой враг";
+            this.checkBsAnyEnemy.UseVisualStyleBackColor = true;
+            this.checkBsAnyEnemy.CheckedChanged += new System.EventHandler(this.checkBsAnyEnemy_CheckedChanged);
+            // 
+            // buttonBsRefreshEnemy
+            // 
+            this.buttonBsRefreshEnemy.Location = new System.Drawing.Point(690, 41);
+            this.buttonBsRefreshEnemy.Name = "buttonBsRefreshEnemy";
+            this.buttonBsRefreshEnemy.Size = new System.Drawing.Size(96, 28);
+            this.buttonBsRefreshEnemy.TabIndex = 16;
+            this.buttonBsRefreshEnemy.Text = "Refresh";
+            this.buttonBsRefreshEnemy.UseVisualStyleBackColor = true;
+            this.buttonBsRefreshEnemy.Click += new System.EventHandler(this.buttonBsRefreshEnemy_Click);
+            // 
+            // comboBsEnemyInResource
+            // 
+            this.comboBsEnemyInResource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBsEnemyInResource.FormattingEnabled = true;
+            this.comboBsEnemyInResource.Location = new System.Drawing.Point(308, 41);
+            this.comboBsEnemyInResource.Name = "comboBsEnemyInResource";
+            this.comboBsEnemyInResource.Size = new System.Drawing.Size(253, 28);
+            this.comboBsEnemyInResource.TabIndex = 15;
+            this.comboBsEnemyInResource.SelectedIndexChanged += new System.EventHandler(this.comboBsEnemyInResource_SelectedIndexChanged);
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Location = new System.Drawing.Point(222, 44);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(80, 20);
+            this.label79.TabIndex = 14;
+            this.label79.Text = "Enemy Id:";
+            // 
             // listBsResources
             // 
             this.listBsResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -3523,7 +3787,7 @@
             this.tabPage23.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage23.Size = new System.Drawing.Size(1233, 517);
             this.tabPage23.TabIndex = 10;
-            this.tabPage23.Text = "Ресурсы";
+            this.tabPage23.Text = "Resources";
             this.tabPage23.UseVisualStyleBackColor = true;
             this.tabPage23.Enter += new System.EventHandler(this.tabPage23_Enter);
             // 
@@ -3549,7 +3813,7 @@
             this.tabPage24.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage24.Size = new System.Drawing.Size(1209, 470);
             this.tabPage24.TabIndex = 0;
-            this.tabPage24.Text = "Ресурсы";
+            this.tabPage24.Text = "Resources";
             this.tabPage24.UseVisualStyleBackColor = true;
             // 
             // groupBox7
@@ -3570,7 +3834,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 458);
+            this.groupBox7.Size = new System.Drawing.Size(894, 472);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3711,300 +3975,235 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 424);
+            this.treeRes.Size = new System.Drawing.Size(297, 438);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
             // tabPage25
             // 
             this.tabPage25.Controls.Add(this.groupBox8);
-            this.tabPage25.Controls.Add(this.buttonDeleteBlueprint);
-            this.tabPage25.Controls.Add(this.buttonAddBlueprint);
-            this.tabPage25.Controls.Add(this.buttonRefreshBlueprint);
+            this.tabPage25.Controls.Add(this.buttonBpDelete);
+            this.tabPage25.Controls.Add(this.buttonBpAdd);
+            this.tabPage25.Controls.Add(this.buttonBpRefresh);
             this.tabPage25.Controls.Add(this.treeBlueprint);
             this.tabPage25.Location = new System.Drawing.Point(4, 29);
             this.tabPage25.Name = "tabPage25";
             this.tabPage25.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage25.Size = new System.Drawing.Size(1209, 470);
             this.tabPage25.TabIndex = 1;
-            this.tabPage25.Text = "Чертежи";
+            this.tabPage25.Text = "Blueprints";
             this.tabPage25.UseVisualStyleBackColor = true;
             this.tabPage25.Enter += new System.EventHandler(this.tabPage25_Enter);
             // 
-            // openFileDialog1
+            // groupBox8
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.textBpResourceCount);
+            this.groupBox8.Controls.Add(this.comboBpResource);
+            this.groupBox8.Controls.Add(this.label101);
+            this.groupBox8.Controls.Add(this.label100);
+            this.groupBox8.Controls.Add(this.button1);
+            this.groupBox8.Controls.Add(this.button2);
+            this.groupBox8.Controls.Add(this.listBpResources);
+            this.groupBox8.Controls.Add(this.textBpProductionPoints);
+            this.groupBox8.Controls.Add(this.label99);
+            this.groupBox8.Controls.Add(this.textBpFailChance);
+            this.groupBox8.Controls.Add(this.label98);
+            this.groupBox8.Controls.Add(this.textBpBonus);
+            this.groupBox8.Controls.Add(this.label97);
+            this.groupBox8.Controls.Add(this.comboBpProduct);
+            this.groupBox8.Controls.Add(this.label96);
+            this.groupBox8.Controls.Add(this.label95);
+            this.groupBox8.Controls.Add(this.comboBpProductType);
+            this.groupBox8.Controls.Add(this.textBpName);
+            this.groupBox8.Controls.Add(this.label94);
+            this.groupBox8.Controls.Add(this.textBpId);
+            this.groupBox8.Controls.Add(this.label93);
+            this.groupBox8.Controls.Add(this.buttonBpSave);
+            this.groupBox8.Location = new System.Drawing.Point(309, 6);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.TabIndex = 16;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Blueprint editing";
             // 
-            // label79
+            // textBpProductionPoints
             // 
-            this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(222, 44);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(80, 20);
-            this.label79.TabIndex = 14;
-            this.label79.Text = "Enemy Id:";
+            this.textBpProductionPoints.Location = new System.Drawing.Point(148, 140);
+            this.textBpProductionPoints.MaxLength = 10;
+            this.textBpProductionPoints.Name = "textBpProductionPoints";
+            this.textBpProductionPoints.Size = new System.Drawing.Size(78, 26);
+            this.textBpProductionPoints.TabIndex = 28;
+            this.textBpProductionPoints.TextChanged += new System.EventHandler(this.textBpProductionPoints_TextChanged);
             // 
-            // comboBsEnemyInResource
+            // label99
             // 
-            this.comboBsEnemyInResource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBsEnemyInResource.FormattingEnabled = true;
-            this.comboBsEnemyInResource.Location = new System.Drawing.Point(308, 41);
-            this.comboBsEnemyInResource.Name = "comboBsEnemyInResource";
-            this.comboBsEnemyInResource.Size = new System.Drawing.Size(253, 28);
-            this.comboBsEnemyInResource.TabIndex = 15;
-            this.comboBsEnemyInResource.SelectedIndexChanged += new System.EventHandler(this.comboBsEnemyInResource_SelectedIndexChanged);
+            this.label99.AutoSize = true;
+            this.label99.Location = new System.Drawing.Point(6, 143);
+            this.label99.Name = "label99";
+            this.label99.Size = new System.Drawing.Size(136, 20);
+            this.label99.TabIndex = 27;
+            this.label99.Text = "Production points:";
             // 
-            // buttonBsRefreshEnemy
+            // textBpFailChance
             // 
-            this.buttonBsRefreshEnemy.Location = new System.Drawing.Point(690, 41);
-            this.buttonBsRefreshEnemy.Name = "buttonBsRefreshEnemy";
-            this.buttonBsRefreshEnemy.Size = new System.Drawing.Size(96, 28);
-            this.buttonBsRefreshEnemy.TabIndex = 16;
-            this.buttonBsRefreshEnemy.Text = "Refresh";
-            this.buttonBsRefreshEnemy.UseVisualStyleBackColor = true;
-            this.buttonBsRefreshEnemy.Click += new System.EventHandler(this.buttonBsRefreshEnemy_Click);
+            this.textBpFailChance.Location = new System.Drawing.Point(651, 103);
+            this.textBpFailChance.MaxLength = 10;
+            this.textBpFailChance.Name = "textBpFailChance";
+            this.textBpFailChance.Size = new System.Drawing.Size(78, 26);
+            this.textBpFailChance.TabIndex = 26;
+            this.textBpFailChance.TextChanged += new System.EventHandler(this.textBpFailChance_TextChanged);
             // 
-            // checkBsAnyEnemy
+            // label98
             // 
-            this.checkBsAnyEnemy.AutoSize = true;
-            this.checkBsAnyEnemy.Location = new System.Drawing.Point(567, 43);
-            this.checkBsAnyEnemy.Name = "checkBsAnyEnemy";
-            this.checkBsAnyEnemy.Size = new System.Drawing.Size(117, 24);
-            this.checkBsAnyEnemy.TabIndex = 17;
-            this.checkBsAnyEnemy.Text = "Любой враг";
-            this.checkBsAnyEnemy.UseVisualStyleBackColor = true;
-            this.checkBsAnyEnemy.CheckedChanged += new System.EventHandler(this.checkBsAnyEnemy_CheckedChanged);
+            this.label98.AutoSize = true;
+            this.label98.Location = new System.Drawing.Point(551, 106);
+            this.label98.Name = "label98";
+            this.label98.Size = new System.Drawing.Size(94, 20);
+            this.label98.TabIndex = 25;
+            this.label98.Text = "Fail chance:";
             // 
-            // label80
+            // textBpBonus
             // 
-            this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(222, 86);
-            this.label80.Name = "label80";
-            this.label80.Size = new System.Drawing.Size(64, 20);
-            this.label80.TabIndex = 0;
-            this.label80.Text = "Ресурс:";
+            this.textBpBonus.Location = new System.Drawing.Point(455, 103);
+            this.textBpBonus.MaxLength = 10;
+            this.textBpBonus.Name = "textBpBonus";
+            this.textBpBonus.Size = new System.Drawing.Size(78, 26);
+            this.textBpBonus.TabIndex = 24;
+            this.textBpBonus.TextChanged += new System.EventHandler(this.textBpBonus_TextChanged);
             // 
-            // comboBsResourceType
+            // label97
             // 
-            this.comboBsResourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBsResourceType.FormattingEnabled = true;
-            this.comboBsResourceType.Location = new System.Drawing.Point(292, 83);
-            this.comboBsResourceType.Name = "comboBsResourceType";
-            this.comboBsResourceType.Size = new System.Drawing.Size(178, 28);
-            this.comboBsResourceType.TabIndex = 1;
-            this.comboBsResourceType.SelectedIndexChanged += new System.EventHandler(this.comboBsResourceType_SelectedIndexChanged);
+            this.label97.AutoSize = true;
+            this.label97.Location = new System.Drawing.Point(343, 106);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(106, 20);
+            this.label97.TabIndex = 23;
+            this.label97.Text = "Bonus points:";
             // 
-            // comboBsBlueprint
+            // comboBpProduct
             // 
-            this.comboBsBlueprint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBsBlueprint.FormattingEnabled = true;
-            this.comboBsBlueprint.Location = new System.Drawing.Point(562, 83);
-            this.comboBsBlueprint.Name = "comboBsBlueprint";
-            this.comboBsBlueprint.Size = new System.Drawing.Size(190, 28);
-            this.comboBsBlueprint.TabIndex = 19;
-            this.comboBsBlueprint.SelectedIndexChanged += new System.EventHandler(this.comboBsBlueprint_SelectedIndexChanged);
+            this.comboBpProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBpProduct.FormattingEnabled = true;
+            this.comboBpProduct.Location = new System.Drawing.Point(80, 103);
+            this.comboBpProduct.Name = "comboBpProduct";
+            this.comboBpProduct.Size = new System.Drawing.Size(244, 28);
+            this.comboBpProduct.TabIndex = 22;
+            this.comboBpProduct.SelectedIndexChanged += new System.EventHandler(this.comboBpProduct_SelectedIndexChanged);
             // 
-            // label81
+            // label96
             // 
-            this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(484, 86);
-            this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(72, 20);
-            this.label81.TabIndex = 18;
-            this.label81.Text = "Чертеж:";
+            this.label96.AutoSize = true;
+            this.label96.Location = new System.Drawing.Point(6, 106);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(68, 20);
+            this.label96.TabIndex = 21;
+            this.label96.Text = "Product:";
             // 
-            // label82
+            // label95
             // 
-            this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(758, 86);
-            this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(57, 20);
-            this.label82.TabIndex = 20;
-            this.label82.Text = "Бонус:";
+            this.label95.AutoSize = true;
+            this.label95.Location = new System.Drawing.Point(431, 70);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(102, 20);
+            this.label95.TabIndex = 20;
+            this.label95.Text = "Product type:";
             // 
-            // textBsBlueprintBonus
+            // comboBpProductType
             // 
-            this.textBsBlueprintBonus.Location = new System.Drawing.Point(821, 83);
-            this.textBsBlueprintBonus.Name = "textBsBlueprintBonus";
-            this.textBsBlueprintBonus.Size = new System.Drawing.Size(65, 26);
-            this.textBsBlueprintBonus.TabIndex = 21;
-            this.textBsBlueprintBonus.TextChanged += new System.EventHandler(this.textBsBlueprintBonus_TextChanged);
+            this.comboBpProductType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBpProductType.FormattingEnabled = true;
+            this.comboBpProductType.Items.AddRange(new object[] {
+            "None",
+            "Make spaceship module",
+            "Make spaceship",
+            "Make spacestation module",
+            "Improve officer",
+            "Improve spaceship module",
+            "Improve spaceship",
+            "Improve playerstat"});
+            this.comboBpProductType.Location = new System.Drawing.Point(539, 67);
+            this.comboBpProductType.Name = "comboBpProductType";
+            this.comboBpProductType.Size = new System.Drawing.Size(214, 28);
+            this.comboBpProductType.TabIndex = 19;
+            this.comboBpProductType.SelectedIndexChanged += new System.EventHandler(this.comboBpProductType_SelectedIndexChanged);
             // 
-            // label83
+            // textBpName
             // 
-            this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(222, 133);
-            this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(126, 20);
-            this.label83.TabIndex = 22;
-            this.label83.Text = "Количество от:";
+            this.textBpName.Location = new System.Drawing.Point(200, 67);
+            this.textBpName.MaxLength = 50;
+            this.textBpName.Name = "textBpName";
+            this.textBpName.Size = new System.Drawing.Size(213, 26);
+            this.textBpName.TabIndex = 18;
+            this.textBpName.TextChanged += new System.EventHandler(this.textBpName_TextChanged);
             // 
-            // textBsAmountFrom
+            // label94
             // 
-            this.textBsAmountFrom.Location = new System.Drawing.Point(354, 130);
-            this.textBsAmountFrom.Name = "textBsAmountFrom";
-            this.textBsAmountFrom.Size = new System.Drawing.Size(80, 26);
-            this.textBsAmountFrom.TabIndex = 23;
-            this.textBsAmountFrom.TextChanged += new System.EventHandler(this.textBsAmountFrom_TextChanged);
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(139, 70);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(55, 20);
+            this.label94.TabIndex = 17;
+            this.label94.Text = "Name:";
             // 
-            // label84
+            // textBpId
             // 
-            this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(440, 133);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(29, 20);
-            this.label84.TabIndex = 24;
-            this.label84.Text = "до";
+            this.textBpId.Location = new System.Drawing.Point(39, 67);
+            this.textBpId.Name = "textBpId";
+            this.textBpId.ReadOnly = true;
+            this.textBpId.Size = new System.Drawing.Size(83, 26);
+            this.textBpId.TabIndex = 16;
             // 
-            // textBsAmountTo
+            // label93
             // 
-            this.textBsAmountTo.Location = new System.Drawing.Point(475, 130);
-            this.textBsAmountTo.Name = "textBsAmountTo";
-            this.textBsAmountTo.Size = new System.Drawing.Size(80, 26);
-            this.textBsAmountTo.TabIndex = 25;
-            this.textBsAmountTo.TextChanged += new System.EventHandler(this.textBsAmountTo_TextChanged);
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(6, 70);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(27, 20);
+            this.label93.TabIndex = 15;
+            this.label93.Text = "Id:";
             // 
-            // textBsChanceTo
+            // buttonBpSave
             // 
-            this.textBsChanceTo.Location = new System.Drawing.Point(512, 162);
-            this.textBsChanceTo.Name = "textBsChanceTo";
-            this.textBsChanceTo.Size = new System.Drawing.Size(80, 26);
-            this.textBsChanceTo.TabIndex = 29;
-            this.textBsChanceTo.TextChanged += new System.EventHandler(this.textBsChanceTo_TextChanged);
+            this.buttonBpSave.Location = new System.Drawing.Point(6, 25);
+            this.buttonBpSave.Name = "buttonBpSave";
+            this.buttonBpSave.Size = new System.Drawing.Size(95, 28);
+            this.buttonBpSave.TabIndex = 14;
+            this.buttonBpSave.Text = "Save";
+            this.buttonBpSave.UseVisualStyleBackColor = true;
+            this.buttonBpSave.Click += new System.EventHandler(this.buttonBpSave_Click);
             // 
-            // label85
+            // buttonBpDelete
             // 
-            this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(477, 165);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(29, 20);
-            this.label85.TabIndex = 28;
-            this.label85.Text = "до";
+            this.buttonBpDelete.Location = new System.Drawing.Point(208, 6);
+            this.buttonBpDelete.Name = "buttonBpDelete";
+            this.buttonBpDelete.Size = new System.Drawing.Size(95, 28);
+            this.buttonBpDelete.TabIndex = 15;
+            this.buttonBpDelete.Text = "Delete";
+            this.buttonBpDelete.UseVisualStyleBackColor = true;
+            this.buttonBpDelete.Click += new System.EventHandler(this.buttonDeleteBlueprint_Click);
             // 
-            // textBsChanceFrom
+            // buttonBpAdd
             // 
-            this.textBsChanceFrom.Location = new System.Drawing.Point(391, 162);
-            this.textBsChanceFrom.Name = "textBsChanceFrom";
-            this.textBsChanceFrom.Size = new System.Drawing.Size(80, 26);
-            this.textBsChanceFrom.TabIndex = 27;
-            this.textBsChanceFrom.TextChanged += new System.EventHandler(this.textBsChanceFrom_TextChanged);
+            this.buttonBpAdd.Location = new System.Drawing.Point(107, 6);
+            this.buttonBpAdd.Name = "buttonBpAdd";
+            this.buttonBpAdd.Size = new System.Drawing.Size(95, 28);
+            this.buttonBpAdd.TabIndex = 14;
+            this.buttonBpAdd.Text = "Add";
+            this.buttonBpAdd.UseVisualStyleBackColor = true;
+            this.buttonBpAdd.Click += new System.EventHandler(this.buttonAddBlueprint_Click);
             // 
-            // label86
+            // buttonBpRefresh
             // 
-            this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(222, 165);
-            this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(163, 20);
-            this.label86.TabIndex = 26;
-            this.label86.Text = "Шанс выпадения от:";
-            // 
-            // label87
-            // 
-            this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(609, 165);
-            this.label87.Name = "label87";
-            this.label87.Size = new System.Drawing.Size(316, 20);
-            this.label87.TabIndex = 30;
-            this.label87.Text = "Растет по мере продвижения по циклам";
-            // 
-            // textBsCycleTo
-            // 
-            this.textBsCycleTo.Location = new System.Drawing.Point(423, 194);
-            this.textBsCycleTo.Name = "textBsCycleTo";
-            this.textBsCycleTo.Size = new System.Drawing.Size(80, 26);
-            this.textBsCycleTo.TabIndex = 34;
-            this.textBsCycleTo.TextChanged += new System.EventHandler(this.textBsCycleTo_TextChanged);
-            // 
-            // label88
-            // 
-            this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(388, 197);
-            this.label88.Name = "label88";
-            this.label88.Size = new System.Drawing.Size(29, 20);
-            this.label88.TabIndex = 33;
-            this.label88.Text = "до";
-            // 
-            // textBsCycleFrom
-            // 
-            this.textBsCycleFrom.Location = new System.Drawing.Point(302, 194);
-            this.textBsCycleFrom.Name = "textBsCycleFrom";
-            this.textBsCycleFrom.Size = new System.Drawing.Size(80, 26);
-            this.textBsCycleFrom.TabIndex = 32;
-            this.textBsCycleFrom.TextChanged += new System.EventHandler(this.textBsCycleFrom_TextChanged);
-            // 
-            // label89
-            // 
-            this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(222, 197);
-            this.label89.Name = "label89";
-            this.label89.Size = new System.Drawing.Size(74, 20);
-            this.label89.TabIndex = 31;
-            this.label89.Text = "Цикл от:";
-            // 
-            // label90
-            // 
-            this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(509, 197);
-            this.label90.Name = "label90";
-            this.label90.Size = new System.Drawing.Size(418, 20);
-            this.label90.TabIndex = 35;
-            this.label90.Text = "Раньше \"от\" не падает, больше \"до\" шансы не растут";
-            // 
-            // textBsGuaranteedAmount
-            // 
-            this.textBsGuaranteedAmount.Location = new System.Drawing.Point(468, 226);
-            this.textBsGuaranteedAmount.Name = "textBsGuaranteedAmount";
-            this.textBsGuaranteedAmount.Size = new System.Drawing.Size(80, 26);
-            this.textBsGuaranteedAmount.TabIndex = 37;
-            this.textBsGuaranteedAmount.TextChanged += new System.EventHandler(this.textBsGuaranteedAmount_TextChanged);
-            // 
-            // label91
-            // 
-            this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(221, 229);
-            this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(241, 20);
-            this.label91.TabIndex = 36;
-            this.label91.Text = "Гарантированное количество:";
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(554, 229);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(296, 20);
-            this.label92.TabIndex = 38;
-            this.label92.Text = "Выпадет в один из циклов (случайно)";
-            // 
-            // buttonDeleteBlueprint
-            // 
-            this.buttonDeleteBlueprint.Location = new System.Drawing.Point(208, 6);
-            this.buttonDeleteBlueprint.Name = "buttonDeleteBlueprint";
-            this.buttonDeleteBlueprint.Size = new System.Drawing.Size(95, 28);
-            this.buttonDeleteBlueprint.TabIndex = 15;
-            this.buttonDeleteBlueprint.Text = "Delete";
-            this.buttonDeleteBlueprint.UseVisualStyleBackColor = true;
-            this.buttonDeleteBlueprint.Click += new System.EventHandler(this.buttonDeleteBlueprint_Click);
-            // 
-            // buttonAddBlueprint
-            // 
-            this.buttonAddBlueprint.Location = new System.Drawing.Point(107, 6);
-            this.buttonAddBlueprint.Name = "buttonAddBlueprint";
-            this.buttonAddBlueprint.Size = new System.Drawing.Size(95, 28);
-            this.buttonAddBlueprint.TabIndex = 14;
-            this.buttonAddBlueprint.Text = "Add";
-            this.buttonAddBlueprint.UseVisualStyleBackColor = true;
-            this.buttonAddBlueprint.Click += new System.EventHandler(this.buttonAddBlueprint_Click);
-            // 
-            // buttonRefreshBlueprint
-            // 
-            this.buttonRefreshBlueprint.Location = new System.Drawing.Point(6, 6);
-            this.buttonRefreshBlueprint.Name = "buttonRefreshBlueprint";
-            this.buttonRefreshBlueprint.Size = new System.Drawing.Size(95, 28);
-            this.buttonRefreshBlueprint.TabIndex = 13;
-            this.buttonRefreshBlueprint.Text = "Refresh";
-            this.buttonRefreshBlueprint.UseVisualStyleBackColor = true;
-            this.buttonRefreshBlueprint.Click += new System.EventHandler(this.buttonRefreshBlueprint_Click);
+            this.buttonBpRefresh.Location = new System.Drawing.Point(6, 6);
+            this.buttonBpRefresh.Name = "buttonBpRefresh";
+            this.buttonBpRefresh.Size = new System.Drawing.Size(95, 28);
+            this.buttonBpRefresh.TabIndex = 13;
+            this.buttonBpRefresh.Text = "Refresh";
+            this.buttonBpRefresh.UseVisualStyleBackColor = true;
+            this.buttonBpRefresh.Click += new System.EventHandler(this.buttonRefreshBlueprint_Click);
             // 
             // treeBlueprint
             // 
@@ -4015,15 +4214,75 @@
             this.treeBlueprint.Name = "treeBlueprint";
             this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
             this.treeBlueprint.TabIndex = 12;
+            this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
-            // groupBox8
+            // openFileDialog1
             // 
-            this.groupBox8.Location = new System.Drawing.Point(309, 6);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 458);
-            this.groupBox8.TabIndex = 16;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Blueprint editing";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // listBpResources
+            // 
+            this.listBpResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBpResources.FormattingEnabled = true;
+            this.listBpResources.ItemHeight = 20;
+            this.listBpResources.Location = new System.Drawing.Point(10, 222);
+            this.listBpResources.Name = "listBpResources";
+            this.listBpResources.Size = new System.Drawing.Size(196, 224);
+            this.listBpResources.TabIndex = 29;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(111, 188);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 28);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "Delete";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(10, 188);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 28);
+            this.button2.TabIndex = 30;
+            this.button2.Text = "Add";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label100
+            // 
+            this.label100.AutoSize = true;
+            this.label100.Location = new System.Drawing.Point(212, 222);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(107, 20);
+            this.label100.TabIndex = 32;
+            this.label100.Text = "Вид ресурса:";
+            // 
+            // label101
+            // 
+            this.label101.AutoSize = true;
+            this.label101.Location = new System.Drawing.Point(212, 256);
+            this.label101.Name = "label101";
+            this.label101.Size = new System.Drawing.Size(104, 20);
+            this.label101.TabIndex = 33;
+            this.label101.Text = "Количество:";
+            // 
+            // comboBpResource
+            // 
+            this.comboBpResource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBpResource.FormattingEnabled = true;
+            this.comboBpResource.Location = new System.Drawing.Point(325, 219);
+            this.comboBpResource.Name = "comboBpResource";
+            this.comboBpResource.Size = new System.Drawing.Size(244, 28);
+            this.comboBpResource.TabIndex = 34;
+            // 
+            // textBpResourceCount
+            // 
+            this.textBpResourceCount.Location = new System.Drawing.Point(325, 253);
+            this.textBpResourceCount.MaxLength = 10;
+            this.textBpResourceCount.Name = "textBpResourceCount";
+            this.textBpResourceCount.Size = new System.Drawing.Size(78, 26);
+            this.textBpResourceCount.TabIndex = 35;
             // 
             // FormMain
             // 
@@ -4122,6 +4381,8 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.tabPage25.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -4460,11 +4721,33 @@
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.TextBox textBsCycleFrom;
         private System.Windows.Forms.Label label89;
-        private System.Windows.Forms.Button buttonDeleteBlueprint;
-        private System.Windows.Forms.Button buttonAddBlueprint;
-        private System.Windows.Forms.Button buttonRefreshBlueprint;
+        private System.Windows.Forms.Button buttonBpDelete;
+        private System.Windows.Forms.Button buttonBpAdd;
+        private System.Windows.Forms.Button buttonBpRefresh;
         private System.Windows.Forms.TreeView treeBlueprint;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Button buttonBpSave;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.TextBox textBpId;
+        private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.ComboBox comboBpProductType;
+        private System.Windows.Forms.TextBox textBpName;
+        private System.Windows.Forms.ComboBox comboBpProduct;
+        private System.Windows.Forms.Label label96;
+        private System.Windows.Forms.TextBox textBpProductionPoints;
+        private System.Windows.Forms.Label label99;
+        private System.Windows.Forms.TextBox textBpFailChance;
+        private System.Windows.Forms.Label label98;
+        private System.Windows.Forms.TextBox textBpBonus;
+        private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.TextBox textBpResourceCount;
+        private System.Windows.Forms.ComboBox comboBpResource;
+        private System.Windows.Forms.Label label101;
+        private System.Windows.Forms.Label label100;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListBox listBpResources;
     }
 }
 

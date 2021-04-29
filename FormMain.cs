@@ -15,6 +15,7 @@ using System.Reflection.Emit;
 using Story;
 using Crew;
 using AdmiralNamespace;
+using System.Reflection;
 
 namespace AssetEditor
 {
@@ -3598,24 +3599,262 @@ namespace AssetEditor
         #endregion
 
         #region Blueprints
+
+        private bool BpFilled;
+
         private void tabPage25_Enter(object sender, EventArgs e)
         {
-
+            if (BpFilled)
+                return;
+            FillBlueprints();
         }
 
         private void buttonRefreshBlueprint_Click(object sender, EventArgs e)
         {
-
+            FillBlueprints();
         }
 
         private void buttonAddBlueprint_Click(object sender, EventArgs e)
         {
-
+            BlueprintType bp = new BlueprintType();
+            bp.Name = "new blueprint";
+            TreeNode n;
+            if(treeBlueprint.SelectedNode == null)
+            {
+                n = treeBlueprint.Nodes[0].Nodes.Add(bp.Name);
+            }
+            else if(treeBlueprint.SelectedNode.Tag == null)
+            {
+                n = treeBlueprint.Nodes[0].Nodes.Add(bp.Name);
+            }
+            else
+            {
+                n = treeBlueprint.SelectedNode.Nodes.Add(bp.Name);
+                BlueprintType parentBp = (BlueprintType)treeBlueprint.SelectedNode.Tag;
+                bp.ParentId = parentBp.ParentId;
+            }
+            n.Tag = bp;
+            treeBlueprint.SelectedNode = n;
         }
 
         private void buttonDeleteBlueprint_Click(object sender, EventArgs e)
         {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            bp.Delete();
+            treeBlueprint.SelectedNode.Parent.Nodes.Remove(treeBlueprint.SelectedNode);
+        }
 
+        private BlueprintType GetCurrentBlueprint()
+        {
+            if (treeBlueprint.SelectedNode == null)
+                return null;
+            if (treeBlueprint.SelectedNode.Tag == null)
+                return null;
+            return (BlueprintType)treeBlueprint.SelectedNode.Tag;
+        }
+
+        private void FillBlueprints()
+        {
+            treeBlueprint.Nodes.Clear();
+            TreeNode mainNode = treeBlueprint.Nodes.Add("Blueprint list");
+
+            Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
+            var bpList = BlueprintType.GetList();
+            foreach(var bp in bpList)
+            {
+                TreeNode n;
+                if(bp.ParentId > 0)
+                {
+                    n = nodeDict[bp.ParentId].Nodes.Add(bp.ToString());
+                }
+                else
+                {
+                    n = mainNode.Nodes.Add(bp.ToString());
+                }
+                n.Tag = bp;
+                nodeDict.Add(bp.Id, n);
+            }
+
+            mainNode.Expand();
+            BpFilled = true;
+        }
+
+        private void ClearBp()
+        {
+            NoEvents = true;
+            textBpId.Text = "";
+            textBpName.Text = "";
+            comboBpProductType.SelectedItem = null;
+            comboBpProduct.Items.Clear();
+            textBpBonus.Text = "";
+            textBpFailChance.Text = "";
+            textBpProductionPoints.Text = "";
+            listBpResources.Items.Clear();
+            comboBpResource.SelectedItem = null;
+            textBpResourceCount.Text = "";
+            NoEvents = false;
+        }
+
+        private void treeBlueprint_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            NoEvents = true;
+            textBpId.Text = bp.Id.ToString();
+            textBpName.Text = bp.Name;
+            comboBpProductType.SelectedIndex = (int)bp.ProductType;
+            FillBpProductCombo();
+            SetBpComboValue(bp.ProductId);
+            textBpBonus.Text = bp.BaseBonus.ToString();
+            textBpFailChance.Text = bp.FailChance.ToString();
+            textBpProductionPoints.Text = bp.ProductionPoints.ToString();
+            NoEvents = false;
+        }
+
+        private void textBpName_TextChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            bp.Name = textBpName.Text;
+            treeBlueprint.SelectedNode.Text = bp.Name;
+        }
+
+        private void comboBpProductType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillBpProductCombo();
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            if (comboBpProductType.SelectedItem == null)
+            {
+                bp.ProductType = BlueprintType.BlueprintProductType.None;
+                return;
+            }
+            bp.ProductType = (BlueprintType.BlueprintProductType)comboBpProductType.SelectedIndex;
+        }
+
+        private void FillBpProductCombo()
+        {
+            //None
+            //Make spaceship module
+            //Make spaceship
+            //Make spacestation module
+            //Improve officer
+            //Improve spaceship module
+            //Improve spaceship
+            //Improve playerstat
+            NoEvents = true;
+            comboBpProduct.Items.Clear();
+            NoEvents = false;
+            if (comboBpProductType.SelectedItem == null)
+                return;
+            if (comboBpProductType.SelectedIndex == 0)
+                return;
+
+            if((string)comboBpProductType.SelectedItem == "Make spaceship module")
+            {
+                List<ShipModuleType> mTypes = ShipModuleType.CreateModuleList();
+                if(mTypes.Count > 0)
+                {
+                    foreach(var mType in mTypes)
+                    {
+                        comboBpProduct.Items.Add(mType);
+                    }
+                }
+            }
+
+            if((string)comboBpProductType.SelectedItem == "Make spaceship")
+            {
+                var sModels = ShipModuleType.CreateModuleList();
+                foreach(var sModel in sModels)
+                {
+                    comboBpProduct.Items.Add(sModel);
+                }
+            }
+
+            if((string)comboBpProductType.SelectedItem == "Make spacestation module")
+            {
+
+            }
+
+        }
+
+        private void SetBpComboValue(int value)
+        {
+            if (value == 0)
+                return;
+            if(comboBpProduct.Items.Count > 0)
+            {
+                Type type = comboBpProduct.Items[0].GetType();
+                PropertyInfo propInfo = type.GetProperty("Id");
+                foreach (var item in comboBpProduct.Items)
+                {
+                    int id = (int)propInfo.GetValue(item);
+                    if (id == value)
+                    {
+                        comboBpProduct.SelectedItem = item;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void comboBpProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            if (comboBpProduct.SelectedItem == null)
+            {
+                bp.ProductId = 0;
+                return;
+            }
+            Type type = comboBpProduct.SelectedItem.GetType();
+            PropertyInfo propInfo = type.GetProperty("Id");
+            bp.ProductId = (int)propInfo.GetValue(comboBpProduct.SelectedItem);
+        }
+
+        private void textBpBonus_TextChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBpBonus.Text, out value);
+            bp.BaseBonus = value;
+        }
+        private void textBpFailChance_TextChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBpFailChance.Text, out value);
+            bp.FailChance = value;
+        }
+
+        private void textBpProductionPoints_TextChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBpProductionPoints.Text, out value);
+            bp.ProductionPoints = value;
+        }
+
+        private void buttonBpSave_Click(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            bp.Save();
+            textBpId.Text = bp.Id.ToString();
         }
 
         #endregion

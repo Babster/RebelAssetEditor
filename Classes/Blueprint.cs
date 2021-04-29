@@ -12,6 +12,7 @@ class BlueprintType
     public int ParentId { get; set; }
     public string Name { get; set; }
     public BlueprintProductType ProductType { get; set; }
+    public int ProductId { get; set; }
     public int BaseBonus { get; set; }
     public int FailChance { get; set; }
     public int ProductionPoints { get; set; }
@@ -25,6 +26,7 @@ class BlueprintType
         ParentId = Convert.ToInt32(r["parent_id"]);
         Name = Convert.ToString(r["name"]);
         ProductType = (BlueprintProductType)r["product_type"];
+        ProductId = Convert.ToInt32(r["product_id"]);
         BaseBonus = Convert.ToInt32(r["base_bonus_points"]);
         FailChance = Convert.ToInt32(r["fail_chance"]);
         ProductionPoints = Convert.ToInt32(r["production_points"]);
@@ -216,6 +218,7 @@ class BlueprintType
                 parent_id = {ParentId},
                 name = @str1,
                 product_type = {(int)ProductType},
+                product_id = {ProductId},
                 base_bonus_points = {BaseBonus},
                 fail_chance = {FailChance},
                 production_points = {ProductionPoints}
