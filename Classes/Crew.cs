@@ -458,6 +458,7 @@ namespace Crew
 
         private void LoadStats()
         {
+            Stats = new List<Stat>();
             string q;
             q = $@"
                 SELECT

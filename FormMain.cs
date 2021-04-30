@@ -881,7 +881,8 @@ namespace AssetEditor
             q = $@" 
                 DELETE FROM [admirals_log] WHERE admiral = {Id};
                 DELETE FROM [admirals_ships] WHERE player_id = {Id};
-                DELETE FROM game_events_log WHERE player_id = {Id}
+                DELETE FROM [admirals_modules] WHERE player_id = {Id};
+                DELETE FROM game_events_log WHERE player_id = {Id};
                 DELETE FROM crew_officers_stats WHERE crew_officer_id IN (SELECT id FROM crew_officers WHERE player_id = {Id});
                 DELETE FROM crew_officers WHERE player_id = {Id}; ";
             DataConnection.Execute(q);
@@ -2600,11 +2601,18 @@ namespace AssetEditor
 
         private void buttonDeleteEventElement_Click(object sender, EventArgs e)
         {
-            GameEvent curEvent = GetCurrentEvent();
-            if (curEvent == null)
+
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
                 return;
-            curEvent.Delete();
-            listEventElements.Items.Remove(curEvent);
+            curElement.Delete();
+            listEventElements.Items.Remove(listEventElements.SelectedItem);
+
+            //GameEvent curEvent = GetCurrentEvent();
+            //if (curEvent == null)
+            //    return;
+            //curEvent.Delete();
+            //listEventElements.Items.Remove(curEvent);
         }
 
         private void listEventElements_SelectedIndexChanged(object sender, EventArgs e)
@@ -4013,6 +4021,42 @@ namespace AssetEditor
             listBpResources.Items[listBpResources.SelectedIndex] = res;
             NoEvents = false;
         }
+
+        #endregion
+
+        #region "Battle scene test"
+
+        private bool BstFilled;
+
+        private void tabPage27_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage27_Enter(object sender, EventArgs e)
+        {
+            if (BstFilled)
+                return;
+            FillBst();
+        }
+        private void buttonBstRefresh_Click(object sender, EventArgs e)
+        {
+            FillBst();
+        }
+        private void FillBst()
+        {
+            comboBst.Items.Clear();
+            var bsList = BattleSceneType.SceneList();
+            if(bsList.Count > 0 )
+            {
+                foreach(var bs in bsList)
+                {
+                    comboBst.Items.Add(bs);
+                }
+            }
+            BstFilled = true;
+        }
+
         #endregion
 
 

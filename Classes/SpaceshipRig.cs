@@ -552,5 +552,12 @@ public class SpaceshipRig
         }
     }
 
+    public static SpaceshipRig RigForPlayer(AccountData player)
+    {
+        SpaceshipRig tRig = new SpaceshipRig();
+
+        return tRig;
+    }
+
 }
 

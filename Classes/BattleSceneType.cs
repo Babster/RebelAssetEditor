@@ -257,6 +257,21 @@ class BattleSceneType
         {
             get { return ResourceType.ResourceById(ResourceId); }
         }
+        public BlueprintType BlueprintType
+        {
+            get
+            {
+                if(BlueprintId == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return BlueprintType.BlueprintById(BlueprintId);
+                }
+            }
+
+        }
 
         public Resource(){}
 
@@ -321,8 +336,10 @@ class BattleSceneType
 
         public override string ToString()
         {
-            if (ResourceType == null)
+            if (ResourceType == null && BlueprintType == null)
                 return "new resource drop";
+            else if (this.BlueprintType != null)
+                return BlueprintType.ToString();
             else
                 return ResourceType.Name;
         }

@@ -58,6 +58,7 @@
     <Compile Include="Classes\DataConnection.cs" />
     <Compile Include="Classes\GameEvent.cs" />
     <Compile Include="Classes\ResourceType.cs" />
+    <Compile Include="Classes\Ship.cs" />
     <Compile Include="Classes\ShipModel.cs" />
     <Compile Include="Classes\ShipModuleType.cs" />
     <Compile Include="Classes\SpaceshipParameters.cs" />

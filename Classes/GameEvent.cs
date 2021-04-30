@@ -154,6 +154,15 @@ public class GameEvent
 
         }
 
+        public void Delete()
+        {
+            if (Id == 0)
+                return;
+            string q;
+            q = $@"DELETE FROM game_events_elements WHERE id = {Id}";
+            DataConnection.Execute(q);
+        }
+
         public override string ToString()
         {
             return ElementType;
