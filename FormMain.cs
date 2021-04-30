@@ -2861,6 +2861,17 @@ namespace AssetEditor
                 }
             }
 
+            comboBsBlueprint.Items.Clear();
+            var BpList = BlueprintType.GetList();
+            if(BpList.Count > 0)
+            {
+                foreach(var bp in BpList)
+                {
+                    comboBsBlueprint.Items.Add(bp);
+                }
+            }
+
+
             mainNode.Expand();
             battleScenesFilled = true;
         }
@@ -3212,19 +3223,21 @@ namespace AssetEditor
 
             NoEvents = true;
             checkBsAnyEnemy.Checked = res.AnyEnemy == 1;
-            if(res.EnemyId > 0)
+            
+            comboBsResourceType.SelectedItem = null;
+            if (res.EnemyId > 0)
             {
-                foreach(var item in comboBsEnemyInResource.Items)
+                foreach (var item in comboBsEnemyInResource.Items)
                 {
                     BattleSceneType.Enemy enemy = (BattleSceneType.Enemy)item;
-                    if(enemy.Id == res.EnemyId)
+                    if (enemy.Id == res.EnemyId)
                     {
                         comboBsEnemyInResource.SelectedItem = item;
                         break;
                     }
                 }
             }
-            if(res.ResourceId > 0)
+            if (res.ResourceId > 0)
             {
                 foreach (var item in comboBsResourceType.Items)
                 {
@@ -3236,7 +3249,20 @@ namespace AssetEditor
                     }
                 }
             }
+            
             comboBsBlueprint.SelectedItem = null;
+            if(res.BlueprintId > 0)
+            {
+                foreach(var item in comboBsBlueprint.Items)
+                {
+                    BlueprintType bt = (BlueprintType)item;
+                    if(bt.Id == res.BlueprintId)
+                    {
+                        comboBsBlueprint.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
 
             textBsBlueprintBonus.Text = res.BlueprintBonusPoints.ToString(); ;
             textBsAmountFrom.Text = res.AmountFrom.ToString();
@@ -3317,10 +3343,30 @@ namespace AssetEditor
                 ResourceType resType = (ResourceType)comboBsResourceType.SelectedItem;
                 res.ResourceId = resType.Id;
             }
+            NoEvents = true;
+            listBsResources.Items[listBsResources.SelectedIndex] = res;
+            NoEvents = false;
         }
+
         private void comboBsBlueprint_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+                return;
+            BattleSceneType.Resource res = GetBsCurrentResource();
+            if (res == null)
+                return;
+            if (comboBsBlueprint.SelectedItem == null)
+            {
+                res.BlueprintId = 0;
+            }
+            else
+            {
+                BlueprintType  resType = (BlueprintType)comboBsBlueprint.SelectedItem;
+                res.BlueprintId = resType.Id;
+            }
+            NoEvents = true;
+            listBsResources.Items[listBsResources.SelectedIndex] = res;
+            NoEvents = false;
         }
         private void textBsBlueprintBonus_TextChanged(object sender, EventArgs e)
         {
@@ -3631,7 +3677,7 @@ namespace AssetEditor
             {
                 n = treeBlueprint.SelectedNode.Nodes.Add(bp.Name);
                 BlueprintType parentBp = (BlueprintType)treeBlueprint.SelectedNode.Tag;
-                bp.ParentId = parentBp.ParentId;
+                bp.ParentId = parentBp.Id;
             }
             n.Tag = bp;
             treeBlueprint.SelectedNode = n;
@@ -3678,6 +3724,16 @@ namespace AssetEditor
             }
 
             mainNode.Expand();
+
+            NoEvents = true;
+            comboBpResource.Items.Clear();
+            var resList = ResourceType.GetResouceList();
+            foreach(var res in resList)
+            {
+                comboBpResource.Items.Add(res);
+            }
+            NoEvents = false;
+
             BpFilled = true;
         }
 
@@ -3693,7 +3749,7 @@ namespace AssetEditor
             textBpProductionPoints.Text = "";
             listBpResources.Items.Clear();
             comboBpResource.SelectedItem = null;
-            textBpResourceCount.Text = "";
+            textBpResourceAmount.Text = "";
             NoEvents = false;
         }
 
@@ -3712,6 +3768,16 @@ namespace AssetEditor
             textBpBonus.Text = bp.BaseBonus.ToString();
             textBpFailChance.Text = bp.FailChance.ToString();
             textBpProductionPoints.Text = bp.ProductionPoints.ToString();
+
+            listBpResources.Items.Clear();
+            if (bp.ResourceList.Count > 0)
+            {
+                foreach(var res in bp.ResourceList)
+                {
+                    listBpResources.Items.Add(res);
+                }
+            }
+
             NoEvents = false;
         }
 
@@ -3857,6 +3923,96 @@ namespace AssetEditor
             textBpId.Text = bp.Id.ToString();
         }
 
+        private void buttonAddBpResource_Click(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            var curResource = bp.AddResource();
+            listBpResources.Items.Add(curResource);
+            listBpResources.SelectedItem = curResource;
+        }
+
+        private void buttonDeleteBpResource_Click(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            var res = GetCurrentBpResource();
+            if (res == null)
+                return;
+            res.Delete();
+            listBpResources.Items.Remove(listBpResources.SelectedItem);
+        }
+
+        private BlueprintType.Resource GetCurrentBpResource()
+        {
+            if (listBpResources.SelectedItem == null)
+                return null;
+            return (BlueprintType.Resource)listBpResources.SelectedItem;
+        }
+
+        private void listBpResources_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            NoEvents = true;
+            comboBpResource.SelectedItem = null;
+            textBpResourceAmount.Text = "";
+            NoEvents = false;
+
+            var res = GetCurrentBpResource();
+            if (res == null)
+                return;
+
+            if(res.ResourceTypeId > 0)
+            { 
+                foreach(var item in comboBpResource.Items)
+                {
+                    var curResource = (ResourceType)item;
+                    if(curResource.Id == res.ResourceTypeId)
+                    {
+                        comboBpResource.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+            textBpResourceAmount.Text = res.Amount.ToString();
+
+        }
+
+        private void comboBpResource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            var res = GetCurrentBpResource();
+            if (res == null)
+                return;
+            if(comboBpResource.SelectedItem == null)
+            {
+                res.ResourceTypeId = 0;
+                return;
+            }
+            var bpResType = (ResourceType)comboBpResource.SelectedItem;
+            res.ResourceTypeId = bpResType.Id;
+            NoEvents = true;
+            listBpResources.Items[listBpResources.SelectedIndex] = res;
+            NoEvents = false;
+        }
+        private void textBpResourceAmount_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            var res = GetCurrentBpResource();
+            if (res == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBpResourceAmount.Text, out value);
+            res.Amount = value;
+            NoEvents = true;
+            listBpResources.Items[listBpResources.SelectedIndex] = res;
+            NoEvents = false;
+        }
         #endregion
 
 

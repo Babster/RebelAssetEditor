@@ -360,6 +360,13 @@
             this.treeRes = new System.Windows.Forms.TreeView();
             this.tabPage25 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBpResourceAmount = new System.Windows.Forms.TextBox();
+            this.comboBpResource = new System.Windows.Forms.ComboBox();
+            this.label101 = new System.Windows.Forms.Label();
+            this.label100 = new System.Windows.Forms.Label();
+            this.buttonDeleteBpResource = new System.Windows.Forms.Button();
+            this.buttonAddBpResource = new System.Windows.Forms.Button();
+            this.listBpResources = new System.Windows.Forms.ListBox();
             this.textBpProductionPoints = new System.Windows.Forms.TextBox();
             this.label99 = new System.Windows.Forms.Label();
             this.textBpFailChance = new System.Windows.Forms.TextBox();
@@ -380,13 +387,6 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.listBpResources = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label100 = new System.Windows.Forms.Label();
-            this.label101 = new System.Windows.Forms.Label();
-            this.comboBpResource = new System.Windows.Forms.ComboBox();
-            this.textBpResourceCount = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -1779,7 +1779,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 494);
+            this.groupBox5.Size = new System.Drawing.Size(947, 501);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1881,7 +1881,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 148);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 155);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2139,7 +2139,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 452);
+            this.treeShips.Size = new System.Drawing.Size(234, 459);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2185,7 +2185,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 479);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 486);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2215,7 +2215,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 431);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 438);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2251,7 +2251,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 476);
+            this.tabControl5.Size = new System.Drawing.Size(704, 483);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2264,7 +2264,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 443);
+            this.tabPage17.Size = new System.Drawing.Size(696, 450);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2323,7 +2323,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 450);
+            this.tabPage15.Size = new System.Drawing.Size(696, 457);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2391,7 +2391,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 450);
+            this.tabPage16.Size = new System.Drawing.Size(696, 457);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2488,7 +2488,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 450);
+            this.tabPage18.Size = new System.Drawing.Size(696, 457);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2725,7 +2725,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 529);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 536);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3834,7 +3834,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 472);
+            this.groupBox7.Size = new System.Drawing.Size(894, 479);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3975,7 +3975,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 438);
+            this.treeRes.Size = new System.Drawing.Size(297, 445);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4000,12 +4000,12 @@
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox8.Controls.Add(this.textBpResourceCount);
+            this.groupBox8.Controls.Add(this.textBpResourceAmount);
             this.groupBox8.Controls.Add(this.comboBpResource);
             this.groupBox8.Controls.Add(this.label101);
             this.groupBox8.Controls.Add(this.label100);
-            this.groupBox8.Controls.Add(this.button1);
-            this.groupBox8.Controls.Add(this.button2);
+            this.groupBox8.Controls.Add(this.buttonDeleteBpResource);
+            this.groupBox8.Controls.Add(this.buttonAddBpResource);
             this.groupBox8.Controls.Add(this.listBpResources);
             this.groupBox8.Controls.Add(this.textBpProductionPoints);
             this.groupBox8.Controls.Add(this.label99);
@@ -4028,6 +4028,75 @@
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
+            // 
+            // textBpResourceAmount
+            // 
+            this.textBpResourceAmount.Location = new System.Drawing.Point(325, 253);
+            this.textBpResourceAmount.MaxLength = 10;
+            this.textBpResourceAmount.Name = "textBpResourceAmount";
+            this.textBpResourceAmount.Size = new System.Drawing.Size(78, 26);
+            this.textBpResourceAmount.TabIndex = 35;
+            this.textBpResourceAmount.TextChanged += new System.EventHandler(this.textBpResourceAmount_TextChanged);
+            // 
+            // comboBpResource
+            // 
+            this.comboBpResource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBpResource.FormattingEnabled = true;
+            this.comboBpResource.Location = new System.Drawing.Point(325, 219);
+            this.comboBpResource.Name = "comboBpResource";
+            this.comboBpResource.Size = new System.Drawing.Size(244, 28);
+            this.comboBpResource.TabIndex = 34;
+            this.comboBpResource.SelectedIndexChanged += new System.EventHandler(this.comboBpResource_SelectedIndexChanged);
+            // 
+            // label101
+            // 
+            this.label101.AutoSize = true;
+            this.label101.Location = new System.Drawing.Point(212, 256);
+            this.label101.Name = "label101";
+            this.label101.Size = new System.Drawing.Size(104, 20);
+            this.label101.TabIndex = 33;
+            this.label101.Text = "Количество:";
+            // 
+            // label100
+            // 
+            this.label100.AutoSize = true;
+            this.label100.Location = new System.Drawing.Point(212, 222);
+            this.label100.Name = "label100";
+            this.label100.Size = new System.Drawing.Size(107, 20);
+            this.label100.TabIndex = 32;
+            this.label100.Text = "Вид ресурса:";
+            // 
+            // buttonDeleteBpResource
+            // 
+            this.buttonDeleteBpResource.Location = new System.Drawing.Point(111, 188);
+            this.buttonDeleteBpResource.Name = "buttonDeleteBpResource";
+            this.buttonDeleteBpResource.Size = new System.Drawing.Size(95, 28);
+            this.buttonDeleteBpResource.TabIndex = 31;
+            this.buttonDeleteBpResource.Text = "Delete";
+            this.buttonDeleteBpResource.UseVisualStyleBackColor = true;
+            this.buttonDeleteBpResource.Click += new System.EventHandler(this.buttonDeleteBpResource_Click);
+            // 
+            // buttonAddBpResource
+            // 
+            this.buttonAddBpResource.Location = new System.Drawing.Point(10, 188);
+            this.buttonAddBpResource.Name = "buttonAddBpResource";
+            this.buttonAddBpResource.Size = new System.Drawing.Size(95, 28);
+            this.buttonAddBpResource.TabIndex = 30;
+            this.buttonAddBpResource.Text = "Add";
+            this.buttonAddBpResource.UseVisualStyleBackColor = true;
+            this.buttonAddBpResource.Click += new System.EventHandler(this.buttonAddBpResource_Click);
+            // 
+            // listBpResources
+            // 
+            this.listBpResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBpResources.FormattingEnabled = true;
+            this.listBpResources.ItemHeight = 20;
+            this.listBpResources.Location = new System.Drawing.Point(10, 222);
+            this.listBpResources.Name = "listBpResources";
+            this.listBpResources.Size = new System.Drawing.Size(196, 224);
+            this.listBpResources.TabIndex = 29;
+            this.listBpResources.SelectedIndexChanged += new System.EventHandler(this.listBpResources_SelectedIndexChanged);
             // 
             // textBpProductionPoints
             // 
@@ -4219,70 +4288,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // listBpResources
-            // 
-            this.listBpResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBpResources.FormattingEnabled = true;
-            this.listBpResources.ItemHeight = 20;
-            this.listBpResources.Location = new System.Drawing.Point(10, 222);
-            this.listBpResources.Name = "listBpResources";
-            this.listBpResources.Size = new System.Drawing.Size(196, 224);
-            this.listBpResources.TabIndex = 29;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(111, 188);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 28);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(10, 188);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 28);
-            this.button2.TabIndex = 30;
-            this.button2.Text = "Add";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label100
-            // 
-            this.label100.AutoSize = true;
-            this.label100.Location = new System.Drawing.Point(212, 222);
-            this.label100.Name = "label100";
-            this.label100.Size = new System.Drawing.Size(107, 20);
-            this.label100.TabIndex = 32;
-            this.label100.Text = "Вид ресурса:";
-            // 
-            // label101
-            // 
-            this.label101.AutoSize = true;
-            this.label101.Location = new System.Drawing.Point(212, 256);
-            this.label101.Name = "label101";
-            this.label101.Size = new System.Drawing.Size(104, 20);
-            this.label101.TabIndex = 33;
-            this.label101.Text = "Количество:";
-            // 
-            // comboBpResource
-            // 
-            this.comboBpResource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBpResource.FormattingEnabled = true;
-            this.comboBpResource.Location = new System.Drawing.Point(325, 219);
-            this.comboBpResource.Name = "comboBpResource";
-            this.comboBpResource.Size = new System.Drawing.Size(244, 28);
-            this.comboBpResource.TabIndex = 34;
-            // 
-            // textBpResourceCount
-            // 
-            this.textBpResourceCount.Location = new System.Drawing.Point(325, 253);
-            this.textBpResourceCount.MaxLength = 10;
-            this.textBpResourceCount.Name = "textBpResourceCount";
-            this.textBpResourceCount.Size = new System.Drawing.Size(78, 26);
-            this.textBpResourceCount.TabIndex = 35;
             // 
             // FormMain
             // 
@@ -4741,12 +4746,12 @@
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.TextBox textBpBonus;
         private System.Windows.Forms.Label label97;
-        private System.Windows.Forms.TextBox textBpResourceCount;
+        private System.Windows.Forms.TextBox textBpResourceAmount;
         private System.Windows.Forms.ComboBox comboBpResource;
         private System.Windows.Forms.Label label101;
         private System.Windows.Forms.Label label100;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonDeleteBpResource;
+        private System.Windows.Forms.Button buttonAddBpResource;
         private System.Windows.Forms.ListBox listBpResources;
     }
 }

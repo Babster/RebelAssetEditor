@@ -157,6 +157,7 @@ class BlueprintType
                 parent_id,
                 name,
                 product_type,
+                product_id,
                 base_bonus_points,
                 fail_chance,
                 production_points
@@ -227,6 +228,25 @@ class BlueprintType
 
         List<string> names = new List<string> { Name };
         DataConnection.Execute(q, names);
+
+        string idsDoNotDelete = "";
+        if(ResourceList.Count > 0)
+        {
+            foreach (var res in ResourceList)
+            {
+                res.Save(Id);
+                if (idsDoNotDelete != "")
+                    idsDoNotDelete += ",";
+                idsDoNotDelete += res.Id.ToString();
+            }
+
+        }
+        q = $@"DELETE FROM blueprint_types_resources WHERE blueprint_type = {Id}";
+        if(idsDoNotDelete != "")
+        {
+            q += $@" AND id NOT IN ({idsDoNotDelete})";
+        }
+        DataConnection.Execute(q);
 
     }
 
