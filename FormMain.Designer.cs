@@ -273,6 +273,9 @@
             this.buttonEventUpdate = new System.Windows.Forms.Button();
             this.treeEvents = new System.Windows.Forms.TreeView();
             this.tabPage20 = new System.Windows.Forms.TabPage();
+            this.tabControl8 = new System.Windows.Forms.TabControl();
+            this.tabPage26 = new System.Windows.Forms.TabPage();
+            this.buttonBsUpdate = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tabControl6 = new System.Windows.Forms.TabControl();
             this.tabPage21 = new System.Windows.Forms.TabPage();
@@ -335,10 +338,15 @@
             this.label61 = new System.Windows.Forms.Label();
             this.textBsId = new System.Windows.Forms.TextBox();
             this.label60 = new System.Windows.Forms.Label();
+            this.treeBs = new System.Windows.Forms.TreeView();
             this.buttonBsDelete = new System.Windows.Forms.Button();
             this.buttonBsAdd = new System.Windows.Forms.Button();
-            this.buttonBsUpdate = new System.Windows.Forms.Button();
-            this.treeBs = new System.Windows.Forms.TreeView();
+            this.tabPage27 = new System.Windows.Forms.TabPage();
+            this.treeBst = new System.Windows.Forms.TreeView();
+            this.label102 = new System.Windows.Forms.Label();
+            this.buttonBstRefresh = new System.Windows.Forms.Button();
+            this.buttonBstCreate = new System.Windows.Forms.Button();
+            this.comboBst = new System.Windows.Forms.ComboBox();
             this.tabPage23 = new System.Windows.Forms.TabPage();
             this.tabControl7 = new System.Windows.Forms.TabControl();
             this.tabPage24 = new System.Windows.Forms.TabPage();
@@ -387,14 +395,6 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tabControl8 = new System.Windows.Forms.TabControl();
-            this.tabPage26 = new System.Windows.Forms.TabPage();
-            this.tabPage27 = new System.Windows.Forms.TabPage();
-            this.comboBst = new System.Windows.Forms.ComboBox();
-            this.buttonBstRefresh = new System.Windows.Forms.Button();
-            this.buttonBstCreate = new System.Windows.Forms.Button();
-            this.label102 = new System.Windows.Forms.Label();
-            this.treeBst = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -445,19 +445,19 @@
             this.tabGiveModule.SuspendLayout();
             this.tabCreateOfficer.SuspendLayout();
             this.tabPage20.SuspendLayout();
+            this.tabControl8.SuspendLayout();
+            this.tabPage26.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tabControl6.SuspendLayout();
             this.tabPage21.SuspendLayout();
             this.tabPage22.SuspendLayout();
+            this.tabPage27.SuspendLayout();
             this.tabPage23.SuspendLayout();
             this.tabControl7.SuspendLayout();
             this.tabPage24.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tabPage25.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.tabControl8.SuspendLayout();
-            this.tabPage26.SuspendLayout();
-            this.tabPage27.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -1790,7 +1790,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 501);
+            this.groupBox5.Size = new System.Drawing.Size(947, 508);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1892,7 +1892,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 155);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 162);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2150,7 +2150,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 459);
+            this.treeShips.Size = new System.Drawing.Size(234, 466);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2196,7 +2196,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 486);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 493);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2226,7 +2226,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 438);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 445);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2262,7 +2262,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 483);
+            this.tabControl5.Size = new System.Drawing.Size(704, 490);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2275,7 +2275,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 450);
+            this.tabPage17.Size = new System.Drawing.Size(696, 457);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2334,7 +2334,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 457);
+            this.tabPage15.Size = new System.Drawing.Size(696, 464);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2402,7 +2402,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 457);
+            this.tabPage16.Size = new System.Drawing.Size(696, 464);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2499,7 +2499,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 457);
+            this.tabPage18.Size = new System.Drawing.Size(696, 464);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2736,7 +2736,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 536);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 543);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3114,6 +3114,41 @@
             this.tabPage20.Click += new System.EventHandler(this.tabPage20_Click);
             this.tabPage20.Enter += new System.EventHandler(this.tabPage20_Enter);
             // 
+            // tabControl8
+            // 
+            this.tabControl8.Controls.Add(this.tabPage26);
+            this.tabControl8.Controls.Add(this.tabPage27);
+            this.tabControl8.Location = new System.Drawing.Point(8, 6);
+            this.tabControl8.Name = "tabControl8";
+            this.tabControl8.SelectedIndex = 0;
+            this.tabControl8.Size = new System.Drawing.Size(1222, 508);
+            this.tabControl8.TabIndex = 9;
+            // 
+            // tabPage26
+            // 
+            this.tabPage26.Controls.Add(this.buttonBsUpdate);
+            this.tabPage26.Controls.Add(this.groupBox6);
+            this.tabPage26.Controls.Add(this.treeBs);
+            this.tabPage26.Controls.Add(this.buttonBsDelete);
+            this.tabPage26.Controls.Add(this.buttonBsAdd);
+            this.tabPage26.Location = new System.Drawing.Point(4, 29);
+            this.tabPage26.Name = "tabPage26";
+            this.tabPage26.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage26.Size = new System.Drawing.Size(1214, 475);
+            this.tabPage26.TabIndex = 0;
+            this.tabPage26.Text = "Design";
+            this.tabPage26.UseVisualStyleBackColor = true;
+            // 
+            // buttonBsUpdate
+            // 
+            this.buttonBsUpdate.Location = new System.Drawing.Point(6, 6);
+            this.buttonBsUpdate.Name = "buttonBsUpdate";
+            this.buttonBsUpdate.Size = new System.Drawing.Size(95, 28);
+            this.buttonBsUpdate.TabIndex = 5;
+            this.buttonBsUpdate.Text = "Refresh";
+            this.buttonBsUpdate.UseVisualStyleBackColor = true;
+            this.buttonBsUpdate.Click += new System.EventHandler(this.buttonBsUpdate_Click);
+            // 
             // groupBox6
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -3128,7 +3163,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 463);
+            this.groupBox6.Size = new System.Drawing.Size(899, 470);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3143,7 +3178,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 347);
+            this.tabControl6.Size = new System.Drawing.Size(883, 354);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3173,7 +3208,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(892, 354);
+            this.tabPage21.Size = new System.Drawing.Size(875, 321);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Враги";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3352,7 +3387,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 304);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 264);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3411,7 +3446,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 314);
+            this.tabPage22.Size = new System.Drawing.Size(875, 321);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Ресурсы";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3745,6 +3780,17 @@
             this.label60.TabIndex = 0;
             this.label60.Text = "Id:";
             // 
+            // treeBs
+            // 
+            this.treeBs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeBs.HideSelection = false;
+            this.treeBs.Location = new System.Drawing.Point(6, 40);
+            this.treeBs.Name = "treeBs";
+            this.treeBs.Size = new System.Drawing.Size(297, 436);
+            this.treeBs.TabIndex = 4;
+            this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
+            // 
             // buttonBsDelete
             // 
             this.buttonBsDelete.Location = new System.Drawing.Point(208, 6);
@@ -3765,26 +3811,67 @@
             this.buttonBsAdd.UseVisualStyleBackColor = true;
             this.buttonBsAdd.Click += new System.EventHandler(this.buttonBsAdd_Click);
             // 
-            // buttonBsUpdate
+            // tabPage27
             // 
-            this.buttonBsUpdate.Location = new System.Drawing.Point(6, 6);
-            this.buttonBsUpdate.Name = "buttonBsUpdate";
-            this.buttonBsUpdate.Size = new System.Drawing.Size(95, 28);
-            this.buttonBsUpdate.TabIndex = 5;
-            this.buttonBsUpdate.Text = "Refresh";
-            this.buttonBsUpdate.UseVisualStyleBackColor = true;
-            this.buttonBsUpdate.Click += new System.EventHandler(this.buttonBsUpdate_Click);
+            this.tabPage27.Controls.Add(this.treeBst);
+            this.tabPage27.Controls.Add(this.label102);
+            this.tabPage27.Controls.Add(this.buttonBstRefresh);
+            this.tabPage27.Controls.Add(this.buttonBstCreate);
+            this.tabPage27.Controls.Add(this.comboBst);
+            this.tabPage27.Location = new System.Drawing.Point(4, 29);
+            this.tabPage27.Name = "tabPage27";
+            this.tabPage27.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage27.Size = new System.Drawing.Size(1214, 475);
+            this.tabPage27.TabIndex = 1;
+            this.tabPage27.Text = "Test";
+            this.tabPage27.UseVisualStyleBackColor = true;
+            this.tabPage27.Click += new System.EventHandler(this.tabPage27_Click);
+            this.tabPage27.Enter += new System.EventHandler(this.tabPage27_Enter);
             // 
-            // treeBs
+            // treeBst
             // 
-            this.treeBs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.treeBs.HideSelection = false;
-            this.treeBs.Location = new System.Drawing.Point(6, 40);
-            this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 429);
-            this.treeBs.TabIndex = 4;
-            this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
+            this.treeBst.Location = new System.Drawing.Point(10, 56);
+            this.treeBst.Name = "treeBst";
+            this.treeBst.Size = new System.Drawing.Size(311, 413);
+            this.treeBst.TabIndex = 10;
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Location = new System.Drawing.Point(6, 10);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(135, 20);
+            this.label102.TabIndex = 9;
+            this.label102.Text = "Выберите сцену:";
+            // 
+            // buttonBstRefresh
+            // 
+            this.buttonBstRefresh.Location = new System.Drawing.Point(469, 7);
+            this.buttonBstRefresh.Name = "buttonBstRefresh";
+            this.buttonBstRefresh.Size = new System.Drawing.Size(95, 28);
+            this.buttonBstRefresh.TabIndex = 7;
+            this.buttonBstRefresh.Text = "Refresh";
+            this.buttonBstRefresh.UseVisualStyleBackColor = true;
+            this.buttonBstRefresh.Click += new System.EventHandler(this.buttonBstRefresh_Click);
+            // 
+            // buttonBstCreate
+            // 
+            this.buttonBstCreate.Location = new System.Drawing.Point(570, 7);
+            this.buttonBstCreate.Name = "buttonBstCreate";
+            this.buttonBstCreate.Size = new System.Drawing.Size(95, 28);
+            this.buttonBstCreate.TabIndex = 8;
+            this.buttonBstCreate.Text = "Create";
+            this.buttonBstCreate.UseVisualStyleBackColor = true;
+            this.buttonBstCreate.Click += new System.EventHandler(this.buttonBstCreate_Click);
+            // 
+            // comboBst
+            // 
+            this.comboBst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBst.FormattingEnabled = true;
+            this.comboBst.Location = new System.Drawing.Point(147, 7);
+            this.comboBst.Name = "comboBst";
+            this.comboBst.Size = new System.Drawing.Size(316, 28);
+            this.comboBst.TabIndex = 0;
             // 
             // tabPage23
             // 
@@ -3841,7 +3928,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 479);
+            this.groupBox7.Size = new System.Drawing.Size(894, 486);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3982,7 +4069,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 445);
+            this.treeRes.Size = new System.Drawing.Size(297, 452);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4031,7 +4118,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.Size = new System.Drawing.Size(894, 465);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4288,99 +4375,13 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 431);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // tabControl8
-            // 
-            this.tabControl8.Controls.Add(this.tabPage26);
-            this.tabControl8.Controls.Add(this.tabPage27);
-            this.tabControl8.Location = new System.Drawing.Point(8, 6);
-            this.tabControl8.Name = "tabControl8";
-            this.tabControl8.SelectedIndex = 0;
-            this.tabControl8.Size = new System.Drawing.Size(1222, 508);
-            this.tabControl8.TabIndex = 9;
-            // 
-            // tabPage26
-            // 
-            this.tabPage26.Controls.Add(this.buttonBsUpdate);
-            this.tabPage26.Controls.Add(this.groupBox6);
-            this.tabPage26.Controls.Add(this.treeBs);
-            this.tabPage26.Controls.Add(this.buttonBsDelete);
-            this.tabPage26.Controls.Add(this.buttonBsAdd);
-            this.tabPage26.Location = new System.Drawing.Point(4, 29);
-            this.tabPage26.Name = "tabPage26";
-            this.tabPage26.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage26.Size = new System.Drawing.Size(1214, 475);
-            this.tabPage26.TabIndex = 0;
-            this.tabPage26.Text = "Design";
-            this.tabPage26.UseVisualStyleBackColor = true;
-            // 
-            // tabPage27
-            // 
-            this.tabPage27.Controls.Add(this.treeBst);
-            this.tabPage27.Controls.Add(this.label102);
-            this.tabPage27.Controls.Add(this.buttonBstRefresh);
-            this.tabPage27.Controls.Add(this.buttonBstCreate);
-            this.tabPage27.Controls.Add(this.comboBst);
-            this.tabPage27.Location = new System.Drawing.Point(4, 29);
-            this.tabPage27.Name = "tabPage27";
-            this.tabPage27.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage27.Size = new System.Drawing.Size(1214, 475);
-            this.tabPage27.TabIndex = 1;
-            this.tabPage27.Text = "Test";
-            this.tabPage27.UseVisualStyleBackColor = true;
-            this.tabPage27.Click += new System.EventHandler(this.tabPage27_Click);
-            this.tabPage27.Enter += new System.EventHandler(this.tabPage27_Enter);
-            // 
-            // comboBst
-            // 
-            this.comboBst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBst.FormattingEnabled = true;
-            this.comboBst.Location = new System.Drawing.Point(147, 7);
-            this.comboBst.Name = "comboBst";
-            this.comboBst.Size = new System.Drawing.Size(316, 28);
-            this.comboBst.TabIndex = 0;
-            // 
-            // buttonBstRefresh
-            // 
-            this.buttonBstRefresh.Location = new System.Drawing.Point(469, 7);
-            this.buttonBstRefresh.Name = "buttonBstRefresh";
-            this.buttonBstRefresh.Size = new System.Drawing.Size(95, 28);
-            this.buttonBstRefresh.TabIndex = 7;
-            this.buttonBstRefresh.Text = "Refresh";
-            this.buttonBstRefresh.UseVisualStyleBackColor = true;
-            this.buttonBstRefresh.Click += new System.EventHandler(this.buttonBstRefresh_Click);
-            // 
-            // buttonBstCreate
-            // 
-            this.buttonBstCreate.Location = new System.Drawing.Point(570, 7);
-            this.buttonBstCreate.Name = "buttonBstCreate";
-            this.buttonBstCreate.Size = new System.Drawing.Size(95, 28);
-            this.buttonBstCreate.TabIndex = 8;
-            this.buttonBstCreate.Text = "Create";
-            this.buttonBstCreate.UseVisualStyleBackColor = true;
-            // 
-            // label102
-            // 
-            this.label102.AutoSize = true;
-            this.label102.Location = new System.Drawing.Point(6, 10);
-            this.label102.Name = "label102";
-            this.label102.Size = new System.Drawing.Size(135, 20);
-            this.label102.TabIndex = 9;
-            this.label102.Text = "Выберите сцену:";
-            // 
-            // treeBst
-            // 
-            this.treeBst.Location = new System.Drawing.Point(10, 56);
-            this.treeBst.Name = "treeBst";
-            this.treeBst.Size = new System.Drawing.Size(311, 413);
-            this.treeBst.TabIndex = 10;
             // 
             // FormMain
             // 
@@ -4466,6 +4467,8 @@
             this.tabCreateOfficer.ResumeLayout(false);
             this.tabCreateOfficer.PerformLayout();
             this.tabPage20.ResumeLayout(false);
+            this.tabControl8.ResumeLayout(false);
+            this.tabPage26.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.tabControl6.ResumeLayout(false);
@@ -4473,6 +4476,8 @@
             this.tabPage21.PerformLayout();
             this.tabPage22.ResumeLayout(false);
             this.tabPage22.PerformLayout();
+            this.tabPage27.ResumeLayout(false);
+            this.tabPage27.PerformLayout();
             this.tabPage23.ResumeLayout(false);
             this.tabControl7.ResumeLayout(false);
             this.tabPage24.ResumeLayout(false);
@@ -4481,10 +4486,6 @@
             this.tabPage25.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.tabControl8.ResumeLayout(false);
-            this.tabPage26.ResumeLayout(false);
-            this.tabPage27.ResumeLayout(false);
-            this.tabPage27.PerformLayout();
             this.ResumeLayout(false);
 
         }

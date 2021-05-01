@@ -13,7 +13,7 @@ public class SpaceshipRig
     public int PlayerId { get; set; }
     public string Tag { get; set; }
     public ShipModel sModel { get; set; }
-
+    public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
 
     public SpaceshipParameters Params { get; set; }
@@ -51,6 +51,55 @@ public class SpaceshipRig
         LoadSlots();
     }
 
+    public void LoadShip(List<Ship> ships)
+    {
+        foreach(Ship ship in ships)
+        {
+            if(ship.RigId == 0)
+                this.Ship = ship;
+            LoadShipModel(ship.Model);
+        }
+    }
+
+    public void LoadModules(List<ShipModule> moduleList)
+    {
+        ShipModule.ModuleList mList = new ShipModule.ModuleList(moduleList);
+        foreach(var slot in Slots)
+        {
+            ShipModel.Slot slot2 = slot.Slot;
+            if(slot2.sType == ShipModel.Slot.SlotType.Weapon)
+            {
+                var lst = mList.GetModules(ShipModuleType.ModuleType.Weapon);
+                if (lst.Count > 0)
+                    slot.LoadModule(lst[0]);
+            }
+            else if(slot2.sType == ShipModel.Slot.SlotType.Engine)
+            {
+                var lst = mList.GetModules(ShipModuleType.ModuleType.Engine);
+                if (lst.Count > 0)
+                    slot.LoadModule(lst[0]);
+            }
+            else if(slot2.sType == ShipModel.Slot.SlotType.Armor)
+            {
+                var lst = mList.GetModules(ShipModuleType.ModuleType.Armor);
+                if (lst.Count > 0)
+                    slot.LoadModule(lst[0]);
+            }
+            else if(slot2.sType == ShipModel.Slot.SlotType.Thrusters)
+            {
+                var lst = mList.GetModules(ShipModuleType.ModuleType.Thrusters);
+                if (lst.Count > 0)
+                    slot.LoadModule(lst[0]);
+            }
+            else if(slot2.sType == ShipModel.Slot.SlotType.Misc)
+            {
+                var lst = mList.GetModules(ShipModuleType.ModuleType.Misc);
+                if (lst.Count > 0)
+                    slot.LoadModule(lst[0]);
+            }
+        }
+    }
+
     private void LoadSlots()
     {
 
@@ -81,7 +130,8 @@ public class SpaceshipRig
                 slot_id,
                 module_type_id,
                 officer_ids,
-                crew_id
+                crew_id,
+                ISNULL(module_id, 0) AS module_id
             FROM
                 ss_rigs_slots
             WHERE
@@ -98,6 +148,18 @@ public class SpaceshipRig
             }
         }
 
+    }
+
+    private void LoadOfficers(List<CrewOfficer> officers)
+    {
+        foreach(var slot in Slots)
+        {
+            if(slot.Slot.SlotForOfficer)
+            {
+                foreach (var officer in officers)
+                    slot.LoadOfficer(officer);
+            }
+        }
     }
 
     public static string SpaceshipRigQuery(int id, int playerId, string tag, bool builtIn)
@@ -186,6 +248,7 @@ public class SpaceshipRig
         public int Id { get; set; }
         public ShipModel.Slot Slot { get; set; }
         public ShipModuleType ModuleType { get; set; }
+        public ShipModule Module { get; set; }
         public OfficerTeam team { get; set; }
         public RigSlot()
         {
@@ -202,6 +265,9 @@ public class SpaceshipRig
             int moduleTypeId = Convert.ToInt32(r["module_type_id"]);
             this.ModuleType = ShipModuleType.ModuleById(moduleTypeId);
             team = new OfficerTeam(Convert.ToString(r["officer_ids"]));
+            int moduleId = (int)r["module_id"];
+            if (moduleId > 0)
+                Module = new ShipModule(moduleId);
         }
 
         /// <summary>
@@ -221,6 +287,13 @@ public class SpaceshipRig
 
             this.ModuleType = moduleType;
             return "";
+        }
+        public void LoadModule(ShipModule module)
+        {
+            this.Module = module;
+            this.ModuleType = module.ModuleType;
+            module.Reserve = true;
+            
         }
         public string LoadOfficer(CrewOfficer officer)
         {
@@ -357,10 +430,20 @@ public class SpaceshipRig
             if (ModuleType != null)
                 moduleTypeId = ModuleType.Id;
 
+            int moduleId = 0;
+            if (Module != null)
+            {
+                moduleId = Module.Id;
+                Module.RigSlotId = Id;
+                Module.Save();
+            }
+                
+
             q = $@"
             UPDATE ss_rigs_slots SET 
                 slot_id = {slotId},
                 module_type_id = {moduleTypeId},
+                module_id = {moduleId},
                 officer_ids = @str1
             WHERE
                 id = {Id}";
@@ -485,10 +568,16 @@ public class SpaceshipRig
     {
         string q;
         List<string> names = new List<string> { tag };
+        int shipId = 0;
+        if (Ship != null)
+        {
+            shipId = Ship.Id;
+        }
+            
         if (Id == 0)
         {
             q = $@"
-                INSERT INTO ss_rigs(ship_model_id, player_id, tag) VALUES({sModel.Id}, {playerId}, @str1)
+                INSERT INTO ss_rigs(ship_model_id, ship_id, player_id, tag) VALUES({sModel.Id}, {shipId}, {playerId}, @str1)
                 SELECT @@IDENTITY AS Result";
             Id = DataConnection.GetResultInt(q, names);
 
@@ -498,6 +587,7 @@ public class SpaceshipRig
             q = $@"
                 UPDATE ss_rigs SET
                     ship_model_id = {sModel.Id},
+                    ship_id = {shipId},
                     player_id = {playerId},
                     tag = @str1
                 WHERE
@@ -523,6 +613,14 @@ public class SpaceshipRig
         DataConnection.Execute(q);
 
         UpdateRigDict(this);
+
+        if (Ship != null)
+        {
+            Ship.RigId = Id;
+            Ship.Save();
+        }
+            
+
 
     }
 
@@ -554,8 +652,34 @@ public class SpaceshipRig
 
     public static SpaceshipRig RigForPlayer(AccountData player)
     {
-        SpaceshipRig tRig = new SpaceshipRig();
+        SpaceshipRig tRig = null;
+        string q = SpaceshipRigQuery(0, player.Id, "", false);
+        SqlDataReader r = DataConnection.GetReader(q);
+        if(r.HasRows)
+        {
+            r.Read();
+            tRig = new SpaceshipRig(r);
+        }
+        r.Close();
+        if(tRig != null)
+            return tRig;
 
+
+        List<Ship> ships = Ship.PlayerShips(player.Id);
+        if (ships.Count == 0)
+            return null;
+        tRig = new SpaceshipRig();
+        tRig.LoadShip(ships);
+
+        var moduleList = ShipModule.PlayerModules(player.Id);
+        tRig.LoadModules(moduleList);
+
+        List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(player.Id, true);
+        if(player.RigId == 0)
+        {
+            officers.Add(new CrewOfficer(player));
+        }
+        tRig.LoadOfficers(officers);
         return tRig;
     }
 

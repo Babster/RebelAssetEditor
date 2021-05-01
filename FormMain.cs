@@ -884,7 +884,9 @@ namespace AssetEditor
                 DELETE FROM [admirals_modules] WHERE player_id = {Id};
                 DELETE FROM game_events_log WHERE player_id = {Id};
                 DELETE FROM crew_officers_stats WHERE crew_officer_id IN (SELECT id FROM crew_officers WHERE player_id = {Id});
-                DELETE FROM crew_officers WHERE player_id = {Id}; ";
+                DELETE FROM crew_officers WHERE player_id = {Id};
+                DELETE FROM ss_rigs_slots WHERE ss_rig_id IN(SELECT id FROM ss_rigs WHERE player_id = {Id});
+                DELETE FROM ss_rigs WHERE player_id = {Id}; ";
             DataConnection.Execute(q);
             MessageBox.Show("Стерто");
         }
@@ -4055,6 +4057,14 @@ namespace AssetEditor
                 }
             }
             BstFilled = true;
+        }
+        private void buttonBstCreate_Click(object sender, EventArgs e)
+        {
+            if (comboBst.SelectedItem == null)
+                return;
+            AccountData player = GetLatestUser();
+            BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
+            BattleScene scene = new BattleScene(sType, player);
         }
 
         #endregion

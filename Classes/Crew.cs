@@ -643,10 +643,12 @@ namespace Crew
                 return null;
             }
         }
-        public static List<CrewOfficer> OfficersForPlayer(int playerId)
+        public static List<CrewOfficer> OfficersForPlayer(int playerId, bool onlyFree = false)
         {
             List<CrewOfficer> tList = new List<CrewOfficer>();
             string q = $"SELECT id FROM crew_officers WHERE player_id = {playerId}";
+            if (!onlyFree)
+                q += $@" AND ISNULL(rig_id, 0) = 0";
             SqlDataReader r = DataConnection.GetReader(q);
             if(r.HasRows)
             {
@@ -671,7 +673,6 @@ namespace Crew
                     crew_officers";
             return q;
         }
-
         public int StatValue(CrewOfficerType.OfficerStat.StatType param)
         {
             if (Stats.Count == 0)

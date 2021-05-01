@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace AdmiralNamespace
 {
@@ -183,14 +184,45 @@ namespace AdmiralNamespace
 
         public int Id { get; set; }
         public string AdditionalData { get; set; }
-
         public ActionType aType { get; set; }
+        public int RigId { get; set; } //Officer created from player can be in a spaceship, this is ss_rig table id
+        public int Experience { get; set; }
 
         public enum ActionType
         {
             CreateUser = 1,
             CheckPwd = 2,
             StepCompleted = 3
+        }
+
+        public enum AdmiralVariable
+        {
+            CanLaunchMultipleMissions = 1,
+            CurrentMission = 2
+        }
+        private Dictionary<AdmiralVariable, int> VariableDict;
+        public int GetAdmiralVariable(AdmiralVariable vType)
+        {
+            if (VariableDict == null)
+                VariableDict = new Dictionary<AdmiralVariable, int>();
+            if (VariableDict.ContainsKey(vType))
+                return VariableDict[vType];
+            return 0;
+        }
+        public void SetVariableValue(AdmiralVariable vType, int value)
+        {
+            string q;
+            if(VariableDict.ContainsKey(vType))
+            {
+                VariableDict[vType] = value;
+                q = $@"UPDATE admirals_variables SET value = {value} WHERE player_id = {Id} AND variable = {(int)vType}";
+                DataConnection.Execute(q);
+            }
+            else
+            {
+                q = $@"INSERT INTO admirals_variables(player_id, variable, value) VALUES({Id}, {(int)vType}, {value})";
+                DataConnection.Execute(q);
+            }
         }
 
         public ActionResult aResult { get; set; }
@@ -233,7 +265,9 @@ namespace AdmiralNamespace
             SELECT 
                 steam_account_id,
                 pwd,
-                status
+                status,
+                ISNULL(rig_id, 0) AS rig_id,
+                ISNULL(experience, 0) AS experience
             FROM
                 admirals
             WHERE
@@ -244,7 +278,53 @@ namespace AdmiralNamespace
             this.Id = Id;
             this.Name = Convert.ToString(r["steam_account_id"]);
             this.AdditionalData = Convert.ToString(r["pwd"]);
+            this.RigId = Convert.ToInt32(r["rig_id"]);
+            this.Experience = Convert.ToInt32(r["experience"]);
             r.Close();
+
+            q = $@"
+                SELECT
+                    id,
+                    player_id,
+                    variable,
+                    value
+                FROM
+                    admirals_variables
+                WHERE
+                    player_id = {Id}";
+
+            VariableDict = new Dictionary<AdmiralVariable, int>();
+            r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    AdmiralVariable tType = (AdmiralVariable)r["variable"];
+                    if(VariableDict.ContainsKey(tType))
+                    {
+                        VariableDict[tType] = (int)r["value"];
+                    }
+                    else
+                    {
+                        VariableDict.Add(tType, (int)r["value"]);
+                    }
+                }
+            }
+            r.Close();
+        }
+
+        /// <summary>
+        /// Saves experience and rig - ship, where player now is
+        /// </summary>
+        public void Save()
+        {
+            string q = $@"
+                UPDATE admirals SET
+                    experience = {Experience},
+                    rig_id = {RigId}
+                WHERE
+                    id = {Id}";
+            DataConnection.Execute(q);
         }
 
     }
