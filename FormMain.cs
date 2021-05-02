@@ -4034,7 +4034,6 @@ namespace AssetEditor
         {
 
         }
-
         private void tabPage27_Enter(object sender, EventArgs e)
         {
             if (BstFilled)
@@ -4060,15 +4059,74 @@ namespace AssetEditor
         }
         private void buttonBstCreate_Click(object sender, EventArgs e)
         {
+            treeBst.Nodes.Clear();
             if (comboBst.SelectedItem == null)
                 return;
             AccountData player = GetLatestUser();
             BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
             BattleScene scene = new BattleScene(sType, player);
+            foreach(var cycle in scene.Cycles)
+            {
+                TreeNode cNode = treeBst.Nodes.Add("Cycle " + cycle.Number.ToString());
+                cNode.Tag = cycle;
+                foreach(var stage in cycle.Stages)
+                {
+                    TreeNode sNode = cNode.Nodes.Add("Stage " + stage.StageNumber.ToString());
+                    sNode.Tag = stage;
+                    foreach(var enemy in stage.Enemy)
+                    {
+                        TreeNode eNode = sNode.Nodes.Add(enemy.ToString());
+                        eNode.Tag = enemy;
+                    }
+                }
+            }
         }
 
-        #endregion
+        private void treeBst_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TextBsEnemies.Text = "";
+            textBsResources.Text = "";
 
+            if (treeBst.SelectedNode == null)
+                return;
+
+            if (treeBst.SelectedNode.Tag == null)
+                return;
+
+            if(treeBst.SelectedNode.Tag.GetType() == typeof(BattleScene.Stage))
+            {
+                BattleScene.Stage curStage = (BattleScene.Stage)treeBst.SelectedNode.Tag;
+                BattleScene.BsStatictics stat = new BattleScene.BsStatictics();
+                stat.AddStage(curStage);
+                TextBsEnemies.Text = stat.EnemiesString();
+                textBsResources.Text = stat.ResourcesString();
+            }
+
+            if(treeBst.SelectedNode.Tag.GetType() == typeof(BattleScene.Cycle))
+            {
+                BattleScene.Cycle cycle = (BattleScene.Cycle)treeBst.SelectedNode.Tag;
+                BattleScene.BsStatictics stat = new BattleScene.BsStatictics();
+                foreach(var stage in cycle.Stages)
+                {
+                    stat.AddStage(stage);
+                }
+                TextBsEnemies.Text = stat.EnemiesString();
+                textBsResources.Text = stat.ResourcesString();
+            }
+
+            if (treeBst.SelectedNode.Tag.GetType() == typeof(BattleScene.StageEnemy))
+            {
+                BattleScene.StageEnemy enemy = (BattleScene.StageEnemy)treeBst.SelectedNode.Tag;
+                BattleScene.BsStatictics stat = new BattleScene.BsStatictics();
+                stat.AddEnemy(enemy);
+                TextBsEnemies.Text = stat.EnemiesString();
+                textBsResources.Text = stat.ResourcesString();
+            }
+
+        }
+
+
+        #endregion
 
     }
 }

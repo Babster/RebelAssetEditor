@@ -395,6 +395,10 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label103 = new System.Windows.Forms.Label();
+            this.TextBsEnemies = new System.Windows.Forms.RichTextBox();
+            this.label104 = new System.Windows.Forms.Label();
+            this.textBsResources = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -3813,6 +3817,10 @@
             // 
             // tabPage27
             // 
+            this.tabPage27.Controls.Add(this.textBsResources);
+            this.tabPage27.Controls.Add(this.label104);
+            this.tabPage27.Controls.Add(this.TextBsEnemies);
+            this.tabPage27.Controls.Add(this.label103);
             this.tabPage27.Controls.Add(this.treeBst);
             this.tabPage27.Controls.Add(this.label102);
             this.tabPage27.Controls.Add(this.buttonBstRefresh);
@@ -3834,6 +3842,7 @@
             this.treeBst.Name = "treeBst";
             this.treeBst.Size = new System.Drawing.Size(311, 413);
             this.treeBst.TabIndex = 10;
+            this.treeBst.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBst_AfterSelect);
             // 
             // label102
             // 
@@ -4383,6 +4392,44 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label103
+            // 
+            this.label103.AutoSize = true;
+            this.label103.Location = new System.Drawing.Point(342, 56);
+            this.label103.Name = "label103";
+            this.label103.Size = new System.Drawing.Size(58, 20);
+            this.label103.TabIndex = 11;
+            this.label103.Text = "Враги:";
+            // 
+            // TextBsEnemies
+            // 
+            this.TextBsEnemies.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
+            this.TextBsEnemies.Name = "TextBsEnemies";
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 390);
+            this.TextBsEnemies.TabIndex = 12;
+            this.TextBsEnemies.Text = "";
+            // 
+            // label104
+            // 
+            this.label104.AutoSize = true;
+            this.label104.Location = new System.Drawing.Point(776, 56);
+            this.label104.Name = "label104";
+            this.label104.Size = new System.Drawing.Size(75, 20);
+            this.label104.TabIndex = 13;
+            this.label104.Text = "Ресурсы:";
+            // 
+            // textBsResources
+            // 
+            this.textBsResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBsResources.Location = new System.Drawing.Point(780, 79);
+            this.textBsResources.Name = "textBsResources";
+            this.textBsResources.Size = new System.Drawing.Size(412, 390);
+            this.textBsResources.TabIndex = 14;
+            this.textBsResources.Text = "";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4859,6 +4906,10 @@
         private System.Windows.Forms.Button buttonBstCreate;
         private System.Windows.Forms.ComboBox comboBst;
         private System.Windows.Forms.TreeView treeBst;
+        private System.Windows.Forms.RichTextBox textBsResources;
+        private System.Windows.Forms.Label label104;
+        private System.Windows.Forms.RichTextBox TextBsEnemies;
+        private System.Windows.Forms.Label label103;
     }
 }
 
