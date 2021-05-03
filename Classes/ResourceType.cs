@@ -58,26 +58,26 @@ class ResourceType
         return q;
     }
 
-    private static Dictionary<int, ResourceType> resDict;
+    
     private static void FillResDict()
     {
-        resDict = new Dictionary<int, ResourceType>();
+        StaticMembers.resDict = new Dictionary<int, ResourceType>();
         List<ResourceType> resList = GetResouceList();
         if(resList.Count > 0)
         {
             foreach(ResourceType res in resList)
             {
-                resDict.Add(res.Id, res);
+                StaticMembers.resDict.Add(res.Id, res);
             }
         }
     }
     public static ResourceType ResourceById(int Id)
     {
-        if (resDict == null)
+        if (StaticMembers.resDict == null)
             FillResDict();
-        if(resDict.ContainsKey(Id))
+        if(StaticMembers.resDict.ContainsKey(Id))
         {
-            return resDict[Id];
+            return StaticMembers.resDict[Id];
         }
         else
         {

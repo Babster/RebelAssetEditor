@@ -175,26 +175,26 @@ class BlueprintType
         r.Close();
         return lBlue;
     }
-    private static Dictionary<int, BlueprintType> BlueprintDict;
+
     private static void CreateDict()
     {
-        BlueprintDict = new Dictionary<int, BlueprintType>();
+        StaticMembers.BlueprintDict = new Dictionary<int, BlueprintType>();
         List<BlueprintType> lBlue = GetList();
         if(lBlue.Count > 0)
         {
             foreach(var bp in lBlue)
             {
-                BlueprintDict.Add(bp.Id, bp);
+                StaticMembers.BlueprintDict.Add(bp.Id, bp);
             }
         }
     }
     public static BlueprintType BlueprintById(int Id)
     {
-        if (BlueprintDict == null)
+        if (StaticMembers.BlueprintDict == null)
             CreateDict();
-        if (BlueprintDict.ContainsKey(Id))
+        if (StaticMembers.BlueprintDict.ContainsKey(Id))
         {
-            return BlueprintDict[Id];
+            return StaticMembers.BlueprintDict[Id];
         }
         else
         {

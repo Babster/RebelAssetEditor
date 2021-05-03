@@ -82,6 +82,7 @@ public class ShipModuleType
         return tType;
     }
 
+    public ShipModuleType() { }
     public ShipModuleType(int parentId, int isCategory)
     {
         this.Parent = parentId;
@@ -203,15 +204,15 @@ public class ShipModuleType
         return lst;
     }
 
-    private static Dictionary<int, ShipModuleType> pModuleDict;
+   
     public static ShipModuleType ModuleById(int ShipModuleId)
     {
-        if (pModuleDict == null)
-            pModuleDict = CreateModuleDict();
+        if (StaticMembers.pModuleDict == null)
+            StaticMembers.pModuleDict = CreateModuleDict();
 
-        if(pModuleDict.ContainsKey(ShipModuleId))
+        if(StaticMembers.pModuleDict.ContainsKey(ShipModuleId))
         {
-            return pModuleDict[ShipModuleId];
+            return StaticMembers.pModuleDict[ShipModuleId];
         }
         else
         {

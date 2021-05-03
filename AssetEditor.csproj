@@ -64,6 +64,7 @@
     <Compile Include="Classes\ShipModuleType.cs" />
     <Compile Include="Classes\SpaceshipParameters.cs" />
     <Compile Include="Classes\SpaceshipRig.cs" />
+    <Compile Include="Classes\StaticMembers.cs" />
     <Compile Include="Classes\StoryClasses.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>

@@ -247,10 +247,10 @@ namespace Crew
 
         }
 
-        private static Dictionary<int, OfficerStat> statDict;
+        
         private static void CreateStatDict()
         {
-            statDict = new Dictionary<int, OfficerStat>();
+            StaticMembers.statDict = new Dictionary<int, OfficerStat>();
             string q;
             q = StatsQuery();
             SqlDataReader r = DataConnection.GetReader(q);
@@ -259,17 +259,17 @@ namespace Crew
                 while(r.Read())
                 {
                     OfficerStat tStat = new OfficerStat(ref r);
-                    statDict.Add(tStat.Id, tStat);
+                    StaticMembers.statDict.Add(tStat.Id, tStat);
                 }
             }
         }
         public static OfficerStat OfficerStatById(int Id)
         {
-            if (statDict == null)
+            if (StaticMembers.statDict == null)
                 CreateStatDict();
-            if(statDict.ContainsKey(Id))
+            if(StaticMembers.statDict.ContainsKey(Id))
             {
-                return statDict[Id];
+                return StaticMembers.statDict[Id];
             }
             else
             {
@@ -329,22 +329,22 @@ namespace Crew
 
         private static void CreateDict()
         {
-            OfficerDict = new Dictionary<int, CrewOfficerType>();
+            StaticMembers.OfficerTypeDict = new Dictionary<int, CrewOfficerType>();
             List<CrewOfficerType> lst = GetTypeList();
             foreach(CrewOfficerType t in lst)
             {
-                OfficerDict.Add(t.Id, t);
+                StaticMembers.OfficerTypeDict.Add(t.Id, t);
             }
         }
 
-        private static Dictionary<int, CrewOfficerType> OfficerDict;
+
         public static CrewOfficerType OfficerById(int Id)
         {
-            if (OfficerDict == null)
+            if (StaticMembers.OfficerTypeDict == null)
                 CreateDict();
-            if(OfficerDict.ContainsKey(Id))
+            if(StaticMembers.OfficerTypeDict.ContainsKey(Id))
             {
-                return OfficerDict[Id];
+                return StaticMembers.OfficerTypeDict[Id];
             }
             else
             {
@@ -361,11 +361,10 @@ namespace Crew
         public CrewOfficerType OfficerType { get; set; }
 
         public List<Stat> Stats { get; set; }
-
+        private AccountData acc;
         public int PlayerId { get; set; }
 
         //Для тех объектов, которые созданы на основе статов игрока
-        private AccountData acc;
         private AdmiralStats playerStats;
 
         public CrewOfficer() { }
@@ -407,12 +406,12 @@ namespace Crew
         /// Главная фишка процедуры - трансляция параметров игрока в параметры офицера
         /// </summary>
         /// <param name="acc"></param>
-        public CrewOfficer(AccountData acc)
+        public CrewOfficer(int playerId)
         {
             Stats = new List<Stat>();
-            this.acc = acc;
+            this.PlayerId = playerId;
+            acc = new AccountData(playerId);
             this.playerStats = new AdmiralStats(ref acc);
-            PlayerId = acc.Id;// Не нужно, но пусть будет
             List<CrewOfficerType.OfficerStat> statTypes = CrewOfficerType.CreateStats();
             foreach(CrewOfficerType.OfficerStat statType in statTypes)
             {
@@ -545,7 +544,7 @@ namespace Crew
             if (IsPlayer)//Из игрока офицера сохранять не нужно
                 return;
 
-            if (CrewOfficer.OfficerDict == null)
+            if (StaticMembers.OfficerDict == null)
                 CrewOfficer.CreateDictionary();
 
             string q;
@@ -555,7 +554,7 @@ namespace Crew
                     INSERT INTO crew_officers(player_id) VALUES({PlayerId})
                     SELECT @@IDENTITY AS Result";
                 Id = DataConnection.GetResultInt(q);
-                CrewOfficer.OfficerDict.Add(Id, this);
+                StaticMembers.OfficerDict.Add(Id, this);
             }
             q = $@"
                 UPDATE crew_officers SET
@@ -613,10 +612,10 @@ namespace Crew
             DataConnection.Execute(q);
         }
 
-        private static Dictionary<int, CrewOfficer> OfficerDict;
+
         private static void CreateDictionary()
         {
-            OfficerDict = new Dictionary<int, CrewOfficer>();
+            StaticMembers.OfficerDict = new Dictionary<int, CrewOfficer>();
             string q = OfficerQuery();
             SqlDataReader r = DataConnection.GetReader(q);
             if (r.HasRows)
@@ -624,19 +623,19 @@ namespace Crew
                 while(r.Read())
                 {
                     CrewOfficer curOfficer = new CrewOfficer(r);
-                    OfficerDict.Add(curOfficer.Id, curOfficer);
+                    StaticMembers.OfficerDict.Add(curOfficer.Id, curOfficer);
                 }
             }
             r.Close();
         }
         public static CrewOfficer OfficerById(int Id)
         {
-            if (OfficerDict == null)
+            if (StaticMembers.OfficerDict == null)
                 CreateDictionary();
 
-            if(OfficerDict.ContainsKey(Id))
+            if(StaticMembers.OfficerDict.ContainsKey(Id))
             {
-                return OfficerDict[Id];
+                return StaticMembers.OfficerDict[Id];
             }
             else
             {

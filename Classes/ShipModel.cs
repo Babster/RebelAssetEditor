@@ -17,6 +17,8 @@ public class ShipModel
     public List<Slot> slots;
     public List<int> slotsToDelete;
 
+    public ShipModel() { }
+
     public ShipModel(int parentId)
     {
         slots = new List<Slot>();
@@ -145,6 +147,7 @@ public class ShipModel
         public string SlotControl { get; set; }
         public int DefaultModuleId { get; set; }
 
+        public Slot() { }
         public Slot(int SlotNumber)
         {
             this.SlotNumber = SlotNumber;
@@ -354,16 +357,16 @@ public class ShipModel
         return mDict;
     }
 
-    private static Dictionary<int, ShipModel> pModels;
+
     public static ShipModel ModelById(int id)
     {
-        if(pModels == null)
+        if(StaticMembers.pModels == null)
         {
-            pModels = GetModelDict();
+            StaticMembers.pModels = GetModelDict();
         }
-        if(pModels.ContainsKey(id))
+        if(StaticMembers.pModels.ContainsKey(id))
         {
-            return pModels[id];
+            return StaticMembers.pModels[id];
         }
         else
         {

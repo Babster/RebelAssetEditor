@@ -137,34 +137,34 @@ public class SpaceshipParameters
             this.Value = value;
         }
 
-        private static Dictionary<SpaceShipParameter, string> pTypeDict;
+
         private static void FillTypeDict()
         {
-            pTypeDict = new Dictionary<SpaceShipParameter, string>();
-            pTypeDict.Add(SpaceShipParameter.StructureHitpoints, "Structure hitpoints");
-            pTypeDict.Add(SpaceShipParameter.ShieldDPS, "Shield DPS");
-            pTypeDict.Add(SpaceShipParameter.StructureDPS, "Structure DPS");
-            pTypeDict.Add(SpaceShipParameter.ArmorPoints, "Armor points");
-            pTypeDict.Add(SpaceShipParameter.ShieldPoints, "Shield points");
-            pTypeDict.Add(SpaceShipParameter.ShieldRegen, "Shield regen");
-            pTypeDict.Add(SpaceShipParameter.Speed, "Speed");
-            pTypeDict.Add(SpaceShipParameter.Dexterity, "Dexterity");
-            pTypeDict.Add(SpaceShipParameter.Engine, "Engine");
-            pTypeDict.Add(SpaceShipParameter.FireRate, "Fire rate");
-            pTypeDict.Add(SpaceShipParameter.ShieldDamage, "Shield damage");
-            pTypeDict.Add(SpaceShipParameter.StructureDamage, "Structure damage");
-            pTypeDict.Add(SpaceShipParameter.EnergyDamage, "Energy damage");
-            pTypeDict.Add(SpaceShipParameter.KineticDamage, "Kinetic damage");
-            pTypeDict.Add(SpaceShipParameter.RocketDamage, "Rocket damage");
+            StaticMembers.pTypeDict = new Dictionary<SpaceShipParameter, string>();
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.StructureHitpoints, "Structure hitpoints");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.ShieldDPS, "Shield DPS");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.StructureDPS, "Structure DPS");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.ArmorPoints, "Armor points");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.ShieldPoints, "Shield points");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.ShieldRegen, "Shield regen");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.Speed, "Speed");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.Dexterity, "Dexterity");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.Engine, "Engine");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.FireRate, "Fire rate");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.ShieldDamage, "Shield damage");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.StructureDamage, "Structure damage");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.EnergyDamage, "Energy damage");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.KineticDamage, "Kinetic damage");
+            StaticMembers.pTypeDict.Add(SpaceShipParameter.RocketDamage, "Rocket damage");
         }
         
         public string tString
         {
             get
             {
-                if (pTypeDict == null)
+                if (StaticMembers.pTypeDict == null)
                     FillTypeDict();
-                return pTypeDict[ParamType];
+                return StaticMembers.pTypeDict[ParamType];
             }
         }
     }

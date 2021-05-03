@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Crew;
 using AdmiralNamespace;
+using Newtonsoft.Json;
 
 public class SpaceshipRig
 {
@@ -143,7 +144,7 @@ public class SpaceshipRig
                 while (r.Read())
                 {
                     int SlotId = Convert.ToInt32(r["slot_id"]);
-                    slotDict[SlotId].LoadRig(r);
+                    slotDict[SlotId].LoadRig(r, PlayerId);
                 }
             }
         }
@@ -204,25 +205,25 @@ public class SpaceshipRig
         return q;
     }
 
-    private static Dictionary<int, SpaceshipRig> rigsDict;
+    
     private static void UpdateRigDict(SpaceshipRig rig)
     {
-        if (rigsDict == null)
-            rigsDict = new Dictionary<int, SpaceshipRig>();
-        if (!rigsDict.ContainsKey(rig.Id))
-            rigsDict.Add(rig.Id, rig);
+        if (StaticMembers.rigsDict == null)
+            StaticMembers.rigsDict = new Dictionary<int, SpaceshipRig>();
+        if (!StaticMembers.rigsDict.ContainsKey(rig.Id))
+            StaticMembers.rigsDict.Add(rig.Id, rig);
     }
     public static SpaceshipRig RigById(int id)
     {
-        if (rigsDict == null)
-            rigsDict = new Dictionary<int, SpaceshipRig>();
-        if (!rigsDict.ContainsKey(id))
+        if (StaticMembers.rigsDict == null)
+            StaticMembers.rigsDict = new Dictionary<int, SpaceshipRig>();
+        if (!StaticMembers.rigsDict.ContainsKey(id))
         {
             SpaceshipRig newRig = new SpaceshipRig(id);
-            rigsDict.Add(newRig.Id, newRig);
+            StaticMembers.rigsDict.Add(newRig.Id, newRig);
         }
             
-        return rigsDict[id];
+        return StaticMembers.rigsDict[id];
 
     }
     public static List<SpaceshipRig> BuiltInRigs()
@@ -259,12 +260,19 @@ public class SpaceshipRig
             team = new OfficerTeam();
             this.Slot = modelSlot;
         }
-        public void LoadRig(SqlDataReader r)
+        public void LoadRig(SqlDataReader r, int playerId)
         {
             this.Id = Convert.ToInt32(r["id"]);
             int moduleTypeId = Convert.ToInt32(r["module_type_id"]);
             this.ModuleType = ShipModuleType.ModuleById(moduleTypeId);
-            team = new OfficerTeam(Convert.ToString(r["officer_ids"]));
+            if(playerId > 0)
+            {
+                team = new OfficerTeam(Convert.ToString(r["officer_ids"]), playerId);
+            }
+            else
+            {
+                team = new OfficerTeam();
+            }
             int moduleId = (int)r["module_id"];
             if (moduleId > 0)
                 Module = new ShipModule(moduleId);
@@ -315,7 +323,7 @@ public class SpaceshipRig
             public List<CrewOfficer> OfficerList;
 
             public OfficerTeam() { OfficerList = new List<CrewOfficer>(); }
-            public OfficerTeam(string list)
+            public OfficerTeam(string list, int playerId)
             {
                 OfficerList = new List<CrewOfficer>();
                 if (String.IsNullOrEmpty(list))
@@ -328,8 +336,8 @@ public class SpaceshipRig
                     {
                         if (s2 == "player")
                         {
-                            AccountData playerAcc = AssetEditor.FormMain.GetLatestUser();
-                            OfficerList.Add(new CrewOfficer(playerAcc));
+                            //AccountData playerAcc = AssetEditor.FormMain.GetLatestUser();
+                            OfficerList.Add(new CrewOfficer(playerId));
                         }
                         else
                         {
@@ -677,7 +685,7 @@ public class SpaceshipRig
         List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(player.Id, true);
         if(player.RigId == 0)
         {
-            officers.Add(new CrewOfficer(player));
+            officers.Add(new CrewOfficer(player.Id));
         }
         tRig.LoadOfficers(officers);
         return tRig;

@@ -16,6 +16,7 @@ using Story;
 using Crew;
 using AdmiralNamespace;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace AssetEditor
 {
@@ -895,6 +896,8 @@ namespace AssetEditor
 
         #region История - какой объект за каким следует
 
+        private bool historyFilled;
+
         private void tabPage7_Click(object sender, EventArgs e)
         {
 
@@ -902,6 +905,10 @@ namespace AssetEditor
 
         private void tabPage7_Enter(object sender, EventArgs e)
         {
+
+            if (historyFilled)
+                return;
+
             SqlDataReader r = DataConnection.GetReader(
                 @"SELECT 
                     id,
@@ -925,6 +932,9 @@ namespace AssetEditor
                 }
             }
             r.Close();
+
+            historyFilled = true;
+
         }
 
         private Dictionary<string, string> storyObjectDisct;
@@ -2086,7 +2096,7 @@ namespace AssetEditor
 
             //Player's officers. 
             listSaOfficers.Items.Clear();
-            CrewOfficer playerOfficer = new CrewOfficer(playerAcc);
+            CrewOfficer playerOfficer = new CrewOfficer(playerAcc.Id);
             listSaOfficers.Items.Add(playerOfficer);
             List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(playerAcc.Id);
             if (officers.Count > 0)
@@ -2793,7 +2803,7 @@ namespace AssetEditor
             GameEvent curEvent = GetCurrentEvent();
             if (curEvent == null)
                 return;
-            curEvent.ExecuteEvent(curPlayer);
+            curEvent.ExecuteEvent(curPlayer.Id);
             MessageBox.Show("Успешно");
         }
 
@@ -4127,6 +4137,26 @@ namespace AssetEditor
 
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AccountData player = GetLatestUser();
+            var bst = BattleSceneType.SceneById(4);
+            var bs = new BattleScene(bst, player);
+            var cbs = new CompressedBattleScene(bs);
+            string ser = JsonConvert.SerializeObject(cbs);
+            ser = CommonFunctions.Compress(ser);
+            TextBsEnemies.Text = $@"Lenght: {ser.Length.ToString()}
+{ser}";
+
+            string deser = CommonFunctions.Decompress(ser);
+
+
+            var ex2 = JsonConvert.DeserializeObject<CompressedBattleScene>(deser);
+
+
+        }
+
 
     }
 }

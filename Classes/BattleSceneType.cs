@@ -107,26 +107,26 @@ class BattleSceneType
         return sceneList;
 
     }
-    private static Dictionary<int, BattleSceneType> sceneDict;
+
     private static void CreateDictionary()
     {
-        sceneDict = new Dictionary<int, BattleSceneType>();
+        StaticMembers.sceneDict = new Dictionary<int, BattleSceneType>();
         List<BattleSceneType> lst = SceneList();
         if(lst.Count > 0)
         {
             foreach(BattleSceneType element in lst)
             {
-                sceneDict.Add(element.Id, element);
+                StaticMembers.sceneDict.Add(element.Id, element);
             }
         }
     }
     public static BattleSceneType SceneById(int Id)
     {
-        if (sceneDict == null)
+        if (StaticMembers.sceneDict == null)
             CreateDictionary();
-        if(sceneDict.ContainsKey(Id))
+        if(StaticMembers.sceneDict.ContainsKey(Id))
         {
-            return (sceneDict[Id]);
+            return (StaticMembers.sceneDict[Id]);
         }
         else
         {
@@ -152,26 +152,25 @@ class BattleSceneType
         public int Id { get; set; }
         public int BattleId { get; set; }
         public int StageNumber { get; set; } //Номер стадии - враги идут один за другим, но могут вперемешку
-        public int ShipRigId { get; set; } //Какой именно риг идет против игрока
+        public int ShipRigId {
+            get
+            {
+                if (Rig == null)
+                    return 0;
+                else
+                    return Rig.Id;
+            }
+            set
+            {
+                Rig = SpaceshipRig.RigById(value);
+            }
+        } //Какой именно риг идет против игрока
         public int Count { get; set; } //Количество кораблей в данной стадии
         public int CycleMultiplier { get; set; } //Мультипликатор характеристик врагов
         public int BaseBattleIntensity { get; set; } //Базовая награда за убийство каждого врага
         public int CycleIntensityMult { get; set; } //Мультипликатор награды
+        public SpaceshipRig Rig { get; set; }
 
-        public SpaceshipRig Rig
-        {
-            get
-            {
-                if (ShipRigId == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    return SpaceshipRig.RigById(ShipRigId);
-                }
-            }
-        }
 
         public Enemy() { }
 

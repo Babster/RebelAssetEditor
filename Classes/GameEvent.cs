@@ -91,23 +91,23 @@ public class GameEvent
         return eventList;
 
     }
-    private static Dictionary<int, GameEvent> EventDict;
+
     private static void FillEventsDictionary()
     {
-        EventDict = new Dictionary<int, GameEvent>();
+        StaticMembers.EventDict = new Dictionary<int, GameEvent>();
         List<GameEvent> events = EventList();
         foreach(GameEvent evnt in events)
         {
-            EventDict.Add(evnt.Id, evnt);
+            StaticMembers.EventDict.Add(evnt.Id, evnt);
         }
     }
     public static GameEvent EventById(int Id)
     {
-        if (EventDict == null)
+        if (StaticMembers.EventDict == null)
             FillEventsDictionary();
-        if(EventDict.ContainsKey(Id))
+        if(StaticMembers.EventDict.ContainsKey(Id))
         {
-            return EventDict[Id];
+            return StaticMembers.EventDict[Id];
         }
         else
         {
@@ -440,7 +440,7 @@ public class GameEvent
         DataConnection.Execute(q);
     }
 
-    public void ExecuteEvent(AdmiralNamespace.AccountData player)
+    public void ExecuteEvent(int playerId)
     {
 
         if(Elements.Count == 0)
@@ -451,7 +451,7 @@ public class GameEvent
         //Repeatable events - check if already happend
         if(Repeatable == 0)
         {
-            if (EventHappened(player.Id, Id))
+            if (EventHappened(playerId, Id))
                 return;
         }
 
@@ -470,7 +470,7 @@ public class GameEvent
                         experience,
                         ship_level
                     ) VALUES (
-                        {player.Id},
+                        {playerId},
                         {element.ShipModel.Id},
                         {element.Experience},
                         1
@@ -487,7 +487,7 @@ public class GameEvent
                         experience,
                         module_level
                     ) VALUES (
-                        {player.Id},
+                        {playerId},
                         {element.ModuleType.Id},
                         {element.Experience},
                         1
@@ -497,7 +497,7 @@ public class GameEvent
 
             if(element.Officer != null)
             {
-                CrewOfficer officer = new CrewOfficer(element.Officer, player.Id);
+                CrewOfficer officer = new CrewOfficer(element.Officer, playerId);
                 officer.Save();
             }
 
@@ -508,7 +508,7 @@ public class GameEvent
                 event_id,
                 occurs
             ) VALUES (
-                {player.Id},
+                {playerId},
                 {Id},
                 GETDATE()
             )";

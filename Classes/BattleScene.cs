@@ -37,7 +37,6 @@ class BattleScene
     {
 
         private const double AmountVariability = 0.2;
-        
         public int Number { get; set; }
         public List<Stage> Stages { get; set; }
 
@@ -238,6 +237,8 @@ class BattleScene
         public List<StageEnemy> Enemy { get; set; }
         public List<Cycle.ResourceInCycle> Cr { get; set; }
 
+        public Stage() { }
+
         public Stage(BattleSceneType.Enemy enemy, int cycleNumber, List<Cycle.ResourceInCycle> cr, BattleSceneType stype)
         {
             Enemy = new List<StageEnemy>();
@@ -308,44 +309,6 @@ class BattleScene
         {
             return $@"{EnemyType.ToString()} struct: {EnemyStructurePoints}, shield: {EnemyShieldPoints}, regen: {EnemyShieldRegen}";
         }
-
-        //public static bool operator== (StageEnemy a, StageEnemy b)
-        //{
-        //    if (a == null && b == null)
-        //        return true;
-        //    if (a.EnemyType == null || b.EnemyType == null)
-        //        return false;
-        //    if(a.EnemyType.Id == b.EnemyType.Id)
-        //    {
-        //        if(a.StageNumber == b.StageNumber)
-        //        {
-        //            if(a.CycleNumber == b.CycleNumber)
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        //public static bool operator!= (StageEnemy a, StageEnemy b)
-        //{
-        //    if (a == null && b == null)
-        //        return false;
-        //    if (a.EnemyType == null || b.EnemyType == null)
-        //        return true;
-        //    if (a.EnemyType.Id == b.EnemyType.Id)
-        //    {
-        //        if (a.StageNumber == b.StageNumber)
-        //        {
-        //            if (a.CycleNumber == b.CycleNumber)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-        //    return true;
-        //}
 
     }
 
@@ -468,4 +431,170 @@ class BattleScene
 
     }
 
+}
+
+class CompressedBattleScene
+{
+    int BattleSceneTypeId { get; set; }
+
+    public List<Cycle> Cycles { get; set; }
+
+    public SpaceshipRig PlayerRig { get; set; }
+
+    public Dictionary<int, BattleSceneType.Enemy> EnemyDict;
+    public Dictionary<int, ResourceType> ResourceDict;
+    public Dictionary<int, BlueprintType> BlueprintDict;
+
+
+    public CompressedBattleScene()
+    {
+
+    }
+
+    public CompressedBattleScene(BattleScene createFrom)
+    {
+        BattleSceneTypeId = createFrom.SceneType.Id;
+        PlayerRig = createFrom.Rig;
+
+        EnemyDict = new Dictionary<int, BattleSceneType.Enemy>();
+        ResourceDict = new Dictionary<int, ResourceType>();
+        BlueprintDict = new Dictionary<int, BlueprintType>();
+
+        Cycles = new List<Cycle>();
+        foreach (var cycle in createFrom.Cycles)
+        {
+            Cycles.Add(new Cycle(cycle, EnemyDict, ResourceDict, BlueprintDict));
+        }
+
+    }
+
+    public class Cycle
+    {
+        public int Number { get; set; }
+        public List<Stage> Stages { get; set; }
+
+        public Cycle() { }
+        public Cycle(BattleScene.Cycle cycleFrom, 
+                     Dictionary<int, BattleSceneType.Enemy> EnemyDict,
+                     Dictionary<int, ResourceType> ResourceDict,
+                     Dictionary<int, BlueprintType> BlueprintDict)
+        {
+            Number = cycleFrom.Number;
+            Stages = new List<Stage>();
+            foreach(var stage in cycleFrom.Stages)
+            {
+                Stages.Add(new Stage(stage, EnemyDict, ResourceDict, BlueprintDict));
+            }
+        }
+
+    }
+
+    public class StageEnemyTemplate
+    {
+        public int StageNumber { get; set; }
+        public int CycleNumber { get; set; }
+        public int EnemyTypeId { get; set; }
+        public int BattleIntensity { get; set; }
+        public int EnemyStructurePoints { get; set; }
+        public int EnemyShieldPoints { get; set; }
+        public int EnemyShieldRegen { get; set; }
+        public int Count { get; set; }
+        public StageEnemyTemplate() { }
+
+        public StageEnemyTemplate(BattleScene.StageEnemy enemy)
+        {
+            StageNumber = enemy.StageNumber;
+            CycleNumber = enemy.CycleNumber;
+            EnemyTypeId = enemy.EnemyType.Id;
+            BattleIntensity = enemy.BattleIntensity;
+            EnemyStructurePoints = enemy.EnemyStructurePoints;
+            EnemyShieldPoints = enemy.EnemyShieldPoints;
+            EnemyShieldRegen = enemy.EnemyShieldRegen;
+            Count += 1;
+        }
+
+    }
+
+    public class EnemyResource
+    {
+        public int ResTypeId { get; set; }
+        public int BpTypeId { get; set; }
+        public int Count { get; set; }
+        public int EnemyIdx { get; set; }
+        public EnemyResource() { }
+        public EnemyResource(BattleScene.EnemyResource res, int idx)
+        {
+            if(res.ResType != null)
+                ResTypeId = res.ResType.Id;
+            if(res.BpType != null)
+                BpTypeId = res.BpType.Id;
+            Count = res.Count;
+            EnemyIdx = idx;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder b = new StringBuilder();
+            if (ResTypeId > 0)
+                b.Append("res: " + ResTypeId);
+            if (BpTypeId > 0)
+                b.Append(" bp: " + BpTypeId);
+            return b.ToString();
+        }
+
+    }
+
+    public class Stage
+    {
+        public int CycleNumber { get; set; }
+        public int StageNumber { get; set; }
+        public List<StageEnemyTemplate> EnemyTemplates { get; set; }
+        public List<EnemyResource> enmResource { get; set; }
+
+        public Stage() { }
+        public Stage(BattleScene.Stage stageFrom,
+                     Dictionary<int, BattleSceneType.Enemy> EnemyDict,
+                     Dictionary<int, ResourceType> ResourceDict,
+                     Dictionary<int, BlueprintType> BlueprintDict)
+        {
+            CycleNumber = stageFrom.CycleNumber;
+            StageNumber = stageFrom.StageNumber;
+            int curEnemyId = 0;
+            EnemyTemplates = new List<StageEnemyTemplate>();
+            enmResource = new List<EnemyResource>();
+            int idx = 0;
+            foreach(var enemy in stageFrom.Enemy)
+            {
+                if(enemy.EnemyType.Id != curEnemyId)
+                {
+                    if (!EnemyDict.ContainsKey(enemy.EnemyType.Id))
+                        EnemyDict.Add(enemy.EnemyType.Id, enemy.EnemyType);
+                    EnemyTemplates.Add(new StageEnemyTemplate(enemy));
+                    curEnemyId = enemy.EnemyType.Id;
+                }
+                else
+                {
+                    EnemyTemplates[EnemyTemplates.Count - 1].Count += 1;
+                }
+                if (enemy.Resources.Count > 0)
+                {
+                    foreach (var res in enemy.Resources)
+                    {
+                        enmResource.Add(new EnemyResource(res, idx));
+                        if (res.ResType != null)
+                        {
+                            if (!ResourceDict.ContainsKey(res.ResType.Id))
+                                ResourceDict.Add(res.ResType.Id, res.ResType);
+                        }
+                        if (res.BpType != null)
+                        {
+                            if (!BlueprintDict.ContainsKey(res.BpType.Id))
+                                BlueprintDict.Add(res.BpType.Id, res.BpType);
+                        }
+                    }
+                }
+                idx = idx + 1;
+            }
+        }
+    }
 }
