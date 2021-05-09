@@ -342,6 +342,7 @@
             this.buttonBsDelete = new System.Windows.Forms.Button();
             this.buttonBsAdd = new System.Windows.Forms.Button();
             this.tabPage27 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBsResources = new System.Windows.Forms.RichTextBox();
             this.label104 = new System.Windows.Forms.Label();
             this.TextBsEnemies = new System.Windows.Forms.RichTextBox();
@@ -399,7 +400,7 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tabPage28 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -1736,6 +1737,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl4.Controls.Add(this.tabPage13);
             this.tabControl4.Controls.Add(this.tabPage14);
+            this.tabControl4.Controls.Add(this.tabPage28);
             this.tabControl4.Location = new System.Drawing.Point(6, 6);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
@@ -1795,7 +1797,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 515);
+            this.groupBox5.Size = new System.Drawing.Size(947, 522);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1897,7 +1899,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 113);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 120);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2155,7 +2157,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 473);
+            this.treeShips.Size = new System.Drawing.Size(234, 480);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2201,7 +2203,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 500);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 507);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2231,7 +2233,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 452);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 459);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2267,7 +2269,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 497);
+            this.tabControl5.Size = new System.Drawing.Size(704, 504);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2280,7 +2282,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 464);
+            this.tabPage17.Size = new System.Drawing.Size(696, 471);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2339,7 +2341,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 471);
+            this.tabPage15.Size = new System.Drawing.Size(696, 478);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2407,7 +2409,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 471);
+            this.tabPage16.Size = new System.Drawing.Size(696, 478);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2504,7 +2506,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 471);
+            this.tabPage18.Size = new System.Drawing.Size(696, 478);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2741,7 +2743,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 550);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 557);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3171,7 +3173,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 477);
+            this.groupBox6.Size = new System.Drawing.Size(899, 484);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3186,7 +3188,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 353);
+            this.tabControl6.Size = new System.Drawing.Size(883, 360);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3216,7 +3218,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 320);
+            this.tabPage21.Size = new System.Drawing.Size(875, 327);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Враги";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3454,7 +3456,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 320);
+            this.tabPage22.Size = new System.Drawing.Size(875, 327);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Ресурсы";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3795,7 +3797,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 429);
+            this.treeBs.Size = new System.Drawing.Size(297, 436);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3841,13 +3843,23 @@
             this.tabPage27.Click += new System.EventHandler(this.tabPage27_Click);
             this.tabPage27.Enter += new System.EventHandler(this.tabPage27_Enter);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1097, 10);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 28);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "JSON";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // textBsResources
             // 
             this.textBsResources.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 390);
+            this.textBsResources.Size = new System.Drawing.Size(412, 397);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3866,7 +3878,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 390);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 397);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3980,7 +3992,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 458);
+            this.groupBox7.Size = new System.Drawing.Size(894, 465);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -4121,7 +4133,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 424);
+            this.treeRes.Size = new System.Drawing.Size(297, 431);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4170,7 +4182,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 472);
+            this.groupBox8.Size = new System.Drawing.Size(894, 479);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4427,7 +4439,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 438);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 445);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4435,15 +4447,16 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1
+            // tabPage28
             // 
-            this.button1.Location = new System.Drawing.Point(1097, 10);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 28);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "JSON";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tabPage28.Location = new System.Drawing.Point(4, 29);
+            this.tabPage28.Name = "tabPage28";
+            this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage28.Size = new System.Drawing.Size(1209, 472);
+            this.tabPage28.TabIndex = 2;
+            this.tabPage28.Text = "Корабли игрока";
+            this.tabPage28.UseVisualStyleBackColor = true;
+            this.tabPage28.Enter += new System.EventHandler(this.tabPage28_Enter);
             // 
             // FormMain
             // 
@@ -4926,6 +4939,7 @@
         private System.Windows.Forms.RichTextBox TextBsEnemies;
         private System.Windows.Forms.Label label103;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TabPage tabPage28;
     }
 }
 

@@ -2189,6 +2189,15 @@ namespace AssetEditor
 
         #endregion
 
+        #region Ship tests
+
+        private void tabPage28_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
         #region Officer types
 
         private bool officerTypesFilled;
