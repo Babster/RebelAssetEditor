@@ -400,8 +400,16 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabPage28 = new System.Windows.Forms.TabPage();
+            this.comboStPlayer = new System.Windows.Forms.ComboBox();
+            this.label105 = new System.Windows.Forms.Label();
+            this.buttonStFillPlayerShips = new System.Windows.Forms.Button();
+            this.treeStShips = new System.Windows.Forms.TreeView();
+            this.textStShipDescription = new System.Windows.Forms.RichTextBox();
             this.treePlayers = new System.Windows.Forms.TreeView();
             this.buttonSavePlayerAssets = new System.Windows.Forms.Button();
+
+
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -465,6 +473,7 @@
             this.groupBox7.SuspendLayout();
             this.tabPage25.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.tabPage28.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -4459,7 +4468,7 @@
             this.treePlayers.Name = "treePlayers";
             this.treePlayers.Size = new System.Drawing.Size(290, 503);
             this.treePlayers.TabIndex = 4;
-            // 
+
             // buttonSavePlayerAssets
             // 
             this.buttonSavePlayerAssets.Location = new System.Drawing.Point(491, 43);
@@ -4469,6 +4478,67 @@
             this.buttonSavePlayerAssets.Text = "Сохранить имущество игрока";
             this.buttonSavePlayerAssets.UseVisualStyleBackColor = true;
             this.buttonSavePlayerAssets.Click += new System.EventHandler(this.buttonSavePlayerAssets_Click);
+            //
+
+            // 
+            // tabPage28
+            // 
+            this.tabPage28.Controls.Add(this.textStShipDescription);
+            this.tabPage28.Controls.Add(this.treeStShips);
+            this.tabPage28.Controls.Add(this.buttonStFillPlayerShips);
+            this.tabPage28.Controls.Add(this.label105);
+            this.tabPage28.Controls.Add(this.comboStPlayer);
+            this.tabPage28.Location = new System.Drawing.Point(4, 29);
+            this.tabPage28.Name = "tabPage28";
+            this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage28.Size = new System.Drawing.Size(1209, 472);
+            this.tabPage28.TabIndex = 2;
+            this.tabPage28.Text = "Корабли игрока";
+            this.tabPage28.UseVisualStyleBackColor = true;
+            this.tabPage28.Enter += new System.EventHandler(this.tabPage28_Enter);
+            // 
+            // comboStPlayer
+            // 
+            this.comboStPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboStPlayer.FormattingEnabled = true;
+            this.comboStPlayer.Location = new System.Drawing.Point(69, 13);
+            this.comboStPlayer.Name = "comboStPlayer";
+            this.comboStPlayer.Size = new System.Drawing.Size(198, 28);
+            this.comboStPlayer.TabIndex = 0;
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.Location = new System.Drawing.Point(6, 16);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(57, 20);
+            this.label105.TabIndex = 1;
+            this.label105.Text = "Игрок:";
+            // 
+            // buttonStFillPlayerShips
+            // 
+            this.buttonStFillPlayerShips.Location = new System.Drawing.Point(273, 13);
+            this.buttonStFillPlayerShips.Name = "buttonStFillPlayerShips";
+            this.buttonStFillPlayerShips.Size = new System.Drawing.Size(137, 28);
+            this.buttonStFillPlayerShips.TabIndex = 2;
+            this.buttonStFillPlayerShips.Text = "Заполнить";
+            this.buttonStFillPlayerShips.UseVisualStyleBackColor = true;
+            this.buttonStFillPlayerShips.Click += new System.EventHandler(this.buttonStFillPlayerShips_Click);
+            // 
+            // treeStShips
+            // 
+            this.treeStShips.Location = new System.Drawing.Point(10, 62);
+            this.treeStShips.Name = "treeStShips";
+            this.treeStShips.Size = new System.Drawing.Size(257, 404);
+            this.treeStShips.TabIndex = 3;
+            // 
+            // textStShipDescription
+            // 
+            this.textStShipDescription.Location = new System.Drawing.Point(273, 62);
+            this.textStShipDescription.Name = "textStShipDescription";
+            this.textStShipDescription.Size = new System.Drawing.Size(930, 227);
+            this.textStShipDescription.TabIndex = 4;
+            this.textStShipDescription.Text = "";
             // 
             // FormMain
             // 
@@ -4573,6 +4643,8 @@
             this.tabPage25.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.tabPage28.ResumeLayout(false);
+            this.tabPage28.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -4953,6 +5025,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TreeView treePlayers;
         private System.Windows.Forms.Button buttonSavePlayerAssets;
+        private System.Windows.Forms.Button buttonStFillPlayerShips;
+        private System.Windows.Forms.Label label105;
+        private System.Windows.Forms.ComboBox comboStPlayer;
+        private System.Windows.Forms.RichTextBox textStShipDescription;
+        private System.Windows.Forms.TreeView treeStShips;
+
     }
 }
 

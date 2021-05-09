@@ -2227,7 +2227,17 @@ namespace AssetEditor
 
         #region Ship tests
 
+        private bool stFilled;
+
         private void tabPage28_Enter(object sender, EventArgs e)
+        {
+            if (stFilled)
+                return;
+            comboStPlayer.Items.Clear();
+            
+        }
+
+        private void buttonStFillPlayerShips_Click(object sender, EventArgs e)
         {
 
         }
