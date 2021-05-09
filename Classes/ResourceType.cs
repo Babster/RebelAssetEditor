@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-class ResourceType
+public class ResourceType
 {
     public int Id { get; set; }
     public int ParentId { get; set; }

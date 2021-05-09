@@ -13,9 +13,9 @@ static class StaticMembers
     public static Dictionary<int, BlueprintType> BlueprintDict;
     public static Dictionary<int, Crew.CrewOfficerType> OfficerTypeDict;
     public static Dictionary<int, Crew.CrewOfficer> OfficerDict;
-    public static Dictionary<int, Crew.CrewOfficerType.OfficerStat> statDict;
+    public static Dictionary<int, Crew.OfficerTypeStat> statDict;
     public static Dictionary<int, BattleSceneType> sceneDict;
-    public static Dictionary<SpaceshipParameters.SpaceShipParameter, string> pTypeDict;
+
     public static Dictionary<int, ShipModel> pModels;
 }
 

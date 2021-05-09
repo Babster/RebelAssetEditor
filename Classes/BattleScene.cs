@@ -17,7 +17,7 @@ class BattleScene
     public BattleScene(BattleSceneType stype, AccountData player)
     {
         SceneType = stype;
-        Rig = SpaceshipRig.RigForPlayer(player);
+        Rig = SpaceshipRig.RigForPlayer(player.Id);
         Rig.SaveData(player.Id, "");
 
         //Starting with 5 cycles and then add some more

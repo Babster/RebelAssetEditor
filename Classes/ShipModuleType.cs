@@ -6,81 +6,8 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 
-public class ShipModuleType
+public class ShipModuleType : UnityShipModuleType
 {
-    public int Id { get; set; }
-    public int IsCategory { get; set; }
-    public int Parent { get; set; }
-    public string Name { get; set; }
-    public string ModuleTypeStr { get; set; }
-    public WeaponType wType { get; set; }
-    public int Size { get; set; }
-    public string AssetName { get; set; }
-    public int EnergyNeeded { get; set; }
-    public SpaceshipParameters parameters { get; set; }
-
-    public enum ModuleType
-    {
-        None = 0,
-        Weapon = 1,
-        Armor = 2,
-        Engine = 3,
-        Thrusters = 4,
-        Misc = 5
-    }
-
-    public enum WeaponType
-    {
-        None = 0,
-        Energy = 10,
-        Kinetic = 11,
-        Rocket = 12
-    }
-
-    public string wTypeStr
-    {
-        get
-        {
-            switch(wType)
-            {
-                case WeaponType.Energy:
-                    return "Energy";
-                case WeaponType.Kinetic:
-                    return "Kinetic";
-                case WeaponType.Rocket:
-                    return "Rocket";
-                default:
-                    return "";
-            }
-        }
-    }
-
-    public ModuleType ModuleTypeFromStr()
-    {
-        ModuleType tType;
-        switch (ModuleTypeStr)
-        {
-            case "Weapon":
-                tType = ModuleType.Weapon;
-                break;
-            case "Armor":
-                tType = ModuleType.Armor;
-                break;
-            case "Engine":
-                tType = ModuleType.Engine;
-                break;
-            case "Thrusters":
-                tType = ModuleType.Thrusters;
-                break;
-            case "Misc":
-                tType = ModuleType.Misc;
-                break;
-            default:
-                tType = ModuleType.None;
-                break;
-        }
-        return tType;
-    }
 
     public ShipModuleType() { }
     public ShipModuleType(int parentId, int isCategory)
@@ -270,6 +197,85 @@ public class ShipModuleType
     public override string ToString()
     {
         return this.Name + " " + this.parameters.ToString() ;
+    }
+
+}
+
+public class UnityShipModuleType
+{
+
+    public int Id { get; set; }
+    public int IsCategory { get; set; }
+    public int Parent { get; set; }
+    public string Name { get; set; }
+    public string ModuleTypeStr { get; set; }
+    public WeaponType wType { get; set; }
+    public int Size { get; set; }
+    public string AssetName { get; set; }
+    public int EnergyNeeded { get; set; }
+    public SpaceshipParameters parameters { get; set; }
+
+    public enum WeaponType
+    {
+        None = 0,
+        Energy = 10,
+        Kinetic = 11,
+        Rocket = 12
+    }
+
+    public enum ModuleType
+    {
+        None = 0,
+        Weapon = 1,
+        Armor = 2,
+        Engine = 3,
+        Thrusters = 4,
+        Misc = 5
+    }
+
+    public string wTypeStr
+    {
+        get
+        {
+            switch (wType)
+            {
+                case WeaponType.Energy:
+                    return "Energy";
+                case WeaponType.Kinetic:
+                    return "Kinetic";
+                case WeaponType.Rocket:
+                    return "Rocket";
+                default:
+                    return "";
+            }
+        }
+    }
+
+    public ModuleType ModuleTypeFromStr()
+    {
+        ModuleType tType;
+        switch (ModuleTypeStr)
+        {
+            case "Weapon":
+                tType = ModuleType.Weapon;
+                break;
+            case "Armor":
+                tType = ModuleType.Armor;
+                break;
+            case "Engine":
+                tType = ModuleType.Engine;
+                break;
+            case "Thrusters":
+                tType = ModuleType.Thrusters;
+                break;
+            case "Misc":
+                tType = ModuleType.Misc;
+                break;
+            default:
+                tType = ModuleType.None;
+                break;
+        }
+        return tType;
     }
 
     public double GetParameter(SpaceshipParameters.SpaceShipParameter paramType)

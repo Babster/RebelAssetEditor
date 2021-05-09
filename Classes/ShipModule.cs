@@ -5,11 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-public class ShipModule
+public class ShipModule : UnityShipModule
 {
-    public int Id { get; set; }
-    public int PlayerId { get; set; }
-    public int ModuleTypeId { get; set; }
     public ShipModuleType ModuleType
     {
         get
@@ -19,11 +16,6 @@ public class ShipModule
             return ShipModuleType.ModuleById(ModuleTypeId);
         }
     }
-    public int Experience { get; set; }
-    public int ModuleLevel { get; set; }
-    public int RigSlotId { get; set; }
-    public bool Reserve { get; set; }
-
 
     public ShipModule() { }
     public ShipModule(SqlDataReader r)
@@ -150,3 +142,19 @@ public class ShipModule
 
 }
 
+/// <summary>
+/// При переносе в  Unity надо убирать префикс Unity и тогда
+/// десериализация будет проходить 100% нормально. 
+/// </summary>
+public class UnityShipModule
+{
+
+    public int Id { get; set; }
+    public int PlayerId { get; set; }
+    public int ModuleTypeId { get; set; }
+    public int Experience { get; set; }
+    public int ModuleLevel { get; set; }
+    public int RigSlotId { get; set; }
+    public bool Reserve { get; set; }
+
+}

@@ -5,21 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-class BlueprintType
+class BlueprintType : UnityBlueprintType
 {
 
-    public int Id { get; set; }
-    public int ParentId { get; set; }
-    public string Name { get; set; }
-    public BlueprintProductType ProductType { get; set; }
-    public int ProductId { get; set; }
-    public int BaseBonus { get; set; }
-    public int FailChance { get; set; }
-    public int ProductionPoints { get; set; }
-    
-    public List<Resource> ResourceList { get; set; }
-
-    public BlueprintType() { ResourceList = new List<Resource>(); }
+    public BlueprintType() { ResourceList = new List<ResourceForBlueprint>(); }
     public BlueprintType(SqlDataReader r)
     {
         Id = Convert.ToInt32(r["id"]);
@@ -37,7 +26,7 @@ class BlueprintType
 
     private void LoadResources()
     {
-        ResourceList = new List<Resource>();
+        ResourceList = new List<ResourceForBlueprint>();
         string q;
         q = $@"
             SELECT 
@@ -54,96 +43,15 @@ class BlueprintType
         {
             while(r.Read())
             {
-                ResourceList.Add(new Resource(r));
+                ResourceList.Add(new ResourceForBlueprint(r));
             }
         }
         r.Close();
     }
 
-    public enum BlueprintProductType
+    public ResourceForBlueprint AddResource()
     {
-        None = 0,
-        MakeSpaceshipModule = 1,
-        MakeSpaceship = 2,
-        MakeSpacestationModule = 3,
-        ImproveOfficer = 4,
-        ImproveSpaceshipModule = 5,
-        ImproveSpaceship = 6,
-        ImprovePlayerStat = 7
-    }
-
-    public class Resource
-    {
-        public int Id { get; set; }
-        public int BlueprintTypeId { get; set; }
-        public int ResourceTypeId { get; set; }
-        public int Amount { get; set; }
-
-        public ResourceType ResType
-        {
-            get
-            {
-                return ResourceType.ResourceById(ResourceTypeId);
-            }
-        }
-
-        public Resource() { }
-
-        public Resource(SqlDataReader r)
-        {
-            Id = Convert.ToInt32(r["id"]);
-            BlueprintTypeId = Convert.ToInt32(r["blueprint_type"]);
-            ResourceTypeId = Convert.ToInt32(r["resource_type_id"]);
-            Amount = Convert.ToInt32(r["amount"]);
-        }
-
-        public void Save(int blueprintTypeId)
-        {
-            this.BlueprintTypeId = blueprintTypeId;
-            string q;
-            if(Id == 0)
-            {
-                q = $@"
-                    INSERT INTO blueprint_types_resources(blueprint_type) VALUES(0)
-                    SELECT @@IDENTITY AS Result";
-                Id = DataConnection.GetResultInt(q);
-            }
-
-            q = $@"
-                UPDATE blueprint_types_resources SET 
-                    blueprint_type = {BlueprintTypeId},
-                    resource_type_id = {ResourceTypeId},
-                    amount = {Amount}
-                WHERE
-                    id = {Id}";
-            DataConnection.Execute(q);
-        }
-
-        public void Delete()
-        {
-            if (Id == 0)
-                return;
-            string q = $@"DELETE FROM blueprint_types_resources WHERE id = {Id}";
-            DataConnection.Execute(q);
-        }
-
-        public override string ToString()
-        {
-            if(ResType == null)
-            {
-                return "-";
-            }
-            else
-            {
-                return $@"{ResType.Name} - {Amount}";
-            }
-        }
-
-    }
-
-    public Resource AddResource()
-    {
-        Resource tRes = new Resource();
+        ResourceForBlueprint tRes = new ResourceForBlueprint();
         ResourceList.Add(tRes);
         return tRes;
     }
@@ -265,5 +173,105 @@ class BlueprintType
         return Name;
     }
 
+}
+
+public class ResourceForBlueprint : UnityResourceForBlueprint
+{
+
+
+    public ResourceType ResType
+    {
+        get
+        {
+            return ResourceType.ResourceById(ResourceTypeId);
+        }
+    }
+
+    public ResourceForBlueprint() { }
+
+    public ResourceForBlueprint(SqlDataReader r)
+    {
+        Id = Convert.ToInt32(r["id"]);
+        BlueprintTypeId = Convert.ToInt32(r["blueprint_type"]);
+        ResourceTypeId = Convert.ToInt32(r["resource_type_id"]);
+        Amount = Convert.ToInt32(r["amount"]);
+    }
+
+    public void Save(int blueprintTypeId)
+    {
+        this.BlueprintTypeId = blueprintTypeId;
+        string q;
+        if (Id == 0)
+        {
+            q = $@"
+                    INSERT INTO blueprint_types_resources(blueprint_type) VALUES(0)
+                    SELECT @@IDENTITY AS Result";
+            Id = DataConnection.GetResultInt(q);
+        }
+
+        q = $@"
+                UPDATE blueprint_types_resources SET 
+                    blueprint_type = {BlueprintTypeId},
+                    resource_type_id = {ResourceTypeId},
+                    amount = {Amount}
+                WHERE
+                    id = {Id}";
+        DataConnection.Execute(q);
+    }
+
+    public void Delete()
+    {
+        if (Id == 0)
+            return;
+        string q = $@"DELETE FROM blueprint_types_resources WHERE id = {Id}";
+        DataConnection.Execute(q);
+    }
+
+    public override string ToString()
+    {
+        if (ResType == null)
+        {
+            return "-";
+        }
+        else
+        {
+            return $@"{ResType.Name} - {Amount}";
+        }
+    }
+
+}
+
+
+public class UnityBlueprintType
+{
+    public int Id { get; set; }
+    public int ParentId { get; set; }
+    public string Name { get; set; }
+    public BlueprintProductType ProductType { get; set; }
+    public int ProductId { get; set; }
+    public int BaseBonus { get; set; }
+    public int FailChance { get; set; }
+    public int ProductionPoints { get; set; }
+    public List<ResourceForBlueprint> ResourceList { get; set; }
+
+    public enum BlueprintProductType
+    {
+        None = 0,
+        MakeSpaceshipModule = 1,
+        MakeSpaceship = 2,
+        MakeSpacestationModule = 3,
+        ImproveOfficer = 4,
+        ImproveSpaceshipModule = 5,
+        ImproveSpaceship = 6,
+        ImprovePlayerStat = 7
+    }
+}
+
+public class UnityResourceForBlueprint
+{
+    public int Id { get; set; }
+    public int BlueprintTypeId { get; set; }
+    public int ResourceTypeId { get; set; }
+    public int Amount { get; set; }
 }
 

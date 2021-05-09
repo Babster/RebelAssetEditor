@@ -825,30 +825,45 @@ namespace AssetEditor
         #endregion
 
         #region Служебная
+
+        private bool playersFilled;
+
+        private void tabPage6_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void tabPage6_Enter(object sender, EventArgs e)
+        {
+            if (playersFilled)
+                return;
+            FillPlayers();
+        }
+        private void FillPlayers()
+        {
+            string q = $@"
+                SELECT
+                    id
+                FROM
+                    admirals";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    AccountData curData = new AccountData((int)r["id"]);
+                    TreeNode node = treePlayers.Nodes.Add(curData.Name);
+                    node.Tag = curData;
+                }
+            }
+            playersFilled = true;
+        }
         private void buttonDeleteAccount_Click(object sender, EventArgs e)
         {
-            string Query = @"SELECT TOP 1 id, steam_account_id, pwd FROM admirals";
-            SqlDataReader r = DataConnection.GetReader(Query);
-            if (r.HasRows == false)
-            {
-                r.Close();
-                MessageBox.Show("Нечего удалять");
+            if (treePlayers.SelectedNode == null)
                 return;
-            }
-
-            r.Read();
-
-            AccountData tUser = new AccountData();
-            tUser.Id = Convert.ToInt32(r["id"]);
-            tUser.Name = Convert.ToString(r["steam_account_id"]);
-            tUser.AdditionalData = Convert.ToString(r["pwd"]);
-
-            r.Close();
-
-            AdmiralsMain.DeleteAccount(ref tUser);
-
-            MessageBox.Show("Аккаунт " + tUser.Name + "(" + tUser.Id.ToString() + ") удален");
-
+            AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
+            AdmiralsMain.DeleteAccount(ref tData);
+            MessageBox.Show("Аккаунт " + tData.Name + "(" + tData.Id.ToString() + ") удален");
         }
         private void buttonRegisterAccount_Click(object sender, EventArgs e)
         {
@@ -860,10 +875,10 @@ namespace AssetEditor
         private void buttonTestPlayerStats_Click(object sender, EventArgs e)
         {
 
-            AccountData tData = GetLatestUser();
+            if (treePlayers.SelectedNode == null)
+                return;
+            AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             AdmiralStats tStats = new AdmiralStats(ref tData);
-
-
         }
         public static AccountData GetLatestUser()
         {
@@ -876,7 +891,10 @@ namespace AssetEditor
         }
         private void buttonClearPlayerProgress_Click(object sender, EventArgs e)
         {
-            AccountData tData = GetLatestUser();
+
+            if (treePlayers.SelectedNode == null)
+                return;
+            AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             int Id = tData.Id;
             string q;
             q = $@" 
@@ -891,7 +909,25 @@ namespace AssetEditor
             DataConnection.Execute(q);
             MessageBox.Show("Стерто");
         }
+        private void buttonSavePlayerAssets_Click(object sender, EventArgs e)
+        {
+            //Сохраняется игрок в виде офицера, список кораблей и модулей.
+            //Каждый из видов ассетов сохраняется в отдельный файл, в папку с игрой.
+            //Потом переносим код в обратной последовательности, большинство из
+            //того что будет здесь написано до/после файловых функций может быть
+            //использовано в реальном сетевом коде готового продукта
+            if (treePlayers.SelectedNode == null)
+                return;
+            AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
+            PlayerAsset asset = new PlayerAsset(tData.Id);
+            string textAsset = JsonConvert.SerializeObject(asset);
+            textAsset = CommonFunctions.Compress(textAsset);
+            System.IO.File.WriteAllText("player assets.txt", textAsset);
 
+            textAsset = CommonFunctions.Decompress(textAsset);
+            PlayerAsset asset2 = JsonConvert.DeserializeObject<PlayerAsset>(textAsset);
+
+        }
         #endregion
 
         #region История - какой объект за каким следует
@@ -1562,7 +1598,7 @@ namespace AssetEditor
             textShipUnity.Text = tag.AssetName;
             if (tag.slots.Count > 0)
             {
-                foreach (ShipModel.Slot slot in tag.slots)
+                foreach (ShipModelSlot slot in tag.slots)
                 {
                     listShipSlots.Items.Add(slot);
                 }
@@ -1641,7 +1677,7 @@ namespace AssetEditor
         {
             ClearShipSlot();
 
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
 
@@ -1664,7 +1700,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             foreach (RadioButton key in SlotSizeRadioToIntDict.Keys)
@@ -1688,17 +1724,17 @@ namespace AssetEditor
             textShipSlotDefaultModuleName.Text = "";
             NoEvents = false;
         }
-        private ShipModel.Slot GetCurrentShipSlot()
+        private ShipModelSlot GetCurrentShipSlot()
         {
             if (listShipSlots.SelectedItem == null)
                 return null;
-            return (ShipModel.Slot)listShipSlots.SelectedItem;
+            return (ShipModelSlot)listShipSlots.SelectedItem;
         }
         private void textShipSlotNumber_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             int amount = 0;
@@ -1710,7 +1746,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             slot.SlotControl = textShipSlotControl.Text;
@@ -1719,7 +1755,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             string t;
@@ -1738,7 +1774,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             int moduleId;
@@ -1772,7 +1808,7 @@ namespace AssetEditor
             ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            ShipModel.Slot slot = tag.AddSlot();
+            ShipModelSlot slot = tag.AddSlot();
             listShipSlots.Items.Add(slot);
             listShipSlots.SelectedItem = slot;
         }
@@ -1781,7 +1817,7 @@ namespace AssetEditor
             ShipModel tag = GetCurrentShipTag();
             if (tag == null)
                 return;
-            ShipModel.Slot slot = GetCurrentShipSlot();
+            ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
             tag.DeleteSlot(ref slot);
@@ -1801,7 +1837,7 @@ namespace AssetEditor
             SpaceshipParameters curParams = new SpaceshipParameters();
             curParams.AddShipModelParameters(tag);
             Dictionary<int, ShipModuleType> moduleDict = ShipModuleType.CreateModuleDict();
-            foreach (ShipModel.Slot slot in tag.slots)
+            foreach (ShipModelSlot slot in tag.slots)
             {
                 if (moduleDict.ContainsKey(slot.DefaultModuleId))
                 {
@@ -1868,7 +1904,7 @@ namespace AssetEditor
         private void FillRig()
         {
             ClearRig();
-            foreach (SpaceshipRig.RigSlot rigSlot in saRig.Slots)
+            foreach (RigSlot rigSlot in saRig.Slots)
             {
                 DataGridViewRow row;
                 gridSaSlots.Rows.Add();
@@ -1966,8 +2002,8 @@ namespace AssetEditor
             DataGridViewRow slotRow = gridSaSlots.Rows[gridSaSlots.SelectedCells[0].RowIndex];
             ShipModuleType module = (ShipModuleType)moduleRow.Cells["sam_module"].Value;
 
-            SpaceshipRig.RigSlot slot;
-            slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
+            RigSlot slot;
+            slot = (RigSlot)slotRow.Cells["sas_object"].Value;
             string fitMsg = slot.Slot.ModuleFitsSlot(module);
 
             if (fitMsg != "")
@@ -1992,8 +2028,8 @@ namespace AssetEditor
 
             CrewOfficer officer = (CrewOfficer)listSaOfficers.SelectedItem;
 
-            SpaceshipRig.RigSlot slot;
-            slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
+            RigSlot slot;
+            slot = (RigSlot)slotRow.Cells["sas_object"].Value;
 
             string fitMsg = slot.LoadOfficer(officer);
             if (fitMsg != "")
@@ -2021,8 +2057,8 @@ namespace AssetEditor
             DataGridViewRow slotRow = gridSaSlots.Rows[e.RowIndex];
             if (columnName == "sas_content")
             {
-                SpaceshipRig.RigSlot slot;
-                slot = (SpaceshipRig.RigSlot)slotRow.Cells["sas_object"].Value;
+                RigSlot slot;
+                slot = (RigSlot)slotRow.Cells["sas_object"].Value;
                 slot.ClearSlot();
                 slotRow.Cells["sas_content"].Value = null;
                 slotRow.Cells["sas_content"].Value = slot;
@@ -2067,7 +2103,7 @@ namespace AssetEditor
                 return;
             CrewOfficer ofType = (CrewOfficer)listSaOfficers.SelectedItem;
 
-            foreach (CrewOfficer.Stat stat in ofType.Stats)
+            foreach (CrewOfficerStat stat in ofType.Stats)
             {
                 DataGridViewRow row;
                 gridSaOfficer.Rows.Add();
@@ -2276,10 +2312,10 @@ namespace AssetEditor
             textOfficerTypeBonusPoints.Text = curOfficerType.BonusPoints.ToString();
             gridOfficerType.Rows.Clear();
 
-            List<CrewOfficerType.OfficerStat> stats = curOfficerType.Stats;
+            List<OfficerTypeStat> stats = curOfficerType.Stats;
             if (stats.Count > 0)
             {
-                foreach (CrewOfficerType.OfficerStat stat in stats)
+                foreach (OfficerTypeStat stat in stats)
                 {
                     DataGridViewRow row;
                     gridOfficerType.Rows.Add();
@@ -3965,11 +4001,11 @@ namespace AssetEditor
             listBpResources.Items.Remove(listBpResources.SelectedItem);
         }
 
-        private BlueprintType.Resource GetCurrentBpResource()
+        private ResourceForBlueprint GetCurrentBpResource()
         {
             if (listBpResources.SelectedItem == null)
                 return null;
-            return (BlueprintType.Resource)listBpResources.SelectedItem;
+            return (ResourceForBlueprint)listBpResources.SelectedItem;
         }
 
         private void listBpResources_SelectedIndexChanged(object sender, EventArgs e)
@@ -4135,9 +4171,6 @@ namespace AssetEditor
 
         }
 
-
-        #endregion
-
         private void button1_Click(object sender, EventArgs e)
         {
             AccountData player = GetLatestUser();
@@ -4156,6 +4189,10 @@ namespace AssetEditor
 
 
         }
+
+
+
+        #endregion
 
 
     }

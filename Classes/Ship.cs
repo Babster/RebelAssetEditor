@@ -5,25 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-public class Ship
+public class Ship : UnityShip
 {
-
-    public int Id { get; set; }
-    public int PlayerId { get; set; }
-    public int ModelId { get; set; }
-    public ShipModel Model 
-    { 
-        get
-        {
-            if (ModelId == 0)
-                return null;
-            return ShipModel.ModelById(ModelId);
-        }
-    }
-    public int Level { get; set; }
-    public int Experience { get; set; }
-
-    public int RigId { get; set; }
 
     public Ship(SqlDataReader r)
     {
@@ -105,5 +88,26 @@ public class Ship
         DataConnection.Execute(q);
 
     }
+
+}
+
+public class UnityShip
+{
+    public int Id { get; set; }
+    public int PlayerId { get; set; }
+    public int ModelId { get; set; }
+    public ShipModel Model
+    {
+        get
+        {
+            if (ModelId == 0)
+                return null;
+            return ShipModel.ModelById(ModelId);
+        }
+    }
+    public int Level { get; set; }
+    public int Experience { get; set; }
+
+    public int RigId { get; set; }
 
 }
