@@ -561,7 +561,7 @@ namespace AssetEditor
 
             ImageTag tTag = (ImageTag)treeImages.SelectedNode.Tag;
 
-            openFileDialog1.Filter = "*.jpg|*.jpg";
+            openFileDialog1.Filter = "*.jpg|*.jpg|*.png|*.png";
             openFileDialog1.Multiselect = false;
             if (openFileDialog1.ShowDialog() != DialogResult.OK)
                 return;
@@ -824,7 +824,7 @@ namespace AssetEditor
 
         #endregion
 
-        #region Служебная
+        #region Tests
 
         private bool playersFilled;
 
@@ -838,19 +838,29 @@ namespace AssetEditor
                 return;
             FillPlayers();
         }
+
+        private void buttonTestUpdatePlayerList_Click(object sender, EventArgs e)
+        {
+            FillPlayers();
+        }
+
         private void FillPlayers()
         {
+            
+            treePlayers.Nodes.Clear();
+
+            List<AccountData> list = AccountData.GetAccounts();
+
             string q = $@"
                 SELECT
                     id
                 FROM
                     admirals";
             SqlDataReader r = DataConnection.GetReader(q);
-            if(r.HasRows)
+            if(list.Count > 0)
             {
-                while(r.Read())
+                foreach(AccountData curData in list)
                 {
-                    AccountData curData = new AccountData((int)r["id"]);
                     TreeNode node = treePlayers.Nodes.Add(curData.Name);
                     node.Tag = curData;
                 }
@@ -864,6 +874,7 @@ namespace AssetEditor
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             AdmiralsMain.DeleteAccount(ref tData);
             MessageBox.Show("Аккаунт " + tData.Name + "(" + tData.Id.ToString() + ") удален");
+            treePlayers.Nodes.Remove(treePlayers.SelectedNode);
         }
         private void buttonRegisterAccount_Click(object sender, EventArgs e)
         {
@@ -874,7 +885,7 @@ namespace AssetEditor
         }
         private void buttonTestPlayerStats_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Не запрограммировано");
             if (treePlayers.SelectedNode == null)
                 return;
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
@@ -926,8 +937,21 @@ namespace AssetEditor
 
             textAsset = CommonFunctions.Decompress(textAsset);
             PlayerAsset asset2 = JsonConvert.DeserializeObject<PlayerAsset>(textAsset);
+            asset2.ClearDeserializationDuplicates();
+        }
+
+        private void buttonSerializationTests_Click(object sender, EventArgs e)
+        {
+            if (treePlayers.SelectedNode == null)
+                return;
+            AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
+            PlayerAsset asset = new PlayerAsset(tData.Id);
+            string textAsset = JsonConvert.SerializeObject(asset.Ships);
+
+            List<Ship> ships2 = JsonConvert.DeserializeObject<List<Ship>>(textAsset);
 
         }
+
         #endregion
 
         #region История - какой объект за каким следует
@@ -1596,6 +1620,7 @@ namespace AssetEditor
             textBattleIntensity.Text = tag.BattleIntensity.ToString();
             textShipName.Text = tag.Name;
             textShipUnity.Text = tag.AssetName;
+            textShipImageId.Text = tag.ImgId.ToString();
             if (tag.slots.Count > 0)
             {
                 foreach (ShipModelSlot slot in tag.slots)
@@ -1614,6 +1639,7 @@ namespace AssetEditor
             textShipId.Text = "";
             textShipName.Text = "";
             textShipUnity.Text = "";
+            textShipImageId.Text = "";
             listShipSlots.Items.Clear();
             NoEvents = false;
             ClearShipSlot();
@@ -1666,6 +1692,17 @@ namespace AssetEditor
             Int32.TryParse(textBattleIntensity.Text, out amount);
             tag.BattleIntensity = amount;
         }
+         private void textShipImageId_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            int amount = 0;
+            Int32.TryParse(textShipImageId.Text, out amount);
+            tag.ImgId = amount;
+        }       
         private void listShipParts_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -2234,13 +2271,50 @@ namespace AssetEditor
             if (stFilled)
                 return;
             comboStPlayer.Items.Clear();
-            
+
+            List<AccountData> list = AccountData.GetAccounts();
+            foreach(AccountData curData in list)
+            {
+                comboStPlayer.Items.Add(curData);
+            }
+
+            stFilled = true;
+
+        }
+
+        private void comboStPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void buttonStFillPlayerShips_Click(object sender, EventArgs e)
         {
+            treeStShips.Nodes.Clear();
+            textStShipDescription.Text = "";
+
+            if (comboStPlayer.SelectedItem == null)
+                return;
+            AccountData tData = (AccountData)comboStPlayer.SelectedItem;
+            PlayerAsset asset = new PlayerAsset(tData.Id);
+
+            
+
+            foreach(Ship ship in asset.Ships)
+            {
+                TreeNode n = treeStShips.Nodes.Add(ship.ToString());
+                n.Tag = ship;
+            }
 
         }
+        private void treeStShips_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            textStShipDescription.Text = "";
+            if (treeStShips.SelectedNode == null)
+                return;
+            Ship ship = (Ship)treeStShips.SelectedNode.Tag;
+            textStShipDescription.Text = ship.ShipDescription();
+        }
+
 
         #endregion
 
@@ -4208,6 +4282,11 @@ namespace AssetEditor
 
 
         }
+
+
+
+
+
 
 
 

@@ -93,6 +93,8 @@
             this.treeStats = new System.Windows.Forms.TreeView();
             this.buttonCreateStat = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonSavePlayerAssets = new System.Windows.Forms.Button();
+            this.treePlayers = new System.Windows.Forms.TreeView();
             this.buttonClearPlayerProgress = new System.Windows.Forms.Button();
             this.buttonTestPlayerStats = new System.Windows.Forms.Button();
             this.buttonRegisterAccount = new System.Windows.Forms.Button();
@@ -222,6 +224,12 @@
             this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
+            this.tabPage28 = new System.Windows.Forms.TabPage();
+            this.textStShipDescription = new System.Windows.Forms.RichTextBox();
+            this.treeStShips = new System.Windows.Forms.TreeView();
+            this.buttonStFillPlayerShips = new System.Windows.Forms.Button();
+            this.label105 = new System.Windows.Forms.Label();
+            this.comboStPlayer = new System.Windows.Forms.ComboBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage11 = new System.Windows.Forms.TabPage();
@@ -400,16 +408,10 @@
             this.buttonBpRefresh = new System.Windows.Forms.Button();
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tabPage28 = new System.Windows.Forms.TabPage();
-            this.comboStPlayer = new System.Windows.Forms.ComboBox();
-            this.label105 = new System.Windows.Forms.Label();
-            this.buttonStFillPlayerShips = new System.Windows.Forms.Button();
-            this.treeStShips = new System.Windows.Forms.TreeView();
-            this.textStShipDescription = new System.Windows.Forms.RichTextBox();
-            this.treePlayers = new System.Windows.Forms.TreeView();
-            this.buttonSavePlayerAssets = new System.Windows.Forms.Button();
-
-
+            this.textShipImageId = new System.Windows.Forms.TextBox();
+            this.label106 = new System.Windows.Forms.Label();
+            this.buttonSerializationTests = new System.Windows.Forms.Button();
+            this.buttonTestUpdatePlayerList = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -449,6 +451,7 @@
             this.tabPage16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).BeginInit();
             this.tabPage18.SuspendLayout();
+            this.tabPage28.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage11.SuspendLayout();
@@ -473,7 +476,6 @@
             this.groupBox7.SuspendLayout();
             this.tabPage25.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.tabPage28.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -1189,6 +1191,8 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.buttonTestUpdatePlayerList);
+            this.tabPage6.Controls.Add(this.buttonSerializationTests);
             this.tabPage6.Controls.Add(this.buttonSavePlayerAssets);
             this.tabPage6.Controls.Add(this.treePlayers);
             this.tabPage6.Controls.Add(this.buttonClearPlayerProgress);
@@ -1204,6 +1208,25 @@
             this.tabPage6.UseVisualStyleBackColor = true;
             this.tabPage6.Click += new System.EventHandler(this.tabPage6_Click);
             this.tabPage6.Enter += new System.EventHandler(this.tabPage6_Enter);
+            // 
+            // buttonSavePlayerAssets
+            // 
+            this.buttonSavePlayerAssets.Location = new System.Drawing.Point(491, 43);
+            this.buttonSavePlayerAssets.Name = "buttonSavePlayerAssets";
+            this.buttonSavePlayerAssets.Size = new System.Drawing.Size(283, 31);
+            this.buttonSavePlayerAssets.TabIndex = 5;
+            this.buttonSavePlayerAssets.Text = "Сохранить имущество игрока";
+            this.buttonSavePlayerAssets.UseVisualStyleBackColor = true;
+            this.buttonSavePlayerAssets.Click += new System.EventHandler(this.buttonSavePlayerAssets_Click);
+            // 
+            // treePlayers
+            // 
+            this.treePlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treePlayers.Location = new System.Drawing.Point(8, 43);
+            this.treePlayers.Name = "treePlayers";
+            this.treePlayers.Size = new System.Drawing.Size(290, 466);
+            this.treePlayers.TabIndex = 4;
             // 
             // buttonClearPlayerProgress
             // 
@@ -1751,6 +1774,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl4.Controls.Add(this.tabPage13);
             this.tabControl4.Controls.Add(this.tabPage14);
+            this.tabControl4.Controls.Add(this.tabPage28);
             this.tabControl4.Location = new System.Drawing.Point(6, 6);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
@@ -1774,6 +1798,8 @@
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.textShipImageId);
+            this.groupBox5.Controls.Add(this.label106);
             this.groupBox5.Controls.Add(this.label49);
             this.groupBox5.Controls.Add(this.textShipSlotControl);
             this.groupBox5.Controls.Add(this.label48);
@@ -1810,7 +1836,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 522);
+            this.groupBox5.Size = new System.Drawing.Size(947, 529);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1912,7 +1938,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 120);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 127);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2023,7 +2049,7 @@
             // 
             // textBattleIntensity
             // 
-            this.textBattleIntensity.Location = new System.Drawing.Point(742, 38);
+            this.textBattleIntensity.Location = new System.Drawing.Point(580, 38);
             this.textBattleIntensity.Name = "textBattleIntensity";
             this.textBattleIntensity.Size = new System.Drawing.Size(100, 26);
             this.textBattleIntensity.TabIndex = 34;
@@ -2042,20 +2068,20 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(284, 41);
+            this.label39.Location = new System.Drawing.Point(269, 41);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(167, 20);
+            this.label39.Size = new System.Drawing.Size(76, 20);
             this.label39.TabIndex = 31;
-            this.label39.Text = "Базовое ХП корпуса:";
+            this.label39.Text = "Base HP:";
             // 
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(618, 41);
+            this.label40.Location = new System.Drawing.Point(457, 41);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(118, 20);
+            this.label40.Size = new System.Drawing.Size(117, 20);
             this.label40.TabIndex = 33;
-            this.label40.Text = "Боевой накал:";
+            this.label40.Text = "Battle intensity:";
             // 
             // comboShipSlotType
             // 
@@ -2087,7 +2113,7 @@
             // 
             // textShipBaseStructure
             // 
-            this.textShipBaseStructure.Location = new System.Drawing.Point(457, 38);
+            this.textShipBaseStructure.Location = new System.Drawing.Point(351, 38);
             this.textShipBaseStructure.Name = "textShipBaseStructure";
             this.textShipBaseStructure.Size = new System.Drawing.Size(100, 26);
             this.textShipBaseStructure.TabIndex = 32;
@@ -2170,7 +2196,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 480);
+            this.treeShips.Size = new System.Drawing.Size(234, 487);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2216,7 +2242,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 507);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 514);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2246,7 +2272,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(9, 41);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 459);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 466);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2282,7 +2308,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 504);
+            this.tabControl5.Size = new System.Drawing.Size(704, 511);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2295,7 +2321,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 471);
+            this.tabPage17.Size = new System.Drawing.Size(696, 478);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2354,7 +2380,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 478);
+            this.tabPage15.Size = new System.Drawing.Size(696, 485);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2422,7 +2448,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 478);
+            this.tabPage16.Size = new System.Drawing.Size(696, 485);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2519,7 +2545,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 478);
+            this.tabPage18.Size = new System.Drawing.Size(696, 485);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2585,6 +2611,67 @@
             this.comboSaShip.Size = new System.Drawing.Size(220, 28);
             this.comboSaShip.TabIndex = 0;
             this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
+            // 
+            // tabPage28
+            // 
+            this.tabPage28.Controls.Add(this.textStShipDescription);
+            this.tabPage28.Controls.Add(this.treeStShips);
+            this.tabPage28.Controls.Add(this.buttonStFillPlayerShips);
+            this.tabPage28.Controls.Add(this.label105);
+            this.tabPage28.Controls.Add(this.comboStPlayer);
+            this.tabPage28.Location = new System.Drawing.Point(4, 29);
+            this.tabPage28.Name = "tabPage28";
+            this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage28.Size = new System.Drawing.Size(1209, 472);
+            this.tabPage28.TabIndex = 2;
+            this.tabPage28.Text = "Корабли игрока";
+            this.tabPage28.UseVisualStyleBackColor = true;
+            this.tabPage28.Enter += new System.EventHandler(this.tabPage28_Enter);
+            // 
+            // textStShipDescription
+            // 
+            this.textStShipDescription.Location = new System.Drawing.Point(273, 60);
+            this.textStShipDescription.Name = "textStShipDescription";
+            this.textStShipDescription.Size = new System.Drawing.Size(930, 227);
+            this.textStShipDescription.TabIndex = 4;
+            this.textStShipDescription.Text = "";
+            // 
+            // treeStShips
+            // 
+            this.treeStShips.Location = new System.Drawing.Point(10, 60);
+            this.treeStShips.Name = "treeStShips";
+            this.treeStShips.Size = new System.Drawing.Size(257, 406);
+            this.treeStShips.TabIndex = 3;
+            this.treeStShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeStShips_AfterSelect);
+            // 
+            // buttonStFillPlayerShips
+            // 
+            this.buttonStFillPlayerShips.Location = new System.Drawing.Point(273, 13);
+            this.buttonStFillPlayerShips.Name = "buttonStFillPlayerShips";
+            this.buttonStFillPlayerShips.Size = new System.Drawing.Size(137, 28);
+            this.buttonStFillPlayerShips.TabIndex = 2;
+            this.buttonStFillPlayerShips.Text = "Заполнить";
+            this.buttonStFillPlayerShips.UseVisualStyleBackColor = true;
+            this.buttonStFillPlayerShips.Click += new System.EventHandler(this.buttonStFillPlayerShips_Click);
+            // 
+            // label105
+            // 
+            this.label105.AutoSize = true;
+            this.label105.Location = new System.Drawing.Point(6, 16);
+            this.label105.Name = "label105";
+            this.label105.Size = new System.Drawing.Size(57, 20);
+            this.label105.TabIndex = 1;
+            this.label105.Text = "Игрок:";
+            // 
+            // comboStPlayer
+            // 
+            this.comboStPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboStPlayer.FormattingEnabled = true;
+            this.comboStPlayer.Location = new System.Drawing.Point(69, 13);
+            this.comboStPlayer.Name = "comboStPlayer";
+            this.comboStPlayer.Size = new System.Drawing.Size(198, 28);
+            this.comboStPlayer.TabIndex = 0;
+            this.comboStPlayer.SelectedIndexChanged += new System.EventHandler(this.comboStPlayer_SelectedIndexChanged);
             // 
             // tabPage10
             // 
@@ -2756,7 +2843,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 557);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 564);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3186,7 +3273,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 484);
+            this.groupBox6.Size = new System.Drawing.Size(899, 491);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3201,7 +3288,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 360);
+            this.tabControl6.Size = new System.Drawing.Size(883, 367);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3231,7 +3318,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 327);
+            this.tabPage21.Size = new System.Drawing.Size(875, 334);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Враги";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3469,7 +3556,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 327);
+            this.tabPage22.Size = new System.Drawing.Size(875, 334);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Ресурсы";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3810,7 +3897,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 436);
+            this.treeBs.Size = new System.Drawing.Size(297, 443);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3872,7 +3959,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 397);
+            this.textBsResources.Size = new System.Drawing.Size(412, 404);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3891,7 +3978,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 397);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 404);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -4005,7 +4092,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 465);
+            this.groupBox7.Size = new System.Drawing.Size(894, 472);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -4146,7 +4233,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 431);
+            this.treeRes.Size = new System.Drawing.Size(297, 438);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4195,7 +4282,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 479);
+            this.groupBox8.Size = new System.Drawing.Size(894, 486);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4452,7 +4539,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 445);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 452);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4460,85 +4547,42 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // treePlayers
+            // textShipImageId
             // 
-            this.treePlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.treePlayers.Location = new System.Drawing.Point(8, 6);
-            this.treePlayers.Name = "treePlayers";
-            this.treePlayers.Size = new System.Drawing.Size(290, 503);
-            this.treePlayers.TabIndex = 4;
-
-            // buttonSavePlayerAssets
+            this.textShipImageId.Location = new System.Drawing.Point(768, 38);
+            this.textShipImageId.Name = "textShipImageId";
+            this.textShipImageId.Size = new System.Drawing.Size(100, 26);
+            this.textShipImageId.TabIndex = 46;
+            this.textShipImageId.TextChanged += new System.EventHandler(this.textShipImageId_TextChanged);
             // 
-            this.buttonSavePlayerAssets.Location = new System.Drawing.Point(491, 43);
-            this.buttonSavePlayerAssets.Name = "buttonSavePlayerAssets";
-            this.buttonSavePlayerAssets.Size = new System.Drawing.Size(283, 31);
-            this.buttonSavePlayerAssets.TabIndex = 5;
-            this.buttonSavePlayerAssets.Text = "Сохранить имущество игрока";
-            this.buttonSavePlayerAssets.UseVisualStyleBackColor = true;
-            this.buttonSavePlayerAssets.Click += new System.EventHandler(this.buttonSavePlayerAssets_Click);
-            //
-
+            // label106
             // 
-            // tabPage28
+            this.label106.AutoSize = true;
+            this.label106.Location = new System.Drawing.Point(686, 41);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(76, 20);
+            this.label106.TabIndex = 45;
+            this.label106.Text = "Image Id:";
             // 
-            this.tabPage28.Controls.Add(this.textStShipDescription);
-            this.tabPage28.Controls.Add(this.treeStShips);
-            this.tabPage28.Controls.Add(this.buttonStFillPlayerShips);
-            this.tabPage28.Controls.Add(this.label105);
-            this.tabPage28.Controls.Add(this.comboStPlayer);
-            this.tabPage28.Location = new System.Drawing.Point(4, 29);
-            this.tabPage28.Name = "tabPage28";
-            this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(1209, 472);
-            this.tabPage28.TabIndex = 2;
-            this.tabPage28.Text = "Корабли игрока";
-            this.tabPage28.UseVisualStyleBackColor = true;
-            this.tabPage28.Enter += new System.EventHandler(this.tabPage28_Enter);
+            // buttonSerializationTests
             // 
-            // comboStPlayer
+            this.buttonSerializationTests.Location = new System.Drawing.Point(491, 80);
+            this.buttonSerializationTests.Name = "buttonSerializationTests";
+            this.buttonSerializationTests.Size = new System.Drawing.Size(283, 31);
+            this.buttonSerializationTests.TabIndex = 6;
+            this.buttonSerializationTests.Text = "Тесты десериализации";
+            this.buttonSerializationTests.UseVisualStyleBackColor = true;
+            this.buttonSerializationTests.Click += new System.EventHandler(this.buttonSerializationTests_Click);
             // 
-            this.comboStPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboStPlayer.FormattingEnabled = true;
-            this.comboStPlayer.Location = new System.Drawing.Point(69, 13);
-            this.comboStPlayer.Name = "comboStPlayer";
-            this.comboStPlayer.Size = new System.Drawing.Size(198, 28);
-            this.comboStPlayer.TabIndex = 0;
+            // buttonTestUpdatePlayerList
             // 
-            // label105
-            // 
-            this.label105.AutoSize = true;
-            this.label105.Location = new System.Drawing.Point(6, 16);
-            this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(57, 20);
-            this.label105.TabIndex = 1;
-            this.label105.Text = "Игрок:";
-            // 
-            // buttonStFillPlayerShips
-            // 
-            this.buttonStFillPlayerShips.Location = new System.Drawing.Point(273, 13);
-            this.buttonStFillPlayerShips.Name = "buttonStFillPlayerShips";
-            this.buttonStFillPlayerShips.Size = new System.Drawing.Size(137, 28);
-            this.buttonStFillPlayerShips.TabIndex = 2;
-            this.buttonStFillPlayerShips.Text = "Заполнить";
-            this.buttonStFillPlayerShips.UseVisualStyleBackColor = true;
-            this.buttonStFillPlayerShips.Click += new System.EventHandler(this.buttonStFillPlayerShips_Click);
-            // 
-            // treeStShips
-            // 
-            this.treeStShips.Location = new System.Drawing.Point(10, 62);
-            this.treeStShips.Name = "treeStShips";
-            this.treeStShips.Size = new System.Drawing.Size(257, 404);
-            this.treeStShips.TabIndex = 3;
-            // 
-            // textStShipDescription
-            // 
-            this.textStShipDescription.Location = new System.Drawing.Point(273, 62);
-            this.textStShipDescription.Name = "textStShipDescription";
-            this.textStShipDescription.Size = new System.Drawing.Size(930, 227);
-            this.textStShipDescription.TabIndex = 4;
-            this.textStShipDescription.Text = "";
+            this.buttonTestUpdatePlayerList.Location = new System.Drawing.Point(8, 6);
+            this.buttonTestUpdatePlayerList.Name = "buttonTestUpdatePlayerList";
+            this.buttonTestUpdatePlayerList.Size = new System.Drawing.Size(169, 31);
+            this.buttonTestUpdatePlayerList.TabIndex = 7;
+            this.buttonTestUpdatePlayerList.Text = "Обновить";
+            this.buttonTestUpdatePlayerList.UseVisualStyleBackColor = true;
+            this.buttonTestUpdatePlayerList.Click += new System.EventHandler(this.buttonTestUpdatePlayerList_Click);
             // 
             // FormMain
             // 
@@ -4608,6 +4652,8 @@
             this.tabPage16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).EndInit();
             this.tabPage18.ResumeLayout(false);
+            this.tabPage28.ResumeLayout(false);
+            this.tabPage28.PerformLayout();
             this.tabPage10.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
             this.tabPage11.ResumeLayout(false);
@@ -4643,8 +4689,6 @@
             this.tabPage25.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.tabPage28.ResumeLayout(false);
-            this.tabPage28.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -5030,7 +5074,11 @@
         private System.Windows.Forms.ComboBox comboStPlayer;
         private System.Windows.Forms.RichTextBox textStShipDescription;
         private System.Windows.Forms.TreeView treeStShips;
-
+        private System.Windows.Forms.TabPage tabPage28;
+        private System.Windows.Forms.TextBox textShipImageId;
+        private System.Windows.Forms.Label label106;
+        private System.Windows.Forms.Button buttonSerializationTests;
+        private System.Windows.Forms.Button buttonTestUpdatePlayerList;
     }
 }
 

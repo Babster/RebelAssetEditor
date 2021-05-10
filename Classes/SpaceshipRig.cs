@@ -104,11 +104,16 @@ public class SpaceshipRig : UnitySpaceshipRig
 
         Dictionary<int, RigSlot> slotDict = new Dictionary<int, RigSlot>();
 
+        sModel.ClearSlotDuplicates();
+
         foreach(ShipModelSlot modelSlot in sModel.slots)
         {
             RigSlot curSlot = new RigSlot(modelSlot);
             Slots.Add(curSlot);
-            slotDict.Add(curSlot.Slot.Id, curSlot);
+            if(!slotDict.ContainsKey(curSlot.Slot.Id))
+            {
+                slotDict.Add(curSlot.Slot.Id, curSlot);
+            }
         }
 
         

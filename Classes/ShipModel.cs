@@ -28,7 +28,7 @@ public class ShipModel : UnityShipModel
         this.BattleIntensity = Convert.ToInt32(r["intensity_amount"]);
         this.Name = Convert.ToString(r["name"]);
         this.AssetName = Convert.ToString(r["asset_name"]);
-
+        this.ImgId = (int)r["img_id"];
         LoadSlots();
 
     }
@@ -72,13 +72,14 @@ public class ShipModel : UnityShipModel
             this.Id = DataConnection.GetResultInt(q);
         }
 
-        q = @"
+        q = $@"
                 UPDATE ss_designs SET
-                    parent = " + this.Parent.ToString() + @",
-                    base_structure_hp = " + this.BaseStructureHp.ToString() + @",
-                    intensity_amount= " + this.BattleIntensity.ToString() + @",
+                    parent = {this.Parent.ToString()},
+                    base_structure_hp = {this.BaseStructureHp.ToString()},
+                    intensity_amount= {this.BattleIntensity.ToString()},
                     name = @str1,
-                    asset_name = @str2 
+                    asset_name = @str2,
+                    img_id = {ImgId}
                 WHERE
                     id = " + this.Id.ToString();
 
@@ -137,7 +138,8 @@ public class ShipModel : UnityShipModel
                     ISNULL(intensity_amount, 0) AS intensity_amount,
                     ISNULL(base_structure_hp, 0) AS base_structure_hp,
                     name,
-                    asset_name
+                    asset_name,
+                    ISNULL(img_id, 0) AS img_id
                 FROM
                     ss_designs";
     }
@@ -258,65 +260,6 @@ public class ShipModelSlot : UnityShipModelSlot
         }
     }
 
-    public enum SlotType
-    {
-        None = 0,
-        Weapon = 1,
-        Armor = 2,
-        Engine = 3,
-        Thrusters = 4,
-        Misc = 5,
-        Cabin = 20,
-        ExtendedCabin = 21,
-        ControlRoom = 22,
-        ExtendedControlRoom = 23
-    }
-
-    private static Dictionary<string, SlotType> StringToSlotDict;
-    private static Dictionary<SlotType, string> SlotToStringDict;
-    private void FillDicts()
-    {
-        StringToSlotDict = new Dictionary<string, SlotType>();
-        StringToSlotDict.Add("None", SlotType.None);
-        StringToSlotDict.Add("Weapon", SlotType.Weapon);
-        StringToSlotDict.Add("Armor", SlotType.Armor);
-        StringToSlotDict.Add("Engine", SlotType.Engine);
-        StringToSlotDict.Add("Thrusters", SlotType.Thrusters);
-        StringToSlotDict.Add("Misc", SlotType.Misc);
-        StringToSlotDict.Add("Cabin", SlotType.Cabin);
-        StringToSlotDict.Add("ExtendedCabin", SlotType.ExtendedCabin);
-        StringToSlotDict.Add("ControlRoom", SlotType.ControlRoom);
-        StringToSlotDict.Add("ExtendedControlRoom", SlotType.ExtendedControlRoom);
-
-        SlotToStringDict = new Dictionary<SlotType, string>();
-        SlotToStringDict.Add(SlotType.None, "None");
-        SlotToStringDict.Add(SlotType.Weapon, "Weapon");
-        SlotToStringDict.Add(SlotType.Armor, "Armor");
-        SlotToStringDict.Add(SlotType.Engine, "Engine");
-        SlotToStringDict.Add(SlotType.Thrusters, "Thrusters");
-        SlotToStringDict.Add(SlotType.Misc, "Misc");
-        SlotToStringDict.Add(SlotType.Cabin, "Cabin");
-        SlotToStringDict.Add(SlotType.ExtendedCabin, "ExtendedCabin");
-        SlotToStringDict.Add(SlotType.ControlRoom, "ControlRoom");
-        SlotToStringDict.Add(SlotType.ExtendedControlRoom, "ExtendedControlRoom");
-
-    }
-    public SlotType sType
-    {
-        get
-        {
-            if (StringToSlotDict == null)
-                FillDicts();
-            return StringToSlotDict[SlotTypeStr];
-        }
-        set
-        {
-            if (StringToSlotDict == null)
-                FillDicts();
-            SlotTypeStr = SlotToStringDict[value];
-        }
-    }
-
     public bool SlotForModule
     {
         get
@@ -376,6 +319,42 @@ public class UnityShipModel
     public string AssetName { get; set; }
     public List<ShipModelSlot> slots;
     public List<int> slotsToDelete;
+    public int ImgId { get; set; }
+
+    public int WeaponSlotCount
+    {
+        get
+        {
+            int count = 0;
+            foreach(ShipModelSlot slot in slots)
+            {
+                if (slot.sType == ShipModelSlot.SlotType.Weapon)
+                    count += 1;
+            }
+            return count;
+        }
+    }
+    public void ClearSlotDuplicates()
+    {
+        List<int> usedIds = new List<int>();
+        int idx = 0;
+        for(int i = 0; i<slots.Count; i++)
+        {
+            if(usedIds.Contains(slots[i].Id))
+            {
+                idx = i;
+                return;
+            }
+        }
+
+        if(idx > 0)
+        {
+            for(int i = slots.Count - 1; i >= idx; i--)
+            {
+                slots.RemoveAt(i);
+            }
+        }
+    }
 }
 
 public class UnityShipModelSlot
@@ -387,4 +366,64 @@ public class UnityShipModelSlot
     public int Size { get; set; }
     public string SlotControl { get; set; }
     public int DefaultModuleId { get; set; }
+
+    public enum SlotType
+    {
+        None = 0,
+        Weapon = 1,
+        Armor = 2,
+        Engine = 3,
+        Thrusters = 4,
+        Misc = 5,
+        Cabin = 20,
+        ExtendedCabin = 21,
+        ControlRoom = 22,
+        ExtendedControlRoom = 23
+    }
+
+    private static Dictionary<string, SlotType> StringToSlotDict;
+    private static Dictionary<SlotType, string> SlotToStringDict;
+    private void FillDicts()
+    {
+        StringToSlotDict = new Dictionary<string, SlotType>();
+        StringToSlotDict.Add("None", SlotType.None);
+        StringToSlotDict.Add("Weapon", SlotType.Weapon);
+        StringToSlotDict.Add("Armor", SlotType.Armor);
+        StringToSlotDict.Add("Engine", SlotType.Engine);
+        StringToSlotDict.Add("Thrusters", SlotType.Thrusters);
+        StringToSlotDict.Add("Misc", SlotType.Misc);
+        StringToSlotDict.Add("Cabin", SlotType.Cabin);
+        StringToSlotDict.Add("ExtendedCabin", SlotType.ExtendedCabin);
+        StringToSlotDict.Add("ControlRoom", SlotType.ControlRoom);
+        StringToSlotDict.Add("ExtendedControlRoom", SlotType.ExtendedControlRoom);
+
+        SlotToStringDict = new Dictionary<SlotType, string>();
+        SlotToStringDict.Add(SlotType.None, "None");
+        SlotToStringDict.Add(SlotType.Weapon, "Weapon");
+        SlotToStringDict.Add(SlotType.Armor, "Armor");
+        SlotToStringDict.Add(SlotType.Engine, "Engine");
+        SlotToStringDict.Add(SlotType.Thrusters, "Thrusters");
+        SlotToStringDict.Add(SlotType.Misc, "Misc");
+        SlotToStringDict.Add(SlotType.Cabin, "Cabin");
+        SlotToStringDict.Add(SlotType.ExtendedCabin, "ExtendedCabin");
+        SlotToStringDict.Add(SlotType.ControlRoom, "ControlRoom");
+        SlotToStringDict.Add(SlotType.ExtendedControlRoom, "ExtendedControlRoom");
+
+    }
+    public SlotType sType
+    {
+        get
+        {
+            if (StringToSlotDict == null)
+                FillDicts();
+            return StringToSlotDict[SlotTypeStr];
+        }
+        set
+        {
+            if (StringToSlotDict == null)
+                FillDicts();
+            SlotTypeStr = SlotToStringDict[value];
+        }
+    }
+
 }

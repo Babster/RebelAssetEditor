@@ -170,9 +170,11 @@ namespace AdmiralNamespace
 				DELETE FROM admirals_log WHERE admiral = <admiral_id>;
 				DELETE FROM admirals_stats WHERE admiral_id = <admiral_id>;
 				DELETE FROM admirals_progress WHERE admiral = <admiral_id>;
+                DELETE FROM AspNetUsers WHERE Email = @str1;
 				DELETE FROM admirals WHERE id = <admiral_id>;";
             Query = Query.Replace("<admiral_id>", userData.Id.ToString());
-            DataConnection.Execute(Query);
+            List<string> names = new List<string> { userData.Name + "@admiraldomain" };
+            DataConnection.Execute(Query, names);
         }
 
     }
@@ -326,6 +328,35 @@ namespace AdmiralNamespace
                 WHERE
                     id = {Id}";
             DataConnection.Execute(q);
+        }
+
+        public static List<AccountData> GetAccounts()
+        {
+
+            List<AccountData> list = new List<AccountData>();
+
+            string q = $@"
+                SELECT
+                    id
+                FROM
+                    admirals";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if (r.HasRows)
+            {
+                while (r.Read())
+                {
+                    AccountData curData = new AccountData((int)r["id"]);
+                    list.Add(curData);
+                }
+            }
+            
+            return list;
+
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} ({Id})";
         }
 
     }

@@ -21,7 +21,23 @@ class PlayerAsset
         Officers = Crew.CrewOfficer.OfficersForPlayer(playerId, false);
         Ships = Ship.PlayerShips(playerId);
         Modules = ShipModule.PlayerModules(playerId);
-
     }
+
+    public void ClearDeserializationDuplicates()
+    {
+        foreach(var rig in Rigs)
+        {
+            if(rig.Ship != null)
+            {
+                rig.Ship.Model.ClearSlotDuplicates();
+            }
+            
+        }
+        foreach(Ship ship in Ships)
+        {
+            ship.Model.ClearSlotDuplicates();
+        }
+    }
+
 
 }

@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 public class Ship : UnityShip
 {
 
+    public Ship() { }
+
     public Ship(SqlDataReader r)
     {
         LoadFromReader(r);
@@ -107,7 +109,22 @@ public class UnityShip
     }
     public int Level { get; set; }
     public int Experience { get; set; }
-
     public int RigId { get; set; }
+
+    public string ShipDescription()
+    {
+        StringBuilder b = new StringBuilder();
+        b.AppendLine(Model.Name);
+        b.AppendLine($"HP: {Model.BaseStructureHp}, weapon slots: {Model.WeaponSlotCount}");
+        b.AppendLine($"Level: {Level}, XP: {Experience}");
+
+        return b.ToString();
+
+    }
+
+    public override string ToString()
+    {
+        return $"{Model.Name} ({Id})";
+    }
 
 }
