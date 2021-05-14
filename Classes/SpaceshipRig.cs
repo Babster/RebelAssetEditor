@@ -45,12 +45,23 @@ public class SpaceshipRig : UnitySpaceshipRig
 
     public void LoadShip(List<Ship> ships)
     {
+
+        if (ships.Count == 0)
+            return;
+
         foreach(Ship ship in ships)
         {
             if(ship.RigId == 0)
+            {
                 this.Ship = ship;
-            LoadShipModel(ship.Model);
+                LoadShipModel(ship.Model);
+                return;
+            }
         }
+
+        this.Ship = ships[0];
+        LoadShipModel(ships[0].Model);
+
     }
 
     public void LoadModules(List<ShipModule> moduleList)
@@ -238,6 +249,7 @@ public class SpaceshipRig : UnitySpaceshipRig
     public void RecalculateParameters()
     {
         Params = new SpaceshipParameters();
+        Params.ship = this.Ship;
 
         //Загрузка параметров модели корабля
         Params.AddShipModelParameters(sModel);

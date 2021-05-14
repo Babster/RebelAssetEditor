@@ -264,6 +264,7 @@ namespace AdmiralNamespace
 
             string q = @"
             SELECT 
+                ISNULL(name, '') AS name,
                 steam_account_id,
                 pwd,
                 status,
@@ -277,7 +278,9 @@ namespace AdmiralNamespace
             SqlDataReader r = DataConnection.GetReader(q);
             r.Read();
             this.Id = Id;
-            this.Name = Convert.ToString(r["steam_account_id"]);
+            this.Name = (string)r["name"];
+            if(string.IsNullOrEmpty(this.Name))
+                this.Name = Convert.ToString(r["steam_account_id"]);
             this.AdditionalData = Convert.ToString(r["pwd"]);
             this.RigId = Convert.ToInt32(r["rig_id"]);
             this.Experience = Convert.ToInt32(r["experience"]);

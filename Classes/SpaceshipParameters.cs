@@ -9,6 +9,7 @@ using Crew;
 public class SpaceshipParameters
 {
 
+    public Ship ship { get; set; }
 
     public List<ParameterAndValue> ParameterList { get; set; }
 
@@ -53,6 +54,7 @@ public class SpaceshipParameters
 
     public enum SpaceShipParameter
     {
+
         //Accorded to spaceship 
         StructureHitpoints = 1,
         ShieldDPS = 2,
@@ -313,20 +315,33 @@ public class SpaceshipParameters
 
     public string BottomlineString()
     {
+
         StringBuilder t = new StringBuilder();
+
+        if (ship != null)
+        {
+            t.AppendLine("Ship: " + ship.ToString());
+            t.AppendLine("");
+        }
+
+        
         foreach(ParameterAndValue param in ParameterList)
         {
             t.AppendLine(param.tString + ": " + param.Value);
         }
         t.AppendLine("");
 
-        if(Weapons.Count > 0)
+        if (Weapons.Count > 0)
         {
-            foreach(WeaponParameters weapon in Weapons)
+            foreach (WeaponParameters weapon in Weapons)
             {
-                t.AppendLine("****Weapon****");
+                t.AppendLine($"Weapon: {weapon.Weapon.Name}");
                 t.AppendLine($"{weapon.FireRate}/{weapon.ShieldDamage}/{weapon.StructureDamage} : {weapon.ShieldDPS}/{weapon.StructureDPS}");
             }
+        }
+        else
+        {
+            t.AppendLine("Weapons: none");
         }
 
         return t.ToString();

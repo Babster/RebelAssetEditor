@@ -107,7 +107,11 @@ public class UnityShip
     }
     public int Level { get; set; }
     public int Experience { get; set; }
-
     public int RigId { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Model.Name} ({Id})";
+    }
 
 }

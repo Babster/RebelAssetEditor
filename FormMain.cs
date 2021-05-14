@@ -2132,8 +2132,6 @@ namespace AssetEditor
 
             //Player's officers. 
             listSaOfficers.Items.Clear();
-            CrewOfficer playerOfficer = new CrewOfficer(playerAcc.Id);
-            listSaOfficers.Items.Add(playerOfficer);
             List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(playerAcc.Id);
             if (officers.Count > 0)
             {
@@ -2148,6 +2146,13 @@ namespace AssetEditor
 
         private void buttonSaSave_Click(object sender, EventArgs e)
         {
+
+            if(saRig.Ship != null)
+            {
+                MessageBox.Show("Нельзя сохранять риг, который сделан на основе экземпляра корабля");
+                return;
+            }
+
             int playerId = 0;
             string tg = "";
             if (checkSaForPlayer.Checked)
@@ -2221,6 +2226,33 @@ namespace AssetEditor
             rig.Delete();
             treeSaRigs.Nodes.Remove(n);
 
+        }
+
+        //Вход на закладку кораблей игрока
+        private void tabPage28_Enter_1(object sender, EventArgs e)
+        {
+            treePlayerShipsRig.Nodes.Clear();
+            List<Ship> ships = Ship.PlayerShips(GetLatestUser().Id);
+            foreach(Ship ship in ships)
+            {
+                TreeNode n = treePlayerShipsRig.Nodes.Add(ship.ToString());
+                n.Tag = ship;
+            }
+        }
+
+        private void buttonLoadPlayerShip_Click(object sender, EventArgs e)
+        {
+
+            if (treePlayerShipsRig.SelectedNode == null)
+                return;
+            Ship ship = (Ship)treePlayerShipsRig.SelectedNode.Tag;
+
+            saRig = new SpaceshipRig();
+            List<Ship> ships = new List<Ship> { ship };
+            saRig.LoadShip(ships);
+            saRig.RecalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            FillRig();
         }
 
         #endregion
@@ -4198,6 +4230,8 @@ namespace AssetEditor
 
 
         }
+
+
 
 
 
