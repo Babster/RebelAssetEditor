@@ -2294,61 +2294,6 @@ namespace AssetEditor
 
         #endregion
 
-        #region Ship tests
-
-        private bool stFilled;
-
-        private void tabPage28_Enter(object sender, EventArgs e)
-        {
-            if (stFilled)
-                return;
-            comboStPlayer.Items.Clear();
-
-            List<AccountData> list = AccountData.GetAccounts();
-            foreach(AccountData curData in list)
-            {
-                comboStPlayer.Items.Add(curData);
-            }
-
-            stFilled = true;
-
-        }
-
-        private void comboStPlayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonStFillPlayerShips_Click(object sender, EventArgs e)
-        {
-            treeStShips.Nodes.Clear();
-            textStShipDescription.Text = "";
-
-            if (comboStPlayer.SelectedItem == null)
-                return;
-            AccountData tData = (AccountData)comboStPlayer.SelectedItem;
-            PlayerAsset asset = new PlayerAsset(tData.Id);
-
-            
-
-            foreach(Ship ship in asset.Ships)
-            {
-                TreeNode n = treeStShips.Nodes.Add(ship.ToString());
-                n.Tag = ship;
-            }
-
-        }
-        private void treeStShips_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            textStShipDescription.Text = "";
-            if (treeStShips.SelectedNode == null)
-                return;
-            Ship ship = (Ship)treeStShips.SelectedNode.Tag;
-            textStShipDescription.Text = ship.ShipDescription();
-        }
-
-
-        #endregion
 
         #region Officer types
 
