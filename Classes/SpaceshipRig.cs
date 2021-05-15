@@ -251,37 +251,6 @@ public class SpaceshipRig : UnitySpaceshipRig
         
     }
 
-    public void RecalculateParameters()
-    {
-        Params = new SpaceshipParameters();
-        Params.ship = this.Ship;
-
-        //Загрузка параметров модели корабля
-        Params.AddShipModelParameters(sModel);
-
-        //Загрузка параметров просто типов модулей в слотах
-        foreach(RigSlot slot in Slots)
-        {
-            if(!slot.IsEmpty)
-            {
-                if (slot.IsModule)
-                    Params.AddModuleParameters(slot.ModuleType);
-                if (slot.IsWeapon)
-                    Params.AddWeapon(slot.ModuleType);
-            }
-        }
-
-        //Корректировка по параметрам офицеров
-        foreach(RigSlot slot in Slots)
-        {
-            if(slot.IsOfficers)
-            {
-                Params.AddOfficersParameters(slot.team);
-            }
-        }
-
-    }
-
     public void SaveData(int playerId, string tag)
     {
         string q;
@@ -525,85 +494,6 @@ public class RigSlot : UnityRigSlot
         DataConnection.Execute(q, names);
     }
 
-    public bool IsModule
-    {
-        get
-        {
-            List<ShipModuleType.ModuleType> weaponTypes = new List<ShipModuleType.ModuleType>();
-            weaponTypes.Add(ShipModuleType.ModuleType.Weapon);
-            if (ModuleType == null)
-            {
-                return false;
-            }
-            else
-            {
-                if (ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-
-        }
-    }
-    public bool IsWeapon
-    {
-        get
-        {
-            if (ModuleType == null)
-            {
-                return false;
-            }
-            else
-            {
-                return ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon;
-            }
-        }
-    }
-    public bool IsOfficers
-    {
-        get
-        {
-            return team.OfficerList.Count > 0;
-        }
-    }
-    public bool IsEmpty
-    {
-        get
-        {
-            if (team.OfficerList.Count > 0)
-            {
-                return false;
-            }
-            else if (ModuleType != null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
-    public override string ToString()
-    {
-        if (team.OfficerList.Count > 0)
-        {
-            return team.ToString();
-        }
-        else if (ModuleType != null)
-        {
-            return ModuleType.ToString();
-        }
-        else
-        {
-            return "Empty";
-        }
-    }
-
 }
 
 public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
@@ -715,6 +605,94 @@ public class UnityRigSlot
     public ShipModuleType ModuleType { get; set; }
     public ShipModule Module { get; set; }
     public RigSlotOfficerTeam team { get; set; }
+
+    public UnityRigSlot() { }
+
+    public UnityRigSlot(ShipModelSlot modelSlot)
+    {
+        team = new RigSlotOfficerTeam();
+        this.Slot = modelSlot;
+    }
+
+    public bool IsModule
+    {
+        get
+        {
+            List<ShipModuleType.ModuleType> weaponTypes = new List<ShipModuleType.ModuleType>();
+            weaponTypes.Add(ShipModuleType.ModuleType.Weapon);
+            if (ModuleType == null)
+            {
+                return false;
+            }
+            else
+            {
+                if (ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+        }
+    }
+    public bool IsWeapon
+    {
+        get
+        {
+            if (ModuleType == null)
+            {
+                return false;
+            }
+            else
+            {
+                return ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon;
+            }
+        }
+    }
+    public bool IsOfficers
+    {
+        get
+        {
+            return team.OfficerList.Count > 0;
+        }
+    }
+    public bool IsEmpty
+    {
+        get
+        {
+            if (team.OfficerList.Count > 0)
+            {
+                return false;
+            }
+            else if (ModuleType != null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+    public override string ToString()
+    {
+        if (team.OfficerList.Count > 0)
+        {
+            return team.ToString();
+        }
+        else if (ModuleType != null)
+        {
+            return ModuleType.ToString();
+        }
+        else
+        {
+            return "Empty";
+        }
+    }
+
 }
 
 public class UnitySpaceshipRig
@@ -727,11 +705,78 @@ public class UnitySpaceshipRig
     public List<RigSlot> Slots { get; set; }
     public SpaceshipParameters Params { get; set; }
 
+    public void RecalculateParameters()
+    {
+        //Загрузка параметров просто типов модулей в слотах
+        foreach (RigSlot slot in Slots)
+        {
+            if (!slot.IsEmpty)
+            {
+                if (slot.IsModule)
+                    Params.AddModuleParameters(slot.ModuleType);
+                if (slot.IsWeapon)
+                    Params.AddWeapon(slot.ModuleType);
+            }
+        }
+
+        //Корректировка по параметрам офицеров
+        foreach (RigSlot slot in Slots)
+        {
+            if (slot.IsOfficers)
+            {
+                Params.AddOfficersParameters(slot.team);
+            }
+        }
+
+    }
+
+    private void LoadSlots()
+    {
+        if (sModel == null)
+            return;
+
+        //Загрузка слотов - сначала подкачиваются все слоты которые есть в модели корабля,
+        //а затем на них накатываются модули, которые установлены в эти слоты согласно 
+        Slots = new List<RigSlot>();
+
+        Dictionary<int, RigSlot> slotDict = new Dictionary<int, RigSlot>();
+
+        sModel.ClearSlotDuplicates();
+
+        foreach (ShipModelSlot modelSlot in sModel.slots)
+        {
+            RigSlot curSlot = new RigSlot(modelSlot);
+            Slots.Add(curSlot);
+            if (!slotDict.ContainsKey(curSlot.Slot.Id))
+            {
+                slotDict.Add(curSlot.Slot.Id, curSlot);
+            }
+        }
+    }
+
+    public void LoadShip(Ship ship)
+    {
+
+        this.Ship = ship;
+        LoadSlots();
+
+        Params = new SpaceshipParameters();
+        Params.ship = this.Ship;
+
+        //Загрузка параметров модели корабля
+        Params.AddShipModelParameters(sModel);
+    }
+
 }
 
 public class UnityRigSlotOfficerTeam
 {
 
     public List<CrewOfficer> OfficerList;
+
+    public UnityRigSlotOfficerTeam()
+    {
+        OfficerList = new List<CrewOfficer>();
+    }
 
 }

@@ -347,4 +347,50 @@ public class SpaceshipParameters
         return t.ToString();
     }
 
+    public string ParameterNamesString()
+    {
+        StringBuilder t = new StringBuilder();
+        foreach (ParameterAndValue param in ParameterList)
+        {
+            t.AppendLine(param.tString);
+        }
+
+        if (Weapons.Count > 0)
+        {
+            foreach (WeaponParameters weapon in Weapons)
+            {
+                t.AppendLine("Weapon: " + weapon.Weapon.Name);
+                t.AppendLine("Fire rate");
+                t.AppendLine("Shield damage");
+                t.AppendLine("Structure damage");
+            }
+        }
+
+        return t.ToString();
+    }
+
+    public string ParameterValuesString()
+    {
+        StringBuilder t = new StringBuilder();
+        foreach (ParameterAndValue param in ParameterList)
+        {
+            t.AppendLine(param.tString);
+        }
+
+
+        if (Weapons.Count > 0)
+        {
+            foreach (WeaponParameters weapon in Weapons)
+            {
+                t.AppendLine("");
+                t.AppendLine(weapon.FireRate.ToString());
+                t.AppendLine(weapon.ShieldDamage.ToString());
+                t.AppendLine(weapon.StructureDamage.ToString());
+            }
+        }
+
+        return t.ToString();
+
+    }
+
 }

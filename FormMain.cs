@@ -1938,6 +1938,7 @@ namespace AssetEditor
             saRig.LoadShipModel(curModel);
             FillRig();
         }
+        
         private void FillRig()
         {
             ClearRig();
@@ -1950,6 +1951,44 @@ namespace AssetEditor
                 row.Cells["sas_name"].Value = rigSlot.Slot.SlotTypeStr;
                 row.Cells["sas_content"].Value = rigSlot;
             }
+
+            //Module types grid
+            if (saRig.Ship == null)
+            {
+                //Сюда попадаем если нужно заполнить список модулей их типами
+                List<ShipModuleType> moduleTypes = ShipModuleType.CreateModuleList();
+                if (moduleTypes.Count > 0)
+                {
+                    foreach (ShipModuleType moduleType in moduleTypes)
+                    {
+                        DataGridViewRow row;
+                        gridSaModules.Rows.Add();
+                        row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
+                        row.Cells["sam_module"].Value = moduleType;
+                        row.Cells["sam_type"].Value = moduleType.ModuleTypeStr;
+                        row.Cells["sam_energy_needed"].Value = moduleType.EnergyNeeded;
+                    }
+                }
+            }
+            if(saRig.Ship != null)
+            {
+                //Сюда попадаем если нужно заполнить таблицу теми модулями, которые есть у игрока
+                List<ShipModule> modules = ShipModule.PlayerModules(saRig.PlayerId);
+                if(modules.Count > 0)
+                {
+                    foreach(var module in modules)
+                    {
+                        DataGridViewRow row;
+                        gridSaModules.Rows.Add();
+                        row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
+                        row.Cells["sam_module"].Value = module;
+                        row.Cells["sam_type"].Value = module.ModuleType.ModuleTypeStr;
+                        row.Cells["sam_energy_needed"].Value = module.ModuleType.EnergyNeeded;
+                    }
+                }
+            }
+
+
         }
         private void comboSaShip_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1966,22 +2005,6 @@ namespace AssetEditor
             foreach (ShipModel model in models)
             {
                 comboSaShip.Items.Add(model);
-            }
-
-            //Module types grid
-            gridSaModules.Rows.Clear();
-            List<ShipModuleType> moduleTypes = ShipModuleType.CreateModuleList();
-            if (moduleTypes.Count > 0)
-            {
-                foreach (ShipModuleType moduleType in moduleTypes)
-                {
-                    DataGridViewRow row;
-                    gridSaModules.Rows.Add();
-                    row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
-                    row.Cells["sam_module"].Value = moduleType;
-                    row.Cells["sam_type"].Value = moduleType.ModuleTypeStr;
-                    row.Cells["sam_energy_needed"].Value = moduleType.EnergyNeeded;
-                }
             }
 
             //Officer type combo
@@ -2011,6 +2034,7 @@ namespace AssetEditor
         {
             gridSaSlots.Rows.Clear();
             textSaBottomLine.Text = "";
+            gridSaModules.Rows.Clear();
         }
 
         private void gridSaModules_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2132,7 +2156,6 @@ namespace AssetEditor
             listSaOfficers.Items.Remove(ofType);
 
         }
-
         private void listSaOfficers_SelectedIndexChanged(object sender, EventArgs e)
         {
             gridSaOfficer.Rows.Clear();
@@ -2265,18 +2288,6 @@ namespace AssetEditor
 
         }
 
-        //Вход на закладку кораблей игрока
-        private void tabPage28_Enter_1(object sender, EventArgs e)
-        {
-            treePlayerShipsRig.Nodes.Clear();
-            List<Ship> ships = Ship.PlayerShips(GetLatestUser().Id);
-            foreach(Ship ship in ships)
-            {
-                TreeNode n = treePlayerShipsRig.Nodes.Add(ship.ToString());
-                n.Tag = ship;
-            }
-        }
-
         private void buttonLoadPlayerShip_Click(object sender, EventArgs e)
         {
 
@@ -2290,6 +2301,19 @@ namespace AssetEditor
             saRig.RecalculateParameters();
             textSaBottomLine.Text = saRig.Params.BottomlineString();
             FillRig();
+        }
+
+        //Вход на закладку кораблей игрока
+        private void tabPage29_Enter(object sender, EventArgs e)
+        {
+
+            treePlayerShipsRig.Nodes.Clear();
+            List<Ship> ships = Ship.PlayerShips(GetLatestUser().Id);
+            foreach (Ship ship in ships)
+            {
+                TreeNode n = treePlayerShipsRig.Nodes.Add(ship.ToString());
+                n.Tag = ship;
+            }
         }
 
         #endregion
@@ -4264,8 +4288,8 @@ namespace AssetEditor
 
 
 
+
+
         #endregion
-
-
     }
 }
