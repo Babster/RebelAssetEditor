@@ -101,6 +101,8 @@
             this.buttonDeleteAccount = new System.Windows.Forms.Button();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textModuleImgId = new System.Windows.Forms.TextBox();
+            this.label106 = new System.Windows.Forms.Label();
             this.radioModule3 = new System.Windows.Forms.RadioButton();
             this.radioModule2 = new System.Windows.Forms.RadioButton();
             this.radioModule1 = new System.Windows.Forms.RadioButton();
@@ -407,6 +409,7 @@
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.buttonImageSave = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -839,6 +842,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.buttonImageSave);
             this.tabPage2.Controls.Add(this.textImageId);
             this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.buttonImageLoad);
@@ -869,11 +873,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(886, 83);
+            this.label9.Location = new System.Drawing.Point(902, 83);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(43, 20);
+            this.label9.Size = new System.Drawing.Size(27, 20);
             this.label9.TabIndex = 8;
-            this.label9.Text = "Код:";
+            this.label9.Text = "Id:";
             // 
             // buttonImageLoad
             // 
@@ -882,7 +886,7 @@
             this.buttonImageLoad.Name = "buttonImageLoad";
             this.buttonImageLoad.Size = new System.Drawing.Size(129, 34);
             this.buttonImageLoad.TabIndex = 7;
-            this.buttonImageLoad.Text = "Загрузить";
+            this.buttonImageLoad.Text = "Load";
             this.buttonImageLoad.UseVisualStyleBackColor = true;
             this.buttonImageLoad.Click += new System.EventHandler(this.buttonImageLoad_Click);
             // 
@@ -924,20 +928,20 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(324, 46);
+            this.label7.Location = new System.Drawing.Point(324, 43);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 20);
             this.label7.TabIndex = 3;
-            this.label7.Text = "Раздел:";
+            this.label7.Text = "Chapter:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(324, 83);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 20);
+            this.label6.Size = new System.Drawing.Size(55, 20);
             this.label6.TabIndex = 2;
-            this.label6.Text = "Имя:";
+            this.label6.Text = "Name:";
             // 
             // buttonAddPartition
             // 
@@ -945,7 +949,7 @@
             this.buttonAddPartition.Name = "buttonAddPartition";
             this.buttonAddPartition.Size = new System.Drawing.Size(129, 34);
             this.buttonAddPartition.TabIndex = 1;
-            this.buttonAddPartition.Text = "Добавить";
+            this.buttonAddPartition.Text = "Add";
             this.buttonAddPartition.UseVisualStyleBackColor = true;
             this.buttonAddPartition.Click += new System.EventHandler(this.buttonAddPartition_Click);
             // 
@@ -1279,6 +1283,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textModuleImgId);
+            this.groupBox3.Controls.Add(this.label106);
             this.groupBox3.Controls.Add(this.radioModule3);
             this.groupBox3.Controls.Add(this.radioModule2);
             this.groupBox3.Controls.Add(this.radioModule1);
@@ -1301,6 +1307,23 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Редактирование модуля";
+            // 
+            // textModuleImgId
+            // 
+            this.textModuleImgId.Location = new System.Drawing.Point(574, 27);
+            this.textModuleImgId.Name = "textModuleImgId";
+            this.textModuleImgId.Size = new System.Drawing.Size(100, 26);
+            this.textModuleImgId.TabIndex = 47;
+            this.textModuleImgId.TextChanged += new System.EventHandler(this.textModuleImgId_TextChanged);
+            // 
+            // label106
+            // 
+            this.label106.AutoSize = true;
+            this.label106.Location = new System.Drawing.Point(510, 30);
+            this.label106.Name = "label106";
+            this.label106.Size = new System.Drawing.Size(58, 20);
+            this.label106.TabIndex = 46;
+            this.label106.Text = "Img Id:";
             // 
             // radioModule3
             // 
@@ -1827,7 +1850,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 459);
+            this.groupBox5.Size = new System.Drawing.Size(947, 487);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Редактирование дизайна корабля";
@@ -1936,7 +1959,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 113);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 141);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2194,7 +2217,7 @@
             this.treeShips.HideSelection = false;
             this.treeShips.Location = new System.Drawing.Point(6, 43);
             this.treeShips.Name = "treeShips";
-            this.treeShips.Size = new System.Drawing.Size(234, 515);
+            this.treeShips.Size = new System.Drawing.Size(234, 543);
             this.treeShips.TabIndex = 3;
             this.treeShips.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeShips_AfterSelect);
             // 
@@ -2240,7 +2263,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl5);
-            this.splitContainer1.Size = new System.Drawing.Size(1193, 402);
+            this.splitContainer1.Size = new System.Drawing.Size(1193, 430);
             this.splitContainer1.SplitterDistance = 479;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -2270,7 +2293,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(3, 30);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 365);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 393);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2307,7 +2330,7 @@
             this.tabControl5.Location = new System.Drawing.Point(3, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(704, 399);
+            this.tabControl5.Size = new System.Drawing.Size(704, 427);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2320,7 +2343,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(696, 366);
+            this.tabPage17.Size = new System.Drawing.Size(696, 394);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Сводка по кораблю";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2376,10 +2399,10 @@
             // 
             this.tabPage15.Controls.Add(this.buttonSaMountModule);
             this.tabPage15.Controls.Add(this.gridSaModules);
-            this.tabPage15.Location = new System.Drawing.Point(4, 29);
+            this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(696, 366);
+            this.tabPage15.Size = new System.Drawing.Size(696, 401);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Модули";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2411,7 +2434,7 @@
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(684, 320);
+            this.gridSaModules.Size = new System.Drawing.Size(684, 327);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellContentClick);
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
@@ -2444,10 +2467,10 @@
             this.tabPage16.Controls.Add(this.comboSaOfficers);
             this.tabPage16.Controls.Add(this.buttonSaCreateOfficer);
             this.tabPage16.Controls.Add(this.label46);
-            this.tabPage16.Location = new System.Drawing.Point(4, 29);
+            this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(696, 366);
+            this.tabPage16.Size = new System.Drawing.Size(696, 401);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Офицеры";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2479,7 +2502,7 @@
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(469, 304);
+            this.gridSaOfficer.Size = new System.Drawing.Size(469, 311);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -2541,10 +2564,10 @@
             this.tabPage18.Controls.Add(this.treeSaRigs);
             this.tabPage18.Controls.Add(this.buttonSaDeleteRig);
             this.tabPage18.Controls.Add(this.buttonSaLoadRig);
-            this.tabPage18.Location = new System.Drawing.Point(4, 29);
+            this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(696, 366);
+            this.tabPage18.Size = new System.Drawing.Size(696, 401);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Архив";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2559,7 +2582,7 @@
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(684, 315);
+            this.treeSaRigs.Size = new System.Drawing.Size(684, 322);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -2586,10 +2609,10 @@
             // 
             this.tabPage29.Controls.Add(this.treePlayerShipsRig);
             this.tabPage29.Controls.Add(this.buttonLoadPlayerShip);
-            this.tabPage29.Location = new System.Drawing.Point(4, 29);
+            this.tabPage29.Location = new System.Drawing.Point(4, 22);
             this.tabPage29.Name = "tabPage29";
             this.tabPage29.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage29.Size = new System.Drawing.Size(696, 366);
+            this.tabPage29.Size = new System.Drawing.Size(696, 401);
             this.tabPage29.TabIndex = 4;
             this.tabPage29.Text = "Корабль игрока";
             this.tabPage29.UseVisualStyleBackColor = true;
@@ -2603,7 +2626,7 @@
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(311, 315);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(311, 322);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -2815,7 +2838,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 592);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 620);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3245,7 +3268,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 519);
+            this.groupBox6.Size = new System.Drawing.Size(899, 547);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3260,7 +3283,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 395);
+            this.tabControl6.Size = new System.Drawing.Size(883, 423);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3290,7 +3313,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 362);
+            this.tabPage21.Size = new System.Drawing.Size(875, 390);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Враги";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3528,7 +3551,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 362);
+            this.tabPage22.Size = new System.Drawing.Size(875, 390);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Ресурсы";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3869,7 +3892,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 471);
+            this.treeBs.Size = new System.Drawing.Size(297, 499);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3931,7 +3954,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 432);
+            this.textBsResources.Size = new System.Drawing.Size(412, 460);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3950,7 +3973,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 432);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 460);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -4064,7 +4087,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 500);
+            this.groupBox7.Size = new System.Drawing.Size(894, 528);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -4205,7 +4228,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 466);
+            this.treeRes.Size = new System.Drawing.Size(297, 494);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4254,7 +4277,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 514);
+            this.groupBox8.Size = new System.Drawing.Size(894, 542);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4511,7 +4534,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 480);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 508);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4527,6 +4550,17 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // buttonImageSave
+            // 
+            this.buttonImageSave.Enabled = false;
+            this.buttonImageSave.Location = new System.Drawing.Point(446, 126);
+            this.buttonImageSave.Name = "buttonImageSave";
+            this.buttonImageSave.Size = new System.Drawing.Size(129, 34);
+            this.buttonImageSave.TabIndex = 10;
+            this.buttonImageSave.Text = "Save serialized";
+            this.buttonImageSave.UseVisualStyleBackColor = true;
+            this.buttonImageSave.Click += new System.EventHandler(this.buttonImageSave_Click);
             // 
             // FormMain
             // 
@@ -5017,6 +5051,9 @@
         private System.Windows.Forms.TabPage tabPage29;
         private System.Windows.Forms.TreeView treePlayerShipsRig;
         private System.Windows.Forms.Button buttonLoadPlayerShip;
+        private System.Windows.Forms.TextBox textModuleImgId;
+        private System.Windows.Forms.Label label106;
+        private System.Windows.Forms.Button buttonImageSave;
     }
 }
 

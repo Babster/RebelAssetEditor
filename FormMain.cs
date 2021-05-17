@@ -578,6 +578,37 @@ namespace AssetEditor
 
         }
 
+        private void buttonImageSave_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Switched off");
+
+            if (treeImages.SelectedNode == null)
+                return;
+
+            if (treeImages.SelectedNode.Tag == null)
+                return;
+
+            ImageTag tTag = (ImageTag)treeImages.SelectedNode.Tag;
+
+            if (tTag.IsPartition)
+            {
+                MessageBox.Show("Разделы сохранять нельзя");
+                return;
+            }
+            else
+            {
+                
+                /*NoEvents = true;
+                textImagePartition.Text = tTag.Node.Parent.Text;
+                textImageName.Text = tTag.Name;
+                textImageName.ReadOnly = false;
+                buttonImageLoad.Enabled = true;
+                pictureBox1.Image = tTag.Img;
+                textImageId.Text = tTag.Id.ToString();
+                NoEvents = false;*/
+            }
+        }
+
         #endregion
 
         #region Статы адмиралов
@@ -1189,7 +1220,7 @@ namespace AssetEditor
             textModuleUnity.Text = tag.AssetName;
             textModuleType.Text = tag.ModuleTypeStr;
             textModuleEnergy.Text = tag.EnergyNeeded.ToString();
-
+            textModuleImgId.Text = tag.ImgId.ToString();
             if (tag.IsCategory == 1)
             {
                 NoEvents = false;
@@ -1216,6 +1247,7 @@ namespace AssetEditor
             textModuleUnity.Text = "";
             textModuleEnergy.Text = "";
             textModuleType.Text = "";
+            textModuleImgId.Text = "";
             NoEvents = false;
             ClearModuleTabs();
         }
@@ -1281,7 +1313,18 @@ namespace AssetEditor
             Int32.TryParse(textModuleEnergy.Text, out tNumber);
             tag.EnergyNeeded = tNumber;
         }
+        private void textModuleImgId_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleImgId.Text, out tNumber);
+            tag.ImgId = tNumber;
 
+        }
         private void radioModule1_CheckedChanged(object sender, EventArgs e)
         {
             SetModuleSize();
@@ -2061,11 +2104,23 @@ namespace AssetEditor
             if (gridSaSlots.SelectedCells.Count == 0)
                 return;
             DataGridViewRow slotRow = gridSaSlots.Rows[gridSaSlots.SelectedCells[0].RowIndex];
-            ShipModuleType module = (ShipModuleType)moduleRow.Cells["sam_module"].Value;
+
+            ShipModuleType moduleType = null;
+            ShipModule module = null;
+            if (moduleRow.Cells["sam_module"].Value.GetType() == typeof(ShipModuleType))
+            {
+                moduleType = (ShipModuleType)moduleRow.Cells["sam_module"].Value;
+            }
+            else if(moduleRow.Cells["sam_module"].Value.GetType() == typeof(ShipModule))
+            {
+                module = (ShipModule)moduleRow.Cells["sam_module"].Value;
+                moduleType = module.ModuleType;
+            }
+             
 
             RigSlot slot;
             slot = (RigSlot)slotRow.Cells["sas_object"].Value;
-            string fitMsg = slot.Slot.ModuleFitsSlot(module);
+            string fitMsg = slot.Slot.ModuleFitsSlot(moduleType);
 
             if (fitMsg != "")
             {
@@ -2073,7 +2128,14 @@ namespace AssetEditor
                 return;
             }
 
-            slot.LoadModuleType(module);
+            if(module == null)
+            {
+                slot.LoadModuleType(moduleType);
+            }
+            else
+            {
+                slot.LoadModule(module);
+            }
             slotRow.Cells["sas_content"].Value = null;
             slotRow.Cells["sas_content"].Value = slot;
 
@@ -2296,11 +2358,10 @@ namespace AssetEditor
             Ship ship = (Ship)treePlayerShipsRig.SelectedNode.Tag;
 
             saRig = new SpaceshipRig();
-            List<Ship> ships = new List<Ship> { ship };
-            saRig.LoadShip(ships);
+            saRig.LoadShip(ship);
             saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
             FillRig();
+            textSaBottomLine.Text = saRig.Params.BottomlineString();
         }
 
         //Вход на закладку кораблей игрока
@@ -4290,6 +4351,9 @@ namespace AssetEditor
 
 
 
+
         #endregion
+
+
     }
 }

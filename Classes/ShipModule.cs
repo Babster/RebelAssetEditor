@@ -157,4 +157,10 @@ public class UnityShipModule
     public int RigSlotId { get; set; }
     public bool Reserve { get; set; }
 
+    public override string ToString()
+    {
+        ShipModuleType mType = ShipModuleType.ModuleById(ModuleTypeId);
+        return $"{mType.Name} ({Id})";
+    }
+
 }

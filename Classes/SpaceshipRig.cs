@@ -43,27 +43,6 @@ public class SpaceshipRig : UnitySpaceshipRig
         LoadSlots();
     }
 
-    public void LoadShip(List<Ship> ships)
-    {
-
-        if (ships.Count == 0)
-            return;
-
-        foreach(Ship ship in ships)
-        {
-            if(ship.RigId == 0)
-            {
-                this.Ship = ship;
-                LoadShipModel(ship.Model);
-                return;
-            }
-        }
-
-        this.Ship = ships[0];
-        LoadShipModel(ships[0].Model);
-
-    }
-
     public void LoadModules(List<ShipModule> moduleList)
     {
         ShipModule.ModuleList mList = new ShipModule.ModuleList(moduleList);
@@ -372,7 +351,7 @@ public class SpaceshipRig : UnitySpaceshipRig
         if (ships.Count == 0)
             return null;
         tRig = new SpaceshipRig();
-        tRig.LoadShip(ships);
+        tRig.LoadShip(ships[0]);
 
         var moduleList = ShipModule.PlayerModules(playerId);
         tRig.LoadModules(moduleList);
@@ -413,44 +392,6 @@ public class RigSlot : UnityRigSlot
         int moduleId = (int)r["module_id"];
         if (moduleId > 0)
             Module = new ShipModule(moduleId);
-    }
-
-    /// <summary>
-    /// Если в слот помещается подходящий модуль, то возвращается пустая строка.
-    /// Если не подходит - то программа возвращается строку - описание ошибки
-    /// </summary>
-    /// <param name="module"></param>
-    /// <returns></returns>
-    public string LoadModuleType(ShipModuleType moduleType)
-    {
-        if (!Slot.SlotForModule)
-            return "Slot type doesn't fit module";
-
-        string compareResult = Slot.ModuleFitsSlot(moduleType);
-        if (compareResult != "")
-            return compareResult;
-
-        this.ModuleType = moduleType;
-        return "";
-    }
-    public void LoadModule(ShipModule module)
-    {
-        this.Module = module;
-        this.ModuleType = module.ModuleType;
-        module.Reserve = true;
-
-    }
-    public string LoadOfficer(CrewOfficer officer)
-    {
-        if (!Slot.SlotForOfficer)
-            return "Slot can't contain officer";
-        return team.AddOfficer(officer);
-    }
-
-    public void ClearSlot()
-    {
-        team = new RigSlotOfficerTeam();
-        ModuleType = null;
     }
 
     public void SaveData(int rigId)
@@ -693,6 +634,45 @@ public class UnityRigSlot
         }
     }
 
+    /// <summary>
+    /// Если в слот помещается подходящий модуль, то возвращается пустая строка.
+    /// Если не подходит - то программа возвращается строку - описание ошибки
+    /// </summary>
+    /// <param name="module"></param>
+    /// <returns></returns>
+    public string LoadModuleType(ShipModuleType moduleType)
+    {
+        if (!Slot.SlotForModule)
+            return "Slot type doesn't fit module";
+
+        string compareResult = Slot.ModuleFitsSlot(moduleType);
+        if (compareResult != "")
+            return compareResult;
+
+        this.ModuleType = moduleType;
+        return "";
+    }
+
+    public void LoadModule(ShipModule module)
+    {
+        this.Module = module;
+        this.ModuleType = module.ModuleType;
+        module.Reserve = true;
+
+    }
+    public string LoadOfficer(CrewOfficer officer)
+    {
+        if (!Slot.SlotForOfficer)
+            return "Slot can't contain officer";
+        return team.AddOfficer(officer);
+    }
+
+    public void ClearSlot()
+    {
+        team = new RigSlotOfficerTeam();
+        ModuleType = null;
+    }
+
 }
 
 public class UnitySpaceshipRig
@@ -707,6 +687,11 @@ public class UnitySpaceshipRig
 
     public void RecalculateParameters()
     {
+        
+        Params = new SpaceshipParameters();
+        Params.ship = Ship;
+        Params.AddShipModelParameters(sModel);
+
         //Загрузка параметров просто типов модулей в слотах
         foreach (RigSlot slot in Slots)
         {
@@ -758,6 +743,8 @@ public class UnitySpaceshipRig
     {
 
         this.Ship = ship;
+        this.sModel = ship.Model;
+        this.PlayerId = ship.PlayerId;
         LoadSlots();
 
         Params = new SpaceshipParameters();
@@ -765,6 +752,7 @@ public class UnitySpaceshipRig
 
         //Загрузка параметров модели корабля
         Params.AddShipModelParameters(sModel);
+
     }
 
 }

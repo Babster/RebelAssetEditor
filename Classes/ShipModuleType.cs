@@ -38,6 +38,7 @@ public class ShipModuleType : UnityShipModuleType
         this.Size = Convert.ToInt32(r["size"]);
         this.AssetName = Convert.ToString(r["asset_name"]);
         this.EnergyNeeded = Convert.ToInt32(r["energy_needed"]);
+        this.ImgId = (int)r["img_id"];
 
         string paramStr = Convert.ToString(r["params_structure"]);
 
@@ -68,7 +69,8 @@ public class ShipModuleType : UnityShipModuleType
                         weapon_type = {(int)wType},
                         size = {Size},
                         energy_needed = {EnergyNeeded},
-                        params_structure = @str4
+                        params_structure = @str4,
+                        img_id = {ImgId}
                     WHERE id = " + this.Id.ToString();
 
         List<string> names = new List<string>();
@@ -179,7 +181,8 @@ public class ShipModuleType : UnityShipModuleType
                     ISNULL(weapon_type, 0) AS weapon_type,
                     ISNULL(size, 1) AS size,
                     energy_needed,
-                    ISNULL(params_structure, '') AS params_structure
+                    ISNULL(params_structure, '') AS params_structure,
+                    ISNULL(img_id, 0) AS img_id
                 FROM
                     ss_modules
                     ";
@@ -213,6 +216,7 @@ public class UnityShipModuleType
     public int Size { get; set; }
     public string AssetName { get; set; }
     public int EnergyNeeded { get; set; }
+    public int ImgId { get; set; }
     public SpaceshipParameters parameters { get; set; }
 
     public enum WeaponType
