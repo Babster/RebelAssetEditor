@@ -68,4 +68,17 @@ class PlayerAsset
         }
     }
 
+    public void CreateDictionaries()
+    {
+        CreateModuleTypeDictionary();
+        if(Modules.Count > 0)
+        {
+            foreach(var module in Modules)
+            {
+                ShipModuleType mType = ModuleTypes[module.ModuleTypeId];
+                ShipModuleType.AddModuleType(mType);
+            }
+        }
+    }
+
 }

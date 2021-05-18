@@ -291,4 +291,22 @@ public class UnityShipModuleType
         parameters.SetParameter(paramType, Value);
     }
 
+    private static Dictionary<int, ShipModuleType> moduleDict;
+    public static void AddModuleType(ShipModuleType mType)
+    {
+        if (moduleDict == null)
+            moduleDict = new Dictionary<int, ShipModuleType>();
+        if (!moduleDict.ContainsKey(mType.Id))
+            moduleDict.Add(mType.Id, mType);
+    }
+
+    public static ShipModuleType ModuleById(int id)
+    {
+        if (moduleDict == null)
+            return null;
+        if (!moduleDict.ContainsKey(id))
+            return null;
+        return moduleDict[id];
+    }
+
 }

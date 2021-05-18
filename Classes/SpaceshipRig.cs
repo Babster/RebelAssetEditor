@@ -660,6 +660,7 @@ public class UnityRigSlot
         module.Reserve = true;
 
     }
+
     public string LoadOfficer(CrewOfficer officer)
     {
         if (!Slot.SlotForOfficer)
@@ -752,6 +753,22 @@ public class UnitySpaceshipRig
 
         //Загрузка параметров модели корабля
         Params.AddShipModelParameters(sModel);
+
+    }
+
+    private Dictionary<int, RigSlot> rigSlotDict;
+    public RigSlot GetSlotByShipModuleSlotId(int id)
+    {
+        if (rigSlotDict == null)
+        {
+            rigSlotDict = new Dictionary<int, RigSlot>();
+            foreach (RigSlot slot in Slots)
+            {
+                rigSlotDict.Add(slot.Slot.Id, slot);
+            }
+        }
+
+        return rigSlotDict[id];
 
     }
 
