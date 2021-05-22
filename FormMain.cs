@@ -1769,6 +1769,7 @@ namespace AssetEditor
             textShipSlotDefaultModule.Text = slot.DefaultModuleId.ToString();
             textShipSlotControl.Text = slot.SlotControl;
             SlotSizeIntToRadioDict[slot.Size].Checked = true;
+            checkShipMainCabin.Checked = slot.MainCabin == 1;
             ShowDefaultSlotName();
             NoEvents = false;
 
@@ -1802,6 +1803,7 @@ namespace AssetEditor
             comboShipSlotType.SelectedItem = null;
             textShipSlotDefaultModule.Text = "";
             textShipSlotDefaultModuleName.Text = "";
+            checkShipMainCabin.Checked = false;
             NoEvents = false;
         }
         private ShipModelSlot GetCurrentShipSlot()
@@ -1821,6 +1823,18 @@ namespace AssetEditor
             Int32.TryParse(textShipSlotNumber.Text, out amount);
             slot.SlotNumber = amount;
             listShipSlots.Items[listShipSlots.SelectedIndex] = listShipSlots.SelectedItem;
+        }
+        private void checkShipMainCabin_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModelSlot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            if (checkShipMainCabin.Checked)
+                slot.MainCabin = 1;
+            else
+                slot.MainCabin = 0;
         }
         private void textShipSlotControl_TextChanged(object sender, EventArgs e)
         {
@@ -2356,6 +2370,7 @@ namespace AssetEditor
             if (treePlayerShipsRig.SelectedNode == null)
                 return;
             Ship ship = (Ship)treePlayerShipsRig.SelectedNode.Tag;
+            ship.Model.ClearSlotDuplicates();
 
             saRig = new SpaceshipRig();
             saRig.LoadShip(ship);
@@ -4344,6 +4359,7 @@ namespace AssetEditor
 
 
         }
+
 
 
 

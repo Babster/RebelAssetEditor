@@ -491,32 +491,7 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
         return tStr;
     }
 
-    /// <summary>
-    /// Возвращает пустую строку если всё ОК или описание ошибки если что-то пошло не так
-    /// Что может пойти не так в данном случае? Только что превышено количество офицеров
-    /// (может быть не более трех) или попытка добавить офицера, который уже есть в списке
-    /// </summary>
-    /// <param name="officer"></param>
-    /// <returns></returns>
-    public string AddOfficer(CrewOfficer officer)
-    {
-        if (OfficerList.Count >= MaxOfficers)
-            return "Too many officers in team";
 
-        int id = officer.Id;
-        if (id > 0 && OfficerList.Count > 0)
-        {
-            foreach (CrewOfficer of in OfficerList)
-            {
-                if (of.Id == id)
-                    return "Duplicate officer in team";
-            }
-        }
-
-        OfficerList.Add(officer);
-        return "";
-
-    }
 
     public override string ToString()
     {
@@ -547,11 +522,12 @@ public class UnityRigSlot
     public ShipModule Module { get; set; }
     public RigSlotOfficerTeam team { get; set; }
 
-    public UnityRigSlot() { }
+    public UnityRigSlot() { team = new RigSlotOfficerTeam(); }
 
     public UnityRigSlot(ShipModelSlot modelSlot)
     {
         team = new RigSlotOfficerTeam();
+        team.SlotType = modelSlot.sType;
         this.Slot = modelSlot;
     }
 
@@ -772,16 +748,174 @@ public class UnitySpaceshipRig
 
     }
 
+
+
+    public class ShipIsReadyResult
+    {
+        public string Need { get; set; }
+        public bool Ready { get; set; }
+    }
+    public ShipIsReadyResult ShipIsReady()
+    {
+        StringBuilder t = new StringBuilder();
+
+        //Проверка экипажа. В зависимости от настроек может понадобится либо полностью весь экипаж
+        //либо как минимум один офицер управления
+        foreach (var rigSlot in Slots)
+        {
+            if (rigSlot.IsOfficers)
+            {
+                if (RigConfiguration.NeedFullCrew)
+                {
+                    if (rigSlot.team.OfficerList.Count < rigSlot.team.MaxOfficers)
+                    {
+                        t.AppendLine("- Fill every crew slot");
+                        break;
+                    }
+                }
+                else
+                {
+                    if (rigSlot.Slot.MainCabin == 1) //В главной кабине кто-то должен быть. В остальных - не обязательно
+                    {
+                        if (rigSlot.team.OfficerList.Count == 0)
+                        {
+                            t.AppendLine("- Add a ship captain to the main cabin");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        //Проверка на то, что все необходимые модули установлены. Нужны: силовая установка, ускорители, оружие
+        //Второй вариант - когда нужно чтобы были установлены вообще все модули (это когда корабль отправляется по сюжетным миссиям)
+        //Возможно, в будущем появится такой вариант, когда должен быть установлен какой-нибудь определенный модуль, но пока два варианта
+        bool reactorInstalled = false, thrustersInstalled = false, weaponInstalled = false;
+        bool unfilledSlot = false;
+        foreach (var slot in Slots)
+        {
+            if (slot.Module != null)
+            {
+                if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Engine)
+                {
+                    reactorInstalled = true;
+                }
+                else if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon)
+                {
+                    weaponInstalled = true;
+                }
+                else if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Thrusters)
+                {
+                    thrustersInstalled = true;
+                }
+            }
+            else
+            {
+                if (RigConfiguration.NeedEverySlotFilled)
+                {
+                    unfilledSlot = true;
+                }
+            }
+        }
+        if (RigConfiguration.NeedEverySlotFilled)
+        {
+            if (unfilledSlot)
+            {
+                t.AppendLine("- Fill every slot in the ship");
+            }
+        }
+        else
+        {
+            if (!reactorInstalled)
+            {
+                t.AppendLine("- Install a reactor");
+            }
+            if (!thrustersInstalled)
+            {
+                t.AppendLine("- Install a thrusters");
+            }
+            if (!weaponInstalled)
+            {
+                t.AppendLine("- Install a weapon");
+            }
+        }
+
+        ShipIsReadyResult res = new ShipIsReadyResult();
+        res.Need = t.ToString();
+        if (string.IsNullOrEmpty(res.Need))
+        {
+            res.Ready = true;
+            res.Need = "The ship is ready to launch";
+        }
+
+        return res;
+
+    }
+
+    public static class RigConfiguration
+    {
+        public static bool NeedEnergyBalance { get; set; }
+        public static bool NeedEverySlotFilled { get; set; }
+        public static bool NeedFullCrew { get; set; }
+    }
+
 }
 
 public class UnityRigSlotOfficerTeam
 {
+
+    public ShipModelSlot.SlotType  SlotType { get; set; }
+
+    public int MaxOfficers
+    {
+        get
+        {
+            switch(SlotType)
+            {
+                case UnityShipModelSlot.SlotType.Cabin:
+                    return 1;
+                case UnityShipModelSlot.SlotType.Cabin3:
+                    return 3;
+                case UnityShipModelSlot.SlotType.ControlRoom:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+    }
 
     public List<CrewOfficer> OfficerList;
 
     public UnityRigSlotOfficerTeam()
     {
         OfficerList = new List<CrewOfficer>();
+    }
+
+    /// <summary>
+    /// Возвращает пустую строку если всё ОК или описание ошибки если что-то пошло не так
+    /// Что может пойти не так в данном случае? Только что превышено количество офицеров
+    /// (может быть не более трех) или попытка добавить офицера, который уже есть в списке
+    /// </summary>
+    /// <param name="officer"></param>
+    /// <returns></returns>
+    public string AddOfficer(CrewOfficer officer)
+    {
+        if (OfficerList.Count >= MaxOfficers)
+            return "Too many officers in team";
+
+        int id = officer.Id;
+        if (id > 0 && OfficerList.Count > 0)
+        {
+            foreach (CrewOfficer of in OfficerList)
+            {
+                if (of.Id == id)
+                    return "Duplicate officer in team";
+            }
+        }
+
+        OfficerList.Add(officer);
+        return "";
+
     }
 
 }

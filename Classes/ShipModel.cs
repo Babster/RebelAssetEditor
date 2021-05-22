@@ -45,7 +45,8 @@ public class ShipModel : UnityShipModel
                     slot_type,
                     ISNULL(slot_control, '') AS slot_control, 
                     ISNULL(size, 1) AS size,
-                    default_module_id
+                    default_module_id,
+                    ISNULL(is_main_cabin, 0) AS is_main_cabin
                 FROM
                     ss_designs_slots
                 WHERE
@@ -217,6 +218,8 @@ public class ShipModelSlot : UnityShipModelSlot
         Size = Convert.ToInt32(r["size"]);
         SlotControl = Convert.ToString(r["slot_control"]);
         DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
+        MainCabin = (int)r["is_main_cabin"];
+        
         if (Size < 1)
             Size = 1;
     }
@@ -242,7 +245,8 @@ public class ShipModelSlot : UnityShipModelSlot
                         slot_type = @str1,
                         size = {Size},
                         slot_control = @str2,
-                        default_module_id = {DefaultModuleId}
+                        default_module_id = {DefaultModuleId},
+                        is_main_cabin = {MainCabin.ToString()}
                     WHERE id = {Id}";
         List<string> names = new List<string> { SlotTypeStr, SlotControl };
         DataConnection.Execute(q, names);
@@ -366,6 +370,7 @@ public class UnityShipModelSlot
     public int Size { get; set; }
     public string SlotControl { get; set; }
     public int DefaultModuleId { get; set; }
+    public int MainCabin { get; set; }
 
     public enum SlotType
     {
@@ -376,6 +381,7 @@ public class UnityShipModelSlot
         Thrusters = 4,
         Misc = 5,
         Cabin = 20,
+        Cabin3 = 24,
         ExtendedCabin = 21,
         ControlRoom = 22,
         ExtendedControlRoom = 23

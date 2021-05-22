@@ -107,9 +107,18 @@ public class SpaceshipParameters
         }
     }
 
+
     public double ParameterValue(SpaceShipParameter paramType)
     {
-        if(ParameterDict.ContainsKey(paramType))
+        if (ParameterDict == null)
+        {
+            CreateDict();
+        }
+        else if (ParameterDict.Count == 0)
+        {
+            CreateDict();
+        }
+        if (ParameterDict.ContainsKey(paramType))
         {
             return ParameterDict[paramType].Value;
         }
