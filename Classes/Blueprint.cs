@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-class BlueprintType : UnityBlueprintType
+public class BlueprintType : UnityBlueprintType
 {
 
     public BlueprintType() { ResourceList = new List<ResourceForBlueprint>(); }

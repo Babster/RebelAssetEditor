@@ -5,15 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 
-public class ResourceType
+public class ResourceType : UnityResourceType
 {
-    public int Id { get; set; }
-    public int ParentId { get; set; }
-    public string Name { get; set; }
-    public string DescriptionEng { get; set; }
-    public string DescriptionRus { get; set; }
-    public int ImgId { get; set; }
-
     public ResourceType() { }
 
     public ResourceType(SqlDataReader r)
@@ -124,3 +117,14 @@ public class ResourceType
     }
 
 }
+
+public class UnityResourceType
+{
+    public int Id { get; set; }
+    public int ParentId { get; set; }
+    public string Name { get; set; }
+    public string DescriptionEng { get; set; }
+    public string DescriptionRus { get; set; }
+    public int ImgId { get; set; }
+}
+

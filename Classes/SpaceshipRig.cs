@@ -201,6 +201,8 @@ public class SpaceshipRig : UnitySpaceshipRig
     }
     public static SpaceshipRig RigById(int id)
     {
+        if (id == 0)
+            return null;
         if (StaticMembers.rigsDict == null)
             StaticMembers.rigsDict = new Dictionary<int, SpaceshipRig>();
         if (!StaticMembers.rigsDict.ContainsKey(id))

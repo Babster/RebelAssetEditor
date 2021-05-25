@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 using AdmiralNamespace;
 using System.Data.SqlClient;
 
-class BattleScene
+public class BattleScene
 {
 
     public BattleSceneType SceneType { get; set; }
-    public SpaceshipRig Rig { get; set; }
-
     public List<Cycle> Cycles { get; set; }
 
     public BattleScene(BattleSceneType stype, AccountData player)
     {
         SceneType = stype;
-        Rig = SpaceshipRig.RigForPlayer(player.Id);
-        Rig.SaveData(player.Id, "");
 
         //Starting with 5 cycles and then add some more
         Cycles = new List<Cycle>();
@@ -49,7 +45,7 @@ class BattleScene
             Random rnd = new Random();
 
             crList = new List<ResourceInCycle>();
-            foreach (BattleSceneType.Resource res in stype.resources)
+            foreach (BattleSceneTypeResource res in stype.resources)
             {
                 ResourceInCycle curRc = new ResourceInCycle(res, cycleNumber);
                 if (curRc.CanBeUsed)
@@ -58,25 +54,28 @@ class BattleScene
 
             Stages = new List<Stage>();
             Number = cycleNumber;
-            Stage curStage = null;
             foreach (var enemy in stype.enemies)
             {
-                if(curStage == null)
+                if(enemy.CycleFrom <= Number && enemy.CycleTo >= Number)
                 {
-                    curStage = new Stage(enemy, cycleNumber, crList, stype);
-                    Stages.Add(curStage);
-                }
-                else
-                {
-                    if(enemy.StageNumber == curStage.StageNumber)
+                    bool enemyLoaded = false;
+                    if(Stages.Count > 0)
                     {
-                        curStage.AddEnemy(enemy);
+                        foreach (var stage in Stages)
+                        {
+                            if(stage.StageNumber == enemy.StageNumber)
+                            {
+                                stage.AddEnemy(enemy);
+                                enemyLoaded = true;
+                                break;
+                            }
+                        }
                     }
-                    else
+                    if(!enemyLoaded)
                     {
-                        curStage = new Stage(enemy, cycleNumber, crList, stype);
-                        Stages.Add(curStage);
+                        Stages.Add(new Stage(enemy, cycleNumber, crList, stype));
                     }
+
                 }
                 
             }
@@ -118,7 +117,7 @@ class BattleScene
                 }
             }
 
-            public ResourceInCycle(BattleSceneType.Resource res, int cycleNumber)
+            public ResourceInCycle(BattleSceneTypeResource res, int cycleNumber)
             {
 
                 rnd = new Random();
@@ -239,7 +238,7 @@ class BattleScene
 
         public Stage() { }
 
-        public Stage(BattleSceneType.Enemy enemy, int cycleNumber, List<Cycle.ResourceInCycle> cr, BattleSceneType stype)
+        public Stage(BattleSceneTypeEnemy enemy, int cycleNumber, List<Cycle.ResourceInCycle> cr, BattleSceneType stype)
         {
             Enemy = new List<StageEnemy>();
             StageNumber = enemy.StageNumber;
@@ -248,7 +247,7 @@ class BattleScene
             AddEnemy(enemy);
         }
 
-        public void AddEnemy(BattleSceneType.Enemy enemy)
+        public void AddEnemy(BattleSceneTypeEnemy enemy)
         {
 
             for (int i = 0; i < enemy.Count; i++)
@@ -279,14 +278,13 @@ class BattleScene
 
     }
 
-
     public class StageEnemy
     {
 
         public int StageNumber { get; set; }
         public int CycleNumber { get; set; }
 
-        public BattleSceneType.Enemy EnemyType { get; set; }
+        public BattleSceneTypeEnemy EnemyType { get; set; }
         public int BattleIntensity { get; set; }
         public double EnemyStatsMultiplier { get; set; }
         public List<EnemyResource> Resources { get; set; }
@@ -433,15 +431,18 @@ class BattleScene
 
 }
 
-class CompressedBattleScene
+public class CompressedBattleScene
 {
+
     int BattleSceneTypeId { get; set; }
+
+    public string MissionName { get; set; }
+    public string MissionObjective { get; set; }
+    
 
     public List<Cycle> Cycles { get; set; }
 
-    public SpaceshipRig PlayerRig { get; set; }
-
-    public Dictionary<int, BattleSceneType.Enemy> EnemyDict;
+    public Dictionary<int, BattleSceneTypeEnemy> EnemyDict;
     public Dictionary<int, ResourceType> ResourceDict;
     public Dictionary<int, BlueprintType> BlueprintDict;
 
@@ -454,9 +455,8 @@ class CompressedBattleScene
     public CompressedBattleScene(BattleScene createFrom)
     {
         BattleSceneTypeId = createFrom.SceneType.Id;
-        PlayerRig = createFrom.Rig;
 
-        EnemyDict = new Dictionary<int, BattleSceneType.Enemy>();
+        EnemyDict = new Dictionary<int, BattleSceneTypeEnemy>();
         ResourceDict = new Dictionary<int, ResourceType>();
         BlueprintDict = new Dictionary<int, BlueprintType>();
 
@@ -475,7 +475,7 @@ class CompressedBattleScene
 
         public Cycle() { }
         public Cycle(BattleScene.Cycle cycleFrom, 
-                     Dictionary<int, BattleSceneType.Enemy> EnemyDict,
+                     Dictionary<int, BattleSceneTypeEnemy> EnemyDict,
                      Dictionary<int, ResourceType> ResourceDict,
                      Dictionary<int, BlueprintType> BlueprintDict)
         {
@@ -553,7 +553,7 @@ class CompressedBattleScene
 
         public Stage() { }
         public Stage(BattleScene.Stage stageFrom,
-                     Dictionary<int, BattleSceneType.Enemy> EnemyDict,
+                     Dictionary<int, BattleSceneTypeEnemy> EnemyDict,
                      Dictionary<int, ResourceType> ResourceDict,
                      Dictionary<int, BlueprintType> BlueprintDict)
         {

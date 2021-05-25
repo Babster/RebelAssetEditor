@@ -970,6 +970,13 @@ namespace AssetEditor
             PlayerAsset asset2 = JsonConvert.DeserializeObject<PlayerAsset>(textAsset);
             asset2.ClearDeserializationDuplicates();
         }
+        private void buttonSaveDataset_Click(object sender, EventArgs e)
+        {
+            ObjectDatabase od = new ObjectDatabase();
+            od.LoadDataAssetEditor();
+            od.SaveDataToStringFile();
+            MessageBox.Show("Completed");
+        }
 
         private void buttonSerializationTests_Click(object sender, EventArgs e)
         {
@@ -3112,22 +3119,23 @@ namespace AssetEditor
             NoEvents = true;
             textBsId.Text = sceneType.Id.ToString();
             textBsName.Text = sceneType.Name;
+            textBsObjectives.Text = sceneType.MissionObjective;
             checkBsAssembleShip.Checked = sceneType.AssembleShip == 1;
             listBsEnemies.Items.Clear();
             ClearBsEnemy();
             if (sceneType.enemies.Count > 0)
             {
-                foreach(BattleSceneType.Enemy enemy in sceneType.enemies)
+                foreach(BattleSceneTypeEnemy enemy in sceneType.enemies)
                 {
                     listBsEnemies.Items.Add(enemy);
                 }
             }
 
             listBsResources.Items.Clear();
-            List<BattleSceneType.Resource> list = sceneType.resources;
+            List<BattleSceneTypeResource> list = sceneType.resources;
             if(list.Count > 0)
             {
-                foreach(BattleSceneType.Resource resource in list)
+                foreach(BattleSceneTypeResource resource in list)
                 {
                     listBsResources.Items.Add(resource);
                 }
@@ -3195,7 +3203,7 @@ namespace AssetEditor
             sceneType.Save();
             textBsId.Text = sceneType.Id.ToString();
 
-            BattleSceneType.Enemy curEnemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy curEnemy = GetCurrentBsEnemy();
             if (curEnemy != null)
             {
                 textBsEnemyId.Text = curEnemy.Id.ToString();
@@ -3231,6 +3239,17 @@ namespace AssetEditor
             sceneType.Name = textBsName.Text;
             treeBs.SelectedNode.Text = sceneType.Name;
         }
+
+        private void textBsObjectives_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            sceneType.MissionObjective = textBsObjectives.Text;
+        }
+
         private void checkBsAssembleShip_CheckedChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -3248,7 +3267,7 @@ namespace AssetEditor
             BattleSceneType sceneType = GetCurrentBattleScene();
             if (sceneType == null)
                 return;
-            BattleSceneType.Enemy enemy = sceneType.AddEnemy();
+            BattleSceneTypeEnemy enemy = sceneType.AddEnemy();
             listBsEnemies.Items.Add(enemy);
             listBsEnemies.SelectedItem = enemy;
         }
@@ -3260,18 +3279,18 @@ namespace AssetEditor
             BattleSceneType sceneType = GetCurrentBattleScene();
             if (sceneType == null)
                 return;
-            BattleSceneType.Enemy curEnemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy curEnemy = GetCurrentBsEnemy();
             if (curEnemy == null)
                 return;
             sceneType.DeleteEnemy(curEnemy);
             listBsEnemies.Items.Remove(curEnemy);
         }
 
-        private BattleSceneType.Enemy GetCurrentBsEnemy()
+        private BattleSceneTypeEnemy GetCurrentBsEnemy()
         {
             if (listBsEnemies.SelectedItem == null)
                 return null;
-            return (BattleSceneType.Enemy)listBsEnemies.SelectedItem;
+            return (BattleSceneTypeEnemy)listBsEnemies.SelectedItem;
         }
 
         private void ClearBsEnemy()
@@ -3292,7 +3311,7 @@ namespace AssetEditor
             if (NoEvents)
                 return;
             ClearBsEnemy();
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
 
@@ -3316,6 +3335,8 @@ namespace AssetEditor
             textBsCycleMultiplier.Text = enemy.CycleMultiplier.ToString();
             textBsBattleIntensity.Text = enemy.BaseBattleIntensity.ToString();
             textBsIntensityMultiplier.Text = enemy.CycleIntensityMult.ToString();
+            textBsMinimumCycle.Text = enemy.CycleFrom.ToString();
+            textBsMaximumCycle.Text = enemy.CycleTo.ToString();
             NoEvents = false;
 
         }
@@ -3324,7 +3345,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             if(comboBsEnemy.SelectedItem == null)
@@ -3345,7 +3366,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             int value = 0;
@@ -3356,7 +3377,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             int value = 0;
@@ -3367,7 +3388,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             int value = 0;
@@ -3378,7 +3399,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             int value = 0;
@@ -3389,12 +3410,36 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Enemy enemy = GetCurrentBsEnemy();
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
             if (enemy == null)
                 return;
             int value = 0;
             Int32.TryParse(textBsIntensityMultiplier.Text, out value);
             enemy.CycleIntensityMult = value;
+        }
+
+        private void textBsMinimumCycle_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsMinimumCycle.Text, out value);
+            enemy.CycleFrom = value;
+        }
+
+        private void textBsMaximumCycle_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsMaximumCycle.Text, out value);
+            enemy.CycleTo = value;
         }
 
         private void FillBsEnemyInResource()
@@ -3408,7 +3453,7 @@ namespace AssetEditor
             if (sceneType.enemies.Count == 0)
                 return;
             NoEvents = true;
-            foreach(BattleSceneType.Enemy enemy in sceneType.enemies)
+            foreach(BattleSceneTypeEnemy enemy in sceneType.enemies)
             {
                 comboBsEnemyInResource.Items.Add(enemy);
             }
@@ -3424,14 +3469,14 @@ namespace AssetEditor
             BattleSceneType bs = GetCurrentBattleScene();
             if (bs == null)
                 return;
-            BattleSceneType.Resource res = bs.AddResource();
+            BattleSceneTypeResource res = bs.AddResource();
             listBsResources.Items.Add(res);
             listBsResources.SelectedItem = res;
 
         } 
         private void buttonBsDeleteResource_Click(object sender, EventArgs e)
         {
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             if (MessageBox.Show("Удалить данный ресурс?", "", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -3443,7 +3488,7 @@ namespace AssetEditor
         private void listBsResources_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearBsResource();
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
 
@@ -3455,7 +3500,7 @@ namespace AssetEditor
             {
                 foreach (var item in comboBsEnemyInResource.Items)
                 {
-                    BattleSceneType.Enemy enemy = (BattleSceneType.Enemy)item;
+                    BattleSceneTypeEnemy enemy = (BattleSceneTypeEnemy)item;
                     if (enemy.Id == res.EnemyId)
                     {
                         comboBsEnemyInResource.SelectedItem = item;
@@ -3502,11 +3547,11 @@ namespace AssetEditor
 
         }
 
-        private BattleSceneType.Resource GetBsCurrentResource()
+        private BattleSceneTypeResource GetBsCurrentResource()
         {
             if (listBsResources.SelectedItem == null)
                 return null;
-            return (BattleSceneType.Resource)listBsResources.SelectedItem;
+            return (BattleSceneTypeResource)listBsResources.SelectedItem;
         }
         private void ClearBsResource()
         {
@@ -3530,7 +3575,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             if(comboBsEnemyInResource.SelectedItem == null)
@@ -3539,7 +3584,7 @@ namespace AssetEditor
             }
             else
             {
-                BattleSceneType.Enemy enemy = (BattleSceneType.Enemy)comboBsEnemyInResource.SelectedItem;
+                BattleSceneTypeEnemy enemy = (BattleSceneTypeEnemy)comboBsEnemyInResource.SelectedItem;
                 res.EnemyId = enemy.Id;
             }
         }
@@ -3547,7 +3592,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             res.AnyEnemy = checkBsAnyEnemy.Checked ? 1 : 0;
@@ -3557,7 +3602,7 @@ namespace AssetEditor
 
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             if (comboBsResourceType.SelectedItem == null)
@@ -3578,7 +3623,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             if (comboBsBlueprint.SelectedItem == null)
@@ -3598,7 +3643,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3609,7 +3654,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3620,7 +3665,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3631,7 +3676,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3642,7 +3687,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3653,7 +3698,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3664,7 +3709,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -3675,7 +3720,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            BattleSceneType.Resource res = GetBsCurrentResource();
+            BattleSceneTypeResource res = GetBsCurrentResource();
             if (res == null)
                 return;
             int value = 0;
@@ -4359,12 +4404,6 @@ namespace AssetEditor
 
 
         }
-
-
-
-
-
-
 
 
 

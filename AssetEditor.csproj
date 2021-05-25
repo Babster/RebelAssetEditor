@@ -57,6 +57,7 @@
     <Compile Include="Classes\CommonFunctions.cs" />
     <Compile Include="Classes\DataConnection.cs" />
     <Compile Include="Classes\GameEvent.cs" />
+    <Compile Include="Classes\ObjectDatabase.cs" />
     <Compile Include="Classes\PlayerAsset.cs" />
     <Compile Include="Classes\ResourceType.cs" />
     <Compile Include="Classes\Ship.cs" />
