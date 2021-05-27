@@ -12,7 +12,7 @@ public class BattleScene
     public BattleSceneType SceneType { get; set; }
     public List<Cycle> Cycles { get; set; }
 
-    public BattleScene(BattleSceneType stype, AccountData player)
+    public BattleScene(BattleSceneType stype)
     {
         SceneType = stype;
 
@@ -278,56 +278,6 @@ public class BattleScene
 
     }
 
-    public class StageEnemy
-    {
-
-        public int StageNumber { get; set; }
-        public int CycleNumber { get; set; }
-
-        public BattleSceneTypeEnemy EnemyType { get; set; }
-        public int BattleIntensity { get; set; }
-        public double EnemyStatsMultiplier { get; set; }
-        public List<EnemyResource> Resources { get; set; }
-        public StageEnemy() { Resources = new List<EnemyResource>(); }
-
-        public int EnemyStructurePoints { get; set; }
-        public int EnemyShieldPoints { get; set; }
-        public int EnemyShieldRegen { get; set; }
-
-        public void CalculateParameters()
-        {
-            EnemyType.Rig.RecalculateParameters();
-            EnemyStructurePoints = (int)Math.Round(EnemyStatsMultiplier * EnemyType.Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureHitpoints));
-            EnemyShieldPoints = (int)Math.Round(EnemyStatsMultiplier * EnemyType.Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldPoints));
-            EnemyShieldRegen = (int)Math.Round(EnemyStatsMultiplier * EnemyType.Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen));
-        }
-
-
-        public override string ToString()
-        {
-            return $@"{EnemyType.ToString()} struct: {EnemyStructurePoints}, shield: {EnemyShieldPoints}, regen: {EnemyShieldRegen}";
-        }
-
-    }
-
-    public class EnemyResource
-    {
-        public ResourceType ResType { get; set; }
-        public BlueprintType BpType { get; set; }
-        public int Count { get; set; }
-        public EnemyResource() { }
-        public EnemyResource(ResourceType rt, int count)
-        {
-            ResType = rt;
-            Count = count;
-        }
-        public EnemyResource(BlueprintType bp, int count)
-        {
-            BpType = bp;
-            Count = count;
-        }
-    }
-
     public class BsStatictics
     {
 
@@ -351,7 +301,7 @@ public class BattleScene
             }
         }
 
-        public void AddEnemy(BattleScene.StageEnemy enemy)
+        public void AddEnemy(StageEnemy enemy)
         {
             Enemies.Add(enemy);
             if (enemy.Resources != null)
@@ -424,177 +374,187 @@ public class BattleScene
 
     }
 
-    public void SaveData()
-    {
+}
 
+public class StageEnemy
+{
+
+    public int StageNumber { get; set; }
+    public int CycleNumber { get; set; }
+    public BattleSceneTypeEnemy EnemyType { get; set; }
+    public int BattleIntensity { get; set; }
+    public double EnemyStatsMultiplier { get; set; }
+    public List<EnemyResource> Resources { get; set; }
+    public StageEnemy() { Resources = new List<EnemyResource>(); }
+
+    private int pEnemyStructurePoints;
+    public int EnemyStructurePoints 
+    { 
+        get
+        {
+            return pEnemyStructurePoints;
+        }
+    }
+    private int pEnemyShieldPoints;
+    public int EnemyShieldPoints 
+    { 
+        get
+        {
+            return pEnemyShieldPoints;
+        }
+    }
+    private int pEnemyShieldRegen;
+    public int EnemyShieldRegen 
+    { 
+        get
+        {
+            return pEnemyShieldRegen;
+        }
+    }
+
+    public void CalculateParameters()
+    {
+        SpaceshipRig Rig = EnemyType.Rig;
+        Rig.RecalculateParameters();
+        pEnemyStructurePoints = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureHitpoints));
+        pEnemyShieldPoints = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldPoints));
+        pEnemyShieldRegen = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen));
+    }
+
+
+    public override string ToString()
+    {
+        return $@"{EnemyType.ToString()} struct: {EnemyStructurePoints}, shield: {EnemyShieldPoints}, regen: {EnemyShieldRegen}";
     }
 
 }
 
-public class CompressedBattleScene
+public class EnemyResource
+{
+    public ResourceType ResType { get; set; }
+    public BlueprintType BpType { get; set; }
+    public int Count { get; set; }
+    public EnemyResource() { }
+    public EnemyResource(ResourceType rt, int count)
+    {
+        ResType = rt;
+        Count = count;
+    }
+    public EnemyResource(BlueprintType bp, int count)
+    {
+        BpType = bp;
+        Count = count;
+    }
+}
+
+public class UnityBattleScene
 {
 
-    int BattleSceneTypeId { get; set; }
-
-    public string MissionName { get; set; }
-    public string MissionObjective { get; set; }
-    
-
+    public int BattleSceneTypeId { get; set; }
+    public string Name { get; set; }
+    public string Objectives { get; set; }
     public List<Cycle> Cycles { get; set; }
 
-    public Dictionary<int, BattleSceneTypeEnemy> EnemyDict;
-    public Dictionary<int, ResourceType> ResourceDict;
-    public Dictionary<int, BlueprintType> BlueprintDict;
+    public UnityBattleScene() { }
 
-
-    public CompressedBattleScene()
+    public UnityBattleScene(BattleScene sceneCopyFrom) 
     {
-
-    }
-
-    public CompressedBattleScene(BattleScene createFrom)
-    {
-        BattleSceneTypeId = createFrom.SceneType.Id;
-
-        EnemyDict = new Dictionary<int, BattleSceneTypeEnemy>();
-        ResourceDict = new Dictionary<int, ResourceType>();
-        BlueprintDict = new Dictionary<int, BlueprintType>();
-
         Cycles = new List<Cycle>();
-        foreach (var cycle in createFrom.Cycles)
-        {
-            Cycles.Add(new Cycle(cycle, EnemyDict, ResourceDict, BlueprintDict));
-        }
+        BattleSceneTypeId = sceneCopyFrom.SceneType.Id;
+        Name = sceneCopyFrom.SceneType.Name;
+        Objectives = sceneCopyFrom.SceneType.MissionObjective;
 
+        foreach(var cycleFrom in sceneCopyFrom.Cycles)
+        {
+            Cycles.Add(new Cycle(cycleFrom));
+        }
     }
+
 
     public class Cycle
     {
-        public int Number { get; set; }
-        public List<Stage> Stages { get; set; }
-
+        public int Number;
+        public List<UnityBattleScene.Stage> Stages { get; set; }
         public Cycle() { }
-        public Cycle(BattleScene.Cycle cycleFrom, 
-                     Dictionary<int, BattleSceneTypeEnemy> EnemyDict,
-                     Dictionary<int, ResourceType> ResourceDict,
-                     Dictionary<int, BlueprintType> BlueprintDict)
+        public Cycle(BattleScene.Cycle cycleFrom)
         {
-            Number = cycleFrom.Number;
+            this.Number = cycleFrom.Number;
             Stages = new List<Stage>();
-            foreach(var stage in cycleFrom.Stages)
+            foreach(var stageFrom in cycleFrom.Stages)
             {
-                Stages.Add(new Stage(stage, EnemyDict, ResourceDict, BlueprintDict));
+                Stages.Add(new Stage(stageFrom));
             }
         }
-
-    }
-
-    public class StageEnemyTemplate
-    {
-        public int StageNumber { get; set; }
-        public int CycleNumber { get; set; }
-        public int EnemyTypeId { get; set; }
-        public int BattleIntensity { get; set; }
-        public int EnemyStructurePoints { get; set; }
-        public int EnemyShieldPoints { get; set; }
-        public int EnemyShieldRegen { get; set; }
-        public int Count { get; set; }
-        public StageEnemyTemplate() { }
-
-        public StageEnemyTemplate(BattleScene.StageEnemy enemy)
-        {
-            StageNumber = enemy.StageNumber;
-            CycleNumber = enemy.CycleNumber;
-            EnemyTypeId = enemy.EnemyType.Id;
-            BattleIntensity = enemy.BattleIntensity;
-            EnemyStructurePoints = enemy.EnemyStructurePoints;
-            EnemyShieldPoints = enemy.EnemyShieldPoints;
-            EnemyShieldRegen = enemy.EnemyShieldRegen;
-            Count += 1;
-        }
-
-    }
-
-    public class EnemyResource
-    {
-        public int ResTypeId { get; set; }
-        public int BpTypeId { get; set; }
-        public int Count { get; set; }
-        public int EnemyIdx { get; set; }
-        public EnemyResource() { }
-        public EnemyResource(BattleScene.EnemyResource res, int idx)
-        {
-            if(res.ResType != null)
-                ResTypeId = res.ResType.Id;
-            if(res.BpType != null)
-                BpTypeId = res.BpType.Id;
-            Count = res.Count;
-            EnemyIdx = idx;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder b = new StringBuilder();
-            if (ResTypeId > 0)
-                b.Append("res: " + ResTypeId);
-            if (BpTypeId > 0)
-                b.Append(" bp: " + BpTypeId);
-            return b.ToString();
-        }
-
     }
 
     public class Stage
     {
         public int CycleNumber { get; set; }
-        public int StageNumber { get; set; }
-        public List<StageEnemyTemplate> EnemyTemplates { get; set; }
-        public List<EnemyResource> enmResource { get; set; }
-
+        public int Number { get; set; }
+        public List<Enemy> Enemies { get; set; }
         public Stage() { }
-        public Stage(BattleScene.Stage stageFrom,
-                     Dictionary<int, BattleSceneTypeEnemy> EnemyDict,
-                     Dictionary<int, ResourceType> ResourceDict,
-                     Dictionary<int, BlueprintType> BlueprintDict)
+        public Stage(BattleScene.Stage stageFrom)
         {
+            Enemies = new List<Enemy>();
             CycleNumber = stageFrom.CycleNumber;
-            StageNumber = stageFrom.StageNumber;
-            int curEnemyId = 0;
-            EnemyTemplates = new List<StageEnemyTemplate>();
-            enmResource = new List<EnemyResource>();
-            int idx = 0;
-            foreach(var enemy in stageFrom.Enemy)
+            Number = stageFrom.StageNumber;
+            foreach(var enemyFrom in stageFrom.Enemy)
             {
-                if(enemy.EnemyType.Id != curEnemyId)
-                {
-                    if (!EnemyDict.ContainsKey(enemy.EnemyType.Id))
-                        EnemyDict.Add(enemy.EnemyType.Id, enemy.EnemyType);
-                    EnemyTemplates.Add(new StageEnemyTemplate(enemy));
-                    curEnemyId = enemy.EnemyType.Id;
-                }
-                else
-                {
-                    EnemyTemplates[EnemyTemplates.Count - 1].Count += 1;
-                }
-                if (enemy.Resources.Count > 0)
-                {
-                    foreach (var res in enemy.Resources)
-                    {
-                        enmResource.Add(new EnemyResource(res, idx));
-                        if (res.ResType != null)
-                        {
-                            if (!ResourceDict.ContainsKey(res.ResType.Id))
-                                ResourceDict.Add(res.ResType.Id, res.ResType);
-                        }
-                        if (res.BpType != null)
-                        {
-                            if (!BlueprintDict.ContainsKey(res.BpType.Id))
-                                BlueprintDict.Add(res.BpType.Id, res.BpType);
-                        }
-                    }
-                }
-                idx = idx + 1;
+                Enemy curEnemy = new Enemy(enemyFrom);
+                Enemies.Add(curEnemy);
             }
         }
     }
+
+    public class Enemy
+    {
+        public int CycleNumber { get; set; }
+        public int StageNumber { get; set; }
+        public int StructurePoints { get; set; }
+        public int ShieldPoints { get; set; }
+        public int ShieldRegen { get; set; }
+        public int RigId { get; set; }
+        public List<EnemyResource> ResourceList { get; set; }
+        public Enemy() { ResourceList = new List<EnemyResource>(); }
+        public Enemy(StageEnemy enemyFrom)
+        {
+
+            ResourceList = new List<EnemyResource>();
+
+            CycleNumber = enemyFrom.CycleNumber;
+            StageNumber = enemyFrom.StageNumber;
+            StructurePoints = enemyFrom.EnemyStructurePoints;
+            ShieldPoints = enemyFrom.EnemyShieldPoints;
+            ShieldRegen = enemyFrom.EnemyShieldRegen;
+            RigId = enemyFrom.EnemyType.ShipRigId;
+            if(enemyFrom.Resources.Count > 0)
+            {
+                foreach (var res in enemyFrom.Resources)
+                {
+                    ResourceList.Add(new EnemyResource(res));
+                }
+            }
+        }
+    }
+
+    public class EnemyResource
+    {
+        public int ResourceTypeId { get; set; }
+        public int BluePrintId { get; set; }
+        public int Quantity { get; set; }
+
+        public EnemyResource() { }
+        public EnemyResource(global::EnemyResource resourceFrom)
+        {
+            if(resourceFrom.ResType != null)
+                ResourceTypeId = resourceFrom.ResType.Id;
+            if (resourceFrom.BpType != null)
+                BluePrintId = resourceFrom.BpType.Id;
+            Quantity = resourceFrom.Count;
+        }
+
+    }
+
+
+
 }

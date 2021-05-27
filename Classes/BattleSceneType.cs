@@ -407,7 +407,6 @@ public class UnityBattleSceneTypeEnemy
     public int BaseBattleIntensity { get; set; } //Базовая награда за убийство каждого врага
     public int CycleIntensityMult { get; set; } //Мультипликатор награды
     public SpaceshipRig Rig { get; set; }
-
     public int CycleFrom { get; set; }
     public int CycleTo { get; set; }
 

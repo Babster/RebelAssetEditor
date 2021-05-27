@@ -4323,9 +4323,8 @@ namespace AssetEditor
             treeBst.Nodes.Clear();
             if (comboBst.SelectedItem == null)
                 return;
-            AccountData player = GetLatestUser();
             BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
-            BattleScene scene = new BattleScene(sType, player);
+            BattleScene scene = new BattleScene(sType);
             foreach(var cycle in scene.Cycles)
             {
                 TreeNode cNode = treeBst.Nodes.Add("Cycle " + cycle.Number.ToString());
@@ -4341,6 +4340,16 @@ namespace AssetEditor
                     }
                 }
             }
+        }
+
+        private void buttonBstTestCompressed_Click(object sender, EventArgs e)
+        {
+            treeBst.Nodes.Clear();
+            if (comboBst.SelectedItem == null)
+                return;
+            BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
+            BattleScene scene = new BattleScene(sType);
+
         }
 
         private void treeBst_AfterSelect(object sender, TreeViewEventArgs e)
@@ -4375,9 +4384,9 @@ namespace AssetEditor
                 textBsResources.Text = stat.ResourcesString();
             }
 
-            if (treeBst.SelectedNode.Tag.GetType() == typeof(BattleScene.StageEnemy))
+            if (treeBst.SelectedNode.Tag.GetType() == typeof(StageEnemy))
             {
-                BattleScene.StageEnemy enemy = (BattleScene.StageEnemy)treeBst.SelectedNode.Tag;
+                StageEnemy enemy = (StageEnemy)treeBst.SelectedNode.Tag;
                 BattleScene.BsStatictics stat = new BattleScene.BsStatictics();
                 stat.AddEnemy(enemy);
                 TextBsEnemies.Text = stat.EnemiesString();
@@ -4386,7 +4395,8 @@ namespace AssetEditor
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        /*private void button1_Click(object sender, EventArgs e)
         {
             AccountData player = GetLatestUser();
             var bst = BattleSceneType.SceneById(4);
@@ -4403,8 +4413,26 @@ namespace AssetEditor
             var ex2 = JsonConvert.DeserializeObject<CompressedBattleScene>(deser);
 
 
-        }
+        }*/
 
+        private void buttonBstSave_Click(object sender, EventArgs e)
+        {
+            /*BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
+            BattleScene scene = new BattleScene(sType);
+            CompressedBattleScene cbs = new CompressedBattleScene(scene);
+            string strCbs = JsonConvert.SerializeObject(cbs);
+            strCbs = CommonFunctions.Compress(strCbs);
+            System.IO.File.WriteAllText("battle scene.dat", strCbs);
+            MessageBox.Show("completed");*/
+
+            BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
+            BattleScene scene = new BattleScene(sType);
+            UnityBattleScene Bst = new UnityBattleScene(scene);
+            string strCbs = JsonConvert.SerializeObject(Bst);
+            strCbs = CommonFunctions.Compress(strCbs);
+            System.IO.File.WriteAllText("battle scene.dat", strCbs);
+            MessageBox.Show("completed");
+        }
 
 
         #endregion
