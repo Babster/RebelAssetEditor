@@ -1110,7 +1110,7 @@ namespace AssetEditor
         private void FillModules()
         {
             treeModules.Nodes.Clear();
-            List<ShipModuleType> tModules = ShipModuleType.CreateList();
+            List<ShipModuleType> tModules = ShipModuleType.CreateList(false);
 
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
@@ -1914,7 +1914,6 @@ namespace AssetEditor
             if (NoEvents)
                 return;
             FillShipSlot();
-            FillShipParameters();
         }
         private void FillShipSlot()
         {
@@ -1927,12 +1926,13 @@ namespace AssetEditor
             NoEvents = true;
             textShipSlotId.Text = slot.Id.ToString();
             textShipSlotNumber.Text = slot.SlotNumber.ToString();
-            if (!string.IsNullOrEmpty(slot.SlotTypeStr))
-                comboShipSlotType.SelectedItem = slot.SlotTypeStr;
+            if((int)slot.SlotType > 0)
+                comboShipSlotType.SelectedItem = slot.SlotType.ToString();
             textShipSlotDefaultModule.Text = slot.DefaultModuleId.ToString();
             textShipSlotControl.Text = slot.SlotControl;
             SlotSizeIntToRadioDict[slot.Size].Checked = true;
             checkShipMainCabin.Checked = slot.MainCabin == 1;
+            checkShipDoubleWeapon.Checked = slot.DoubleWeapon == 1;
             ShowDefaultSlotName();
             NoEvents = false;
 
@@ -1998,7 +1998,22 @@ namespace AssetEditor
                 slot.MainCabin = 1;
             else
                 slot.MainCabin = 0;
+        
         }
+
+        private void checkShipDoubleWeapon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModelSlot slot = GetCurrentShipSlot();
+            if (slot == null)
+                return;
+            if (checkShipDoubleWeapon.Checked)
+                slot.DoubleWeapon = 1;
+            else
+                slot.DoubleWeapon = 0;
+        }
+
         private void textShipSlotControl_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -2008,23 +2023,35 @@ namespace AssetEditor
                 return;
             slot.SlotControl = textShipSlotControl.Text;
         }
+
+        
         private void comboShipSlotType_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (NoEvents)
                 return;
             ShipModelSlot slot = GetCurrentShipSlot();
             if (slot == null)
                 return;
-            string t;
+            ShipModelSlot.SlotTypes t = UnityShipModelSlot.SlotTypes.None;
             if (comboShipSlotType.SelectedItem == null)
             {
-                t = "";
+                t  = UnityShipModelSlot.SlotTypes.None;
             }
             else
             {
-                t = comboShipSlotType.SelectedItem.ToString();
+                List<ShipModelSlot.SlotTypes> tList = Enum.GetValues(typeof(ShipModelSlot.SlotTypes)).Cast<ShipModelSlot.SlotTypes>().ToList();
+                foreach(var element in tList)
+                {
+                    if(element.ToString() == (string)comboShipSlotType.SelectedItem)
+                    {
+                        t = element;
+                        break;
+                    }
+                }
+                
             }
-            slot.SlotTypeStr = t;
+            slot.SlotType = t;
             listShipSlots.Items[listShipSlots.SelectedIndex] = listShipSlots.SelectedItem;
         }
         private void textShipSlotDefaultModule_TextChanged(object sender, EventArgs e)
@@ -2081,45 +2108,6 @@ namespace AssetEditor
             listShipSlots.Items.Remove(slot);
             ClearShipSlot();
         }
-        private void buttonReloadShipGrid_Click(object sender, EventArgs e)
-        {
-            FillShipParameters();
-        }
-
-        private void FillShipParameters()
-        {
-            ShipModel tag = GetCurrentShipTag();
-            if (tag == null)
-                return;
-            SpaceshipParameters curParams = new SpaceshipParameters();
-            curParams.AddShipModelParameters(tag);
-            Dictionary<int, ShipModuleType> moduleDict = ShipModuleType.CreateModuleDict();
-            foreach (ShipModelSlot slot in tag.slots)
-            {
-                if (moduleDict.ContainsKey(slot.DefaultModuleId))
-                {
-                    ShipModuleType mType = moduleDict[slot.DefaultModuleId];
-                    if (mType != null)
-                    {
-                        curParams.AddModuleParameters(mType);
-                    }
-                }
-            }
-            gridShipParameters.Rows.Clear();
-            if (curParams.Count > 0)
-            {
-                foreach (SpaceshipParameters.ParameterAndValue param in curParams.ParameterList)
-                {
-                    DataGridViewRow row;
-                    gridShipParameters.Rows.Add();
-                    row = gridShipParameters.Rows[gridShipParameters.Rows.Count - 1];
-                    row.Cells["sp_name"].Value = param.tString;
-                    row.Cells["sp_value"].Value = param.Value;
-                }
-            }
-
-        }
-
         private void buttonSaveShip_Click(object sender, EventArgs e)
         {
             ShipModel tag = GetCurrentShipTag();
@@ -2168,7 +2156,7 @@ namespace AssetEditor
                 gridSaSlots.Rows.Add();
                 row = gridSaSlots.Rows[gridSaSlots.Rows.Count - 1];
                 row.Cells["sas_object"].Value = rigSlot;
-                row.Cells["sas_name"].Value = rigSlot.Slot.SlotTypeStr;
+                row.Cells["sas_name"].Value = rigSlot.Slot.SlotType.ToString();
                 row.Cells["sas_content"].Value = rigSlot;
             }
 
@@ -2176,7 +2164,7 @@ namespace AssetEditor
             if (saRig.Ship == null)
             {
                 //Сюда попадаем если нужно заполнить список модулей их типами
-                List<ShipModuleType> moduleTypes = ShipModuleType.CreateList();
+                List<ShipModuleType> moduleTypes = ShipModuleType.CreateList(true);
                 if (moduleTypes.Count > 0)
                 {
                     foreach (ShipModuleType moduleType in moduleTypes)
@@ -2316,8 +2304,8 @@ namespace AssetEditor
             slotRow.Cells["sas_content"].Value = null;
             slotRow.Cells["sas_content"].Value = slot;
 
-            saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            saRig.Params.CalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
 
         }
         private void listSaOfficers_DoubleClick(object sender, EventArgs e)
@@ -2341,8 +2329,8 @@ namespace AssetEditor
             slotRow.Cells["sas_content"].Value = null;
             slotRow.Cells["sas_content"].Value = slot;
 
-            saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            saRig.Params.CalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
 
         }
         private void gridSaSlots_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2364,8 +2352,8 @@ namespace AssetEditor
                 slotRow.Cells["sas_content"].Value = slot;
             }
 
-            saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            saRig.Params.CalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
 
         }
         private void textSaBottomLine_TextChanged(object sender, EventArgs e)
@@ -2374,8 +2362,8 @@ namespace AssetEditor
         }
         private void textSaBottomLine_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            saRig.Params.CalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
         }
         private void buttonSaCreateOfficer_Click(object sender, EventArgs e)
         {
@@ -2508,8 +2496,8 @@ namespace AssetEditor
             textSaRigTag.Text = rig.Tag;
             checkSaForPlayer.Checked = saRig.PlayerId > 0;
             FillRig();
-            saRig.RecalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            saRig.Params.CalculateParameters();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
         }
 
         private void buttonSaDeleteRig_Click(object sender, EventArgs e)
@@ -2537,9 +2525,9 @@ namespace AssetEditor
 
             saRig = new SpaceshipRig();
             saRig.LoadShip(ship);
-            saRig.RecalculateParameters();
+            saRig.Params.CalculateParameters();
             FillRig();
-            textSaBottomLine.Text = saRig.Params.BottomlineString();
+            textSaBottomLine.Text = saRig.Params.BottomLineString();
         }
 
         //Вход на закладку кораблей игрока
@@ -2808,7 +2796,7 @@ namespace AssetEditor
             }
 
             comboEventModule.Items.Clear();
-            List<ShipModuleType> modules = ShipModuleType.CreateList();
+            List<ShipModuleType> modules = ShipModuleType.CreateList(false);
             foreach (ShipModuleType module in modules)
             {
                 comboEventModule.Items.Add(module);
@@ -4251,7 +4239,7 @@ namespace AssetEditor
 
             if((string)comboBpProductType.SelectedItem == "Make spaceship module")
             {
-                List<ShipModuleType> mTypes = ShipModuleType.CreateList();
+                List<ShipModuleType> mTypes = ShipModuleType.CreateList(true);
                 if(mTypes.Count > 0)
                 {
                     foreach(var mType in mTypes)
@@ -4263,7 +4251,7 @@ namespace AssetEditor
 
             if((string)comboBpProductType.SelectedItem == "Make spaceship")
             {
-                var sModels = ShipModuleType.CreateList();
+                var sModels = ShipModuleType.CreateList(true);
                 foreach(var sModel in sModels)
                 {
                     comboBpProduct.Items.Add(sModel);
@@ -4571,7 +4559,7 @@ namespace AssetEditor
 
         }*/
 
-        private void buttonBstSave_Click(object sender, EventArgs e)
+            private void buttonBstSave_Click(object sender, EventArgs e)
         {
             /*BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
             BattleScene scene = new BattleScene(sType);
@@ -4589,6 +4577,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
+
 
 
 

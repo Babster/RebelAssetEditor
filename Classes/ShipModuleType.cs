@@ -178,7 +178,7 @@ public class ShipModuleType : UnityShipModuleType
         return q;
     }
 
-    public static List<ShipModuleType> CreateList()
+    public static List<ShipModuleType> CreateList(bool onlyModules)
     {
         List<ShipModuleType> tList = new List<ShipModuleType>();
         SqlDataReader r = DataConnection.GetReader(Query());
@@ -186,7 +186,12 @@ public class ShipModuleType : UnityShipModuleType
         {
             while (r.Read())
             {
-                tList.Add(new ShipModuleType(r));
+                var curModule = new ShipModuleType(r);
+                if(!onlyModules || (onlyModules && curModule.IsCategory == 0))
+                {
+                    tList.Add(curModule);
+                }
+                
             }
         }
         return tList;
@@ -200,7 +205,7 @@ public class ShipModuleType : UnityShipModuleType
             return;
         }
         mDict = new Dictionary<int, ShipModuleType>();
-        var tList = CreateList();
+        var tList = CreateList(true);
         if (tList.Count > 0)
         {
             foreach (var module in tList)
@@ -244,7 +249,7 @@ public class ShipModuleType : UnityShipModuleType
 
         Dictionary<int, ShipModuleType> tags = new Dictionary<int, ShipModuleType>();
 
-        List<ShipModuleType> lst = CreateList();
+        List<ShipModuleType> lst = CreateList(true);
         foreach (ShipModuleType module in lst)
         {
             tags.Add(module.Id, module);
@@ -261,6 +266,12 @@ public class ShipModuleType : UnityShipModuleType
         if (!moduleDict.ContainsKey(mType.Id))
             moduleDict.Add(mType.Id, mType);
     }
+
+    public override string ToString()
+    {
+        return $"{Name} ({Id})";
+    }
+
 }
 
 public class UnityShipModuleType

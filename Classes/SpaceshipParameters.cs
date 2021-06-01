@@ -3,403 +3,264 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Crew;
 
-public class SpaceshipParameters
+public class SpaceShipParameters
 {
 
-    public Ship ship { get; set; }
+    public SpaceshipRig rig { get; set; }
 
-    public List<ParameterAndValue> ParameterList { get; set; }
+    public int StructurePoints { get; set; }
+    public int ArmorPoints { get; set; }
+    public int ShieldPoints { get; set; }
+    public int ShieldRegen { get; set; }
+    public int ReactorPoints { get; set; }
+    public int ReactorConsumption { get; set; }
 
-    [NonSerialized()]
-    private Dictionary<SpaceShipParameter, ParameterAndValue> ParameterDict;
+    public List<ShipModuleType> ModuleTypes { get; set; }
+    public List<ShipModule> Modules { get; set; }
+    public List<ParameterBonus> Bonuses { get; set; }
 
-    [NonSerialized()]
-    public List<WeaponParameters> Weapons;
-
-    public int Count
+    public void CalculateParameters()
     {
-        get
-        {
-            return ParameterList.Count;
-        }
+        //Начинается всё с того, что старые параметры все стираются
+        ClearParameters();
+
+        //Расчет параметров отталкивается от корабля, если его нет, то обработка для модели корабля - внизу
+        CalculateInner();
     }
 
-    public SpaceshipParameters() 
+    private void CalculateInner()
     {
-        ParameterList = new List<ParameterAndValue>();
-        ParameterDict = new Dictionary<SpaceShipParameter, ParameterAndValue>();
-        Weapons = new List<WeaponParameters>();
-    }
+        SetShipModelParameters();
 
-    public static SpaceshipParameters CreateFromString(string JsonString)
-    {
-        SpaceshipParameters tParam = JsonConvert.DeserializeObject<SpaceshipParameters>(JsonString);
-        if (tParam.ParameterList == null)
-            tParam.ParameterList = new List<ParameterAndValue>();
-        tParam.CreateDict();
-        return tParam;
-    }
-
-    public void CreateDict()
-    {
-        ParameterDict = new Dictionary<SpaceShipParameter, ParameterAndValue>();
-        foreach(ParameterAndValue param in ParameterList)
+        //Если расчет ведется для корабля игрока, то надо пробежаться по слотам и в них вести расчет
+        //по реально установленным модулям
+        if(rig.Ship != null)
         {
-            ParameterDict.Add(param.ParamType, param);
-        }
-    }
-
-    public enum SpaceShipParameter
-    {
-
-        //Accorded to spaceship 
-        StructureHitpoints = 1,
-        ShieldDPS = 2,
-        StructureDPS = 3,
-
-        //Accorded to both spaceship and modules 
-        ArmorPoints = 4,
-        ShieldPoints = 5,
-        ShieldRegen = 6,
-        Speed = 7,
-        Dexterity = 8,
-        Engine = 9,
-
-        //Accorded to module only
-        EnergyDamage = 10,
-        KineticDamage = 11,
-        RocketDamage = 12,
-
-        //For a weapon after all calculations
-        FireRate = 50,
-        ShieldDamage = 51,
-        StructureDamage = 52
-    }
-
-    public void SetParameter(SpaceShipParameter parameterType, double Value)
-    {
-        if (ParameterDict.ContainsKey(parameterType))
-        {
-            ParameterDict[parameterType].Value = Value;
-        }
-        else
-        {
-            ParameterAndValue param2 = new ParameterAndValue(parameterType, Value);
-            ParameterList.Add(param2);
-            ParameterDict.Add(param2.ParamType, param2);
-        }
-    }
-
-    public void AddParameter(SpaceShipParameter parameterType, double Value)
-    {
-        if (ParameterDict.ContainsKey(parameterType))
-        {
-            ParameterDict[parameterType].Value += Value;
-        }
-        else
-        {
-            ParameterAndValue param2 = new ParameterAndValue(parameterType, Value);
-            ParameterList.Add(param2);
-            ParameterDict.Add(param2.ParamType, param2);
-        }
-    }
-
-
-    public double ParameterValue(SpaceShipParameter paramType)
-    {
-        if (ParameterDict == null)
-        {
-            CreateDict();
-        }
-        else if (ParameterDict.Count == 0)
-        {
-            CreateDict();
-        }
-        if (ParameterDict.ContainsKey(paramType))
-        {
-            return ParameterDict[paramType].Value;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public void AdjustParameter(SpaceShipParameter paramType, double multiplier)
-    {
-        if(ParameterDict.ContainsKey(paramType))
-        {
-            ParameterDict[paramType].Value = (int)(ParameterDict[paramType].Value * multiplier);
-        }
-        
-    }
-
-    public class ParameterAndValue
-    {
-        public SpaceShipParameter ParamType { get; set; }
-        public double Value;
-
-        public ParameterAndValue(SpaceShipParameter paramType, double value)
-        {
-            this.ParamType = paramType;
-            this.Value = value;
-        }
-
-        private static Dictionary<SpaceshipParameters.SpaceShipParameter, string> pTypeDict;
-        private static void FillTypeDict()
-        {
-            pTypeDict = new Dictionary<SpaceShipParameter, string>();
-            pTypeDict.Add(SpaceShipParameter.StructureHitpoints, "Structure hitpoints");
-            pTypeDict.Add(SpaceShipParameter.ShieldDPS, "Shield DPS");
-            pTypeDict.Add(SpaceShipParameter.StructureDPS, "Structure DPS");
-            pTypeDict.Add(SpaceShipParameter.ArmorPoints, "Armor points");
-            pTypeDict.Add(SpaceShipParameter.ShieldPoints, "Shield points");
-            pTypeDict.Add(SpaceShipParameter.ShieldRegen, "Shield regen");
-            pTypeDict.Add(SpaceShipParameter.Speed, "Speed");
-            pTypeDict.Add(SpaceShipParameter.Dexterity, "Dexterity");
-            pTypeDict.Add(SpaceShipParameter.Engine, "Engine");
-            pTypeDict.Add(SpaceShipParameter.FireRate, "Fire rate");
-            pTypeDict.Add(SpaceShipParameter.ShieldDamage, "Shield damage");
-            pTypeDict.Add(SpaceShipParameter.StructureDamage, "Structure damage");
-            pTypeDict.Add(SpaceShipParameter.EnergyDamage, "Energy damage");
-            pTypeDict.Add(SpaceShipParameter.KineticDamage, "Kinetic damage");
-            pTypeDict.Add(SpaceShipParameter.RocketDamage, "Rocket damage");
-        }
-        
-        public string tString
-        {
-            get
+            foreach(var rigSlot in rig.Slots)
             {
-                if (pTypeDict == null)
-                    FillTypeDict();
-                return pTypeDict[ParamType];
-            }
-        }
-    }
-    
-    public string ToDbString()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
-
-    public void AddShipModelParameters(ShipModel model)
-    {
-        AddParameter(SpaceShipParameter.StructureHitpoints, model.BaseStructureHp);
-    }
-
-    public void AddModuleParameters(ShipModuleType module)
-    {
-        /*foreach(ParameterAndValue param in module.parameters.ParameterList)
-        {
-            if(param.Value > 0)
-            {
-                this.AddParameter(param.ParamType, param.Value);
-            }
-        }*/
-    }
-
-    public void AddWeapon(ShipModuleType weapon)
-    {
-        Weapons.Add(new WeaponParameters(weapon));
-    }
-
-    public void AddOfficersParameters(RigSlotOfficerTeam team)
-    {
-        if (team.OfficerList.Count == 0)
-            return;
-
-        foreach(CrewOfficer curOfficer in team.OfficerList)
-        {
-
-            //Умножение обычных параметров на параметры офицера
-            double EngineBoost = curOfficer.StatValue(OfficerTypeStat.StatType.EngineBoost);
-            EngineBoost = (1 + (EngineBoost / 100));
-            AdjustParameter(SpaceShipParameter.Engine, EngineBoost);
-
-            double ThrustersBoost = curOfficer.StatValue(OfficerTypeStat.StatType.ThrustersBoost);
-            ThrustersBoost = (1 + (ThrustersBoost / 100));
-            AdjustParameter(SpaceShipParameter.Speed, ThrustersBoost);
-            AdjustParameter(SpaceShipParameter.Dexterity, ThrustersBoost);
-
-            double ShieldsBoost = curOfficer.StatValue(OfficerTypeStat.StatType.ShieldsBoost);
-            ShieldsBoost = (1 + (ShieldsBoost / 5));
-            AdjustParameter(SpaceShipParameter.ShieldPoints, ShieldsBoost);
-            AdjustParameter(SpaceShipParameter.ShieldRegen, ShieldsBoost);
-
-            double ArmorBoost = curOfficer.StatValue(OfficerTypeStat.StatType.ArmorBoost);
-            ArmorBoost = (1 + (ArmorBoost / 5));
-            AdjustParameter(SpaceShipParameter.ArmorPoints, ArmorBoost);
-
-            //Добавление параметров вооружения
-            if(Weapons.Count > 0)
-            {
-                foreach(WeaponParameters weapon in Weapons)
+                if(rigSlot.IsWeapon)
                 {
-                    weapon.LoadOfficer(curOfficer);
+                    if(!rigSlot.IsEmpty)
+                    {
+                        Weapons.Add(new WeaponParameters(rigSlot.Module));
+                    }
+                }
+                else if(rigSlot.IsModule)
+                {
+                    AddModule(rigSlot.Module);
+                }
+            }
+        }
+        else
+        {
+            foreach (var rigSlot in rig.Slots)
+            {
+                if (rigSlot.IsWeapon)
+                {
+                    if (!rigSlot.IsEmpty)
+                    {
+                        WeaponParameters curWeapon = new WeaponParameters(rigSlot.ModuleType);
+                        curWeapon.Slot = rigSlot.Slot;
+                        curWeapon.CalculateParameters();
+                        Weapons.Add(curWeapon);
+                    }
+                }
+                else if (rigSlot.IsModule)
+                {
+                    AddShipModuleType(rigSlot.ModuleType);
                 }
             }
         }
     }
 
-    public override string ToString()
+    private void SetShipModelParameters()
     {
-        StringBuilder t = new StringBuilder();
-        bool stringStarted = false;
-        foreach(ParameterAndValue param in this.ParameterList)
-        {
-
-            if(param.Value > 0)
-            {
-                if (stringStarted)
-                    t.Append("/");
-                t.Append(param.Value.ToString());
-                stringStarted = true;
-            }
-        }
-        return t.ToString();
+        StructurePoints = rig.sModel.BaseStructureHp;
     }
 
+    private void AddModule(ShipModule module)
+    {
+        Modules.Add(module);
+        AddShipModuleType(module.ModuleType);
+    }
+
+    private void AddShipModuleType(ShipModuleType moduleType)
+    {
+        ModuleTypes.Add(moduleType);
+        ArmorPoints += moduleType.ArmorPoints;
+        ShieldPoints += moduleType.ShieldPoints;
+        ShieldRegen += moduleType.ShieldRegen;
+        ReactorPoints += moduleType.ReactorPoints;
+        ReactorConsumption += moduleType.EnergyNeed;
+    }
+
+
+    private void ClearParameters()
+    {
+        StructurePoints = 0;
+        ArmorPoints = 0;
+        ShieldPoints = 0;
+        ShieldRegen = 0;
+        ReactorPoints = 0;
+        ReactorConsumption = 0;
+        ModuleTypes = new List<ShipModuleType>();
+        Modules = new List<ShipModule>();
+        Weapons = new List<WeaponParameters>();
+        
+    }
+
+    public List<WeaponParameters> Weapons;
     public class WeaponParameters
     {
+        public ShipModuleType ModuleType { get; set; }
+        public ShipModule Module { get; set; }
+        public ShipModelSlot Slot { get; set; }
 
-        public double ShieldDPS { get; set; }
-        public double StructureDPS { get; set; }
-        public int FireRate { get; set; }
-        public double ShieldDamage { get; set; }
-        public double StructureDamage { get; set; }
+        public float FireRate { get; set; }
+        public float DamageAmount { get; set; }
+        public float ShieldEffectiveness { get; set; }
+        public float ArmorEffectiveness { get; set; }
+        public float StructureEffectiveness { get; set; }
+        public bool IgnoreShield { get; set; }
+        public float CriticalChance { get; set; }
+        public float CriticalStrength { get; set; }
 
-        public ShipModuleType Weapon { get; set; }
+        public float DPS { get; set; }
 
-        public WeaponParameters(ShipModuleType Weapon)  
+        public WeaponParameters() { }
+        public WeaponParameters(ShipModule module)
         {
-
-            /*this.Weapon = Weapon;
-            FireRate = (int)Weapon.GetParameter(SpaceShipParameter.FireRate);
-            ShieldDamage = Weapon.GetParameter(SpaceShipParameter.ShieldDamage);
-            StructureDamage = Weapon.GetParameter(SpaceShipParameter.StructureDamage);*/
-
-            CalculateDPS();
+            Module = module;
+            ModuleType = module.ModuleType;
+        }
+        public WeaponParameters(ShipModuleType moduleType)
+        {
+            ModuleType = moduleType;
         }
 
-        public void LoadOfficer(CrewOfficer officer)
+        public void CalculateParameters()
         {
-            double Bonus = 0;
-
-            switch(Weapon.WeaponType)
-            {
-                case ShipModuleType.WeaponTypes.Laser:
-                    Bonus = officer.StatValue(OfficerTypeStat.StatType.EnergyWeapons);
-                    break;
-                case ShipModuleType.WeaponTypes.Kinetic:
-                    Bonus = officer.StatValue(OfficerTypeStat.StatType.KineticWeapons);
-                    break;
-                case ShipModuleType.WeaponTypes.Explosive:
-                    Bonus = officer.StatValue(OfficerTypeStat.StatType.RocketWeapons);
-                    break;
-                default:
-                    Bonus = 0;
-                    break;
-            }
-
-            if (Bonus < 1)
-                return;
-
-            ShieldDamage = (ShieldDamage * (1 + (Bonus / 5)));
-            StructureDamage = (StructureDamage * (1 + (Bonus / 5)));
-
-            CalculateDPS();
+            SetModelParameters();
 
         }
 
-        private void CalculateDPS()
+        private void SetModelParameters()
         {
-            this.ShieldDPS = (double)ShieldDamage * FireRate / 60;
-            this.StructureDPS = (double)StructureDamage * FireRate / 60;
+
+            int damageModifier = 1 + Slot.DoubleWeapon;
+
+            FireRate = ModuleType.FireRate;
+            DamageAmount = ModuleType.DamageAmount * damageModifier;
+            ShieldEffectiveness = ModuleType.ShieldEffectiveness;
+            ArmorEffectiveness = ModuleType.ArmorEffectiveness;
+            StructureEffectiveness = ModuleType.StructureEffectiveness;
+            IgnoreShield = ModuleType.IgnoreShield == 1;
+            CriticalChance = ModuleType.CriticalChance;
+            CriticalStrength = ModuleType.CriticalStrength;
+
+            DPS = DamageAmount * (ShieldEffectiveness + ArmorEffectiveness + StructureEffectiveness) / 300;
+            DPS = DPS * (1 + CriticalChance / 100 * CriticalStrength / 100);
+
+        }
+
+        public string BottomLineString()
+        {
+            StringBuilder t = new StringBuilder();
+            t.Append($"DPS: {DPS}");
+            t.AppendLine($"Fire rate: {FireRate}");
+            t.AppendLine($"Damage amount: {DamageAmount}");
+            t.AppendLine($"Shield effectiveness: {ShieldEffectiveness}");
+            t.AppendLine($"Armor effectiveness: {ArmorEffectiveness}");
+            t.AppendLine($"Structure effectiveness: {StructureEffectiveness}");
+            if (IgnoreShield)
+                t.AppendLine("Ignores shield");
+            t.AppendLine($"Critical chance: {CriticalChance}");
+            t.AppendLine($"Critical strength: {CriticalStrength}");
+            return t.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ModuleType.Name;
         }
 
     }
 
-    public string BottomlineString()
+    public class ParameterBonus
     {
+        public float StructureAdd { get; set; }
+        public float StructurePercent { get; set; }
+        public float ArmorAdd { get; set; }
+        public float ArmorPercent { get; set; }
+        public float ShieldAdd { get; set; }
+        public float ShieldPercent { get; set; }
+        public float ShieldRegenAdd { get; set; }
+        public float ShieldRegenPercent { get; set; }
+        public float DexterityAdd { get; set; }
+        public float DexterityPercent { get; set; }
+        public float FireRateAdd { get; set; }
+        public float FireRatePercent { get; set; }
+        public float DamageAmountAdd { get; set; }
+        public float ShieldEffectivenessAdd { get; set; }
+        public float ShieldEffectivenessPercent { get; set; }
+        public float ArmorEffectivenessAdd { get; set; }
+        public float ArmorEffectivenessPercent { get; set; }
+        public float StructureEffectivenessAdd { get; set; }
+        public float StructureEffectivenessPercent { get; set; }
+        public float CriticalChanceAdd { get; set; }
+        public float CriticalChancePercent { get; set; }
+        public float CriticalStrengthAdd { get; set; }
+        public float CriticalStrengthPercent { get; set; }
 
-        StringBuilder t = new StringBuilder();
+        public ParameterBonus() { }
 
-        if (ship != null)
+        public void CreateFromOfficer(Crew.CrewOfficer officer)
         {
-            t.AppendLine("Ship: " + ship.ToString());
-            t.AppendLine("");
+
         }
 
-        
-        foreach(ParameterAndValue param in ParameterList)
-        {
-            t.AppendLine(param.tString + ": " + param.Value);
-        }
-        t.AppendLine("");
-
-        if (Weapons.Count > 0)
-        {
-            foreach (WeaponParameters weapon in Weapons)
-            {
-                t.AppendLine($"Weapon: {weapon.Weapon.Name}");
-                t.AppendLine($"{weapon.FireRate}/{weapon.ShieldDamage}/{weapon.StructureDamage} : {weapon.ShieldDPS}/{weapon.StructureDPS}");
-            }
-        }
-        else
-        {
-            t.AppendLine("Weapons: none");
-        }
-
-        return t.ToString();
     }
 
-    public string ParameterNamesString()
+    public string BottomLineString()
     {
         StringBuilder t = new StringBuilder();
-        foreach (ParameterAndValue param in ParameterList)
-        {
-            t.AppendLine(param.tString);
-        }
 
-        if (Weapons.Count > 0)
+        t.AppendLine(rig.sModel.Name);
+
+        if (StructurePoints > 0)
+            t.AppendLine($"Structure points: {StructurePoints}");
+        if(ArmorPoints > 0)
+            t.AppendLine($"Armor points: {ArmorPoints}");
+        if (ShieldPoints > 0)
+            t.AppendLine($"Shield points: {ShieldPoints}");
+        if (ShieldRegen > 0)
+            t.AppendLine($"Shield regen: {ShieldRegen}");
+        t.AppendLine($"Energy balance: {ReactorPoints - ReactorConsumption}");
+
+        if(Weapons.Count > 0)
         {
-            foreach (WeaponParameters weapon in Weapons)
+            if(Weapons.Count > 1)
             {
-                t.AppendLine("Weapon: " + weapon.Weapon.Name);
-                t.AppendLine("Fire rate");
-                t.AppendLine("Shield damage");
-                t.AppendLine("Structure damage");
+                float DPS = 0;
+                foreach (var weapon in Weapons)
+                {
+                    DPS += weapon.DPS;
+                }
+                t.AppendLine($"Total DPS: {DPS}");
             }
-        }
-
-        return t.ToString();
-    }
-
-    public string ParameterValuesString()
-    {
-        StringBuilder t = new StringBuilder();
-        foreach (ParameterAndValue param in ParameterList)
-        {
-            t.AppendLine(param.tString);
-        }
 
 
-        if (Weapons.Count > 0)
-        {
-            foreach (WeaponParameters weapon in Weapons)
+            foreach (var weapon in Weapons)
             {
                 t.AppendLine("");
-                t.AppendLine(weapon.FireRate.ToString());
-                t.AppendLine(weapon.ShieldDamage.ToString());
-                t.AppendLine(weapon.StructureDamage.ToString());
+                t.AppendLine($"Weapon: {weapon.ToString()}");
+                t.AppendLine(weapon.BottomLineString());
             }
         }
+        
 
         return t.ToString();
-
     }
 
 }

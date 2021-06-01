@@ -49,31 +49,31 @@ public class SpaceshipRig : UnitySpaceshipRig
         foreach(var slot in Slots)
         {
             ShipModelSlot slot2 = slot.Slot;
-            if(slot2.sType == ShipModelSlot.SlotType.Weapon)
+            if(slot2.SlotType == ShipModelSlot.SlotTypes.Weapon)
             {
                 var lst = mList.GetModules(ShipModuleType.ModuleTypes.Weapon);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
-            else if(slot2.sType == ShipModelSlot.SlotType.Engine)
+            else if(slot2.SlotType == ShipModelSlot.SlotTypes.Reactor)
             {
                 var lst = mList.GetModules(ShipModuleType.ModuleTypes.Reactor);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
-            else if(slot2.sType == ShipModelSlot.SlotType.Armor)
+            else if(slot2.SlotType == ShipModelSlot.SlotTypes.Armor)
             {
                 var lst = mList.GetModules(ShipModuleType.ModuleTypes.Armor);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
-            else if(slot2.sType == ShipModelSlot.SlotType.Thrusters)
+            else if(slot2.SlotType == ShipModelSlot.SlotTypes.Thrusters)
             {
                 var lst = mList.GetModules(ShipModuleType.ModuleTypes.Thrusters);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
-            else if(slot2.sType == ShipModelSlot.SlotType.Engine)
+            else if(slot2.SlotType == ShipModelSlot.SlotTypes.Reactor)
             {
                 var lst = mList.GetModules(ShipModuleType.ModuleTypes.Reactor);
                 if (lst.Count > 0)
@@ -376,6 +376,7 @@ public class RigSlot : UnityRigSlot
     public RigSlot(ShipModelSlot modelSlot)
     {
         team = new RigSlotOfficerTeam();
+        team.SlotType = modelSlot.SlotType;
         this.Slot = modelSlot;
     }
     public void LoadRig(SqlDataReader r, int playerId)
@@ -391,6 +392,7 @@ public class RigSlot : UnityRigSlot
         {
             team = new RigSlotOfficerTeam();
         }
+        team.SlotType = Slot.SlotType;
         int moduleId = (int)r["module_id"];
         if (moduleId > 0)
             Module = new ShipModule(moduleId);
@@ -529,7 +531,7 @@ public class UnityRigSlot
     public UnityRigSlot(ShipModelSlot modelSlot)
     {
         team = new RigSlotOfficerTeam();
-        team.SlotType = modelSlot.sType;
+        team.SlotType = modelSlot.SlotType;
         this.Slot = modelSlot;
     }
 
@@ -662,36 +664,24 @@ public class UnitySpaceshipRig
     public ShipModel sModel { get; set; }
     public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
-    public SpaceshipParameters Params { get; set; }
+    //public SpaceshipParameters Params { get; set; }
 
-    public void RecalculateParameters()
-    {
-        
-        Params = new SpaceshipParameters();
-        Params.ship = Ship;
-        Params.AddShipModelParameters(sModel);
-
-        //Загрузка параметров просто типов модулей в слотах
-        foreach (RigSlot slot in Slots)
+    private SpaceShipParameters pParams;
+    public SpaceShipParameters Params 
+    { 
+        get
         {
-            if (!slot.IsEmpty)
+            if (pParams == null)
             {
-                if (slot.IsModule)
-                    Params.AddModuleParameters(slot.ModuleType);
-                if (slot.IsWeapon)
-                    Params.AddWeapon(slot.ModuleType);
+                pParams = new SpaceShipParameters();
+                pParams.rig = (SpaceshipRig)this;
             }
+            return pParams;
         }
-
-        //Корректировка по параметрам офицеров
-        foreach (RigSlot slot in Slots)
+        set
         {
-            if (slot.IsOfficers)
-            {
-                Params.AddOfficersParameters(slot.team);
-            }
+            pParams = value;
         }
-
     }
 
     private void LoadSlots()
@@ -725,12 +715,6 @@ public class UnitySpaceshipRig
         this.sModel = ship.Model;
         this.PlayerId = ship.PlayerId;
         LoadSlots();
-
-        Params = new SpaceshipParameters();
-        Params.ship = this.Ship;
-
-        //Загрузка параметров модели корабля
-        Params.AddShipModelParameters(sModel);
 
     }
 
@@ -866,7 +850,7 @@ public class UnitySpaceshipRig
 public class UnityRigSlotOfficerTeam
 {
 
-    public ShipModelSlot.SlotType  SlotType { get; set; }
+    public ShipModelSlot.SlotTypes  SlotType { get; set; }
 
     public int MaxOfficers
     {
@@ -874,11 +858,11 @@ public class UnityRigSlotOfficerTeam
         {
             switch(SlotType)
             {
-                case UnityShipModelSlot.SlotType.Cabin:
+                case UnityShipModelSlot.SlotTypes.Cabin:
                     return 1;
-                case UnityShipModelSlot.SlotType.Cabin3:
+                case UnityShipModelSlot.SlotTypes.Cabin3:
                     return 3;
-                case UnityShipModelSlot.SlotType.ControlRoom:
+                case UnityShipModelSlot.SlotTypes.ControlRoom:
                     return 1;
                 default:
                     return 0;

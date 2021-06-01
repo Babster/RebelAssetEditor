@@ -415,10 +415,10 @@ public class StageEnemy
     public void CalculateParameters()
     {
         SpaceshipRig Rig = EnemyType.Rig;
-        Rig.RecalculateParameters();
+        /*Rig.RecalculateParameters();
         pEnemyStructurePoints = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureHitpoints));
         pEnemyShieldPoints = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldPoints));
-        pEnemyShieldRegen = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen));
+        pEnemyShieldRegen = (int)Math.Round(EnemyStatsMultiplier * Rig.Params.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen));*/
     }
 
 

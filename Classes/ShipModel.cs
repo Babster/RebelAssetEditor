@@ -42,11 +42,12 @@ public class ShipModel : UnityShipModel
                     id,
                     ss_design_id,
                     slot_number,
-                    slot_type,
+                    ISNULL(slot_type_int, 0) AS slot_type_int,
                     ISNULL(slot_control, '') AS slot_control, 
                     ISNULL(size, 1) AS size,
                     default_module_id,
-                    ISNULL(is_main_cabin, 0) AS is_main_cabin
+                    ISNULL(is_main_cabin, 0) AS is_main_cabin,
+                    ISNULL(double_weapon, 0) AS double_weapon
                 FROM
                     ss_designs_slots
                 WHERE
@@ -214,19 +215,20 @@ public class ShipModelSlot : UnityShipModelSlot
         Id = Convert.ToInt32(r["Id"]);
         ShipDesignId = Convert.ToInt32(r["ss_design_id"]);
         SlotNumber = Convert.ToInt32(r["slot_number"]);
-        SlotTypeStr = Convert.ToString(r["slot_type"]);
+        SlotType = (ShipModelSlot.SlotTypes)(r["slot_type_int"]);
         Size = Convert.ToInt32(r["size"]);
         SlotControl = Convert.ToString(r["slot_control"]);
         DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
         MainCabin = (int)r["is_main_cabin"];
-        
+        DoubleWeapon = (int)r["double_weapon"];
+
         if (Size < 1)
             Size = 1;
     }
 
     public override string ToString()
     {
-        return SlotTypeStr + " (" + SlotNumber + "/" + Id + ")";
+        return SlotType.ToString() + " (" + SlotNumber + "/" + Id + ")";
     }
 
     public void SaveData()
@@ -242,13 +244,14 @@ public class ShipModelSlot : UnityShipModelSlot
         q = $@"
                     UPDATE ss_designs_slots SET
                         slot_number = {SlotNumber}, 
-                        slot_type = @str1,
+                        slot_type_int = {(int)SlotType},
                         size = {Size},
-                        slot_control = @str2,
+                        slot_control = @str1,
                         default_module_id = {DefaultModuleId},
-                        is_main_cabin = {MainCabin.ToString()}
+                        is_main_cabin = {MainCabin.ToString()},
+                        double_weapon = {DoubleWeapon}
                     WHERE id = {Id}";
-        List<string> names = new List<string> { SlotTypeStr, SlotControl };
+        List<string> names = new List<string> { SlotControl };
         DataConnection.Execute(q, names);
     }
 
@@ -268,13 +271,13 @@ public class ShipModelSlot : UnityShipModelSlot
     {
         get
         {
-            List<SlotType> forModules = new List<SlotType>();
-            forModules.Add(SlotType.Armor);
-            forModules.Add(SlotType.Engine);
-            forModules.Add(SlotType.Misc);
-            forModules.Add(SlotType.Thrusters);
-            forModules.Add(SlotType.Weapon);
-            return forModules.Contains(sType);
+            List<SlotTypes> forModules = new List<SlotTypes>();
+            forModules.Add(SlotTypes.Armor);
+            forModules.Add(SlotTypes.Reactor);
+            forModules.Add(SlotTypes.Shield);
+            forModules.Add(SlotTypes.Thrusters);
+            forModules.Add(SlotTypes.Weapon);
+            return forModules.Contains(SlotType);
         }
     }
 
@@ -282,12 +285,12 @@ public class ShipModelSlot : UnityShipModelSlot
     {
         get
         {
-            List<SlotType> forOfficers = new List<SlotType>();
-            forOfficers.Add(SlotType.Cabin);
-            forOfficers.Add(SlotType.ExtendedCabin);
-            forOfficers.Add(SlotType.ControlRoom);
-            forOfficers.Add(SlotType.ExtendedControlRoom);
-            return forOfficers.Contains(sType);
+            List<SlotTypes> forOfficers = new List<SlotTypes>();
+            forOfficers.Add(SlotTypes.Cabin);
+            forOfficers.Add(SlotTypes.ExtendedCabin);
+            forOfficers.Add(SlotTypes.ControlRoom);
+            forOfficers.Add(SlotTypes.ExtendedControlRoom);
+            return forOfficers.Contains(SlotType);
         }
     }
 
@@ -295,16 +298,16 @@ public class ShipModelSlot : UnityShipModelSlot
     {
         get
         {
-            List<SlotType> forCrew = new List<SlotType>();
-            forCrew.Add(SlotType.ExtendedCabin);
-            forCrew.Add(SlotType.ExtendedControlRoom);
-            return forCrew.Contains(sType);
+            List<SlotTypes> forCrew = new List<SlotTypes>();
+            forCrew.Add(SlotTypes.ExtendedCabin);
+            forCrew.Add(SlotTypes.ExtendedControlRoom);
+            return forCrew.Contains(SlotType);
         }
     }
 
     public string ModuleFitsSlot(ShipModuleType module)
     {
-        if ((int)module.ModuleType != (int)this.sType)
+        if ((int)module.ModuleType != (int)this.SlotType)
             return "Slot type doesn't fit module type";
         if (module.Size != this.Size)
             return "Slot size is too small";
@@ -332,7 +335,7 @@ public class UnityShipModel
             int count = 0;
             foreach(ShipModelSlot slot in slots)
             {
-                if (slot.sType == ShipModelSlot.SlotType.Weapon)
+                if (slot.SlotType == ShipModelSlot.SlotTypes.Weapon)
                     count += 1;
             }
             return count;
@@ -363,73 +366,28 @@ public class UnityShipModel
 
 public class UnityShipModelSlot
 {
-    public int Id { get; set; }
-    public int ShipDesignId { get; set; }
-    public int SlotNumber { get; set; }
-    public string SlotTypeStr { get; set; }
-    public int Size { get; set; }
-    public string SlotControl { get; set; }
-    public int DefaultModuleId { get; set; }
-    public int MainCabin { get; set; }
-
-    public enum SlotType
+    public int Id { get; set; } 
+    public int ShipDesignId { get; set; }  //Код корабля в таблице ss_designs
+    public int SlotNumber { get; set; } // Номер слота по порядку в модели корабля
+    public SlotTypes SlotType { get; set; } 
+    public int Size { get; set; } // Размер (пока 1-2-3)
+    public string SlotControl { get; set; } //С каким другим слотом связан этот (пока не используется)
+    public int DefaultModuleId { get; set; } //Модуль по умолчанию, в принципе сейчас не используется
+    public int MainCabin { get; set; } //Признак того, что эта кабина - главная (нужен как минимум 1 офицер)
+    public int DoubleWeapon { get; set; } //0 или 1 - признак того, что в данном слоте стоит две пушки (для симметричных кораблей)
+    public enum SlotTypes
     {
         None = 0,
         Weapon = 1,
         Armor = 2,
-        Engine = 3,
+        Reactor = 3,
         Thrusters = 4,
-        Misc = 5,
+        Shield = 5,
         Cabin = 20,
         Cabin3 = 24,
         ExtendedCabin = 21,
         ControlRoom = 22,
         ExtendedControlRoom = 23
-    }
-
-    private static Dictionary<string, SlotType> StringToSlotDict;
-    private static Dictionary<SlotType, string> SlotToStringDict;
-    private void FillDicts()
-    {
-        StringToSlotDict = new Dictionary<string, SlotType>();
-        StringToSlotDict.Add("None", SlotType.None);
-        StringToSlotDict.Add("Weapon", SlotType.Weapon);
-        StringToSlotDict.Add("Armor", SlotType.Armor);
-        StringToSlotDict.Add("Engine", SlotType.Engine);
-        StringToSlotDict.Add("Thrusters", SlotType.Thrusters);
-        StringToSlotDict.Add("Misc", SlotType.Misc);
-        StringToSlotDict.Add("Cabin", SlotType.Cabin);
-        StringToSlotDict.Add("ExtendedCabin", SlotType.ExtendedCabin);
-        StringToSlotDict.Add("ControlRoom", SlotType.ControlRoom);
-        StringToSlotDict.Add("ExtendedControlRoom", SlotType.ExtendedControlRoom);
-
-        SlotToStringDict = new Dictionary<SlotType, string>();
-        SlotToStringDict.Add(SlotType.None, "None");
-        SlotToStringDict.Add(SlotType.Weapon, "Weapon");
-        SlotToStringDict.Add(SlotType.Armor, "Armor");
-        SlotToStringDict.Add(SlotType.Engine, "Engine");
-        SlotToStringDict.Add(SlotType.Thrusters, "Thrusters");
-        SlotToStringDict.Add(SlotType.Misc, "Misc");
-        SlotToStringDict.Add(SlotType.Cabin, "Cabin");
-        SlotToStringDict.Add(SlotType.ExtendedCabin, "ExtendedCabin");
-        SlotToStringDict.Add(SlotType.ControlRoom, "ControlRoom");
-        SlotToStringDict.Add(SlotType.ExtendedControlRoom, "ExtendedControlRoom");
-
-    }
-    public SlotType sType
-    {
-        get
-        {
-            if (StringToSlotDict == null)
-                FillDicts();
-            return StringToSlotDict[SlotTypeStr];
-        }
-        set
-        {
-            if (StringToSlotDict == null)
-                FillDicts();
-            SlotTypeStr = SlotToStringDict[value];
-        }
     }
 
 }

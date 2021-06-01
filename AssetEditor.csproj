@@ -65,7 +65,8 @@
     <Compile Include="Classes\ShipModule.cs" />
     <Compile Include="Classes\ShipModuleType.cs" />
     <Compile Include="Classes\ShipModuleType2.cs" />
-    <Compile Include="Classes\SpaceshipParameters.cs" />
+    <Compile Include="Classes\SpaceshipParametersOld.cs" />
+    <Compile Include="Classes\SpaceShipParameters.cs" />
     <Compile Include="Classes\SpaceshipRig.cs" />
     <Compile Include="Classes\StaticMembers.cs" />
     <Compile Include="Classes\StoryClasses.cs" />

@@ -73,7 +73,7 @@ public class ObjectDatabase : UnityObjectDatabase
     private void LoadModuleTypes()
     {
         moduleTypes = new List<ShipModuleType>();
-        List<ShipModuleType> tModules = ShipModuleType.CreateList();
+        List<ShipModuleType> tModules = ShipModuleType.CreateList(true);
         foreach(var module in tModules)
         {
             if(!string.IsNullOrEmpty(module.AssetName))
