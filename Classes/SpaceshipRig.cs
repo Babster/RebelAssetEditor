@@ -51,31 +51,31 @@ public class SpaceshipRig : UnitySpaceshipRig
             ShipModelSlot slot2 = slot.Slot;
             if(slot2.sType == ShipModelSlot.SlotType.Weapon)
             {
-                var lst = mList.GetModules(ShipModuleType.ModuleType.Weapon);
+                var lst = mList.GetModules(ShipModuleType.ModuleTypes.Weapon);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
             else if(slot2.sType == ShipModelSlot.SlotType.Engine)
             {
-                var lst = mList.GetModules(ShipModuleType.ModuleType.Engine);
+                var lst = mList.GetModules(ShipModuleType.ModuleTypes.Reactor);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
             else if(slot2.sType == ShipModelSlot.SlotType.Armor)
             {
-                var lst = mList.GetModules(ShipModuleType.ModuleType.Armor);
+                var lst = mList.GetModules(ShipModuleType.ModuleTypes.Armor);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
             else if(slot2.sType == ShipModelSlot.SlotType.Thrusters)
             {
-                var lst = mList.GetModules(ShipModuleType.ModuleType.Thrusters);
+                var lst = mList.GetModules(ShipModuleType.ModuleTypes.Thrusters);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
-            else if(slot2.sType == ShipModelSlot.SlotType.Misc)
+            else if(slot2.sType == ShipModelSlot.SlotType.Engine)
             {
-                var lst = mList.GetModules(ShipModuleType.ModuleType.Misc);
+                var lst = mList.GetModules(ShipModuleType.ModuleTypes.Reactor);
                 if (lst.Count > 0)
                     slot.LoadModule(lst[0]);
             }
@@ -537,15 +537,15 @@ public class UnityRigSlot
     {
         get
         {
-            List<ShipModuleType.ModuleType> weaponTypes = new List<ShipModuleType.ModuleType>();
-            weaponTypes.Add(ShipModuleType.ModuleType.Weapon);
+            List<ShipModuleType.ModuleTypes> weaponTypes = new List<ShipModuleType.ModuleTypes>();
+            weaponTypes.Add(ShipModuleType.ModuleTypes.Weapon);
             if (ModuleType == null)
             {
                 return false;
             }
             else
             {
-                if (ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon)
+                if (ModuleType.ModuleType == ShipModuleType.ModuleTypes.Weapon)
                 {
                     return false;
                 }
@@ -567,7 +567,7 @@ public class UnityRigSlot
             }
             else
             {
-                return ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon;
+                return ModuleType.ModuleType == ShipModuleType.ModuleTypes.Weapon;
             }
         }
     }
@@ -798,15 +798,15 @@ public class UnitySpaceshipRig
         {
             if (slot.Module != null)
             {
-                if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Engine)
+                if (slot.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Reactor)
                 {
                     reactorInstalled = true;
                 }
-                else if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Weapon)
+                else if (slot.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Weapon)
                 {
                     weaponInstalled = true;
                 }
-                else if (slot.ModuleType.ModuleTypeFromStr() == ShipModuleType.ModuleType.Thrusters)
+                else if (slot.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Thrusters)
                 {
                     thrustersInstalled = true;
                 }

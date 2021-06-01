@@ -112,14 +112,14 @@ public class ShipModule : UnityShipModule
             this.Modules = modules;
         }
 
-        public List<ShipModule> GetModules(ShipModuleType.ModuleType moduleType)
+        public List<ShipModule> GetModules(ShipModuleType.ModuleTypes moduleType)
         {
             List<ShipModule> getModules = new List<ShipModule>();
             foreach(var module in this.Modules)
             {
                 if(!module.Reserve)
                 {
-                    if (module.ModuleType.ModuleTypeFromStr() == moduleType)
+                    if (module.ModuleType.ModuleType == moduleType)
                     {
                         getModules.Add(module);
                     }

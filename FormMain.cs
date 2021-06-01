@@ -990,6 +990,16 @@ namespace AssetEditor
 
         }
 
+        private void buttonConvertModulesFormat_Click(object sender, EventArgs e)
+        {
+            /*List<ShipModuleType> oldModules = ShipModuleType.CreateList();
+            foreach(var oldModule in oldModules)
+            {
+                ShipModuleType newModule = new ShipModuleType(oldModule);
+                newModule.SaveData();
+            }*/
+        }
+
         #endregion
 
         #region История - какой объект за каким следует
@@ -1100,16 +1110,14 @@ namespace AssetEditor
         private void FillModules()
         {
             treeModules.Nodes.Clear();
-            string q = ShipModuleType.ModuleQuery(true);
+            List<ShipModuleType> tModules = ShipModuleType.CreateList();
 
             Dictionary<int, TreeNode> nodeDict = new Dictionary<int, TreeNode>();
 
-            SqlDataReader r = DataConnection.GetReader(q);
-            if (r.HasRows)
+            if(tModules.Count > 0)
             {
-                while (r.Read())
+                foreach(var tag in tModules)
                 {
-                    ShipModuleType tag = new ShipModuleType(ref r);
                     TreeNode n;
                     if (tag.Parent == 0)
                     {
@@ -1120,28 +1128,25 @@ namespace AssetEditor
                         n = nodeDict[tag.Parent].Nodes.Add(tag.Name);
                     }
                     n.Tag = tag;
-
                     nodeDict.Add(tag.Id, n);
-
                 }
             }
-            r.Close();
 
             if (moduleTabDict == null)
             {
-                moduleTabDict = new Dictionary<string, TabPage>();
-                moduleTabDict.Add("Weapon", tabWeapon);
-                moduleTabDict.Add("Armor", tabArmor);
-                moduleTabDict.Add("Engine", tabEngine);
-                moduleTabDict.Add("Thrusters", tabThrusters);
-                moduleTabDict.Add("Misc", tabMisc);
+                moduleTabDict = new Dictionary<ShipModuleType.ModuleTypes, TabPage>();
+                moduleTabDict.Add(ShipModuleType.ModuleTypes.Weapon, tabWeapon);
+                moduleTabDict.Add(ShipModuleType.ModuleTypes.Armor, tabArmor);
+                moduleTabDict.Add(ShipModuleType.ModuleTypes.Reactor, tabReactor);
+                moduleTabDict.Add(ShipModuleType.ModuleTypes.Thrusters, tabThrusters);
+                moduleTabDict.Add(ShipModuleType.ModuleTypes.Shield, tabShield);
 
-                moduleTypeDict = new Dictionary<TabPage, string>();
-                moduleTypeDict.Add(tabWeapon, "Weapon");
-                moduleTypeDict.Add(tabArmor, "Armor");
-                moduleTypeDict.Add(tabEngine, "Engine");
-                moduleTypeDict.Add(tabThrusters, "Thrusters");
-                moduleTypeDict.Add(tabMisc, "Misc");
+                moduleTypeDict = new Dictionary<TabPage, ShipModuleType.ModuleTypes>();
+                moduleTypeDict.Add(tabWeapon, ShipModuleType.ModuleTypes.Weapon);
+                moduleTypeDict.Add(tabArmor, ShipModuleType.ModuleTypes.Armor);
+                moduleTypeDict.Add(tabReactor, ShipModuleType.ModuleTypes.Reactor);
+                moduleTypeDict.Add(tabThrusters, ShipModuleType.ModuleTypes.Thrusters);
+                moduleTypeDict.Add(tabShield, ShipModuleType.ModuleTypes.Shield);
 
             }
 
@@ -1163,18 +1168,27 @@ namespace AssetEditor
             ModuleRadioToSizeDict.Add(radioModule3, 3);
         }
 
-        private Dictionary<ShipModuleType.WeaponType, RadioButton> ModuleWeaponTypeToRadioDict;
-        private Dictionary<RadioButton, ShipModuleType.WeaponType> ModuleRadioToWeaponTypeDict;
+        private Dictionary<ShipModuleType.WeaponTypes, RadioButton> ModuleWeaponTypeToRadioDict;
+        private Dictionary<RadioButton, ShipModuleType.WeaponTypes> ModuleRadioToWeaponTypeDict;
+        
         private void FillModuleWeaponType()
         {
-            ModuleWeaponTypeToRadioDict = new Dictionary<ShipModuleType.WeaponType, RadioButton>();
-            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Energy, radioEnergy);
-            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Kinetic, radioKinetic);
-            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponType.Rocket, radioRocket);
-            ModuleRadioToWeaponTypeDict = new Dictionary<RadioButton, ShipModuleType.WeaponType>();
-            ModuleRadioToWeaponTypeDict.Add(radioEnergy, ShipModuleType.WeaponType.Energy);
-            ModuleRadioToWeaponTypeDict.Add(radioKinetic, ShipModuleType.WeaponType.Kinetic);
-            ModuleRadioToWeaponTypeDict.Add(radioRocket, ShipModuleType.WeaponType.Rocket);
+            ModuleWeaponTypeToRadioDict = new Dictionary<ShipModuleType.WeaponTypes, RadioButton>();
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Laser, radioLaser);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Kinetic, radioKinetic);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Explosive, radioExplosive);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Ray, radioRay);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Plasma, radioPlasma);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Gravity, radioGravity);
+            ModuleWeaponTypeToRadioDict.Add(ShipModuleType.WeaponTypes.Doom, radioDoom);
+            ModuleRadioToWeaponTypeDict = new Dictionary<RadioButton, ShipModuleType.WeaponTypes>();
+            ModuleRadioToWeaponTypeDict.Add(radioLaser, ShipModuleType.WeaponTypes.Laser);
+            ModuleRadioToWeaponTypeDict.Add(radioKinetic, ShipModuleType.WeaponTypes.Kinetic);
+            ModuleRadioToWeaponTypeDict.Add(radioExplosive, ShipModuleType.WeaponTypes.Explosive);
+            ModuleRadioToWeaponTypeDict.Add(radioRay, ShipModuleType.WeaponTypes.Ray);
+            ModuleRadioToWeaponTypeDict.Add(radioPlasma, ShipModuleType.WeaponTypes.Plasma);
+            ModuleRadioToWeaponTypeDict.Add(radioGravity, ShipModuleType.WeaponTypes.Gravity);
+            ModuleRadioToWeaponTypeDict.Add(radioDoom, ShipModuleType.WeaponTypes.Doom);
         }
 
         private void buttonSsAddCategory_Click(object sender, EventArgs e)
@@ -1204,29 +1218,33 @@ namespace AssetEditor
 
             }
 
-            ShipModuleType tag = new ShipModuleType(parentTag, isCategory);
+            ShipModuleType tag = new ShipModuleType();
+            tag.Parent = parentTag;
+            tag.IsCategory = isCategory;
             newNode = nodesCollection.Add(tag.Name);
             newNode.Tag = tag;
             treeModules.SelectedNode = newNode;
         }
 
-        private Dictionary<string, TabPage> moduleTabDict;
-        private Dictionary<TabPage, string> moduleTypeDict;
+        private Dictionary<ShipModuleType.ModuleTypes, TabPage> moduleTabDict;
+        private Dictionary<TabPage, ShipModuleType.ModuleTypes> moduleTypeDict;
 
         private void treeModules_AfterSelect(object sender, TreeViewEventArgs e)
         {
+
+            ClearModule();
+
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
-            ClearModule();
-
+            
             NoEvents = true;
 
             textModuleId.Text = tag.Id.ToString();
             textName.Text = tag.Name;
             textModuleUnity.Text = tag.AssetName;
-            textModuleType.Text = tag.ModuleTypeStr;
-            textModuleEnergy.Text = tag.EnergyNeeded.ToString();
+            textModuleType.Text = tag.ModuleType.ToString();
+            textModuleEnergy.Text = tag.EnergyNeed.ToString();
             textModuleImgId.Text = tag.ImgId.ToString();
             if (tag.IsCategory == 1)
             {
@@ -1234,17 +1252,51 @@ namespace AssetEditor
                 return;
             }
 
-            if (string.IsNullOrEmpty(tag.ModuleTypeStr))
-                tag.ModuleTypeStr = "Weapon";
+            ModuleSizeToRadioDict[tag.Size].Checked = true;
 
             ModuleSizeToRadioDict[tag.Size].Checked = true;
-            if (ModuleWeaponTypeToRadioDict.ContainsKey(tag.wType))
-                ModuleWeaponTypeToRadioDict[tag.wType].Checked = true;
+
+            //Weapon module type filling
+            if((int)tag.WeaponType > 0)
+            {
+                ModuleWeaponTypeToRadioDict[tag.WeaponType].Checked = true;
+            }
+            textModuleFireRate.Text = tag.FireRate.ToString();
+            textModuleDamageAmount.Text = tag.DamageAmount.ToString();
+            textModuleShieldEffectiveness.Text = tag.ShieldEffectiveness.ToString();
+            textModuleArmorEffectiveness.Text = tag.ArmorEffectiveness.ToString();
+            textModuleStructureEffectiveness.Text = tag.StructureEffectiveness.ToString();
+            checkModuleIgnoreShield.Checked = tag.IgnoreShield == 1;
+            textModuleCriticalChance.Text = tag.CriticalChance.ToString();
+            textModuleCriticalStrength.Text = tag.CriticalStrength.ToString();
+
+            //Armor
+            textModuleArmor.Text = tag.ArmorPoints.ToString();
+
+            //Reactor
+            textModuleReactor.Text = tag.ReactorPoints.ToString();
+
+            //Thrusters
+            textModuleThrustStrength.Text = tag.ThrustStrength.ToString();
+            textModuleDexterity.Text = tag.Dexterity.ToString();
+
+            //Shields
+            textModuleShieldPoints.Text = tag.ShieldPoints.ToString();
+            textModuleShieldRegen.Text = tag.ShieldRegen.ToString();
+
+            if (moduleTabDict.ContainsKey(tag.ModuleType))
+            {
+                tabControlModule.SelectedTab = moduleTabDict[tag.ModuleType];
+            }
+            else
+            {
+                tabControlModule.SelectedTab = tabControlModule.TabPages[0];
+            }
+
 
             NoEvents = false;
 
-            tabControlModule.SelectedTab = moduleTabDict[tag.ModuleTypeStr];
-            FillModuleTab();
+            
         }
 
         private void ClearModule()
@@ -1255,28 +1307,38 @@ namespace AssetEditor
             textModuleEnergy.Text = "";
             textModuleType.Text = "";
             textModuleImgId.Text = "";
-            NoEvents = false;
-            ClearModuleTabs();
-        }
+            foreach (RadioButton key in ModuleRadioToSizeDict.Keys)
+            {
+                key.Checked = false;
+            }
 
-        private void ClearModuleTabs()
-        {
-            NoEvents = true;
+            foreach (RadioButton key in ModuleRadioToWeaponTypeDict.Keys)
+            {
+                key.Checked = false;
+            }
 
             textModuleFireRate.Text = "";
-            textModuleDeflectorDamage.Text = "";
-            textModuleStructureDamage.Text = "";
+            textModuleDamageAmount.Text = "";
+            textModuleShieldEffectiveness.Text = "";
+            textModuleCriticalChance.Text = "";
+            textModuleCriticalStrength.Text = "";
 
-            textModuleDeflectors.Text = "";
-            textModuleDeflectorsRegen.Text = "";
+            //Armor
             textModuleArmor.Text = "";
 
-            textModuleEngine.Text = "";
+            //Reactor
+            textModuleReactor.Text = "";
 
-            textModuleSpeed.Text = "";
-            textDexterity.Text = "";
+            //Thrusters
+            textModuleThrustStrength.Text = "";
+            textModuleDexterity.Text = "";
+
+            //Shields
+            textModuleShieldPoints.Text = "";
+            textModuleShieldRegen.Text = "";
 
             NoEvents = false;
+
         }
 
         private ShipModuleType GetModuleTag()
@@ -1318,7 +1380,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleEnergy.Text, out tNumber);
-            tag.EnergyNeeded = tNumber;
+            tag.EnergyNeed = tNumber;
         }
         private void textModuleImgId_TextChanged(object sender, EventArgs e)
         {
@@ -1361,51 +1423,9 @@ namespace AssetEditor
             }
         }
 
-        private void tabControlModule_Selected(object sender, TabControlEventArgs e)
-        {
-            FillModuleTab();
-        }
-
-        private void FillModuleTab()
-        {
-            textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
-            ShipModuleType tag = GetModuleTag();
-            if (tag == null)
-                return;
-            tag.ModuleTypeStr = textModuleType.Text;
-
-            ClearModuleTabs();
-
-            NoEvents = true;
-
-            switch (tag.ModuleTypeStr)
-            {
-                case "Weapon":
-                    textModuleFireRate.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.FireRate).ToString();
-                    textModuleDeflectorDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldDamage).ToString();
-                    textModuleStructureDamage.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.StructureDamage).ToString();
-                    break;
-                case "Armor":
-                    textModuleArmor.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ArmorPoints).ToString();
-                    break;
-                case "Engine":
-                    textModuleEngine.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Engine).ToString();
-                    break;
-                case "Thrusters":
-                    textModuleSpeed.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Speed).ToString();
-                    textDexterity.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.Dexterity).ToString();
-                    break;
-                case "Misc":
-                    textModuleDeflectors.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldPoints).ToString();
-                    textModuleDeflectorsRegen.Text = tag.parameters.ParameterValue(SpaceshipParameters.SpaceShipParameter.ShieldRegen).ToString();
-                    break;
-            }
-            NoEvents = false;
-        }
-
         private void buttonSaveModule_Click(object sender, EventArgs e)
         {
-            textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab];
+            textModuleType.Text = moduleTypeDict[tabControlModule.SelectedTab].ToString();
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
@@ -1424,10 +1444,10 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleFireRate.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.FireRate, tNumber);
+            tag.ArmorPoints = tNumber;
         }
 
-        private void textModuleDeflectorDamage_TextChanged(object sender, EventArgs e)
+        private void textModuleDamageAmount_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
@@ -1435,11 +1455,12 @@ namespace AssetEditor
             if (tag == null)
                 return;
             int tNumber = 0;
-            Int32.TryParse(textModuleDeflectorDamage.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldDamage, tNumber);
+            Int32.TryParse(textModuleDamageAmount.Text, out tNumber);
+            tag.DamageAmount = tNumber;
+
         }
 
-        private void textModuleStructureDamage_TextChanged(object sender, EventArgs e)
+        private void textModuleShieldEffectiveness_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
@@ -1447,8 +1468,121 @@ namespace AssetEditor
             if (tag == null)
                 return;
             int tNumber = 0;
-            Int32.TryParse(textModuleStructureDamage.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.StructureDamage, tNumber);
+            Int32.TryParse(textModuleShieldEffectiveness.Text, out tNumber);
+            tag.ShieldEffectiveness = tNumber;
+        }
+
+        private void textModuleArmorEffectiveness_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleArmorEffectiveness.Text, out tNumber);
+            tag.ArmorEffectiveness = tNumber;
+        }
+
+        private void textModuleStructureEffectiveness_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleStructureEffectiveness.Text, out tNumber);
+            tag.StructureEffectiveness = tNumber;
+        }
+
+        private void checkModuleIgnoreShield_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            if(checkModuleIgnoreShield.Checked)
+            {
+                tag.IgnoreShield = 1;
+            }
+            else
+            {
+                tag.IgnoreShield = 0;
+            }
+        }
+
+        private void textModuleCriticalChance_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleCriticalChance.Text, out tNumber);
+            tag.CriticalChance = tNumber;
+        }
+
+        private void textModuleCriticalStrength_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleCriticalStrength.Text, out tNumber);
+            tag.CriticalStrength = tNumber;
+        }
+
+        private void textModuleArmor_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleArmor.Text, out tNumber);
+            tag.ArmorPoints = tNumber;
+        }
+
+        private void textModuleEngine_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleReactor.Text, out tNumber);
+            tag.ReactorPoints = tNumber;
+        }
+
+        private void textModuleSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleThrustStrength.Text, out tNumber);
+            tag.ThrustStrength = tNumber;
+        }
+
+        private void textDexterity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModuleType tag = GetModuleTag();
+            if (tag == null)
+                return;
+            int tNumber = 0;
+            Int32.TryParse(textModuleDexterity.Text, out tNumber);
+            tag.Dexterity = tNumber;
         }
 
         private void textModuleDeflectors_TextChanged(object sender, EventArgs e)
@@ -1459,8 +1593,8 @@ namespace AssetEditor
             if (tag == null)
                 return;
             int tNumber = 0;
-            Int32.TryParse(textModuleDeflectors.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldPoints, tNumber);
+            Int32.TryParse(textModuleShieldPoints.Text, out tNumber);
+            tag.ShieldPoints = tNumber;
         }
 
         private void textModuleDeflectorsRegen_TextChanged(object sender, EventArgs e)
@@ -1471,22 +1605,59 @@ namespace AssetEditor
             if (tag == null)
                 return;
             int tNumber = 0;
-            Int32.TryParse(textModuleDeflectorsRegen.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ShieldRegen, tNumber);
+            Int32.TryParse(textModuleShieldRegen.Text, out tNumber);
+            tag.ShieldRegen = tNumber;
         }
 
-        private void radioEnergy_CheckedChanged(object sender, EventArgs e)
+        private void radioLaser_CheckedChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+                return;
             SetWeaponType();
         }
+
+        private void radioExplosive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SetWeaponType();
+        }
+
         private void radioKinetic_CheckedChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+                return;
             SetWeaponType();
         }
-        private void radioRocket_CheckedChanged(object sender, EventArgs e)
+
+        private void radioRay_CheckedChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+                return;
             SetWeaponType();
         }
+
+        private void radioPlasma_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SetWeaponType();
+        }
+
+        private void radioGravity_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SetWeaponType();
+        }
+
+        private void radioDoom_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SetWeaponType();
+        }
+
         private void SetWeaponType()
         {
             if (NoEvents)
@@ -1498,59 +1669,44 @@ namespace AssetEditor
             {
                 if (key.Checked)
                 {
-                    tag.wType = ModuleRadioToWeaponTypeDict[key];
+                    tag.WeaponType = ModuleRadioToWeaponTypeDict[key];
                     return;
                 }
             }
         }
 
-
-        private void textModuleArmor_TextChanged(object sender, EventArgs e)
+        private void tabWeapon_Enter(object sender, EventArgs e)
         {
-            if (NoEvents)
-                return;
-            ShipModuleType tag = GetModuleTag();
-            if (tag == null)
-                return;
-            int tNumber = 0;
-            Int32.TryParse(textModuleArmor.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.ArmorPoints, tNumber);
+            SetModuleType();
+        }
+        private void tabArmor_Enter(object sender, EventArgs e)
+        {
+            SetModuleType();
+        }
+        private void tabReactor_Enter(object sender, EventArgs e)
+        {
+            SetModuleType();
+        }
+        private void tabThrusters_Enter(object sender, EventArgs e)
+        {
+            SetModuleType();
+        }
+        private void tabShield_Enter(object sender, EventArgs e)
+        {
+            SetModuleType();
         }
 
-        private void textModuleEngine_TextChanged(object sender, EventArgs e)
+        private void SetModuleType()
         {
             if (NoEvents)
                 return;
             ShipModuleType tag = GetModuleTag();
             if (tag == null)
                 return;
-            int tNumber = 0;
-            Int32.TryParse(textModuleEngine.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Engine, tNumber);
-        }
 
-        private void textModuleSpeed_TextChanged(object sender, EventArgs e)
-        {
-            if (NoEvents)
-                return;
-            ShipModuleType tag = GetModuleTag();
-            if (tag == null)
-                return;
-            int tNumber = 0;
-            Int32.TryParse(textModuleSpeed.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Speed, tNumber);
-        }
+            tag.ModuleType = moduleTypeDict[tabControlModule.SelectedTab];
+            textModuleType.Text = tag.ModuleType.ToString();
 
-        private void textDexterity_TextChanged(object sender, EventArgs e)
-        {
-            if (NoEvents)
-                return;
-            ShipModuleType tag = GetModuleTag();
-            if (tag == null)
-                return;
-            int tNumber = 0;
-            Int32.TryParse(textDexterity.Text, out tNumber);
-            tag.SetParameter(SpaceshipParameters.SpaceShipParameter.Dexterity, tNumber);
         }
 
         #endregion
@@ -2020,7 +2176,7 @@ namespace AssetEditor
             if (saRig.Ship == null)
             {
                 //Сюда попадаем если нужно заполнить список модулей их типами
-                List<ShipModuleType> moduleTypes = ShipModuleType.CreateModuleList();
+                List<ShipModuleType> moduleTypes = ShipModuleType.CreateList();
                 if (moduleTypes.Count > 0)
                 {
                     foreach (ShipModuleType moduleType in moduleTypes)
@@ -2029,8 +2185,8 @@ namespace AssetEditor
                         gridSaModules.Rows.Add();
                         row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
                         row.Cells["sam_module"].Value = moduleType;
-                        row.Cells["sam_type"].Value = moduleType.ModuleTypeStr;
-                        row.Cells["sam_energy_needed"].Value = moduleType.EnergyNeeded;
+                        row.Cells["sam_type"].Value = moduleType.ModuleType.ToString();
+                        row.Cells["sam_energy_needed"].Value = moduleType.EnergyNeed;
                     }
                 }
             }
@@ -2046,8 +2202,8 @@ namespace AssetEditor
                         gridSaModules.Rows.Add();
                         row = gridSaModules.Rows[gridSaModules.Rows.Count - 1];
                         row.Cells["sam_module"].Value = module;
-                        row.Cells["sam_type"].Value = module.ModuleType.ModuleTypeStr;
-                        row.Cells["sam_energy_needed"].Value = module.ModuleType.EnergyNeeded;
+                        row.Cells["sam_type"].Value = module.ModuleType.ModuleType.ToString();
+                        row.Cells["sam_energy_needed"].Value = module.ModuleType.EnergyNeed;
                     }
                 }
             }
@@ -2652,7 +2808,7 @@ namespace AssetEditor
             }
 
             comboEventModule.Items.Clear();
-            List<ShipModuleType> modules = ShipModuleType.GetModuleList();
+            List<ShipModuleType> modules = ShipModuleType.CreateList();
             foreach (ShipModuleType module in modules)
             {
                 comboEventModule.Items.Add(module);
@@ -4095,7 +4251,7 @@ namespace AssetEditor
 
             if((string)comboBpProductType.SelectedItem == "Make spaceship module")
             {
-                List<ShipModuleType> mTypes = ShipModuleType.CreateModuleList();
+                List<ShipModuleType> mTypes = ShipModuleType.CreateList();
                 if(mTypes.Count > 0)
                 {
                     foreach(var mType in mTypes)
@@ -4107,7 +4263,7 @@ namespace AssetEditor
 
             if((string)comboBpProductType.SelectedItem == "Make spaceship")
             {
-                var sModels = ShipModuleType.CreateModuleList();
+                var sModels = ShipModuleType.CreateList();
                 foreach(var sModel in sModels)
                 {
                     comboBpProduct.Items.Add(sModel);
@@ -4433,6 +4589,15 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
+
+
+
+
+
+
+
+
+
 
 
         #endregion

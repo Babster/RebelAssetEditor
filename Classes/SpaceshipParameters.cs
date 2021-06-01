@@ -192,13 +192,13 @@ public class SpaceshipParameters
 
     public void AddModuleParameters(ShipModuleType module)
     {
-        foreach(ParameterAndValue param in module.parameters.ParameterList)
+        /*foreach(ParameterAndValue param in module.parameters.ParameterList)
         {
             if(param.Value > 0)
             {
                 this.AddParameter(param.ParamType, param.Value);
             }
-        }
+        }*/
     }
 
     public void AddWeapon(ShipModuleType weapon)
@@ -276,10 +276,10 @@ public class SpaceshipParameters
         public WeaponParameters(ShipModuleType Weapon)  
         {
 
-            this.Weapon = Weapon;
+            /*this.Weapon = Weapon;
             FireRate = (int)Weapon.GetParameter(SpaceShipParameter.FireRate);
             ShieldDamage = Weapon.GetParameter(SpaceShipParameter.ShieldDamage);
-            StructureDamage = Weapon.GetParameter(SpaceShipParameter.StructureDamage);
+            StructureDamage = Weapon.GetParameter(SpaceShipParameter.StructureDamage);*/
 
             CalculateDPS();
         }
@@ -288,15 +288,15 @@ public class SpaceshipParameters
         {
             double Bonus = 0;
 
-            switch(Weapon.wType)
+            switch(Weapon.WeaponType)
             {
-                case ShipModuleType.WeaponType.Energy:
+                case ShipModuleType.WeaponTypes.Laser:
                     Bonus = officer.StatValue(OfficerTypeStat.StatType.EnergyWeapons);
                     break;
-                case ShipModuleType.WeaponType.Kinetic:
+                case ShipModuleType.WeaponTypes.Kinetic:
                     Bonus = officer.StatValue(OfficerTypeStat.StatType.KineticWeapons);
                     break;
-                case ShipModuleType.WeaponType.Rocket:
+                case ShipModuleType.WeaponTypes.Explosive:
                     Bonus = officer.StatValue(OfficerTypeStat.StatType.RocketWeapons);
                     break;
                 default:

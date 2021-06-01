@@ -94,6 +94,7 @@
             this.treeStats = new System.Windows.Forms.TreeView();
             this.buttonCreateStat = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.buttonConvertModulesFormat = new System.Windows.Forms.Button();
             this.buttonSaveDataset = new System.Windows.Forms.Button();
             this.buttonSavePlayerAssets = new System.Windows.Forms.Button();
             this.treePlayers = new System.Windows.Forms.TreeView();
@@ -122,30 +123,51 @@
             this.buttonSaveModule = new System.Windows.Forms.Button();
             this.tabControlModule = new System.Windows.Forms.TabControl();
             this.tabWeapon = new System.Windows.Forms.TabPage();
-            this.radioRocket = new System.Windows.Forms.RadioButton();
+            this.checkModuleIgnoreShield = new System.Windows.Forms.CheckBox();
+            this.label118 = new System.Windows.Forms.Label();
+            this.label117 = new System.Windows.Forms.Label();
+            this.label116 = new System.Windows.Forms.Label();
+            this.label115 = new System.Windows.Forms.Label();
+            this.label114 = new System.Windows.Forms.Label();
+            this.label113 = new System.Windows.Forms.Label();
+            this.textModuleStructureEffectiveness = new System.Windows.Forms.TextBox();
+            this.label112 = new System.Windows.Forms.Label();
+            this.textModuleArmorEffectiveness = new System.Windows.Forms.TextBox();
+            this.label111 = new System.Windows.Forms.Label();
+            this.label110 = new System.Windows.Forms.Label();
+            this.label109 = new System.Windows.Forms.Label();
+            this.textModuleCriticalStrength = new System.Windows.Forms.TextBox();
+            this.label108 = new System.Windows.Forms.Label();
+            this.textModuleCriticalChance = new System.Windows.Forms.TextBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.radioDoom = new System.Windows.Forms.RadioButton();
+            this.radioGravity = new System.Windows.Forms.RadioButton();
+            this.radioPlasma = new System.Windows.Forms.RadioButton();
+            this.radioRay = new System.Windows.Forms.RadioButton();
             this.radioKinetic = new System.Windows.Forms.RadioButton();
-            this.radioEnergy = new System.Windows.Forms.RadioButton();
+            this.radioLaser = new System.Windows.Forms.RadioButton();
+            this.radioExplosive = new System.Windows.Forms.RadioButton();
             this.label24 = new System.Windows.Forms.Label();
-            this.textModuleStructureDamage = new System.Windows.Forms.TextBox();
-            this.textModuleDeflectorDamage = new System.Windows.Forms.TextBox();
+            this.textModuleShieldEffectiveness = new System.Windows.Forms.TextBox();
+            this.textModuleDamageAmount = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.textModuleFireRate = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.tabArmor = new System.Windows.Forms.TabPage();
             this.label25 = new System.Windows.Forms.Label();
             this.textModuleArmor = new System.Windows.Forms.TextBox();
-            this.tabEngine = new System.Windows.Forms.TabPage();
-            this.textModuleEngine = new System.Windows.Forms.TextBox();
+            this.tabReactor = new System.Windows.Forms.TabPage();
+            this.textModuleReactor = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.tabThrusters = new System.Windows.Forms.TabPage();
-            this.textDexterity = new System.Windows.Forms.TextBox();
+            this.textModuleDexterity = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.textModuleSpeed = new System.Windows.Forms.TextBox();
+            this.textModuleThrustStrength = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.tabMisc = new System.Windows.Forms.TabPage();
-            this.textModuleDeflectors = new System.Windows.Forms.TextBox();
+            this.tabShield = new System.Windows.Forms.TabPage();
+            this.textModuleShieldPoints = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.textModuleDeflectorsRegen = new System.Windows.Forms.TextBox();
+            this.textModuleShieldRegen = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.buttonSsAddItem = new System.Windows.Forms.Button();
             this.buttonSsAddCategory = new System.Windows.Forms.Button();
@@ -358,6 +380,7 @@
             this.buttonBsDelete = new System.Windows.Forms.Button();
             this.buttonBsAdd = new System.Windows.Forms.Button();
             this.tabPage27 = new System.Windows.Forms.TabPage();
+            this.buttonBstTestCompressed = new System.Windows.Forms.Button();
             this.buttonBstSave = new System.Windows.Forms.Button();
             this.textBsResources = new System.Windows.Forms.RichTextBox();
             this.label104 = new System.Windows.Forms.Label();
@@ -417,7 +440,6 @@
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.buttonBstTestCompressed = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -435,10 +457,11 @@
             this.groupBox3.SuspendLayout();
             this.tabControlModule.SuspendLayout();
             this.tabWeapon.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.tabArmor.SuspendLayout();
-            this.tabEngine.SuspendLayout();
+            this.tabReactor.SuspendLayout();
             this.tabThrusters.SuspendLayout();
-            this.tabMisc.SuspendLayout();
+            this.tabShield.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
@@ -1210,6 +1233,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.buttonConvertModulesFormat);
             this.tabPage6.Controls.Add(this.buttonSaveDataset);
             this.tabPage6.Controls.Add(this.buttonSavePlayerAssets);
             this.tabPage6.Controls.Add(this.treePlayers);
@@ -1226,6 +1250,16 @@
             this.tabPage6.UseVisualStyleBackColor = true;
             this.tabPage6.Click += new System.EventHandler(this.tabPage6_Click);
             this.tabPage6.Enter += new System.EventHandler(this.tabPage6_Enter);
+            // 
+            // buttonConvertModulesFormat
+            // 
+            this.buttonConvertModulesFormat.Location = new System.Drawing.Point(780, 7);
+            this.buttonConvertModulesFormat.Name = "buttonConvertModulesFormat";
+            this.buttonConvertModulesFormat.Size = new System.Drawing.Size(222, 30);
+            this.buttonConvertModulesFormat.TabIndex = 49;
+            this.buttonConvertModulesFormat.Text = "Convert SS modules";
+            this.buttonConvertModulesFormat.UseVisualStyleBackColor = true;
+            this.buttonConvertModulesFormat.Click += new System.EventHandler(this.buttonConvertModulesFormat_Click);
             // 
             // buttonSaveDataset
             // 
@@ -1337,7 +1371,7 @@
             this.groupBox3.Size = new System.Drawing.Size(869, 502);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Редактирование модуля";
+            this.groupBox3.Text = "Module info";
             // 
             // textModuleImgId
             // 
@@ -1397,9 +1431,9 @@
             this.label50.AutoSize = true;
             this.label50.Location = new System.Drawing.Point(457, 108);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(69, 20);
+            this.label50.Size = new System.Drawing.Size(44, 20);
             this.label50.TabIndex = 42;
-            this.label50.Text = "Размер:";
+            this.label50.Text = "Size:";
             // 
             // textModuleId
             // 
@@ -1420,7 +1454,7 @@
             // 
             // textModuleEnergy
             // 
-            this.textModuleEnergy.Location = new System.Drawing.Point(138, 105);
+            this.textModuleEnergy.Location = new System.Drawing.Point(157, 105);
             this.textModuleEnergy.Name = "textModuleEnergy";
             this.textModuleEnergy.Size = new System.Drawing.Size(100, 26);
             this.textModuleEnergy.TabIndex = 12;
@@ -1431,9 +1465,9 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(6, 108);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(116, 20);
+            this.label21.Size = new System.Drawing.Size(145, 20);
             this.label21.TabIndex = 11;
-            this.label21.Text = "Потребление:";
+            this.label21.Text = "Energy consuption:";
             // 
             // textModuleUnity
             // 
@@ -1449,13 +1483,13 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(457, 71);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(111, 20);
+            this.label20.Size = new System.Drawing.Size(93, 20);
             this.label20.TabIndex = 9;
-            this.label20.Text = "Объект Unity:";
+            this.label20.Text = "Unity name:";
             // 
             // textName
             // 
-            this.textName.Location = new System.Drawing.Point(138, 68);
+            this.textName.Location = new System.Drawing.Point(67, 68);
             this.textName.MaxLength = 50;
             this.textName.Name = "textName";
             this.textName.Size = new System.Drawing.Size(285, 26);
@@ -1467,9 +1501,9 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(6, 71);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(126, 20);
+            this.label19.Size = new System.Drawing.Size(55, 20);
             this.label19.TabIndex = 7;
-            this.label19.Text = "Наименование:";
+            this.label19.Text = "Name:";
             // 
             // textModuleType
             // 
@@ -1484,9 +1518,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 161);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(105, 20);
+            this.label5.Size = new System.Drawing.Size(99, 20);
             this.label5.TabIndex = 5;
-            this.label5.Text = "Вид модуля:";
+            this.label5.Text = "Module type:";
             // 
             // buttonSaveModule
             // 
@@ -1494,7 +1528,7 @@
             this.buttonSaveModule.Name = "buttonSaveModule";
             this.buttonSaveModule.Size = new System.Drawing.Size(103, 30);
             this.buttonSaveModule.TabIndex = 3;
-            this.buttonSaveModule.Text = "Сохранить";
+            this.buttonSaveModule.Text = "Save";
             this.buttonSaveModule.UseVisualStyleBackColor = true;
             this.buttonSaveModule.Click += new System.EventHandler(this.buttonSaveModule_Click);
             // 
@@ -1502,24 +1536,37 @@
             // 
             this.tabControlModule.Controls.Add(this.tabWeapon);
             this.tabControlModule.Controls.Add(this.tabArmor);
-            this.tabControlModule.Controls.Add(this.tabEngine);
+            this.tabControlModule.Controls.Add(this.tabReactor);
             this.tabControlModule.Controls.Add(this.tabThrusters);
-            this.tabControlModule.Controls.Add(this.tabMisc);
+            this.tabControlModule.Controls.Add(this.tabShield);
             this.tabControlModule.Location = new System.Drawing.Point(6, 195);
             this.tabControlModule.Name = "tabControlModule";
             this.tabControlModule.SelectedIndex = 0;
             this.tabControlModule.Size = new System.Drawing.Size(857, 301);
             this.tabControlModule.TabIndex = 4;
-            this.tabControlModule.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlModule_Selected);
             // 
             // tabWeapon
             // 
-            this.tabWeapon.Controls.Add(this.radioRocket);
-            this.tabWeapon.Controls.Add(this.radioKinetic);
-            this.tabWeapon.Controls.Add(this.radioEnergy);
+            this.tabWeapon.Controls.Add(this.checkModuleIgnoreShield);
+            this.tabWeapon.Controls.Add(this.label118);
+            this.tabWeapon.Controls.Add(this.label117);
+            this.tabWeapon.Controls.Add(this.label116);
+            this.tabWeapon.Controls.Add(this.label115);
+            this.tabWeapon.Controls.Add(this.label114);
+            this.tabWeapon.Controls.Add(this.label113);
+            this.tabWeapon.Controls.Add(this.textModuleStructureEffectiveness);
+            this.tabWeapon.Controls.Add(this.label112);
+            this.tabWeapon.Controls.Add(this.textModuleArmorEffectiveness);
+            this.tabWeapon.Controls.Add(this.label111);
+            this.tabWeapon.Controls.Add(this.label110);
+            this.tabWeapon.Controls.Add(this.label109);
+            this.tabWeapon.Controls.Add(this.textModuleCriticalStrength);
+            this.tabWeapon.Controls.Add(this.label108);
+            this.tabWeapon.Controls.Add(this.textModuleCriticalChance);
+            this.tabWeapon.Controls.Add(this.groupBox9);
             this.tabWeapon.Controls.Add(this.label24);
-            this.tabWeapon.Controls.Add(this.textModuleStructureDamage);
-            this.tabWeapon.Controls.Add(this.textModuleDeflectorDamage);
+            this.tabWeapon.Controls.Add(this.textModuleShieldEffectiveness);
+            this.tabWeapon.Controls.Add(this.textModuleDamageAmount);
             this.tabWeapon.Controls.Add(this.label23);
             this.tabWeapon.Controls.Add(this.textModuleFireRate);
             this.tabWeapon.Controls.Add(this.label22);
@@ -1530,23 +1577,218 @@
             this.tabWeapon.TabIndex = 0;
             this.tabWeapon.Text = "Weapon";
             this.tabWeapon.UseVisualStyleBackColor = true;
+            this.tabWeapon.Enter += new System.EventHandler(this.tabWeapon_Enter);
             // 
-            // radioRocket
+            // checkModuleIgnoreShield
             // 
-            this.radioRocket.AutoSize = true;
-            this.radioRocket.Location = new System.Drawing.Point(10, 192);
-            this.radioRocket.Name = "radioRocket";
-            this.radioRocket.Size = new System.Drawing.Size(78, 24);
-            this.radioRocket.TabIndex = 8;
-            this.radioRocket.TabStop = true;
-            this.radioRocket.Text = "Rocket";
-            this.radioRocket.UseVisualStyleBackColor = true;
-            this.radioRocket.CheckedChanged += new System.EventHandler(this.radioRocket_CheckedChanged);
+            this.checkModuleIgnoreShield.AutoSize = true;
+            this.checkModuleIgnoreShield.Location = new System.Drawing.Point(422, 129);
+            this.checkModuleIgnoreShield.Name = "checkModuleIgnoreShield";
+            this.checkModuleIgnoreShield.Size = new System.Drawing.Size(119, 24);
+            this.checkModuleIgnoreShield.TabIndex = 25;
+            this.checkModuleIgnoreShield.Text = "Ignore shield";
+            this.checkModuleIgnoreShield.UseVisualStyleBackColor = true;
+            this.checkModuleIgnoreShield.CheckedChanged += new System.EventHandler(this.checkModuleIgnoreShield_CheckedChanged);
+            // 
+            // label118
+            // 
+            this.label118.AutoSize = true;
+            this.label118.Location = new System.Drawing.Point(295, 145);
+            this.label118.Name = "label118";
+            this.label118.Size = new System.Drawing.Size(81, 20);
+            this.label118.TabIndex = 24;
+            this.label118.Text = "In percent";
+            // 
+            // label117
+            // 
+            this.label117.AutoSize = true;
+            this.label117.Location = new System.Drawing.Point(295, 113);
+            this.label117.Name = "label117";
+            this.label117.Size = new System.Drawing.Size(81, 20);
+            this.label117.TabIndex = 23;
+            this.label117.Text = "In percent";
+            // 
+            // label116
+            // 
+            this.label116.AutoSize = true;
+            this.label116.Location = new System.Drawing.Point(295, 48);
+            this.label116.Name = "label116";
+            this.label116.Size = new System.Drawing.Size(70, 20);
+            this.label116.TabIndex = 22;
+            this.label116.Text = "In points";
+            // 
+            // label115
+            // 
+            this.label115.AutoSize = true;
+            this.label115.Location = new System.Drawing.Point(295, 15);
+            this.label115.Name = "label115";
+            this.label115.Size = new System.Drawing.Size(112, 20);
+            this.label115.TabIndex = 21;
+            this.label115.Text = "Fires in minute";
+            // 
+            // label114
+            // 
+            this.label114.AutoSize = true;
+            this.label114.Location = new System.Drawing.Point(295, 81);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(81, 20);
+            this.label114.TabIndex = 20;
+            this.label114.Text = "In percent";
+            // 
+            // label113
+            // 
+            this.label113.AutoSize = true;
+            this.label113.Location = new System.Drawing.Point(6, 145);
+            this.label113.Name = "label113";
+            this.label113.Size = new System.Drawing.Size(177, 20);
+            this.label113.TabIndex = 19;
+            this.label113.Text = "Structure effectiveness:";
+            // 
+            // textModuleStructureEffectiveness
+            // 
+            this.textModuleStructureEffectiveness.Location = new System.Drawing.Point(189, 142);
+            this.textModuleStructureEffectiveness.Name = "textModuleStructureEffectiveness";
+            this.textModuleStructureEffectiveness.Size = new System.Drawing.Size(100, 26);
+            this.textModuleStructureEffectiveness.TabIndex = 18;
+            this.textModuleStructureEffectiveness.TextChanged += new System.EventHandler(this.textModuleStructureEffectiveness_TextChanged);
+            // 
+            // label112
+            // 
+            this.label112.AutoSize = true;
+            this.label112.Location = new System.Drawing.Point(6, 113);
+            this.label112.Name = "label112";
+            this.label112.Size = new System.Drawing.Size(154, 20);
+            this.label112.TabIndex = 17;
+            this.label112.Text = "Armor effectiveness:";
+            // 
+            // textModuleArmorEffectiveness
+            // 
+            this.textModuleArmorEffectiveness.Location = new System.Drawing.Point(189, 110);
+            this.textModuleArmorEffectiveness.Name = "textModuleArmorEffectiveness";
+            this.textModuleArmorEffectiveness.Size = new System.Drawing.Size(100, 26);
+            this.textModuleArmorEffectiveness.TabIndex = 16;
+            this.textModuleArmorEffectiveness.TextChanged += new System.EventHandler(this.textModuleArmorEffectiveness_TextChanged);
+            // 
+            // label111
+            // 
+            this.label111.AutoSize = true;
+            this.label111.Location = new System.Drawing.Point(295, 209);
+            this.label111.Name = "label111";
+            this.label111.Size = new System.Drawing.Size(81, 20);
+            this.label111.TabIndex = 15;
+            this.label111.Text = "In percent";
+            // 
+            // label110
+            // 
+            this.label110.AutoSize = true;
+            this.label110.Location = new System.Drawing.Point(295, 177);
+            this.label110.Name = "label110";
+            this.label110.Size = new System.Drawing.Size(81, 20);
+            this.label110.TabIndex = 14;
+            this.label110.Text = "In percent";
+            // 
+            // label109
+            // 
+            this.label109.AutoSize = true;
+            this.label109.Location = new System.Drawing.Point(6, 209);
+            this.label109.Name = "label109";
+            this.label109.Size = new System.Drawing.Size(123, 20);
+            this.label109.TabIndex = 13;
+            this.label109.Text = "Critical strength:";
+            // 
+            // textModuleCriticalStrength
+            // 
+            this.textModuleCriticalStrength.Location = new System.Drawing.Point(189, 206);
+            this.textModuleCriticalStrength.Name = "textModuleCriticalStrength";
+            this.textModuleCriticalStrength.Size = new System.Drawing.Size(100, 26);
+            this.textModuleCriticalStrength.TabIndex = 12;
+            this.textModuleCriticalStrength.TextChanged += new System.EventHandler(this.textModuleCriticalStrength_TextChanged);
+            // 
+            // label108
+            // 
+            this.label108.AutoSize = true;
+            this.label108.Location = new System.Drawing.Point(6, 177);
+            this.label108.Name = "label108";
+            this.label108.Size = new System.Drawing.Size(116, 20);
+            this.label108.TabIndex = 11;
+            this.label108.Text = "Critical chance:";
+            // 
+            // textModuleCriticalChance
+            // 
+            this.textModuleCriticalChance.Location = new System.Drawing.Point(189, 174);
+            this.textModuleCriticalChance.Name = "textModuleCriticalChance";
+            this.textModuleCriticalChance.Size = new System.Drawing.Size(100, 26);
+            this.textModuleCriticalChance.TabIndex = 10;
+            this.textModuleCriticalChance.TextChanged += new System.EventHandler(this.textModuleCriticalChance_TextChanged);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.radioDoom);
+            this.groupBox9.Controls.Add(this.radioGravity);
+            this.groupBox9.Controls.Add(this.radioPlasma);
+            this.groupBox9.Controls.Add(this.radioRay);
+            this.groupBox9.Controls.Add(this.radioKinetic);
+            this.groupBox9.Controls.Add(this.radioLaser);
+            this.groupBox9.Controls.Add(this.radioExplosive);
+            this.groupBox9.Location = new System.Drawing.Point(422, 12);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(379, 100);
+            this.groupBox9.TabIndex = 9;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Weapon type";
+            // 
+            // radioDoom
+            // 
+            this.radioDoom.AutoSize = true;
+            this.radioDoom.Location = new System.Drawing.Point(291, 32);
+            this.radioDoom.Name = "radioDoom";
+            this.radioDoom.Size = new System.Drawing.Size(70, 24);
+            this.radioDoom.TabIndex = 12;
+            this.radioDoom.TabStop = true;
+            this.radioDoom.Text = "Doom";
+            this.radioDoom.UseVisualStyleBackColor = true;
+            this.radioDoom.CheckedChanged += new System.EventHandler(this.radioDoom_CheckedChanged);
+            // 
+            // radioGravity
+            // 
+            this.radioGravity.AutoSize = true;
+            this.radioGravity.Location = new System.Drawing.Point(195, 65);
+            this.radioGravity.Name = "radioGravity";
+            this.radioGravity.Size = new System.Drawing.Size(76, 24);
+            this.radioGravity.TabIndex = 11;
+            this.radioGravity.TabStop = true;
+            this.radioGravity.Text = "Gravity";
+            this.radioGravity.UseVisualStyleBackColor = true;
+            this.radioGravity.CheckedChanged += new System.EventHandler(this.radioGravity_CheckedChanged);
+            // 
+            // radioPlasma
+            // 
+            this.radioPlasma.AutoSize = true;
+            this.radioPlasma.Location = new System.Drawing.Point(196, 32);
+            this.radioPlasma.Name = "radioPlasma";
+            this.radioPlasma.Size = new System.Drawing.Size(79, 24);
+            this.radioPlasma.TabIndex = 10;
+            this.radioPlasma.TabStop = true;
+            this.radioPlasma.Text = "Plasma";
+            this.radioPlasma.UseVisualStyleBackColor = true;
+            this.radioPlasma.CheckedChanged += new System.EventHandler(this.radioPlasma_CheckedChanged);
+            // 
+            // radioRay
+            // 
+            this.radioRay.AutoSize = true;
+            this.radioRay.Location = new System.Drawing.Point(112, 65);
+            this.radioRay.Name = "radioRay";
+            this.radioRay.Size = new System.Drawing.Size(55, 24);
+            this.radioRay.TabIndex = 9;
+            this.radioRay.TabStop = true;
+            this.radioRay.Text = "Ray";
+            this.radioRay.UseVisualStyleBackColor = true;
+            this.radioRay.CheckedChanged += new System.EventHandler(this.radioRay_CheckedChanged);
             // 
             // radioKinetic
             // 
             this.radioKinetic.AutoSize = true;
-            this.radioKinetic.Location = new System.Drawing.Point(10, 162);
+            this.radioKinetic.Location = new System.Drawing.Point(112, 32);
             this.radioKinetic.Name = "radioKinetic";
             this.radioKinetic.Size = new System.Drawing.Size(74, 24);
             this.radioKinetic.TabIndex = 7;
@@ -1555,55 +1797,67 @@
             this.radioKinetic.UseVisualStyleBackColor = true;
             this.radioKinetic.CheckedChanged += new System.EventHandler(this.radioKinetic_CheckedChanged);
             // 
-            // radioEnergy
+            // radioLaser
             // 
-            this.radioEnergy.AutoSize = true;
-            this.radioEnergy.Location = new System.Drawing.Point(10, 132);
-            this.radioEnergy.Name = "radioEnergy";
-            this.radioEnergy.Size = new System.Drawing.Size(77, 24);
-            this.radioEnergy.TabIndex = 6;
-            this.radioEnergy.TabStop = true;
-            this.radioEnergy.Text = "Energy";
-            this.radioEnergy.UseVisualStyleBackColor = true;
-            this.radioEnergy.CheckedChanged += new System.EventHandler(this.radioEnergy_CheckedChanged);
+            this.radioLaser.AutoSize = true;
+            this.radioLaser.Location = new System.Drawing.Point(6, 32);
+            this.radioLaser.Name = "radioLaser";
+            this.radioLaser.Size = new System.Drawing.Size(67, 24);
+            this.radioLaser.TabIndex = 6;
+            this.radioLaser.TabStop = true;
+            this.radioLaser.Text = "Laser";
+            this.radioLaser.UseVisualStyleBackColor = true;
+            this.radioLaser.CheckedChanged += new System.EventHandler(this.radioLaser_CheckedChanged);
+            // 
+            // radioExplosive
+            // 
+            this.radioExplosive.AutoSize = true;
+            this.radioExplosive.Location = new System.Drawing.Point(6, 65);
+            this.radioExplosive.Name = "radioExplosive";
+            this.radioExplosive.Size = new System.Drawing.Size(93, 24);
+            this.radioExplosive.TabIndex = 8;
+            this.radioExplosive.TabStop = true;
+            this.radioExplosive.Text = "Explosive";
+            this.radioExplosive.UseVisualStyleBackColor = true;
+            this.radioExplosive.CheckedChanged += new System.EventHandler(this.radioExplosive_CheckedChanged);
             // 
             // label24
             // 
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(6, 81);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(178, 20);
+            this.label24.Size = new System.Drawing.Size(155, 20);
             this.label24.TabIndex = 5;
-            this.label24.Text = "Урон броне/структуре:";
+            this.label24.Text = "Shield effectiveness:";
             // 
-            // textModuleStructureDamage
+            // textModuleShieldEffectiveness
             // 
-            this.textModuleStructureDamage.Location = new System.Drawing.Point(339, 78);
-            this.textModuleStructureDamage.Name = "textModuleStructureDamage";
-            this.textModuleStructureDamage.Size = new System.Drawing.Size(100, 26);
-            this.textModuleStructureDamage.TabIndex = 4;
-            this.textModuleStructureDamage.TextChanged += new System.EventHandler(this.textModuleStructureDamage_TextChanged);
+            this.textModuleShieldEffectiveness.Location = new System.Drawing.Point(189, 78);
+            this.textModuleShieldEffectiveness.Name = "textModuleShieldEffectiveness";
+            this.textModuleShieldEffectiveness.Size = new System.Drawing.Size(100, 26);
+            this.textModuleShieldEffectiveness.TabIndex = 4;
+            this.textModuleShieldEffectiveness.TextChanged += new System.EventHandler(this.textModuleShieldEffectiveness_TextChanged);
             // 
-            // textModuleDeflectorDamage
+            // textModuleDamageAmount
             // 
-            this.textModuleDeflectorDamage.Location = new System.Drawing.Point(339, 45);
-            this.textModuleDeflectorDamage.Name = "textModuleDeflectorDamage";
-            this.textModuleDeflectorDamage.Size = new System.Drawing.Size(100, 26);
-            this.textModuleDeflectorDamage.TabIndex = 3;
-            this.textModuleDeflectorDamage.TextChanged += new System.EventHandler(this.textModuleDeflectorDamage_TextChanged);
+            this.textModuleDamageAmount.Location = new System.Drawing.Point(189, 45);
+            this.textModuleDamageAmount.Name = "textModuleDamageAmount";
+            this.textModuleDamageAmount.Size = new System.Drawing.Size(100, 26);
+            this.textModuleDamageAmount.TabIndex = 3;
+            this.textModuleDamageAmount.TextChanged += new System.EventHandler(this.textModuleDamageAmount_TextChanged);
             // 
             // label23
             // 
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(6, 48);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(163, 20);
+            this.label23.Size = new System.Drawing.Size(132, 20);
             this.label23.TabIndex = 2;
-            this.label23.Text = "Урон дефлекторам:";
+            this.label23.Text = "Damage amount:";
             // 
             // textModuleFireRate
             // 
-            this.textModuleFireRate.Location = new System.Drawing.Point(339, 12);
+            this.textModuleFireRate.Location = new System.Drawing.Point(189, 12);
             this.textModuleFireRate.Name = "textModuleFireRate";
             this.textModuleFireRate.Size = new System.Drawing.Size(100, 26);
             this.textModuleFireRate.TabIndex = 1;
@@ -1614,9 +1868,9 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(6, 15);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(327, 20);
+            this.label22.Size = new System.Drawing.Size(72, 20);
             this.label22.TabIndex = 0;
-            this.label22.Text = "Скорострельность (выстрелов в минуту): ";
+            this.label22.Text = "Fire rate:";
             // 
             // tabArmor
             // 
@@ -1629,6 +1883,7 @@
             this.tabArmor.TabIndex = 1;
             this.tabArmor.Text = "Armor";
             this.tabArmor.UseVisualStyleBackColor = true;
+            this.tabArmor.Enter += new System.EventHandler(this.tabArmor_Enter);
             // 
             // label25
             // 
@@ -1647,25 +1902,26 @@
             this.textModuleArmor.TabIndex = 10;
             this.textModuleArmor.TextChanged += new System.EventHandler(this.textModuleArmor_TextChanged);
             // 
-            // tabEngine
+            // tabReactor
             // 
-            this.tabEngine.Controls.Add(this.textModuleEngine);
-            this.tabEngine.Controls.Add(this.label30);
-            this.tabEngine.Location = new System.Drawing.Point(4, 29);
-            this.tabEngine.Name = "tabEngine";
-            this.tabEngine.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEngine.Size = new System.Drawing.Size(849, 268);
-            this.tabEngine.TabIndex = 2;
-            this.tabEngine.Text = "Engine";
-            this.tabEngine.UseVisualStyleBackColor = true;
+            this.tabReactor.Controls.Add(this.textModuleReactor);
+            this.tabReactor.Controls.Add(this.label30);
+            this.tabReactor.Location = new System.Drawing.Point(4, 29);
+            this.tabReactor.Name = "tabReactor";
+            this.tabReactor.Padding = new System.Windows.Forms.Padding(3);
+            this.tabReactor.Size = new System.Drawing.Size(849, 268);
+            this.tabReactor.TabIndex = 2;
+            this.tabReactor.Text = "Reactor";
+            this.tabReactor.UseVisualStyleBackColor = true;
+            this.tabReactor.Enter += new System.EventHandler(this.tabReactor_Enter);
             // 
-            // textModuleEngine
+            // textModuleReactor
             // 
-            this.textModuleEngine.Location = new System.Drawing.Point(174, 12);
-            this.textModuleEngine.Name = "textModuleEngine";
-            this.textModuleEngine.Size = new System.Drawing.Size(100, 26);
-            this.textModuleEngine.TabIndex = 13;
-            this.textModuleEngine.TextChanged += new System.EventHandler(this.textModuleEngine_TextChanged);
+            this.textModuleReactor.Location = new System.Drawing.Point(174, 12);
+            this.textModuleReactor.Name = "textModuleReactor";
+            this.textModuleReactor.Size = new System.Drawing.Size(100, 26);
+            this.textModuleReactor.TabIndex = 13;
+            this.textModuleReactor.TextChanged += new System.EventHandler(this.textModuleEngine_TextChanged);
             // 
             // label30
             // 
@@ -1678,9 +1934,9 @@
             // 
             // tabThrusters
             // 
-            this.tabThrusters.Controls.Add(this.textDexterity);
+            this.tabThrusters.Controls.Add(this.textModuleDexterity);
             this.tabThrusters.Controls.Add(this.label29);
-            this.tabThrusters.Controls.Add(this.textModuleSpeed);
+            this.tabThrusters.Controls.Add(this.textModuleThrustStrength);
             this.tabThrusters.Controls.Add(this.label31);
             this.tabThrusters.Location = new System.Drawing.Point(4, 29);
             this.tabThrusters.Name = "tabThrusters";
@@ -1689,88 +1945,90 @@
             this.tabThrusters.TabIndex = 3;
             this.tabThrusters.Text = "Thrusters";
             this.tabThrusters.UseVisualStyleBackColor = true;
+            this.tabThrusters.Enter += new System.EventHandler(this.tabThrusters_Enter);
             // 
-            // textDexterity
+            // textModuleDexterity
             // 
-            this.textDexterity.Location = new System.Drawing.Point(177, 48);
-            this.textDexterity.Name = "textDexterity";
-            this.textDexterity.Size = new System.Drawing.Size(100, 26);
-            this.textDexterity.TabIndex = 15;
-            this.textDexterity.TextChanged += new System.EventHandler(this.textDexterity_TextChanged);
+            this.textModuleDexterity.Location = new System.Drawing.Point(133, 48);
+            this.textModuleDexterity.Name = "textModuleDexterity";
+            this.textModuleDexterity.Size = new System.Drawing.Size(100, 26);
+            this.textModuleDexterity.TabIndex = 15;
+            this.textModuleDexterity.TextChanged += new System.EventHandler(this.textDexterity_TextChanged);
             // 
             // label29
             // 
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(6, 51);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(86, 20);
+            this.label29.Size = new System.Drawing.Size(75, 20);
             this.label29.TabIndex = 14;
-            this.label29.Text = "Ловкость:";
+            this.label29.Text = "Dexterity:";
             // 
-            // textModuleSpeed
+            // textModuleThrustStrength
             // 
-            this.textModuleSpeed.Location = new System.Drawing.Point(177, 15);
-            this.textModuleSpeed.Name = "textModuleSpeed";
-            this.textModuleSpeed.Size = new System.Drawing.Size(100, 26);
-            this.textModuleSpeed.TabIndex = 13;
-            this.textModuleSpeed.TextChanged += new System.EventHandler(this.textModuleSpeed_TextChanged);
+            this.textModuleThrustStrength.Location = new System.Drawing.Point(133, 15);
+            this.textModuleThrustStrength.Name = "textModuleThrustStrength";
+            this.textModuleThrustStrength.Size = new System.Drawing.Size(100, 26);
+            this.textModuleThrustStrength.TabIndex = 13;
+            this.textModuleThrustStrength.TextChanged += new System.EventHandler(this.textModuleSpeed_TextChanged);
             // 
             // label31
             // 
             this.label31.AutoSize = true;
             this.label31.Location = new System.Drawing.Point(6, 18);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(165, 20);
+            this.label31.Size = new System.Drawing.Size(121, 20);
             this.label31.TabIndex = 12;
-            this.label31.Text = "Скорость движения:";
+            this.label31.Text = "Thrust strength:";
             // 
-            // tabMisc
+            // tabShield
             // 
-            this.tabMisc.Controls.Add(this.textModuleDeflectors);
-            this.tabMisc.Controls.Add(this.label27);
-            this.tabMisc.Controls.Add(this.textModuleDeflectorsRegen);
-            this.tabMisc.Controls.Add(this.label26);
-            this.tabMisc.Location = new System.Drawing.Point(4, 29);
-            this.tabMisc.Name = "tabMisc";
-            this.tabMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMisc.Size = new System.Drawing.Size(849, 268);
-            this.tabMisc.TabIndex = 4;
-            this.tabMisc.Text = "Misc";
-            this.tabMisc.UseVisualStyleBackColor = true;
+            this.tabShield.Controls.Add(this.textModuleShieldPoints);
+            this.tabShield.Controls.Add(this.label27);
+            this.tabShield.Controls.Add(this.textModuleShieldRegen);
+            this.tabShield.Controls.Add(this.label26);
+            this.tabShield.Location = new System.Drawing.Point(4, 29);
+            this.tabShield.Name = "tabShield";
+            this.tabShield.Padding = new System.Windows.Forms.Padding(3);
+            this.tabShield.Size = new System.Drawing.Size(849, 268);
+            this.tabShield.TabIndex = 4;
+            this.tabShield.Text = "Shield";
+            this.tabShield.UseVisualStyleBackColor = true;
+            this.tabShield.Enter += new System.EventHandler(this.tabShield_Enter);
             // 
-            // textModuleDeflectors
+            // textModuleShieldPoints
             // 
-            this.textModuleDeflectors.Location = new System.Drawing.Point(263, 12);
-            this.textModuleDeflectors.Name = "textModuleDeflectors";
-            this.textModuleDeflectors.Size = new System.Drawing.Size(100, 26);
-            this.textModuleDeflectors.TabIndex = 7;
-            this.textModuleDeflectors.TextChanged += new System.EventHandler(this.textModuleDeflectors_TextChanged);
+            this.textModuleShieldPoints.Location = new System.Drawing.Point(148, 12);
+            this.textModuleShieldPoints.Name = "textModuleShieldPoints";
+            this.textModuleShieldPoints.Size = new System.Drawing.Size(100, 26);
+            this.textModuleShieldPoints.TabIndex = 7;
+            this.textModuleShieldPoints.TextChanged += new System.EventHandler(this.textModuleDeflectors_TextChanged);
             // 
             // label27
             // 
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(6, 15);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(203, 20);
+            this.label27.Size = new System.Drawing.Size(136, 20);
             this.label27.TabIndex = 6;
-            this.label27.Text = "Мощность дефлекторов:";
+            this.label27.Text = "Мощность щита:";
             // 
-            // textModuleDeflectorsRegen
+            // textModuleShieldRegen
             // 
-            this.textModuleDeflectorsRegen.Location = new System.Drawing.Point(263, 45);
-            this.textModuleDeflectorsRegen.Name = "textModuleDeflectorsRegen";
-            this.textModuleDeflectorsRegen.Size = new System.Drawing.Size(100, 26);
-            this.textModuleDeflectorsRegen.TabIndex = 9;
-            this.textModuleDeflectorsRegen.TextChanged += new System.EventHandler(this.textModuleDeflectorsRegen_TextChanged);
+            this.textModuleShieldRegen.Location = new System.Drawing.Point(148, 45);
+            this.textModuleShieldRegen.Name = "textModuleShieldRegen";
+            this.textModuleShieldRegen.Size = new System.Drawing.Size(100, 26);
+            this.textModuleShieldRegen.TabIndex = 9;
+            this.textModuleShieldRegen.TextChanged += new System.EventHandler(this.textModuleDeflectorsRegen_TextChanged);
             // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(6, 48);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(251, 20);
+            this.label26.Size = new System.Drawing.Size(101, 20);
             this.label26.TabIndex = 8;
-            this.label26.Text = "Восстановление дефлекторов:";
+            this.label26.Text = "Реген щита:";
             // 
             // buttonSsAddItem
             // 
@@ -1778,7 +2036,7 @@
             this.buttonSsAddItem.Name = "buttonSsAddItem";
             this.buttonSsAddItem.Size = new System.Drawing.Size(103, 30);
             this.buttonSsAddItem.TabIndex = 2;
-            this.buttonSsAddItem.Text = "Добавить";
+            this.buttonSsAddItem.Text = "Add";
             this.buttonSsAddItem.UseVisualStyleBackColor = true;
             this.buttonSsAddItem.Click += new System.EventHandler(this.buttonSsAddItem_Click);
             // 
@@ -1788,7 +2046,7 @@
             this.buttonSsAddCategory.Name = "buttonSsAddCategory";
             this.buttonSsAddCategory.Size = new System.Drawing.Size(103, 30);
             this.buttonSsAddCategory.TabIndex = 1;
-            this.buttonSsAddCategory.Text = "Категория";
+            this.buttonSsAddCategory.Text = "Category";
             this.buttonSsAddCategory.UseVisualStyleBackColor = true;
             this.buttonSsAddCategory.Click += new System.EventHandler(this.buttonSsAddCategory_Click);
             // 
@@ -1882,7 +2140,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 480);
+            this.groupBox5.Size = new System.Drawing.Size(947, 487);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ship design edit";
@@ -2002,7 +2260,7 @@
             this.gridShipParameters.Location = new System.Drawing.Point(331, 340);
             this.gridShipParameters.Name = "gridShipParameters";
             this.gridShipParameters.ReadOnly = true;
-            this.gridShipParameters.Size = new System.Drawing.Size(610, 134);
+            this.gridShipParameters.Size = new System.Drawing.Size(610, 141);
             this.gridShipParameters.TabIndex = 35;
             // 
             // sp_name
@@ -2337,7 +2595,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(3, 30);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 397);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 393);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -2478,7 +2736,7 @@
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(684, 327);
+            this.gridSaModules.Size = new System.Drawing.Size(684, 292);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellContentClick);
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
@@ -2546,7 +2804,7 @@
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(469, 311);
+            this.gridSaOfficer.Size = new System.Drawing.Size(469, 276);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -2570,7 +2828,7 @@
             this.listSaOfficers.ItemHeight = 20;
             this.listSaOfficers.Location = new System.Drawing.Point(10, 55);
             this.listSaOfficers.Name = "listSaOfficers";
-            this.listSaOfficers.Size = new System.Drawing.Size(205, 304);
+            this.listSaOfficers.Size = new System.Drawing.Size(205, 264);
             this.listSaOfficers.TabIndex = 5;
             this.listSaOfficers.SelectedIndexChanged += new System.EventHandler(this.listSaOfficers_SelectedIndexChanged);
             this.listSaOfficers.DoubleClick += new System.EventHandler(this.listSaOfficers_DoubleClick);
@@ -2626,7 +2884,7 @@
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(684, 322);
+            this.treeSaRigs.Size = new System.Drawing.Size(684, 287);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -2670,7 +2928,7 @@
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(311, 322);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(311, 287);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -2882,7 +3140,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 669);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 704);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3312,7 +3570,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 477);
+            this.groupBox6.Size = new System.Drawing.Size(899, 512);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3328,7 +3586,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 361);
+            this.tabControl6.Size = new System.Drawing.Size(883, 396);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3361,7 +3619,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 328);
+            this.tabPage21.Size = new System.Drawing.Size(875, 363);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3624,7 +3882,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 328);
+            this.tabPage22.Size = new System.Drawing.Size(875, 363);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3908,7 +4166,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 328);
+            this.tabPage28.Size = new System.Drawing.Size(875, 363);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3921,7 +4179,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 6);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 316);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 351);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3989,7 +4247,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 443);
+            this.treeBs.Size = new System.Drawing.Size(297, 478);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -4036,6 +4294,16 @@
             this.tabPage27.Click += new System.EventHandler(this.tabPage27_Click);
             this.tabPage27.Enter += new System.EventHandler(this.tabPage27_Enter);
             // 
+            // buttonBstTestCompressed
+            // 
+            this.buttonBstTestCompressed.Location = new System.Drawing.Point(731, 7);
+            this.buttonBstTestCompressed.Name = "buttonBstTestCompressed";
+            this.buttonBstTestCompressed.Size = new System.Drawing.Size(135, 28);
+            this.buttonBstTestCompressed.TabIndex = 16;
+            this.buttonBstTestCompressed.Text = "Test compessed";
+            this.buttonBstTestCompressed.UseVisualStyleBackColor = true;
+            this.buttonBstTestCompressed.Click += new System.EventHandler(this.buttonBstTestCompressed_Click);
+            // 
             // buttonBstSave
             // 
             this.buttonBstSave.Location = new System.Drawing.Point(1032, 10);
@@ -4052,7 +4320,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 397);
+            this.textBsResources.Size = new System.Drawing.Size(412, 432);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -4071,7 +4339,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 397);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 432);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -4185,7 +4453,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 577);
+            this.groupBox7.Size = new System.Drawing.Size(894, 612);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -4326,7 +4594,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 543);
+            this.treeRes.Size = new System.Drawing.Size(297, 578);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4375,7 +4643,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 591);
+            this.groupBox8.Size = new System.Drawing.Size(894, 626);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4632,7 +4900,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 557);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 592);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4648,16 +4916,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // buttonBstTestCompressed
-            // 
-            this.buttonBstTestCompressed.Location = new System.Drawing.Point(731, 7);
-            this.buttonBstTestCompressed.Name = "buttonBstTestCompressed";
-            this.buttonBstTestCompressed.Size = new System.Drawing.Size(135, 28);
-            this.buttonBstTestCompressed.TabIndex = 16;
-            this.buttonBstTestCompressed.Text = "Test compessed";
-            this.buttonBstTestCompressed.UseVisualStyleBackColor = true;
-            this.buttonBstTestCompressed.Click += new System.EventHandler(this.buttonBstTestCompressed_Click);
             // 
             // FormMain
             // 
@@ -4696,14 +4954,16 @@
             this.tabControlModule.ResumeLayout(false);
             this.tabWeapon.ResumeLayout(false);
             this.tabWeapon.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.tabArmor.ResumeLayout(false);
             this.tabArmor.PerformLayout();
-            this.tabEngine.ResumeLayout(false);
-            this.tabEngine.PerformLayout();
+            this.tabReactor.ResumeLayout(false);
+            this.tabReactor.PerformLayout();
             this.tabThrusters.ResumeLayout(false);
             this.tabThrusters.PerformLayout();
-            this.tabMisc.ResumeLayout(false);
-            this.tabMisc.PerformLayout();
+            this.tabShield.ResumeLayout(false);
+            this.tabShield.PerformLayout();
             this.tabPage9.ResumeLayout(false);
             this.tabControl4.ResumeLayout(false);
             this.tabPage13.ResumeLayout(false);
@@ -4848,7 +5108,7 @@
         private System.Windows.Forms.TabControl tabControlModule;
         private System.Windows.Forms.TabPage tabWeapon;
         private System.Windows.Forms.TabPage tabArmor;
-        private System.Windows.Forms.TabPage tabEngine;
+        private System.Windows.Forms.TabPage tabReactor;
         private System.Windows.Forms.TabPage tabThrusters;
         private System.Windows.Forms.TextBox textModuleType;
         private System.Windows.Forms.Label label5;
@@ -4858,23 +5118,23 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox textModuleEnergy;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textModuleDeflectorDamage;
+        private System.Windows.Forms.TextBox textModuleDamageAmount;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox textModuleFireRate;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox textModuleStructureDamage;
+        private System.Windows.Forms.TextBox textModuleShieldEffectiveness;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox textModuleArmor;
-        private System.Windows.Forms.TextBox textModuleDeflectorsRegen;
+        private System.Windows.Forms.TextBox textModuleShieldRegen;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox textModuleDeflectors;
+        private System.Windows.Forms.TextBox textModuleShieldPoints;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox textModuleEngine;
+        private System.Windows.Forms.TextBox textModuleReactor;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TextBox textDexterity;
+        private System.Windows.Forms.TextBox textModuleDexterity;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox textModuleSpeed;
+        private System.Windows.Forms.TextBox textModuleThrustStrength;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.Button buttonShipAdd;
@@ -4949,7 +5209,7 @@
         private System.Windows.Forms.Button buttonSaCreateOfficer;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Button buttonSaMountModule;
-        private System.Windows.Forms.TabPage tabMisc;
+        private System.Windows.Forms.TabPage tabShield;
         private System.Windows.Forms.Button buttonClearPlayerProgress;
         private System.Windows.Forms.RadioButton radioSize3;
         private System.Windows.Forms.RadioButton radioSize2;
@@ -4964,9 +5224,9 @@
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Button buttonSaDeleteOfficer;
         private System.Windows.Forms.TabPage tabPage18;
-        private System.Windows.Forms.RadioButton radioRocket;
+        private System.Windows.Forms.RadioButton radioExplosive;
         private System.Windows.Forms.RadioButton radioKinetic;
-        private System.Windows.Forms.RadioButton radioEnergy;
+        private System.Windows.Forms.RadioButton radioLaser;
         private System.Windows.Forms.CheckBox checkSaForPlayer;
         private System.Windows.Forms.Button buttonSaSave;
         private System.Windows.Forms.TextBox textSaRigTag;
@@ -5160,6 +5420,28 @@
         private System.Windows.Forms.RichTextBox textBsObjectives;
         private System.Windows.Forms.Button buttonSaveDataset;
         private System.Windows.Forms.Button buttonBstTestCompressed;
+        private System.Windows.Forms.Button buttonConvertModulesFormat;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.RadioButton radioRay;
+        private System.Windows.Forms.RadioButton radioPlasma;
+        private System.Windows.Forms.RadioButton radioGravity;
+        private System.Windows.Forms.RadioButton radioDoom;
+        private System.Windows.Forms.Label label111;
+        private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.Label label109;
+        private System.Windows.Forms.TextBox textModuleCriticalStrength;
+        private System.Windows.Forms.Label label108;
+        private System.Windows.Forms.TextBox textModuleCriticalChance;
+        private System.Windows.Forms.Label label118;
+        private System.Windows.Forms.Label label117;
+        private System.Windows.Forms.Label label116;
+        private System.Windows.Forms.Label label115;
+        private System.Windows.Forms.Label label114;
+        private System.Windows.Forms.Label label113;
+        private System.Windows.Forms.TextBox textModuleStructureEffectiveness;
+        private System.Windows.Forms.Label label112;
+        private System.Windows.Forms.TextBox textModuleArmorEffectiveness;
+        private System.Windows.Forms.CheckBox checkModuleIgnoreShield;
     }
 }
 

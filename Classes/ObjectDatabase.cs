@@ -26,6 +26,7 @@ public class ObjectDatabase : UnityObjectDatabase
         LoadShipModels();
         LoadModuleTypes();
         LoadRigs();
+        LoadModuleTypes2();
     }
 
     private void LoadResourceTypes()
@@ -72,7 +73,7 @@ public class ObjectDatabase : UnityObjectDatabase
     private void LoadModuleTypes()
     {
         moduleTypes = new List<ShipModuleType>();
-        List<ShipModuleType> tModules = ShipModuleType.CreateModuleList();
+        List<ShipModuleType> tModules = ShipModuleType.CreateList();
         foreach(var module in tModules)
         {
             if(!string.IsNullOrEmpty(module.AssetName))
@@ -87,6 +88,10 @@ public class ObjectDatabase : UnityObjectDatabase
         rigList = SpaceshipRig.BuiltInRigs();
     }
 
+    private void LoadModuleTypes2()
+    {
+        //moduleTypes2 = 
+    }
 
 }
 

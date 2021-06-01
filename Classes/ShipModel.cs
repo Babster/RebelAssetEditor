@@ -304,7 +304,7 @@ public class ShipModelSlot : UnityShipModelSlot
 
     public string ModuleFitsSlot(ShipModuleType module)
     {
-        if ((int)module.ModuleTypeFromStr() != (int)this.sType)
+        if ((int)module.ModuleType != (int)this.sType)
             return "Slot type doesn't fit module type";
         if (module.Size != this.Size)
             return "Slot size is too small";
