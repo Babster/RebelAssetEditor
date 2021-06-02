@@ -591,6 +591,11 @@ namespace AdmiralNamespace
             DataConnection.Execute(q, names);
         }
 
+        public override string ToString()
+        {
+            return $"{Name} ({Id})";
+        }
+
     }
 
     public class PlayerStatWithSql : PlayerStat

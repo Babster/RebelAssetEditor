@@ -285,17 +285,17 @@ namespace Crew
                     case OfficerTypeStat.StatType.Dexterity:
                         score = playerStats.GetSpecificStat("Thrusters").Value;
                         break;
-                    case OfficerTypeStat.StatType.EngineBoost:
-                        score = playerStats.GetSpecificStat("Engines").Value;
+                    case OfficerTypeStat.StatType.ReactorBoost:
+                        score = playerStats.GetSpecificStat("Reactors").Value;
                         break;
-                    case OfficerTypeStat.StatType.EnergyWeapons:
-                        score = playerStats.GetSpecificStat("Energy weapons").Value;
+                    case OfficerTypeStat.StatType.LaserWeapons:
+                        score = playerStats.GetSpecificStat("Laser weapons").Value;
+                        break;
+                    case OfficerTypeStat.StatType.ExplosiveWeapons:
+                        score = playerStats.GetSpecificStat("Explosive weapons").Value;
                         break;
                     case OfficerTypeStat.StatType.KineticWeapons:
                         score = playerStats.GetSpecificStat("Kinetic weapons").Value;
-                        break;
-                    case OfficerTypeStat.StatType.RocketWeapons:
-                        score = playerStats.GetSpecificStat("Rocket weapons").Value;
                         break;
                     case OfficerTypeStat.StatType.ShieldsBoost:
                         score = playerStats.GetSpecificStat("Shield mastery").Value;
@@ -577,16 +577,16 @@ namespace Crew
         public enum StatType
         {
             None = 0,
-            EnergyWeapons = 1,
-            KineticWeapons = 2,
-            RocketWeapons = 3,
-            EngineBoost = 4,
-            ThrustersBoost = 5,
-            ShieldsBoost = 6,
-            ArmorBoost = 7,
-            Repair = 8,
-            Dexterity = 9,
-            LootBoost = 10
+            LaserWeapons = 1,
+            ExplosiveWeapons = 2,
+            KineticWeapons = 3,
+            ReactorBoost = 21,
+            ThrustersBoost = 22,
+            ShieldsBoost = 31,
+            ArmorBoost = 32,
+            Repair = 41,
+            Dexterity = 42,
+            LootBoost = 51
         }
 
         public StatType StatTypeFromString
@@ -595,14 +595,14 @@ namespace Crew
             {
                 switch (Name)
                 {
-                    case "Energy weapons":
-                        return StatType.EnergyWeapons;
+                    case "Laser weapons":
+                        return StatType.LaserWeapons;
+                    case "Explosive weapons":
+                        return StatType.ExplosiveWeapons;
                     case "Kinetic weapons":
                         return StatType.KineticWeapons;
-                    case "Rocket weapons":
-                        return StatType.RocketWeapons;
-                    case "Engine boost":
-                        return StatType.EngineBoost;
+                    case "Reactors":
+                        return StatType.ReactorBoost;
                     case "Thrusters boost":
                         return StatType.ThrustersBoost;
                     case "Shields boost":
@@ -625,14 +625,14 @@ namespace Crew
         {
             switch (sType)
             {
-                case StatType.EnergyWeapons:
-                    return "Energy weapons";
+                case StatType.LaserWeapons:
+                    return "Laser weapons";
+                case StatType.ExplosiveWeapons:
+                    return "Explosive weapons";
                 case StatType.KineticWeapons:
                     return "Kinetic weapons";
-                case StatType.RocketWeapons:
-                    return "Rocket weapons";
-                case StatType.EngineBoost:
-                    return "Engine boost";
+                case StatType.ReactorBoost:
+                    return "Reactors";
                 case StatType.ThrustersBoost:
                     return "Thrusters boost";
                 case StatType.ShieldsBoost:
@@ -680,6 +680,20 @@ namespace Crew
             return 0;
         }
 
+        public int WeaponStatSum()
+        {
+            int sum = 0;
+            List<string> weaponStatList = new List<string> {"Laser weapons" , "Explosive weapons", "Kinetic weapons"};
+            foreach(var stat in Stats)
+            {
+                if(weaponStatList.Contains(stat.BaseStat.Name))
+                {
+                    sum += stat.BonusPoints + stat.Value;
+                }
+            }
+            return sum;
+        }
+
     }
 
     public class UnityCrewOfficerStat
@@ -701,6 +715,11 @@ namespace Crew
             {
                 return BaseStat.PointsBase + BonusPoints;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{BaseStat.Name} : {Value}";
         }
     }
 

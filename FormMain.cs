@@ -17,6 +17,7 @@ using Crew;
 using AdmiralNamespace;
 using System.Reflection;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace AssetEditor
 {
@@ -678,6 +679,9 @@ namespace AssetEditor
                 textStatRegistrationPoints.Text = "0";
                 NoEvents = false;
             }
+
+            StatsFilled = true;
+
         }
 
         private void ClearStat()
@@ -975,7 +979,8 @@ namespace AssetEditor
             ObjectDatabase od = new ObjectDatabase();
             od.LoadDataAssetEditor();
             od.SaveDataToStringFile();
-            MessageBox.Show("Completed");
+            //MessageBox.Show("Completed");
+            Process.Start(Directory.GetCurrentDirectory());
         }
 
         private void buttonSerializationTests_Click(object sender, EventArgs e)
@@ -2124,6 +2129,7 @@ namespace AssetEditor
 
         private bool SaModuleFilled;
         private SpaceshipRig saRig;
+        //private SpaceShipParameters Params;
 
         private void tabPage14_Click(object sender, EventArgs e)
         {
@@ -2304,8 +2310,10 @@ namespace AssetEditor
             slotRow.Cells["sas_content"].Value = null;
             slotRow.Cells["sas_content"].Value = slot;
 
-            saRig.Params.CalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
 
         }
         private void listSaOfficers_DoubleClick(object sender, EventArgs e)
@@ -2329,8 +2337,10 @@ namespace AssetEditor
             slotRow.Cells["sas_content"].Value = null;
             slotRow.Cells["sas_content"].Value = slot;
 
-            saRig.Params.CalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
 
         }
         private void gridSaSlots_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2352,8 +2362,10 @@ namespace AssetEditor
                 slotRow.Cells["sas_content"].Value = slot;
             }
 
-            saRig.Params.CalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
 
         }
         private void textSaBottomLine_TextChanged(object sender, EventArgs e)
@@ -2362,8 +2374,10 @@ namespace AssetEditor
         }
         private void textSaBottomLine_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            saRig.Params.CalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
         }
         private void buttonSaCreateOfficer_Click(object sender, EventArgs e)
         {
@@ -2496,8 +2510,10 @@ namespace AssetEditor
             textSaRigTag.Text = rig.Tag;
             checkSaForPlayer.Checked = saRig.PlayerId > 0;
             FillRig();
-            saRig.Params.CalculateParameters();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
         }
 
         private void buttonSaDeleteRig_Click(object sender, EventArgs e)
@@ -2525,9 +2541,11 @@ namespace AssetEditor
 
             saRig = new SpaceshipRig();
             saRig.LoadShip(ship);
-            saRig.Params.CalculateParameters();
             FillRig();
-            textSaBottomLine.Text = saRig.Params.BottomLineString();
+            SpaceShipParameters Params = new SpaceShipParameters();
+            Params.rig = saRig;
+            Params.CalculateParameters();
+            textSaBottomLine.Text = Params.BottomLineString();
         }
 
         //Вход на закладку кораблей игрока

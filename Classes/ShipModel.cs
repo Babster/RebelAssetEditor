@@ -267,52 +267,7 @@ public class ShipModelSlot : UnityShipModelSlot
         }
     }
 
-    public bool SlotForModule
-    {
-        get
-        {
-            List<SlotTypes> forModules = new List<SlotTypes>();
-            forModules.Add(SlotTypes.Armor);
-            forModules.Add(SlotTypes.Reactor);
-            forModules.Add(SlotTypes.Shield);
-            forModules.Add(SlotTypes.Thrusters);
-            forModules.Add(SlotTypes.Weapon);
-            return forModules.Contains(SlotType);
-        }
-    }
-
-    public bool SlotForOfficer
-    {
-        get
-        {
-            List<SlotTypes> forOfficers = new List<SlotTypes>();
-            forOfficers.Add(SlotTypes.Cabin);
-            forOfficers.Add(SlotTypes.ExtendedCabin);
-            forOfficers.Add(SlotTypes.ControlRoom);
-            forOfficers.Add(SlotTypes.ExtendedControlRoom);
-            return forOfficers.Contains(SlotType);
-        }
-    }
-
-    public bool SlotForCrew
-    {
-        get
-        {
-            List<SlotTypes> forCrew = new List<SlotTypes>();
-            forCrew.Add(SlotTypes.ExtendedCabin);
-            forCrew.Add(SlotTypes.ExtendedControlRoom);
-            return forCrew.Contains(SlotType);
-        }
-    }
-
-    public string ModuleFitsSlot(ShipModuleType module)
-    {
-        if ((int)module.ModuleType != (int)this.SlotType)
-            return "Slot type doesn't fit module type";
-        if (module.Size != this.Size)
-            return "Slot size is too small";
-        return "";
-    }
+ 
 
 }
 
@@ -388,6 +343,53 @@ public class UnityShipModelSlot
         ExtendedCabin = 21,
         ControlRoom = 22,
         ExtendedControlRoom = 23
+    }
+
+    public bool SlotForModule
+    {
+        get
+        {
+            List<SlotTypes> forModules = new List<SlotTypes>();
+            forModules.Add(SlotTypes.Armor);
+            forModules.Add(SlotTypes.Reactor);
+            forModules.Add(SlotTypes.Shield);
+            forModules.Add(SlotTypes.Thrusters);
+            forModules.Add(SlotTypes.Weapon);
+            return forModules.Contains(SlotType);
+        }
+    }
+
+    public bool SlotForOfficer
+    {
+        get
+        {
+            List<SlotTypes> forOfficers = new List<SlotTypes>();
+            forOfficers.Add(SlotTypes.Cabin);
+            forOfficers.Add(SlotTypes.ExtendedCabin);
+            forOfficers.Add(SlotTypes.ControlRoom);
+            forOfficers.Add(SlotTypes.ExtendedControlRoom);
+            return forOfficers.Contains(SlotType);
+        }
+    }
+
+    public bool SlotForCrew
+    {
+        get
+        {
+            List<SlotTypes> forCrew = new List<SlotTypes>();
+            forCrew.Add(SlotTypes.ExtendedCabin);
+            forCrew.Add(SlotTypes.ExtendedControlRoom);
+            return forCrew.Contains(SlotType);
+        }
+    }
+
+    public string ModuleFitsSlot(ShipModuleType module)
+    {
+        if ((int)module.ModuleType != (int)this.SlotType)
+            return "Slot type doesn't fit module type";
+        if (module.Size != this.Size)
+            return "Slot size is too small";
+        return "";
     }
 
 }

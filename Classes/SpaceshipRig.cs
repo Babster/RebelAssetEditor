@@ -577,7 +577,7 @@ public class UnityRigSlot
     {
         get
         {
-            return team.OfficerList.Count > 0;
+            return Slot.SlotForOfficer;
         }
     }
     public bool IsEmpty
@@ -665,24 +665,6 @@ public class UnitySpaceshipRig
     public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
     //public SpaceshipParameters Params { get; set; }
-
-    private SpaceShipParameters pParams;
-    public SpaceShipParameters Params 
-    { 
-        get
-        {
-            if (pParams == null)
-            {
-                pParams = new SpaceShipParameters();
-                pParams.rig = (SpaceshipRig)this;
-            }
-            return pParams;
-        }
-        set
-        {
-            pParams = value;
-        }
-    }
 
     private void LoadSlots()
     {
