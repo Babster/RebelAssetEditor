@@ -29,6 +29,7 @@ public class ShipModel : UnityShipModel
         this.Name = Convert.ToString(r["name"]);
         this.AssetName = Convert.ToString(r["asset_name"]);
         this.ImgId = (int)r["img_id"];
+        this.BaseEnergy = (int)r["base_energy"];
         LoadSlots();
 
     }
@@ -81,7 +82,8 @@ public class ShipModel : UnityShipModel
                     intensity_amount= {this.BattleIntensity.ToString()},
                     name = @str1,
                     asset_name = @str2,
-                    img_id = {ImgId}
+                    img_id = {ImgId},
+                    base_energy = {BaseEnergy}
                 WHERE
                     id = " + this.Id.ToString();
 
@@ -141,7 +143,8 @@ public class ShipModel : UnityShipModel
                     ISNULL(base_structure_hp, 0) AS base_structure_hp,
                     name,
                     asset_name,
-                    ISNULL(img_id, 0) AS img_id
+                    ISNULL(img_id, 0) AS img_id,
+                    ISNULL(base_energy, 0) AS base_energy
                 FROM
                     ss_designs";
     }
@@ -282,7 +285,7 @@ public class UnityShipModel
     public List<ShipModelSlot> slots;
     public List<int> slotsToDelete;
     public int ImgId { get; set; }
-
+    public int BaseEnergy { get; set; }
     public int WeaponSlotCount
     {
         get

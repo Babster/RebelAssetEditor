@@ -15,6 +15,7 @@ public class SpaceShipParameters
     public int ShieldRegen;
     public int ReactorPoints;
     public int ReactorConsumption;
+    public int Energy;
 
     public float Dexterity;
     public List<ShipModuleType> ModuleTypes;
@@ -185,6 +186,7 @@ public class SpaceShipParameters
     private void SetShipModelParameters()
     {
         StructurePoints = rig.sModel.BaseStructureHp;
+        Energy = rig.sModel.BaseEnergy;
     }
 
     private void AddModule(ShipModule module)
@@ -211,6 +213,7 @@ public class SpaceShipParameters
         ShieldRegen = 0;
         ReactorPoints = 0;
         ReactorConsumption = 0;
+        Energy = 0;
         ModuleTypes = new List<ShipModuleType>();
         Modules = new List<ShipModule>();
         Weapons = new List<WeaponParameters>();
@@ -461,6 +464,7 @@ public class SpaceShipParameters
             t.AppendLine($"Shield points: {ShieldPoints}");
         if (ShieldRegen > 0)
             t.AppendLine($"Shield regen: {ShieldRegen}");
+        t.AppendLine($"Energy: {Energy}");
         t.AppendLine($"Energy balance: {ReactorPoints - ReactorConsumption}");
 
         if (Weapons.Count > 0)
@@ -502,6 +506,7 @@ public class SpaceShipParameters
             t.AppendLine($"Shield points:");
         if (ShieldRegen > 0)
             t.AppendLine($"Shield regen:");
+        t.AppendLine("Energy:");
         t.AppendLine($"Energy balance:");
 
         if (Weapons.Count > 0)
@@ -542,8 +547,9 @@ public class SpaceShipParameters
             t.AppendLine($"{ShieldPoints}");
         if (ShieldRegen > 0)
             t.AppendLine($"{ShieldRegen}");
+        t.AppendLine($"{Energy}");
         t.AppendLine($"{ReactorPoints - ReactorConsumption}");
-
+        
         if (Weapons.Count > 0)
         {
             if (Weapons.Count > 1)

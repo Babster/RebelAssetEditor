@@ -1449,7 +1449,7 @@ namespace AssetEditor
                 return;
             int tNumber = 0;
             Int32.TryParse(textModuleFireRate.Text, out tNumber);
-            tag.ArmorPoints = tNumber;
+            tag.FireRate = tNumber;
         }
 
         private void textModuleDamageAmount_TextChanged(object sender, EventArgs e)
@@ -1832,6 +1832,7 @@ namespace AssetEditor
             textShipName.Text = tag.Name;
             textShipUnity.Text = tag.AssetName;
             textShipImageId.Text = tag.ImgId.ToString();
+            textShipBaseEnergy.Text = tag.BaseEnergy.ToString();
             if (tag.slots.Count > 0)
             {
                 foreach (ShipModelSlot slot in tag.slots)
@@ -1880,6 +1881,17 @@ namespace AssetEditor
             if (tag == null)
                 return;
             tag.AssetName = textShipUnity.Text;
+        }
+        private void textShipBaseEnergy_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            int amount = 0;
+            Int32.TryParse(textShipBaseEnergy.Text, out amount);
+            tag.BaseEnergy = amount;
         }
         private void textShipBaseStructure_TextChanged(object sender, EventArgs e)
         {
@@ -4595,6 +4607,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
+
 
 
 

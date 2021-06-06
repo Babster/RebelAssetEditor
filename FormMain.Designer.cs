@@ -435,6 +435,8 @@
             this.treeBlueprint = new System.Windows.Forms.TreeView();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.textShipBaseEnergy = new System.Windows.Forms.TextBox();
+            this.label119 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridStoryFlow)).BeginInit();
@@ -2092,6 +2094,8 @@
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.textShipBaseEnergy);
+            this.groupBox5.Controls.Add(this.label119);
             this.groupBox5.Controls.Add(this.checkShipDoubleWeapon);
             this.groupBox5.Controls.Add(this.checkShipMainCabin);
             this.groupBox5.Controls.Add(this.textShipImageId);
@@ -2128,7 +2132,7 @@
             this.groupBox5.Controls.Add(this.textShipUnity);
             this.groupBox5.Location = new System.Drawing.Point(256, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(947, 459);
+            this.groupBox5.Size = new System.Drawing.Size(947, 466);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ship design edit";
@@ -2432,14 +2436,14 @@
             this.textShipName.Location = new System.Drawing.Point(67, 79);
             this.textShipName.MaxLength = 50;
             this.textShipName.Name = "textShipName";
-            this.textShipName.Size = new System.Drawing.Size(285, 26);
+            this.textShipName.Size = new System.Drawing.Size(242, 26);
             this.textShipName.TabIndex = 12;
             this.textShipName.TextChanged += new System.EventHandler(this.textShipName_TextChanged);
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(445, 82);
+            this.label28.Location = new System.Drawing.Point(315, 82);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(93, 20);
             this.label28.TabIndex = 13;
@@ -2456,10 +2460,10 @@
             // 
             // textShipUnity
             // 
-            this.textShipUnity.Location = new System.Drawing.Point(544, 79);
+            this.textShipUnity.Location = new System.Drawing.Point(414, 79);
             this.textShipUnity.MaxLength = 50;
             this.textShipUnity.Name = "textShipUnity";
-            this.textShipUnity.Size = new System.Drawing.Size(297, 26);
+            this.textShipUnity.Size = new System.Drawing.Size(215, 26);
             this.textShipUnity.TabIndex = 14;
             this.textShipUnity.TextChanged += new System.EventHandler(this.textShipUnity_TextChanged);
             // 
@@ -2515,7 +2519,7 @@
             this.tabControl5.Location = new System.Drawing.Point(483, 81);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(720, 399);
+            this.tabControl5.Size = new System.Drawing.Size(720, 406);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage17
@@ -2528,7 +2532,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 29);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(712, 366);
+            this.tabPage17.Size = new System.Drawing.Size(712, 373);
             this.tabPage17.TabIndex = 2;
             this.tabPage17.Text = "Ship parameters";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -2587,7 +2591,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 29);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(712, 366);
+            this.tabPage15.Size = new System.Drawing.Size(712, 373);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "Modules";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -2619,7 +2623,7 @@
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(700, 320);
+            this.gridSaModules.Size = new System.Drawing.Size(700, 327);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellContentClick);
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
@@ -2655,7 +2659,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 29);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(712, 366);
+            this.tabPage16.Size = new System.Drawing.Size(712, 373);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Officers";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -2687,7 +2691,7 @@
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(469, 304);
+            this.gridSaOfficer.Size = new System.Drawing.Size(469, 311);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -2752,7 +2756,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 29);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(712, 366);
+            this.tabPage18.Size = new System.Drawing.Size(712, 373);
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Archive";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -2767,7 +2771,7 @@
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(700, 315);
+            this.treeSaRigs.Size = new System.Drawing.Size(700, 322);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -2797,7 +2801,7 @@
             this.tabPage29.Location = new System.Drawing.Point(4, 29);
             this.tabPage29.Name = "tabPage29";
             this.tabPage29.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage29.Size = new System.Drawing.Size(712, 366);
+            this.tabPage29.Size = new System.Drawing.Size(712, 373);
             this.tabPage29.TabIndex = 4;
             this.tabPage29.Text = "Player ship";
             this.tabPage29.UseVisualStyleBackColor = true;
@@ -2811,7 +2815,7 @@
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(327, 315);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(327, 322);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -2850,7 +2854,7 @@
             this.gridSaSlots.Location = new System.Drawing.Point(10, 81);
             this.gridSaSlots.Name = "gridSaSlots";
             this.gridSaSlots.ReadOnly = true;
-            this.gridSaSlots.Size = new System.Drawing.Size(467, 385);
+            this.gridSaSlots.Size = new System.Drawing.Size(467, 392);
             this.gridSaSlots.TabIndex = 3;
             this.gridSaSlots.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellContentClick);
             this.gridSaSlots.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaSlots_CellDoubleClick);
@@ -3073,7 +3077,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 410);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 417);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -3503,7 +3507,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 463);
+            this.groupBox6.Size = new System.Drawing.Size(899, 470);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -3519,7 +3523,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 347);
+            this.tabControl6.Size = new System.Drawing.Size(883, 354);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -3552,7 +3556,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 314);
+            this.tabPage21.Size = new System.Drawing.Size(875, 321);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3815,7 +3819,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 314);
+            this.tabPage22.Size = new System.Drawing.Size(875, 321);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -4099,7 +4103,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 314);
+            this.tabPage28.Size = new System.Drawing.Size(875, 321);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -4112,7 +4116,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 6);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 302);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 309);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -4180,7 +4184,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 429);
+            this.treeBs.Size = new System.Drawing.Size(297, 436);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -4253,7 +4257,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 453);
+            this.textBsResources.Size = new System.Drawing.Size(412, 460);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -4272,7 +4276,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 453);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 460);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -4363,7 +4367,7 @@
             this.tabPage24.Location = new System.Drawing.Point(4, 29);
             this.tabPage24.Name = "tabPage24";
             this.tabPage24.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage24.Size = new System.Drawing.Size(1209, 472);
+            this.tabPage24.Size = new System.Drawing.Size(1209, 470);
             this.tabPage24.TabIndex = 0;
             this.tabPage24.Text = "Resources";
             this.tabPage24.UseVisualStyleBackColor = true;
@@ -4386,7 +4390,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 460);
+            this.groupBox7.Size = new System.Drawing.Size(894, 465);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -4527,7 +4531,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 426);
+            this.treeRes.Size = new System.Drawing.Size(297, 431);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -4576,7 +4580,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.Size = new System.Drawing.Size(894, 465);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4833,7 +4837,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 431);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4849,6 +4853,23 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // textShipBaseEnergy
+            // 
+            this.textShipBaseEnergy.Location = new System.Drawing.Point(754, 79);
+            this.textShipBaseEnergy.Name = "textShipBaseEnergy";
+            this.textShipBaseEnergy.Size = new System.Drawing.Size(100, 26);
+            this.textShipBaseEnergy.TabIndex = 49;
+            this.textShipBaseEnergy.TextChanged += new System.EventHandler(this.textShipBaseEnergy_TextChanged);
+            // 
+            // label119
+            // 
+            this.label119.AutoSize = true;
+            this.label119.Location = new System.Drawing.Point(646, 82);
+            this.label119.Name = "label119";
+            this.label119.Size = new System.Drawing.Size(102, 20);
+            this.label119.TabIndex = 48;
+            this.label119.Text = "Base energy:";
             // 
             // FormMain
             // 
@@ -5364,6 +5385,8 @@
         private System.Windows.Forms.TextBox textModuleArmorEffectiveness;
         private System.Windows.Forms.CheckBox checkModuleIgnoreShield;
         private System.Windows.Forms.CheckBox checkShipDoubleWeapon;
+        private System.Windows.Forms.TextBox textShipBaseEnergy;
+        private System.Windows.Forms.Label label119;
     }
 }
 
