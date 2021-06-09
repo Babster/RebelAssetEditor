@@ -120,7 +120,24 @@ namespace AssetEditor.Forms
             textSkillsetName.Text = curSet.Name;
             comboSkillsetType.SelectedIndex = (int)curSet.OwnerType;
             textSkillsetOpenCost.Text = curSet.OpenCost.ToString();
+
+            treeStr.Nodes.Clear();
+            if (curSet.Elements.Count > 0)
+            {
+                foreach (var element in curSet.Elements)
+                {
+                    TreeNode n = treeStr.Nodes.Add(element.ToString());
+                    n.Tag = element;
+                }
+            }
+            if(treeStr.Nodes.Count > 0)
+            {
+                treeStr.SelectedNode = treeStr.Nodes[0];
+            }
+
             NoEvents = false;
+
+
         }
 
         private void textSkillsetName_TextChanged(object sender, EventArgs e)
@@ -185,7 +202,121 @@ namespace AssetEditor.Forms
                 return;
             }
             SkillSetElementSql newElement = curSet.AddElement();
-            TreeNode n = 
+            TreeNode n = treeStr.Nodes.Add(newElement.ToString());
+            n.Tag = newElement;
+        }
+
+        private void ClearSkillStructureElement()
+        {
+            NoEvents = true;
+            textStrId.Text = "";
+            textStrSkillId.Text = "";
+            textStrSkillName.Text = "";
+            textStrLevel.Text = "";
+            textStrColumn.Text = "";
+            textStrPredecessorId1.Text = "";
+            textStrPredecessorName1.Text = "";
+            textStrPredecessorId2.Text = "";
+            textStrPredecessorName2.Text = "";
+            NoEvents = false;
+        }
+
+        private SkillSetElementSql GetCurrentSkillElement()
+        {
+            if(treeStr.SelectedNode == null)
+            {
+                return null;
+            }
+            else
+            {
+                return (SkillSetElementSql)treeStr.SelectedNode.Tag;
+            }
+        }
+
+        private void treeStr_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            ClearSkillStructureElement();
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if(curElement == null)
+            {
+                return;
+            }
+            textStrId.Text = curElement.Id.ToString();
+            textStrSkillId.Text = curElement.SkillTypeId.ToString();
+            SetSkillName(textStrSkillName, curElement.SkillTypeId);
+            textStrLevel.Text = curElement.SkillLevel.ToString();
+            textStrColumn.Text = curElement.SkillColumn.ToString();
+            textStrPredecessorId1.Text = curElement.Predecessor1.ToString() ;
+            SetSkillName(textStrPredecessorName1, curElement.Predecessor1);
+            textStrPredecessorId2.Text = curElement.Predecessor2.ToString();
+            SetSkillName(textStrPredecessorName2, curElement.Predecessor2);
+        }
+
+        private void SetSkillName(TextBox text, int skillId)
+        {
+            SkillType t = SkillTypeSql.SkillTypeById(skillId);
+            if(t == null)
+            {
+                text.Text = "";
+            }
+            else
+            {
+                text.Text = t.Name;
+            }
+        }
+
+        private void textStrSkillId_TextChanged(object sender, EventArgs e)
+        {
+            if(NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+
+        }
+
+        private void textStrSkillId_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void textStrLevel_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textStrColumn_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkAvailableAtStart_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textStrPredecessorId1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void textStrPredecessorId1_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void textStrPredecessorId2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textStrPredecessorId2_KeyUp(object sender, KeyEventArgs e)
+        {
+
         }
 
         #endregion
@@ -486,7 +617,16 @@ namespace AssetEditor.Forms
         }
 
 
+
+
+
+
+
         #endregion
+
+
+
+
 
 
     }

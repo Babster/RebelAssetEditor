@@ -31,9 +31,18 @@ namespace AssetEditor.Forms
         {
             this.tabControl9 = new System.Windows.Forms.TabControl();
             this.tabPage31 = new System.Windows.Forms.TabPage();
-            this.buttonDEleteSkillStructure = new System.Windows.Forms.Button();
+            this.textStrColumn = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textStrLevel = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textStrSkillName = new System.Windows.Forms.TextBox();
+            this.textStrSkillId = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textStrId = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.buttonDeleteSkillStructure = new System.Windows.Forms.Button();
             this.buttonAddSkillStructure = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeStr = new System.Windows.Forms.TreeView();
             this.buttonSaveSkillset = new System.Windows.Forms.Button();
             this.textSkillsetOpenCost = new System.Windows.Forms.TextBox();
             this.label124 = new System.Windows.Forms.Label();
@@ -68,6 +77,13 @@ namespace AssetEditor.Forms
             this.buttonSaveSkillType = new System.Windows.Forms.Button();
             this.buttonAddSkillType = new System.Windows.Forms.Button();
             this.treeSkillTypes = new System.Windows.Forms.TreeView();
+            this.textStrPredecessorId1 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textStrPredecessorName1 = new System.Windows.Forms.TextBox();
+            this.textStrPredecessorName2 = new System.Windows.Forms.TextBox();
+            this.textStrPredecessorId2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.checkAvailableAtStart = new System.Windows.Forms.CheckBox();
             this.tabControl9.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage32.SuspendLayout();
@@ -86,9 +102,25 @@ namespace AssetEditor.Forms
             // 
             // tabPage31
             // 
-            this.tabPage31.Controls.Add(this.buttonDEleteSkillStructure);
+            this.tabPage31.Controls.Add(this.checkAvailableAtStart);
+            this.tabPage31.Controls.Add(this.textStrPredecessorName2);
+            this.tabPage31.Controls.Add(this.textStrPredecessorId2);
+            this.tabPage31.Controls.Add(this.label11);
+            this.tabPage31.Controls.Add(this.textStrPredecessorName1);
+            this.tabPage31.Controls.Add(this.textStrPredecessorId1);
+            this.tabPage31.Controls.Add(this.label10);
+            this.tabPage31.Controls.Add(this.textStrColumn);
+            this.tabPage31.Controls.Add(this.label9);
+            this.tabPage31.Controls.Add(this.textStrLevel);
+            this.tabPage31.Controls.Add(this.label8);
+            this.tabPage31.Controls.Add(this.textStrSkillName);
+            this.tabPage31.Controls.Add(this.textStrSkillId);
+            this.tabPage31.Controls.Add(this.label7);
+            this.tabPage31.Controls.Add(this.textStrId);
+            this.tabPage31.Controls.Add(this.label6);
+            this.tabPage31.Controls.Add(this.buttonDeleteSkillStructure);
             this.tabPage31.Controls.Add(this.buttonAddSkillStructure);
-            this.tabPage31.Controls.Add(this.treeView1);
+            this.tabPage31.Controls.Add(this.treeStr);
             this.tabPage31.Controls.Add(this.buttonSaveSkillset);
             this.tabPage31.Controls.Add(this.textSkillsetOpenCost);
             this.tabPage31.Controls.Add(this.label124);
@@ -109,14 +141,98 @@ namespace AssetEditor.Forms
             this.tabPage31.Text = "Skill sets";
             this.tabPage31.UseVisualStyleBackColor = true;
             // 
-            // buttonDEleteSkillStructure
+            // textStrColumn
             // 
-            this.buttonDEleteSkillStructure.Location = new System.Drawing.Point(458, 115);
-            this.buttonDEleteSkillStructure.Name = "buttonDEleteSkillStructure";
-            this.buttonDEleteSkillStructure.Size = new System.Drawing.Size(114, 36);
-            this.buttonDEleteSkillStructure.TabIndex = 14;
-            this.buttonDEleteSkillStructure.Text = "Delete";
-            this.buttonDEleteSkillStructure.UseVisualStyleBackColor = true;
+            this.textStrColumn.Location = new System.Drawing.Point(823, 195);
+            this.textStrColumn.MaxLength = 10;
+            this.textStrColumn.Name = "textStrColumn";
+            this.textStrColumn.Size = new System.Drawing.Size(100, 26);
+            this.textStrColumn.TabIndex = 23;
+            this.textStrColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrColumn.TextChanged += new System.EventHandler(this.textStrColumn_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(750, 198);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 20);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Column:";
+            // 
+            // textStrLevel
+            // 
+            this.textStrLevel.Location = new System.Drawing.Point(634, 195);
+            this.textStrLevel.MaxLength = 10;
+            this.textStrLevel.Name = "textStrLevel";
+            this.textStrLevel.Size = new System.Drawing.Size(100, 26);
+            this.textStrLevel.TabIndex = 21;
+            this.textStrLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrLevel.TextChanged += new System.EventHandler(this.textStrLevel_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(578, 198);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 20);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Level:";
+            // 
+            // textStrSkillName
+            // 
+            this.textStrSkillName.Location = new System.Drawing.Point(870, 157);
+            this.textStrSkillName.Name = "textStrSkillName";
+            this.textStrSkillName.ReadOnly = true;
+            this.textStrSkillName.Size = new System.Drawing.Size(331, 26);
+            this.textStrSkillName.TabIndex = 19;
+            // 
+            // textStrSkillId
+            // 
+            this.textStrSkillId.Location = new System.Drawing.Point(764, 157);
+            this.textStrSkillId.MaxLength = 10;
+            this.textStrSkillId.Name = "textStrSkillId";
+            this.textStrSkillId.Size = new System.Drawing.Size(100, 26);
+            this.textStrSkillId.TabIndex = 18;
+            this.textStrSkillId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrSkillId.TextChanged += new System.EventHandler(this.textStrSkillId_TextChanged);
+            this.textStrSkillId.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrSkillId_KeyUp);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(699, 160);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 20);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Skill Id:";
+            // 
+            // textStrId
+            // 
+            this.textStrId.Location = new System.Drawing.Point(611, 157);
+            this.textStrId.Name = "textStrId";
+            this.textStrId.ReadOnly = true;
+            this.textStrId.Size = new System.Drawing.Size(82, 26);
+            this.textStrId.TabIndex = 16;
+            this.textStrId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(578, 160);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(27, 20);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Id:";
+            // 
+            // buttonDeleteSkillStructure
+            // 
+            this.buttonDeleteSkillStructure.Location = new System.Drawing.Point(458, 115);
+            this.buttonDeleteSkillStructure.Name = "buttonDeleteSkillStructure";
+            this.buttonDeleteSkillStructure.Size = new System.Drawing.Size(114, 36);
+            this.buttonDeleteSkillStructure.TabIndex = 14;
+            this.buttonDeleteSkillStructure.Text = "Delete";
+            this.buttonDeleteSkillStructure.UseVisualStyleBackColor = true;
             // 
             // buttonAddSkillStructure
             // 
@@ -128,12 +244,13 @@ namespace AssetEditor.Forms
             this.buttonAddSkillStructure.UseVisualStyleBackColor = true;
             this.buttonAddSkillStructure.Click += new System.EventHandler(this.buttonAddSkillStructure_Click);
             // 
-            // treeView1
+            // treeStr
             // 
-            this.treeView1.Location = new System.Drawing.Point(322, 157);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(250, 379);
-            this.treeView1.TabIndex = 12;
+            this.treeStr.Location = new System.Drawing.Point(322, 157);
+            this.treeStr.Name = "treeStr";
+            this.treeStr.Size = new System.Drawing.Size(250, 379);
+            this.treeStr.TabIndex = 12;
+            this.treeStr.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeStr_AfterSelect);
             // 
             // buttonSaveSkillset
             // 
@@ -210,9 +327,9 @@ namespace AssetEditor.Forms
             this.label121.AutoSize = true;
             this.label121.Location = new System.Drawing.Point(464, 51);
             this.label121.Name = "label121";
-            this.label121.Size = new System.Drawing.Size(51, 20);
+            this.label121.Size = new System.Drawing.Size(55, 20);
             this.label121.TabIndex = 4;
-            this.label121.Text = "Name";
+            this.label121.Text = "Name:";
             // 
             // textSkillsetId
             // 
@@ -228,9 +345,9 @@ namespace AssetEditor.Forms
             this.label120.AutoSize = true;
             this.label120.Location = new System.Drawing.Point(318, 51);
             this.label120.Name = "label120";
-            this.label120.Size = new System.Drawing.Size(23, 20);
+            this.label120.Size = new System.Drawing.Size(27, 20);
             this.label120.TabIndex = 2;
-            this.label120.Text = "Id";
+            this.label120.Text = "Id:";
             // 
             // buttonSkillAdd
             // 
@@ -478,9 +595,76 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeSkillTypes.Location = new System.Drawing.Point(6, 48);
             this.treeSkillTypes.Name = "treeSkillTypes";
-            this.treeSkillTypes.Size = new System.Drawing.Size(299, 504);
+            this.treeSkillTypes.Size = new System.Drawing.Size(299, 488);
             this.treeSkillTypes.TabIndex = 2;
             this.treeSkillTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeSkillTypes_AfterSelect);
+            // 
+            // textStrPredecessorId1
+            // 
+            this.textStrPredecessorId1.Location = new System.Drawing.Point(717, 238);
+            this.textStrPredecessorId1.MaxLength = 10;
+            this.textStrPredecessorId1.Name = "textStrPredecessorId1";
+            this.textStrPredecessorId1.Size = new System.Drawing.Size(100, 26);
+            this.textStrPredecessorId1.TabIndex = 25;
+            this.textStrPredecessorId1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrPredecessorId1.TextChanged += new System.EventHandler(this.textStrPredecessorId1_TextChanged);
+            this.textStrPredecessorId1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrPredecessorId1_KeyUp);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(578, 241);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(133, 20);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Predecessor 1 Id:";
+            // 
+            // textStrPredecessorName1
+            // 
+            this.textStrPredecessorName1.Location = new System.Drawing.Point(823, 238);
+            this.textStrPredecessorName1.Name = "textStrPredecessorName1";
+            this.textStrPredecessorName1.ReadOnly = true;
+            this.textStrPredecessorName1.Size = new System.Drawing.Size(376, 26);
+            this.textStrPredecessorName1.TabIndex = 26;
+            // 
+            // textStrPredecessorName2
+            // 
+            this.textStrPredecessorName2.Location = new System.Drawing.Point(823, 270);
+            this.textStrPredecessorName2.Name = "textStrPredecessorName2";
+            this.textStrPredecessorName2.ReadOnly = true;
+            this.textStrPredecessorName2.Size = new System.Drawing.Size(376, 26);
+            this.textStrPredecessorName2.TabIndex = 29;
+            // 
+            // textStrPredecessorId2
+            // 
+            this.textStrPredecessorId2.Location = new System.Drawing.Point(717, 270);
+            this.textStrPredecessorId2.MaxLength = 10;
+            this.textStrPredecessorId2.Name = "textStrPredecessorId2";
+            this.textStrPredecessorId2.Size = new System.Drawing.Size(100, 26);
+            this.textStrPredecessorId2.TabIndex = 28;
+            this.textStrPredecessorId2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrPredecessorId2.TextChanged += new System.EventHandler(this.textStrPredecessorId2_TextChanged);
+            this.textStrPredecessorId2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrPredecessorId2_KeyUp);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(578, 273);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(133, 20);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "Predecessor 2 Id:";
+            // 
+            // checkAvailableAtStart
+            // 
+            this.checkAvailableAtStart.AutoSize = true;
+            this.checkAvailableAtStart.Location = new System.Drawing.Point(942, 197);
+            this.checkAvailableAtStart.Name = "checkAvailableAtStart";
+            this.checkAvailableAtStart.Size = new System.Drawing.Size(145, 24);
+            this.checkAvailableAtStart.TabIndex = 30;
+            this.checkAvailableAtStart.Text = "Available at start";
+            this.checkAvailableAtStart.UseVisualStyleBackColor = true;
+            this.checkAvailableAtStart.CheckedChanged += new System.EventHandler(this.checkAvailableAtStart_CheckedChanged);
             // 
             // FormSkills
             // 
@@ -540,8 +724,24 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.TextBox textSkillTypeEffectPower;
         private System.Windows.Forms.ComboBox comboSkillTypeEffectType;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button buttonDEleteSkillStructure;
+        private System.Windows.Forms.Button buttonDeleteSkillStructure;
         private System.Windows.Forms.Button buttonAddSkillStructure;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeStr;
+        private System.Windows.Forms.TextBox textStrId;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textStrSkillId;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textStrSkillName;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textStrColumn;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textStrLevel;
+        private System.Windows.Forms.TextBox textStrPredecessorName2;
+        private System.Windows.Forms.TextBox textStrPredecessorId2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textStrPredecessorName1;
+        private System.Windows.Forms.TextBox textStrPredecessorId1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox checkAvailableAtStart;
     }
 }
