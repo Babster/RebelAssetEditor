@@ -26,7 +26,8 @@ public class ObjectDatabase : UnityObjectDatabase
         LoadShipModels();
         LoadModuleTypes();
         LoadRigs();
-        LoadModuleTypes2();
+        LoadSkillsets();
+        LoadSkillTypes();
     }
 
     private void LoadResourceTypes()
@@ -88,9 +89,14 @@ public class ObjectDatabase : UnityObjectDatabase
         rigList = SpaceshipRig.BuiltInRigs();
     }
 
-    private void LoadModuleTypes2()
+    private void LoadSkillsets()
     {
-        //moduleTypes2 = 
+        skillSets = SkillSetSql.GetSkillsetList();
+    }
+
+    private void LoadSkillTypes()
+    {
+        skillTypes = SkillTypeSql.SkillTypeList();
     }
 
 }
@@ -109,6 +115,8 @@ public class UnityObjectDatabase
     public List<ShipModel> shipModels { get; set; }
     public List<ShipModuleType> moduleTypes { get; set; }
     public List<SpaceshipRig> rigList { get; set; }
+    public List<SkillSetSql> skillSets { get; set; }
+    public List<SkillTypeSql> skillTypes { get; set; }
     public UnityObjectDatabase() { }
 
     

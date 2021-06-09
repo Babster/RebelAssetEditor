@@ -40,6 +40,18 @@ namespace AssetEditor
 
         }
 
+        #region
+
+        
+        private void buttonOpenSkills_Click(object sender, EventArgs e)
+        {
+            AssetEditor.Forms.FormSkills f = new AssetEditor.Forms.FormSkills();
+            f.Show();
+
+        }
+
+        #endregion
+
         #region "Сцены"
 
         TreeNode nodeScenes;
@@ -4607,12 +4619,6 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
-
-
-
-
-
-
 
 
 

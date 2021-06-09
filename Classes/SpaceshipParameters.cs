@@ -22,6 +22,15 @@ public class SpaceShipParameters
     public List<ShipModule> Modules;
     public List<ParameterBonus> Bonuses;
 
+    public int EnergyBalance
+    {
+        get
+        {
+            return ReactorPoints - ReactorConsumption;
+        }
+    }
+
+    //Полностью скинуть параметры корабля и пересчитать заново
     public void CalculateParameters()
     {
         //Начинается всё с того, что старые параметры все стираются
@@ -30,31 +39,36 @@ public class SpaceShipParameters
         //Расчет параметров отталкивается от корабля, если его нет, то обработка для модели корабля - внизу
         CalculateInner();
     }
-
     private void CalculateInner()
     {
         SetShipModelParameters();
 
         //Если расчет ведется для корабля игрока, то надо пробежаться по слотам и в них вести расчет
         //по реально установленным модулям
-        if(rig.Ship != null)
+        if (rig.Ship != null)
         {
-            foreach(var rigSlot in rig.Slots)
+            foreach (var rigSlot in rig.Slots)
             {
-                if(rigSlot.IsWeapon)
+                if (rigSlot.IsWeapon)
                 {
-                    if(!rigSlot.IsEmpty)
+                    //Расчет параметров оружия вынесен в отдельную процедуру
+                    /*if (!rigSlot.IsEmpty)
                     {
-                        Weapons.Add(new WeaponParameters(rigSlot.Module));
-                    }
+                        WeaponParameters curWeapon = new WeaponParameters(rigSlot.Module);
+                        curWeapon.Slot = rigSlot.Slot;
+                        curWeapon.Module = rigSlot.Module;
+                        curWeapon.CalculateParameters();
+                        Weapons.Add(curWeapon);
+                        ReactorConsumption += curWeapon.ModuleType.EnergyNeed;
+                    }*/
                 }
-                else if(rigSlot.IsModule)
+                else if (rigSlot.IsModule && rigSlot.Module != null)
                 {
                     AddModule(rigSlot.Module);
                 }
-                else if(rigSlot.IsOfficers)
+                else if (rigSlot.IsOfficers)
                 {
-                    foreach(var officer in rigSlot.team.OfficerList)
+                    foreach (var officer in rigSlot.team.OfficerList)
                     {
                         Bonuses.Add(new ParameterBonus(officer));
                     }
@@ -63,11 +77,15 @@ public class SpaceShipParameters
         }
         else
         {
+            if (Weapons == null)
+            {
+                Weapons = new List<WeaponParameters>();
+            }
             foreach (var rigSlot in rig.Slots)
             {
                 if (rigSlot.IsWeapon)
                 {
-                    if (!rigSlot.IsEmpty)
+                    if (rigSlot.ModuleType != null)
                     {
                         WeaponParameters curWeapon = new WeaponParameters(rigSlot.ModuleType);
                         curWeapon.Slot = rigSlot.Slot;
@@ -82,12 +100,71 @@ public class SpaceShipParameters
             }
         }
 
-        //Применение бонусов, которые действуют на корабле
-        if(Bonuses.Count > 0)
+        CreateWeapons();
+        ApplyBonuses();
+
+    }
+    private void ClearParameters()
+    {
+        StructurePoints = 0;
+        ArmorPoints = 0;
+        ShieldPoints = 0;
+        ShieldRegen = 0;
+        ReactorPoints = 0;
+        ReactorConsumption = 0;
+        Energy = 0;
+        ModuleTypes = new List<ShipModuleType>();
+        Modules = new List<ShipModule>();
+        //Weapons = new List<WeaponParameters>();
+        Bonuses = new List<ParameterBonus>();
+    }
+
+    //В эту процедуру попадает только в том случае, если идет расчет параметров по кораблю игрока
+    //Для расчета параметров противника данная процедура не подойдёт и будет отсекать обработку если
+    //в риге нет реального корабля
+    private void CreateWeapons()
+    {
+        if (rig.Ship == null)
+        {
+            return;
+        }
+        if (Weapons == null)
+        {
+            Weapons = new List<WeaponParameters>();
+            foreach (var rigSlot in rig.Slots)
+            {
+                if (rigSlot.IsWeapon)
+                {
+                    if (!rigSlot.IsEmpty)
+                    {
+                        WeaponParameters curWeapon = new WeaponParameters(rigSlot.Module);
+                        curWeapon.Slot = rigSlot.Slot;
+                        curWeapon.Module = rigSlot.Module;
+                        curWeapon.CalculateParameters();
+                        Weapons.Add(curWeapon);
+                        ReactorConsumption += curWeapon.ModuleType.EnergyNeed;
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (WeaponParameters weapon in Weapons)
+            {
+                //Заново создаёт внутрянку оружия
+                weapon.CalculateParameters();
+            }
+        }
+    }
+
+    private void ApplyBonuses()
+    {
+        //Применение бонусов, которые пришли от офицеров и от прокачки оружейных модулей на корабле
+        if (Bonuses.Count > 0)
         {
             //Бонусы применяются в два прохода. В первый раз добавляются абсолютные числа,
             //во второй раз - проценты
-            foreach(ParameterBonus bonus in Bonuses)
+            foreach (ParameterBonus bonus in Bonuses)
             {
                 ApplyBonusAdditive(bonus);
             }
@@ -96,6 +173,24 @@ public class SpaceShipParameters
                 ApplyBonusMultiplicative(bonus);
             }
         }
+
+        //Применение бонусов, которые возникли на боевой сцене
+        if (indexedBonuses == null)
+        {
+            indexedBonuses = new List<ParameterBonus>();
+        }
+        if (indexedBonuses.Count > 0)
+        {
+            foreach (ParameterBonus bonus in indexedBonuses)
+            {
+                ApplyBonusAdditive(bonus);
+            }
+            foreach (ParameterBonus bonus in indexedBonuses)
+            {
+                ApplyBonusMultiplicative(bonus);
+            }
+        }
+
 
     }
 
@@ -108,7 +203,8 @@ public class SpaceShipParameters
         Dexterity += bonus.DexterityAdd;
         ReactorPoints += (int)bonus.ReactorAdd;
 
-        foreach(var weapon in Weapons)
+
+        foreach (var weapon in Weapons)
         {
             weapon.FireRate += bonus.FireRateAdd;
             weapon.DamageAmount += bonus.DamageAmountAdd;
@@ -120,7 +216,6 @@ public class SpaceShipParameters
         }
 
     }
-
     public void ApplyBonusMultiplicative(ParameterBonus bonus)
     {
         AdjustParameterByPercent(ref StructurePoints, bonus.StructurePercent);
@@ -134,45 +229,33 @@ public class SpaceShipParameters
         {
             AdjustParameterByPercent(ref weapon.FireRate, bonus.FireRatePercent);
             AdjustParameterByPercent(ref weapon.DamageAmount, bonus.DamageAmountPercent);
-            if(weapon.Module.ModuleType.WeaponType == UnityShipModuleType.WeaponTypes.Laser)
+            if (weapon.Module.ModuleType.WeaponType == ShipModuleType.WeaponTypes.Laser)
             {
                 AdjustParameterByPercent(ref weapon.DamageAmount, bonus.LaserDamagePercent);
             }
-            else if(weapon.Module.ModuleType.WeaponType == UnityShipModuleType.WeaponTypes.Explosive)
+            else if (weapon.Module.ModuleType.WeaponType == ShipModuleType.WeaponTypes.Explosive)
             {
                 AdjustParameterByPercent(ref weapon.DamageAmount, bonus.ExplosiveDamagePercent);
             }
-            else if(weapon.Module.ModuleType.WeaponType == UnityShipModuleType.WeaponTypes.Explosive)
+            else if (weapon.Module.ModuleType.WeaponType == ShipModuleType.WeaponTypes.Explosive)
             {
                 AdjustParameterByPercent(ref weapon.DamageAmount, bonus.KineticDamagePercent);
             }
-            
+
             AdjustParameterByPercent(ref weapon.ShieldEffectiveness, bonus.ShieldEffectivenessPercent);
             AdjustParameterByPercent(ref weapon.ArmorEffectiveness, bonus.ArmorEffectivenessPercent);
             AdjustParameterByPercent(ref weapon.StructureEffectiveness, bonus.StructureEffectivenessPercent);
             AdjustParameterByPercent(ref weapon.CriticalChance, bonus.CriticalChancePercent);
-            AdjustParameterByPercent(ref  weapon.CriticalStrength, bonus.CriticalStrengthPercent);
+            AdjustParameterByPercent(ref weapon.CriticalStrength, bonus.CriticalStrengthPercent);
         }
-
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
+    }
     private void AdjustParameterByPercent(ref int parameter, float percent)
     {
         if (percent == 0)
         {
             return;
         }
-        parameter = (int)( parameter * percent);
+        parameter = (int)(parameter * percent);
     }
     private void AdjustParameterByPercent(ref float parameter, float percent)
     {
@@ -203,22 +286,6 @@ public class SpaceShipParameters
         ShieldRegen += moduleType.ShieldRegen;
         ReactorPoints += moduleType.ReactorPoints;
         ReactorConsumption += moduleType.EnergyNeed;
-    }
-
-    private void ClearParameters()
-    {
-        StructurePoints = 0;
-        ArmorPoints = 0;
-        ShieldPoints = 0;
-        ShieldRegen = 0;
-        ReactorPoints = 0;
-        ReactorConsumption = 0;
-        Energy = 0;
-        ModuleTypes = new List<ShipModuleType>();
-        Modules = new List<ShipModule>();
-        Weapons = new List<WeaponParameters>();
-        Bonuses = new List<ParameterBonus>();
-        
     }
 
     public List<WeaponParameters> Weapons;
@@ -278,7 +345,7 @@ public class SpaceShipParameters
         public string BottomLineString()
         {
             StringBuilder t = new StringBuilder();
-            t.Append($"DPS: {DPS}");
+            t.AppendLine($"DPS: {DPS}");
             t.AppendLine($"Fire rate: {FireRate}");
             t.AppendLine($"Damage amount: {DamageAmount}");
             t.AppendLine($"Shield effectiveness: {ShieldEffectiveness}");
@@ -310,16 +377,16 @@ public class SpaceShipParameters
         public string BottomLineValues()
         {
             StringBuilder t = new StringBuilder();
-            t.AppendLine($"{DPS}");
-            t.AppendLine($"{FireRate}");
-            t.AppendLine($"{DamageAmount}");
-            t.AppendLine($"{ShieldEffectiveness}");
-            t.AppendLine($"{ArmorEffectiveness}");
-            t.AppendLine($"{StructureEffectiveness}");
+            t.AppendLine(DPS.ToString("0.00"));
+            t.AppendLine(FireRate.ToString("0.00"));
+            t.AppendLine(DamageAmount.ToString("0.00"));
+            t.AppendLine(ShieldEffectiveness.ToString("0.00"));
+            t.AppendLine(ArmorEffectiveness.ToString("0.00"));
+            t.AppendLine(StructureEffectiveness.ToString("0.00"));
             if (IgnoreShield)
                 t.AppendLine("");
-            t.AppendLine($"{CriticalChance}");
-            t.AppendLine($"{CriticalStrength}");
+            t.AppendLine(CriticalChance.ToString("0.00"));
+            t.AppendLine(CriticalStrength.ToString("0.00"));
             return t.ToString();
         }
 
@@ -329,8 +396,12 @@ public class SpaceShipParameters
         }
 
     }
+
     public class ParameterBonus
     {
+        //Параметры делятся на просто добавление определенного количества очков и процент. Просто очки которые добавлять
+        //указывай прямо в количестве, 1-3-5-100, а которые в процентах надо указывать с тем расчетом, что характеристика
+        //просто умножится на это значение, например, для увеличения характеристики на 40% надо указывать процент = 1.4f
         public float StructureAdd { get; set; }
         public float StructurePercent { get; set; }
         public float ArmorAdd { get; set; }
@@ -363,53 +434,60 @@ public class SpaceShipParameters
 
         public ParameterBonus() { }
 
-        public ParameterBonus(Crew.CrewOfficer officer) 
+        //Для расчета буста, который даёт офицер
+        public ParameterBonus(Crew.CrewOfficer officer)
         {
             CreateFromOfficer(officer);
         }
 
+        //Для расчета буста, который даёт прокачка характеристик модуля во время миссии
+        public ParameterBonus(ShipModule module, int boostPoints1, int boostPoints2)
+        {
+            CreateFromModuleBoost(module, boostPoints1, boostPoints2);
+        }
+
         public void CreateFromOfficer(Crew.CrewOfficer officer)
         {
-            
+
             //Добавление брони - +100% за каждые 10 очков статов
-            int tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.ArmorBoost);
+            int tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ArmorBoost);
             ArmorPercent = GetStandartBonusForSkill(tStat);
 
             //Увеличение ловкости. Стат добавляет 0.1% ловкости за каждое очко
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.Dexterity);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.Dexterity);
             DexterityAdd = (float)tStat / 10;
 
             //Сумма всех оружейных статов - для расчета в нескольких статах
-            int weaponTotal = officer.WeaponStatSum();
+            float weaponTotal = officer.WeaponStatSum();
             FireRatePercent = (1 + weaponTotal / 10 / 100);
-            DamageAmountPercent = (1 + weaponTotal / 10 / 100);
+            DamageAmountPercent = (1 + weaponTotal / 5 / 100);
             CriticalChancePercent = (1 + weaponTotal / 100);
-            CriticalStrengthPercent = (1 + weaponTotal / 10);
+            CriticalStrengthPercent = (1 + weaponTotal / 100);
 
             //Увеличение мощности разных пушек - по 100% за каждые 10 очков умения
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.ExplosiveWeapons);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ExplosiveWeapons);
             ExplosiveDamagePercent = GetStandartBonusForSkill(tStat);
 
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.KineticWeapons);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.KineticWeapons);
             KineticDamagePercent = GetStandartBonusForSkill(tStat);
 
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.LaserWeapons);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.LaserWeapons);
             LaserDamagePercent = GetStandartBonusForSkill(tStat);
 
             //Что делать с реактором не решено. Пока не будет сета модулей кораблей говорить о
             //том, как будет сбалансирован этот аспект бессмысленно
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.ReactorBoost);
-            ReactorPercent = (float)tStat;
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ReactorBoost);
+            ReactorPercent = (1 + (float)tStat / 100);
 
             //Со щитом всё просто - офицер драматически увеличивает его
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.ShieldsBoost);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ShieldsBoost);
             ShieldPercent = GetStandartBonusForSkill(tStat);
+            ShieldRegenPercent = ShieldPercent;
 
             //Ускорители - пока не понятно как быть со скоростью, так что пропускаем ускорители
-            tStat = officer.StatValue(Crew.UnityOfficerTypeStat.StatType.ThrustersBoost);
+            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ThrustersBoost);
 
         }
-
         private float GetStandartBonusForSkill(int skill)
         {
             float bonus = 1;
@@ -424,7 +502,7 @@ public class SpaceShipParameters
                 }
                 else
                 {
-                    bonus = (bonus * (1 + skill / 10));
+                    bonus = (bonus * (1 + (float)skill / 10));
                     skill = 0;
                 }
 
@@ -432,6 +510,28 @@ public class SpaceShipParameters
             return bonus;
         }
 
+        private void CreateFromModuleBoost(ShipModule module, int boostPoints1, int boostPoints2)
+        {
+            //Пока что по общему правилу сделаем так, что очко умения каждый раз добавляет 30% к соответствующей характеристике модуля
+            float boost = 1.15f;
+            if (module.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Armor)
+            {
+                ArmorPercent = (float)Math.Pow(boost, boostPoints1 + 1);
+            }
+            else if (module.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Reactor)
+            {
+                ReactorPercent = (float)Math.Pow(boost, boostPoints1 + 1);
+            }
+            else if (module.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Shield)
+            {
+                ShieldPercent = (float)Math.Pow(boost, boostPoints1 + 1);
+                ShieldRegenPercent = (float)Math.Pow(boost, boostPoints2 + 1);
+            }
+            else if (module.ModuleType.ModuleType == ShipModuleType.ModuleTypes.Weapon)
+            {
+                DamageAmountPercent = (float)Math.Pow(boost, boostPoints1 + 1);
+            }
+        }
 
     }
 
@@ -549,7 +649,7 @@ public class SpaceShipParameters
             t.AppendLine($"{ShieldRegen}");
         t.AppendLine($"{Energy}");
         t.AppendLine($"{ReactorPoints - ReactorConsumption}");
-        
+
         if (Weapons.Count > 0)
         {
             if (Weapons.Count > 1)
@@ -575,5 +675,29 @@ public class SpaceShipParameters
         return t.ToString();
     }
 
+    //"Индексированные бонусы" - это список, который при обновлении объекта скидываться насмерть не будет,
+    //обновление данных бонусов будем делать по ссылкам и индексам. Поэтому процедура добавления будет возвращать
+    //индекс, а обновление будет делаться по индексу
+    private List<ParameterBonus> indexedBonuses;
+    public int AddIndexedBonus(ShipModule module, int boostPoints1, int boostPoints2)
+    {
+        ParameterBonus bonus = new ParameterBonus(module, boostPoints1, boostPoints2);
+        if (indexedBonuses == null)
+        {
+            indexedBonuses = new List<ParameterBonus>();
+        }
+        indexedBonuses.Add(bonus);
+        CalculateParameters();
+        return indexedBonuses.Count - 1;
+    }
+    public void ReplaceIndexedBonus(ShipModule module, int boostPoints1, int boostPoints2, int idx)
+    {
+        ParameterBonus bonus = new ParameterBonus(module, boostPoints1, boostPoints2);
+        indexedBonuses[idx] = bonus;
+        CalculateParameters();
+    }
 
 }
+
+
+
