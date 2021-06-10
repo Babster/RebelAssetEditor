@@ -30,6 +30,7 @@ public class ShipModel : UnityShipModel
         this.AssetName = Convert.ToString(r["asset_name"]);
         this.ImgId = (int)r["img_id"];
         this.BaseEnergy = (int)r["base_energy"];
+        this.SkillSetsString = (string)r["skill_sets"];
         LoadSlots();
 
     }
@@ -83,13 +84,15 @@ public class ShipModel : UnityShipModel
                     name = @str1,
                     asset_name = @str2,
                     img_id = {ImgId},
-                    base_energy = {BaseEnergy}
+                    base_energy = {BaseEnergy},
+                    skill_sets = @str3
                 WHERE
                     id = " + this.Id.ToString();
 
         List<string> names = new List<string>();
         names.Add(this.Name);
         names.Add(this.AssetName);
+        names.Add(SkillSetsString);
 
         DataConnection.Execute(q, names);
 
@@ -144,7 +147,8 @@ public class ShipModel : UnityShipModel
                     name,
                     asset_name,
                     ISNULL(img_id, 0) AS img_id,
-                    ISNULL(base_energy, 0) AS base_energy
+                    ISNULL(base_energy, 0) AS base_energy,
+                    ISNULL(skill_sets, '') AS skill_sets
                 FROM
                     ss_designs";
     }
@@ -286,6 +290,7 @@ public class UnityShipModel
     public List<int> slotsToDelete;
     public int ImgId { get; set; }
     public int BaseEnergy { get; set; }
+    public string SkillSetsString { get; set; }
     public int WeaponSlotCount
     {
         get

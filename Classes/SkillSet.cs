@@ -17,7 +17,7 @@ public class SkillSetSql : SkillSet
         Name = (string)r["name"];
         OwnerType = (SkillSet.SkillsetOwnerTypes)r["owner_type"];
         OpenCost = (int)r["open_cost"];
-
+        AvailableForPlayer = (int)r["available_for_player"];
         LoadElements();
 
     }
@@ -29,6 +29,7 @@ public class SkillSetSql : SkillSet
             SELECT
                 id,
                 skill_set_id,
+                ISNULL(skill_type_id, 0) AS skill_type_id,
                 skill_level,
                 skill_column,
                 available_at_start,
@@ -71,7 +72,8 @@ public class SkillSetSql : SkillSet
                 parent_id = {ParentId},
                 name = @str1,
                 owner_type = {(int)OwnerType},
-                open_cost = {OpenCost}
+                open_cost = {OpenCost},
+                available_for_player = {AvailableForPlayer}
             WHERE
                 id = {Id}
             ";
@@ -97,7 +99,7 @@ public class SkillSetSql : SkillSet
         q = $@"DELETE FROM skill_sets_structure WHERE skill_set_id = {Id}";
         if(idsDoNotDelete != "")
         {
-            q += $@"AND id NOR IN({idsDoNotDelete})";
+            q += $@" AND id NOT IN({idsDoNotDelete})";
         }
         DataConnection.Execute(q);
 
@@ -111,7 +113,8 @@ public class SkillSetSql : SkillSet
             parent_id,
             name,
             owner_type,
-            open_cost
+            open_cost,
+            ISNULL(available_for_player, 0) AS available_for_player
         FROM
             skill_sets";
     }
@@ -143,6 +146,7 @@ public class SkillSetElementSql:SkillSetElement
     {
         Id = (int)r["id"];
         SkillSetId = (int)r["skill_set_id"];
+        SkillTypeId = (int)r["skill_type_id"];
         SkillLevel = (int)r["skill_level"];
         SkillColumn = (int)r["skill_column"];
         AvailableAtStart = (int)r["available_at_start"];
@@ -165,6 +169,7 @@ public class SkillSetElementSql:SkillSetElement
 
         q = $@"
             UPDATE skill_sets_structure SET 
+                skill_type_id = {SkillTypeId},
                 skill_level = {SkillLevel},
                 skill_column = {SkillColumn},
                 available_at_start = {AvailableAtStart},
@@ -187,6 +192,7 @@ public class SkillSet
     public string Name { get; set; }
     public SkillsetOwnerTypes OwnerType { get; set; }
     public int OpenCost { get; set; } //Сколько опыта требуется для активации данного набора скиллов
+    public int AvailableForPlayer { get; set; }
     public List<SkillSetElement> Elements { get; set; }
 
     public enum SkillsetOwnerTypes
@@ -197,7 +203,7 @@ public class SkillSet
         Module = 3
     }
 
-    public SkillSet() { }
+    public SkillSet() { Elements = new List<SkillSetElement>(); }
 
 }
 

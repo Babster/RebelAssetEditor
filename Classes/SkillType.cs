@@ -22,6 +22,7 @@ public class SkillTypeSql : SkillType
         DurationMilliseconds = (int)r["duration_milliseconds"];
         EffectType = (SkillEffectTypes)r["effect_type"];
         EffectPower = (int)r["effect_power"];
+        CooldownMilliseconds = (int)r["cooldown_milliseconds"];
     }
 
     public void SaveData()
@@ -45,7 +46,8 @@ public class SkillTypeSql : SkillType
                 activation_energy_cost = {ActivationEnergyCost},
                 duration_milliseconds = {DurationMilliseconds},
                 effect_type = {(int)EffectType},
-                effect_power = {EffectPower}
+                effect_power = {EffectPower},
+                cooldown_milliseconds = {CooldownMilliseconds}
             WHERE
                 id = {Id}";
 
@@ -82,7 +84,8 @@ public class SkillTypeSql : SkillType
                 activation_energy_cost,
                 duration_milliseconds,
                 effect_type,
-                effect_power
+                effect_power,
+                ISNULL(cooldown_milliseconds, 0) AS cooldown_milliseconds
             FROM
                 skill_types";
     }
@@ -128,6 +131,7 @@ public class SkillType
     public int DurationMilliseconds { get; set; }
     public SkillEffectTypes EffectType { get; set; }
     public int EffectPower { get; set; }
+    public int CooldownMilliseconds { get; set; }
 
     public enum SkillGrages
     {

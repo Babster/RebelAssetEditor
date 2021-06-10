@@ -31,6 +31,14 @@ namespace AssetEditor.Forms
         {
             this.tabControl9 = new System.Windows.Forms.TabControl();
             this.tabPage31 = new System.Windows.Forms.TabPage();
+            this.checkSkillSetAvailableForPlayer = new System.Windows.Forms.CheckBox();
+            this.checkAvailableAtStart = new System.Windows.Forms.CheckBox();
+            this.textStrPredecessorName2 = new System.Windows.Forms.TextBox();
+            this.textStrPredecessorId2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textStrPredecessorName1 = new System.Windows.Forms.TextBox();
+            this.textStrPredecessorId1 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.textStrColumn = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textStrLevel = new System.Windows.Forms.TextBox();
@@ -77,13 +85,8 @@ namespace AssetEditor.Forms
             this.buttonSaveSkillType = new System.Windows.Forms.Button();
             this.buttonAddSkillType = new System.Windows.Forms.Button();
             this.treeSkillTypes = new System.Windows.Forms.TreeView();
-            this.textStrPredecessorId1 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textStrPredecessorName1 = new System.Windows.Forms.TextBox();
-            this.textStrPredecessorName2 = new System.Windows.Forms.TextBox();
-            this.textStrPredecessorId2 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.checkAvailableAtStart = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textSkillTypeCooldown = new System.Windows.Forms.TextBox();
             this.tabControl9.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage32.SuspendLayout();
@@ -102,6 +105,7 @@ namespace AssetEditor.Forms
             // 
             // tabPage31
             // 
+            this.tabPage31.Controls.Add(this.checkSkillSetAvailableForPlayer);
             this.tabPage31.Controls.Add(this.checkAvailableAtStart);
             this.tabPage31.Controls.Add(this.textStrPredecessorName2);
             this.tabPage31.Controls.Add(this.textStrPredecessorId2);
@@ -140,6 +144,82 @@ namespace AssetEditor.Forms
             this.tabPage31.TabIndex = 0;
             this.tabPage31.Text = "Skill sets";
             this.tabPage31.UseVisualStyleBackColor = true;
+            // 
+            // checkSkillSetAvailableForPlayer
+            // 
+            this.checkSkillSetAvailableForPlayer.AutoSize = true;
+            this.checkSkillSetAvailableForPlayer.Location = new System.Drawing.Point(322, 91);
+            this.checkSkillSetAvailableForPlayer.Name = "checkSkillSetAvailableForPlayer";
+            this.checkSkillSetAvailableForPlayer.Size = new System.Drawing.Size(160, 24);
+            this.checkSkillSetAvailableForPlayer.TabIndex = 31;
+            this.checkSkillSetAvailableForPlayer.Text = "Available for player";
+            this.checkSkillSetAvailableForPlayer.UseVisualStyleBackColor = true;
+            this.checkSkillSetAvailableForPlayer.CheckedChanged += new System.EventHandler(this.checkSkillSetAvailableForPlayer_CheckedChanged);
+            // 
+            // checkAvailableAtStart
+            // 
+            this.checkAvailableAtStart.AutoSize = true;
+            this.checkAvailableAtStart.Location = new System.Drawing.Point(942, 197);
+            this.checkAvailableAtStart.Name = "checkAvailableAtStart";
+            this.checkAvailableAtStart.Size = new System.Drawing.Size(145, 24);
+            this.checkAvailableAtStart.TabIndex = 30;
+            this.checkAvailableAtStart.Text = "Available at start";
+            this.checkAvailableAtStart.UseVisualStyleBackColor = true;
+            this.checkAvailableAtStart.CheckedChanged += new System.EventHandler(this.checkAvailableAtStart_CheckedChanged);
+            // 
+            // textStrPredecessorName2
+            // 
+            this.textStrPredecessorName2.Location = new System.Drawing.Point(823, 270);
+            this.textStrPredecessorName2.Name = "textStrPredecessorName2";
+            this.textStrPredecessorName2.ReadOnly = true;
+            this.textStrPredecessorName2.Size = new System.Drawing.Size(376, 26);
+            this.textStrPredecessorName2.TabIndex = 29;
+            // 
+            // textStrPredecessorId2
+            // 
+            this.textStrPredecessorId2.Location = new System.Drawing.Point(717, 270);
+            this.textStrPredecessorId2.MaxLength = 10;
+            this.textStrPredecessorId2.Name = "textStrPredecessorId2";
+            this.textStrPredecessorId2.Size = new System.Drawing.Size(100, 26);
+            this.textStrPredecessorId2.TabIndex = 28;
+            this.textStrPredecessorId2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrPredecessorId2.TextChanged += new System.EventHandler(this.textStrPredecessorId2_TextChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(578, 273);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(133, 20);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "Predecessor 2 Id:";
+            // 
+            // textStrPredecessorName1
+            // 
+            this.textStrPredecessorName1.Location = new System.Drawing.Point(823, 238);
+            this.textStrPredecessorName1.Name = "textStrPredecessorName1";
+            this.textStrPredecessorName1.ReadOnly = true;
+            this.textStrPredecessorName1.Size = new System.Drawing.Size(376, 26);
+            this.textStrPredecessorName1.TabIndex = 26;
+            // 
+            // textStrPredecessorId1
+            // 
+            this.textStrPredecessorId1.Location = new System.Drawing.Point(717, 238);
+            this.textStrPredecessorId1.MaxLength = 10;
+            this.textStrPredecessorId1.Name = "textStrPredecessorId1";
+            this.textStrPredecessorId1.Size = new System.Drawing.Size(100, 26);
+            this.textStrPredecessorId1.TabIndex = 25;
+            this.textStrPredecessorId1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textStrPredecessorId1.TextChanged += new System.EventHandler(this.textStrPredecessorId1_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(578, 241);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(133, 20);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Predecessor 1 Id:";
             // 
             // textStrColumn
             // 
@@ -196,7 +276,6 @@ namespace AssetEditor.Forms
             this.textStrSkillId.TabIndex = 18;
             this.textStrSkillId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textStrSkillId.TextChanged += new System.EventHandler(this.textStrSkillId_TextChanged);
-            this.textStrSkillId.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrSkillId_KeyUp);
             // 
             // label7
             // 
@@ -227,7 +306,7 @@ namespace AssetEditor.Forms
             // 
             // buttonDeleteSkillStructure
             // 
-            this.buttonDeleteSkillStructure.Location = new System.Drawing.Point(458, 115);
+            this.buttonDeleteSkillStructure.Location = new System.Drawing.Point(458, 153);
             this.buttonDeleteSkillStructure.Name = "buttonDeleteSkillStructure";
             this.buttonDeleteSkillStructure.Size = new System.Drawing.Size(114, 36);
             this.buttonDeleteSkillStructure.TabIndex = 14;
@@ -236,7 +315,7 @@ namespace AssetEditor.Forms
             // 
             // buttonAddSkillStructure
             // 
-            this.buttonAddSkillStructure.Location = new System.Drawing.Point(322, 115);
+            this.buttonAddSkillStructure.Location = new System.Drawing.Point(322, 153);
             this.buttonAddSkillStructure.Name = "buttonAddSkillStructure";
             this.buttonAddSkillStructure.Size = new System.Drawing.Size(114, 36);
             this.buttonAddSkillStructure.TabIndex = 13;
@@ -246,9 +325,10 @@ namespace AssetEditor.Forms
             // 
             // treeStr
             // 
-            this.treeStr.Location = new System.Drawing.Point(322, 157);
+            this.treeStr.HideSelection = false;
+            this.treeStr.Location = new System.Drawing.Point(322, 195);
             this.treeStr.Name = "treeStr";
-            this.treeStr.Size = new System.Drawing.Size(250, 379);
+            this.treeStr.Size = new System.Drawing.Size(250, 341);
             this.treeStr.TabIndex = 12;
             this.treeStr.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeStr_AfterSelect);
             // 
@@ -363,6 +443,7 @@ namespace AssetEditor.Forms
             // 
             this.treeSkillSets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeSkillSets.HideSelection = false;
             this.treeSkillSets.Location = new System.Drawing.Point(6, 48);
             this.treeSkillSets.Name = "treeSkillSets";
             this.treeSkillSets.Size = new System.Drawing.Size(299, 488);
@@ -371,6 +452,8 @@ namespace AssetEditor.Forms
             // 
             // tabPage32
             // 
+            this.tabPage32.Controls.Add(this.label12);
+            this.tabPage32.Controls.Add(this.textSkillTypeCooldown);
             this.tabPage32.Controls.Add(this.label5);
             this.tabPage32.Controls.Add(this.textSkillTypeEffectPower);
             this.tabPage32.Controls.Add(this.comboSkillTypeEffectType);
@@ -599,72 +682,24 @@ namespace AssetEditor.Forms
             this.treeSkillTypes.TabIndex = 2;
             this.treeSkillTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeSkillTypes_AfterSelect);
             // 
-            // textStrPredecessorId1
+            // label12
             // 
-            this.textStrPredecessorId1.Location = new System.Drawing.Point(717, 238);
-            this.textStrPredecessorId1.MaxLength = 10;
-            this.textStrPredecessorId1.Name = "textStrPredecessorId1";
-            this.textStrPredecessorId1.Size = new System.Drawing.Size(100, 26);
-            this.textStrPredecessorId1.TabIndex = 25;
-            this.textStrPredecessorId1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textStrPredecessorId1.TextChanged += new System.EventHandler(this.textStrPredecessorId1_TextChanged);
-            this.textStrPredecessorId1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrPredecessorId1_KeyUp);
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(530, 131);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(182, 20);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "Cooldown (milliseconds):";
             // 
-            // label10
+            // textSkillTypeCooldown
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(578, 241);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(133, 20);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Predecessor 1 Id:";
-            // 
-            // textStrPredecessorName1
-            // 
-            this.textStrPredecessorName1.Location = new System.Drawing.Point(823, 238);
-            this.textStrPredecessorName1.Name = "textStrPredecessorName1";
-            this.textStrPredecessorName1.ReadOnly = true;
-            this.textStrPredecessorName1.Size = new System.Drawing.Size(376, 26);
-            this.textStrPredecessorName1.TabIndex = 26;
-            // 
-            // textStrPredecessorName2
-            // 
-            this.textStrPredecessorName2.Location = new System.Drawing.Point(823, 270);
-            this.textStrPredecessorName2.Name = "textStrPredecessorName2";
-            this.textStrPredecessorName2.ReadOnly = true;
-            this.textStrPredecessorName2.Size = new System.Drawing.Size(376, 26);
-            this.textStrPredecessorName2.TabIndex = 29;
-            // 
-            // textStrPredecessorId2
-            // 
-            this.textStrPredecessorId2.Location = new System.Drawing.Point(717, 270);
-            this.textStrPredecessorId2.MaxLength = 10;
-            this.textStrPredecessorId2.Name = "textStrPredecessorId2";
-            this.textStrPredecessorId2.Size = new System.Drawing.Size(100, 26);
-            this.textStrPredecessorId2.TabIndex = 28;
-            this.textStrPredecessorId2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textStrPredecessorId2.TextChanged += new System.EventHandler(this.textStrPredecessorId2_TextChanged);
-            this.textStrPredecessorId2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textStrPredecessorId2_KeyUp);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(578, 273);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(133, 20);
-            this.label11.TabIndex = 27;
-            this.label11.Text = "Predecessor 2 Id:";
-            // 
-            // checkAvailableAtStart
-            // 
-            this.checkAvailableAtStart.AutoSize = true;
-            this.checkAvailableAtStart.Location = new System.Drawing.Point(942, 197);
-            this.checkAvailableAtStart.Name = "checkAvailableAtStart";
-            this.checkAvailableAtStart.Size = new System.Drawing.Size(145, 24);
-            this.checkAvailableAtStart.TabIndex = 30;
-            this.checkAvailableAtStart.Text = "Available at start";
-            this.checkAvailableAtStart.UseVisualStyleBackColor = true;
-            this.checkAvailableAtStart.CheckedChanged += new System.EventHandler(this.checkAvailableAtStart_CheckedChanged);
+            this.textSkillTypeCooldown.Location = new System.Drawing.Point(718, 128);
+            this.textSkillTypeCooldown.MaxLength = 5;
+            this.textSkillTypeCooldown.Name = "textSkillTypeCooldown";
+            this.textSkillTypeCooldown.Size = new System.Drawing.Size(100, 26);
+            this.textSkillTypeCooldown.TabIndex = 32;
+            this.textSkillTypeCooldown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textSkillTypeCooldown.TextChanged += new System.EventHandler(this.textSkillTypeCooldown_TextChanged);
             // 
             // FormSkills
             // 
@@ -743,5 +778,8 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.TextBox textStrPredecessorId1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox checkAvailableAtStart;
+        private System.Windows.Forms.CheckBox checkSkillSetAvailableForPlayer;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textSkillTypeCooldown;
     }
 }

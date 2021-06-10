@@ -120,6 +120,7 @@ namespace AssetEditor.Forms
             textSkillsetName.Text = curSet.Name;
             comboSkillsetType.SelectedIndex = (int)curSet.OwnerType;
             textSkillsetOpenCost.Text = curSet.OpenCost.ToString();
+            checkSkillSetAvailableForPlayer.Checked = curSet.AvailableForPlayer == 1;
 
             treeStr.Nodes.Clear();
             if (curSet.Elements.Count > 0)
@@ -179,6 +180,25 @@ namespace AssetEditor.Forms
             curSet.OpenCost = value;
         }
 
+        private void checkSkillSetAvailableForPlayer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SkillSetSql curSet = GetCurrentSkillSet();
+            if (curSet == null)
+            {
+                return;
+            }
+            if(checkSkillSetAvailableForPlayer.Checked)
+            {
+                curSet.AvailableForPlayer = 1;
+            }
+            else
+            {
+                curSet.AvailableForPlayer = 0;
+            }
+        }
+
         private void buttonSaveSkillset_Click(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -214,6 +234,7 @@ namespace AssetEditor.Forms
             textStrSkillName.Text = "";
             textStrLevel.Text = "";
             textStrColumn.Text = "";
+            checkAvailableAtStart.Checked = false;
             textStrPredecessorId1.Text = "";
             textStrPredecessorName1.Text = "";
             textStrPredecessorId2.Text = "";
@@ -246,6 +267,7 @@ namespace AssetEditor.Forms
             SetSkillName(textStrSkillName, curElement.SkillTypeId);
             textStrLevel.Text = curElement.SkillLevel.ToString();
             textStrColumn.Text = curElement.SkillColumn.ToString();
+            checkAvailableAtStart.Checked = curElement.AvailableAtStart == 1;
             textStrPredecessorId1.Text = curElement.Predecessor1.ToString() ;
             SetSkillName(textStrPredecessorName1, curElement.Predecessor1);
             textStrPredecessorId2.Text = curElement.Predecessor2.ToString();
@@ -265,6 +287,16 @@ namespace AssetEditor.Forms
             }
         }
 
+        private void UpdateSkillElementInTree()
+        {
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            treeStr.SelectedNode.Text = curElement.ToString();
+        }
+
         private void textStrSkillId_TextChanged(object sender, EventArgs e)
         {
             if(NoEvents)
@@ -276,47 +308,100 @@ namespace AssetEditor.Forms
             {
                 return;
             }
-
-        }
-
-        private void textStrSkillId_KeyUp(object sender, KeyEventArgs e)
-        {
-
+            int value = 0;
+            Int32.TryParse(textStrSkillId.Text, out value);
+            curElement.SkillTypeId = value;
+            SetSkillName(textStrSkillName, value);
+            UpdateSkillElementInTree();
         }
 
         private void textStrLevel_TextChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textStrLevel.Text, out value);
+            curElement.SkillLevel = value;
+            UpdateSkillElementInTree();
         }
 
         private void textStrColumn_TextChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textStrColumn.Text, out value);
+            curElement.SkillColumn = value;
+            UpdateSkillElementInTree();
         }
 
         private void checkAvailableAtStart_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            if(checkAvailableAtStart.Checked)
+            {
+                curElement.AvailableAtStart = 1;
+            }
+            else
+            {
+                curElement.AvailableAtStart = 0;
+            }
         }
 
         private void textStrPredecessorId1_TextChanged(object sender, EventArgs e)
         {
-
-        }
-        
-        private void textStrPredecessorId1_KeyUp(object sender, KeyEventArgs e)
-        {
-
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textStrPredecessorId1.Text, out value);
+            curElement.Predecessor1 = value;
+            SetSkillName(textStrPredecessorName1, value);
         }
 
         private void textStrPredecessorId2_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void textStrPredecessorId2_KeyUp(object sender, KeyEventArgs e)
-        {
-
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textStrPredecessorId2.Text, out value);
+            curElement.Predecessor2 = value;
+            SetSkillName(textStrPredecessorName2, value);
         }
 
         #endregion
@@ -432,6 +517,7 @@ namespace AssetEditor.Forms
                 }
             }
             textSkillTypeEffectPower.Text = curSkill.EffectPower.ToString();
+            textSkillTypeCooldown.Text = curSkill.CooldownMilliseconds.ToString();
             NoEvents = false;
         }
 
@@ -447,6 +533,7 @@ namespace AssetEditor.Forms
             textSkillTypeDuration.Text = "";
             comboSkillTypeEffectType.SelectedItem = null;
             textSkillTypeEffectPower.Text = "";
+            textSkillTypeCooldown.Text = "";
             NoEvents = false;
         }
 
@@ -600,7 +687,23 @@ namespace AssetEditor.Forms
             Int32.TryParse(textSkillTypeEffectPower.Text, out val);
             curSkill.EffectPower = val;
         }
-        
+
+        private void textSkillTypeCooldown_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+            {
+                return;
+            }
+            var curSkill = GetCurrentSkillType();
+            if (curSkill == null)
+            {
+                return;
+            }
+            int val = 0;
+            Int32.TryParse(textSkillTypeCooldown.Text, out val);
+            curSkill.CooldownMilliseconds = val;
+        }
+
         private void buttonSaveSkillType_Click(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -617,16 +720,7 @@ namespace AssetEditor.Forms
         }
 
 
-
-
-
-
-
         #endregion
-
-
-
-
 
 
     }
