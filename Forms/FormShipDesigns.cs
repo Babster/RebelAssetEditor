@@ -131,6 +131,7 @@ namespace AssetEditor.Forms
             textShipUnity.Text = tag.AssetName;
             textShipImageId.Text = tag.ImgId.ToString();
             textShipBaseEnergy.Text = tag.BaseEnergy.ToString();
+            textShipSkillSets.Text = tag.SkillSetsString;
             if (tag.slots.Count > 0)
             {
                 foreach (ShipModelSlot slot in tag.slots)
@@ -150,6 +151,7 @@ namespace AssetEditor.Forms
             textShipName.Text = "";
             textShipUnity.Text = "";
             textShipImageId.Text = "";
+            textShipSkillSets.Text = "";
             listShipSlots.Items.Clear();
             NoEvents = false;
             ClearShipSlot();
@@ -191,6 +193,17 @@ namespace AssetEditor.Forms
             Int32.TryParse(textShipBaseEnergy.Text, out amount);
             tag.BaseEnergy = amount;
         }
+
+        private void textShipSkillSets_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            tag.SkillSetsString = textShipSkillSets.Text;
+        }
+
         private void textShipBaseStructure_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -822,6 +835,7 @@ namespace AssetEditor.Forms
         }
 
         #endregion
+
 
     }
 }

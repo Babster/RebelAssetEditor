@@ -108,6 +108,8 @@ namespace AssetEditor.Forms
             this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textShipSkillSets = new System.Windows.Forms.TextBox();
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -153,6 +155,8 @@ namespace AssetEditor.Forms
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.label1);
+            this.groupBox5.Controls.Add(this.textShipSkillSets);
             this.groupBox5.Controls.Add(this.textShipBaseEnergy);
             this.groupBox5.Controls.Add(this.label119);
             this.groupBox5.Controls.Add(this.checkShipDoubleWeapon);
@@ -216,7 +220,7 @@ namespace AssetEditor.Forms
             // checkShipDoubleWeapon
             // 
             this.checkShipDoubleWeapon.AutoSize = true;
-            this.checkShipDoubleWeapon.Location = new System.Drawing.Point(335, 310);
+            this.checkShipDoubleWeapon.Location = new System.Drawing.Point(332, 355);
             this.checkShipDoubleWeapon.Name = "checkShipDoubleWeapon";
             this.checkShipDoubleWeapon.Size = new System.Drawing.Size(139, 24);
             this.checkShipDoubleWeapon.TabIndex = 47;
@@ -227,7 +231,7 @@ namespace AssetEditor.Forms
             // checkShipMainCabin
             // 
             this.checkShipMainCabin.AutoSize = true;
-            this.checkShipMainCabin.Location = new System.Drawing.Point(784, 132);
+            this.checkShipMainCabin.Location = new System.Drawing.Point(781, 177);
             this.checkShipMainCabin.Name = "checkShipMainCabin";
             this.checkShipMainCabin.Size = new System.Drawing.Size(121, 24);
             this.checkShipMainCabin.TabIndex = 46;
@@ -254,7 +258,7 @@ namespace AssetEditor.Forms
             // 
             // textShipSlotControl
             // 
-            this.textShipSlotControl.Location = new System.Drawing.Point(449, 161);
+            this.textShipSlotControl.Location = new System.Drawing.Point(446, 206);
             this.textShipSlotControl.MaxLength = 50;
             this.textShipSlotControl.Name = "textShipSlotControl";
             this.textShipSlotControl.Size = new System.Drawing.Size(206, 26);
@@ -264,7 +268,7 @@ namespace AssetEditor.Forms
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(331, 164);
+            this.label48.Location = new System.Drawing.Point(328, 209);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(90, 20);
             this.label48.TabIndex = 42;
@@ -273,7 +277,7 @@ namespace AssetEditor.Forms
             // radioSize3
             // 
             this.radioSize3.AutoSize = true;
-            this.radioSize3.Location = new System.Drawing.Point(826, 194);
+            this.radioSize3.Location = new System.Drawing.Point(823, 239);
             this.radioSize3.Name = "radioSize3";
             this.radioSize3.Size = new System.Drawing.Size(36, 24);
             this.radioSize3.TabIndex = 41;
@@ -285,7 +289,7 @@ namespace AssetEditor.Forms
             // radioSize2
             // 
             this.radioSize2.AutoSize = true;
-            this.radioSize2.Location = new System.Drawing.Point(784, 194);
+            this.radioSize2.Location = new System.Drawing.Point(781, 239);
             this.radioSize2.Name = "radioSize2";
             this.radioSize2.Size = new System.Drawing.Size(36, 24);
             this.radioSize2.TabIndex = 40;
@@ -297,7 +301,7 @@ namespace AssetEditor.Forms
             // radioSize1
             // 
             this.radioSize1.AutoSize = true;
-            this.radioSize1.Location = new System.Drawing.Point(742, 194);
+            this.radioSize1.Location = new System.Drawing.Point(739, 239);
             this.radioSize1.Name = "radioSize1";
             this.radioSize1.Size = new System.Drawing.Size(36, 24);
             this.radioSize1.TabIndex = 39;
@@ -309,7 +313,7 @@ namespace AssetEditor.Forms
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(667, 196);
+            this.label47.Location = new System.Drawing.Point(664, 241);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(44, 20);
             this.label47.TabIndex = 38;
@@ -336,7 +340,7 @@ namespace AssetEditor.Forms
             // 
             // buttonReloadModuleDict
             // 
-            this.buttonReloadModuleDict.Location = new System.Drawing.Point(730, 264);
+            this.buttonReloadModuleDict.Location = new System.Drawing.Point(727, 309);
             this.buttonReloadModuleDict.Name = "buttonReloadModuleDict";
             this.buttonReloadModuleDict.Size = new System.Drawing.Size(149, 30);
             this.buttonReloadModuleDict.TabIndex = 30;
@@ -354,7 +358,7 @@ namespace AssetEditor.Forms
             // 
             // textShipSlotDefaultModuleName
             // 
-            this.textShipSlotDefaultModuleName.Location = new System.Drawing.Point(661, 232);
+            this.textShipSlotDefaultModuleName.Location = new System.Drawing.Point(658, 277);
             this.textShipSlotDefaultModuleName.Name = "textShipSlotDefaultModuleName";
             this.textShipSlotDefaultModuleName.ReadOnly = true;
             this.textShipSlotDefaultModuleName.Size = new System.Drawing.Size(218, 26);
@@ -362,7 +366,7 @@ namespace AssetEditor.Forms
             // 
             // buttonAddShipPart
             // 
-            this.buttonAddShipPart.Location = new System.Drawing.Point(10, 122);
+            this.buttonAddShipPart.Location = new System.Drawing.Point(6, 177);
             this.buttonAddShipPart.Name = "buttonAddShipPart";
             this.buttonAddShipPart.Size = new System.Drawing.Size(103, 30);
             this.buttonAddShipPart.TabIndex = 19;
@@ -373,7 +377,7 @@ namespace AssetEditor.Forms
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(331, 235);
+            this.label38.Location = new System.Drawing.Point(328, 280);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(139, 20);
             this.label38.TabIndex = 28;
@@ -381,7 +385,7 @@ namespace AssetEditor.Forms
             // 
             // textShipSlotDefaultModule
             // 
-            this.textShipSlotDefaultModule.Location = new System.Drawing.Point(555, 232);
+            this.textShipSlotDefaultModule.Location = new System.Drawing.Point(552, 277);
             this.textShipSlotDefaultModule.Name = "textShipSlotDefaultModule";
             this.textShipSlotDefaultModule.Size = new System.Drawing.Size(100, 26);
             this.textShipSlotDefaultModule.TabIndex = 27;
@@ -393,9 +397,9 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listShipSlots.FormattingEnabled = true;
             this.listShipSlots.ItemHeight = 20;
-            this.listShipSlots.Location = new System.Drawing.Point(10, 161);
+            this.listShipSlots.Location = new System.Drawing.Point(6, 213);
             this.listShipSlots.Name = "listShipSlots";
-            this.listShipSlots.Size = new System.Drawing.Size(299, 384);
+            this.listShipSlots.Size = new System.Drawing.Size(299, 344);
             this.listShipSlots.TabIndex = 18;
             this.listShipSlots.SelectedIndexChanged += new System.EventHandler(this.listShipParts_SelectedIndexChanged);
             // 
@@ -409,7 +413,7 @@ namespace AssetEditor.Forms
             // 
             // buttonRemoveShipPart
             // 
-            this.buttonRemoveShipPart.Location = new System.Drawing.Point(121, 122);
+            this.buttonRemoveShipPart.Location = new System.Drawing.Point(117, 177);
             this.buttonRemoveShipPart.Name = "buttonRemoveShipPart";
             this.buttonRemoveShipPart.Size = new System.Drawing.Size(103, 30);
             this.buttonRemoveShipPart.TabIndex = 20;
@@ -451,7 +455,7 @@ namespace AssetEditor.Forms
             "ExtendedCabin",
             "ControlRoom",
             "ExtendedControlRoom"});
-            this.comboShipSlotType.Location = new System.Drawing.Point(449, 193);
+            this.comboShipSlotType.Location = new System.Drawing.Point(446, 238);
             this.comboShipSlotType.Name = "comboShipSlotType";
             this.comboShipSlotType.Size = new System.Drawing.Size(206, 28);
             this.comboShipSlotType.TabIndex = 26;
@@ -460,7 +464,7 @@ namespace AssetEditor.Forms
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(331, 196);
+            this.label37.Location = new System.Drawing.Point(328, 241);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(75, 20);
             this.label37.TabIndex = 23;
@@ -476,7 +480,7 @@ namespace AssetEditor.Forms
             // 
             // textShipSlotNumber
             // 
-            this.textShipSlotNumber.Location = new System.Drawing.Point(663, 129);
+            this.textShipSlotNumber.Location = new System.Drawing.Point(660, 174);
             this.textShipSlotNumber.Name = "textShipSlotNumber";
             this.textShipSlotNumber.Size = new System.Drawing.Size(100, 26);
             this.textShipSlotNumber.TabIndex = 25;
@@ -494,7 +498,7 @@ namespace AssetEditor.Forms
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(558, 132);
+            this.label35.Location = new System.Drawing.Point(555, 177);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(99, 20);
             this.label35.TabIndex = 21;
@@ -502,7 +506,7 @@ namespace AssetEditor.Forms
             // 
             // textShipSlotId
             // 
-            this.textShipSlotId.Location = new System.Drawing.Point(449, 129);
+            this.textShipSlotId.Location = new System.Drawing.Point(446, 174);
             this.textShipSlotId.Name = "textShipSlotId";
             this.textShipSlotId.ReadOnly = true;
             this.textShipSlotId.Size = new System.Drawing.Size(100, 26);
@@ -529,7 +533,7 @@ namespace AssetEditor.Forms
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(331, 132);
+            this.label36.Location = new System.Drawing.Point(328, 177);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(59, 20);
             this.label36.TabIndex = 22;
@@ -646,7 +650,7 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(701, 403);
+            this.textSaBottomLine.Size = new System.Drawing.Size(701, 410);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
             // 
@@ -699,7 +703,7 @@ namespace AssetEditor.Forms
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(701, 431);
+            this.gridSaModules.Size = new System.Drawing.Size(701, 438);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
@@ -764,7 +768,7 @@ namespace AssetEditor.Forms
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(488, 416);
+            this.gridSaOfficer.Size = new System.Drawing.Size(488, 423);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -843,7 +847,7 @@ namespace AssetEditor.Forms
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(701, 440);
+            this.treeSaRigs.Size = new System.Drawing.Size(701, 447);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -887,7 +891,7 @@ namespace AssetEditor.Forms
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 405);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 412);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -976,6 +980,24 @@ namespace AssetEditor.Forms
             this.comboSaShip.Size = new System.Drawing.Size(220, 28);
             this.comboSaShip.TabIndex = 0;
             this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 118);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 20);
+            this.label1.TabIndex = 50;
+            this.label1.Text = "Skill sets:";
+            // 
+            // textShipSkillSets
+            // 
+            this.textShipSkillSets.Location = new System.Drawing.Point(87, 115);
+            this.textShipSkillSets.MaxLength = 50;
+            this.textShipSkillSets.Name = "textShipSkillSets";
+            this.textShipSkillSets.Size = new System.Drawing.Size(242, 26);
+            this.textShipSkillSets.TabIndex = 51;
+            this.textShipSkillSets.TextChanged += new System.EventHandler(this.textShipSkillSets_TextChanged);
             // 
             // FormShipDesigns
             // 
@@ -1090,5 +1112,7 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.Button buttonCreateRig;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.ComboBox comboSaShip;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textShipSkillSets;
     }
 }
