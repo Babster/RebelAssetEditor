@@ -87,13 +87,15 @@ public class SkillTypeSql : SkillType
                 effect_power,
                 ISNULL(cooldown_milliseconds, 0) AS cooldown_milliseconds
             FROM
-                skill_types";
+                skill_types
+            ORDER BY
+                parent_id, id";
     }
 
     private static Dictionary<int, SkillType> skillTypeDict;
-    private static void LoadSkillTypeDict()
+    public static void LoadSkillTypeDict(bool forceUpdate)
     {
-        if(skillTypeDict != null)
+        if(skillTypeDict != null && !forceUpdate)
         {
             return;
         }
@@ -106,7 +108,7 @@ public class SkillTypeSql : SkillType
     }
     public static SkillType SkillTypeById(int id)
     {
-        LoadSkillTypeDict();
+        LoadSkillTypeDict(false);
         if(skillTypeDict.ContainsKey(id))
         {
             return skillTypeDict[id];

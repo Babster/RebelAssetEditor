@@ -15,9 +15,11 @@ public class SkillSetSql : SkillSet
         Id = (int)r["id"];
         ParentId = (int)r["parent_id"];
         Name = (string)r["name"];
+        Description = (string)r["description"];
         OwnerType = (SkillSet.SkillsetOwnerTypes)r["owner_type"];
         OpenCost = (int)r["open_cost"];
         AvailableForPlayer = (int)r["available_for_player"];
+        ExpType = (ExperiencingType)r["experience_type"];
         LoadElements();
 
     }
@@ -34,7 +36,8 @@ public class SkillSetSql : SkillSet
                 skill_column,
                 available_at_start,
                 predecessor_1,
-                predecessor_2
+                predecessor_2,
+                ISNULL(replaces_skill, 0) AS replaces_skill
             FROM
                 skill_sets_structure
             WHERE
@@ -71,13 +74,15 @@ public class SkillSetSql : SkillSet
         q = $@"UPDATE skill_sets SET 
                 parent_id = {ParentId},
                 name = @str1,
+                description = @str2, 
                 owner_type = {(int)OwnerType},
                 open_cost = {OpenCost},
-                available_for_player = {AvailableForPlayer}
+                available_for_player = {AvailableForPlayer},
+                experience_type = {(int)ExpType}
             WHERE
                 id = {Id}
             ";
-        List<string> names = new List<string> { Name };
+        List<string> names = new List<string> { Name, Description };
         DataConnection.Execute(q, names);
 
         string idsDoNotDelete = "";
@@ -112,9 +117,11 @@ public class SkillSetSql : SkillSet
             id,
             parent_id,
             name,
+            ISNULL(description, '') AS description,
             owner_type,
             open_cost,
-            ISNULL(available_for_player, 0) AS available_for_player
+            ISNULL(available_for_player, 0) AS available_for_player,
+            ISNULL(experience_type, 0) AS experience_type
         FROM
             skill_sets";
     }
@@ -152,6 +159,7 @@ public class SkillSetElementSql:SkillSetElement
         AvailableAtStart = (int)r["available_at_start"];
         Predecessor1 = (int)r["predecessor_1"];
         Predecessor2 = (int)r["predecessor_2"];
+        ReplacesSkill = (int)r["replaces_skill"];
 }
 
     public void SaveData(int SkillSetId)
@@ -174,7 +182,8 @@ public class SkillSetElementSql:SkillSetElement
                 skill_column = {SkillColumn},
                 available_at_start = {AvailableAtStart},
                 predecessor_1 = {Predecessor1},
-                predecessor_2 = {Predecessor2}
+                predecessor_2 = {Predecessor2},
+                replaces_skill = {ReplacesSkill}
             WHERE
                 id = {Id}";
 
@@ -190,10 +199,12 @@ public class SkillSet
     public int Id { get; set; }
     public int ParentId { get; set; }
     public string Name { get; set; }
+    public string Description { get; set; }
     public SkillsetOwnerTypes OwnerType { get; set; }
     public int OpenCost { get; set; } //Сколько опыта требуется для активации данного набора скиллов
     public int AvailableForPlayer { get; set; }
     public List<SkillSetElement> Elements { get; set; }
+    public ExperiencingType ExpType { get; set; }
 
     public enum SkillsetOwnerTypes
     {
@@ -201,6 +212,15 @@ public class SkillSet
         Officer = 1,
         Spaceship = 2,
         Module = 3
+    }
+
+    public enum ExperiencingType
+    {
+        None = 0,
+        KillEnemy = 1,
+        DamageEnemy = 2,
+        GetDamage = 3,
+        UseEnergy = 4
     }
 
     public SkillSet() { Elements = new List<SkillSetElement>(); }
@@ -225,7 +245,7 @@ public class SkillSetElement
     public int AvailableAtStart { get; set; }
     public int Predecessor1 { get; set; }
     public int Predecessor2 { get; set; }
-
+    public int ReplacesSkill { get; set; }
     public SkillSetElement() { }
 
     public override string ToString()

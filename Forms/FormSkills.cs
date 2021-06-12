@@ -24,6 +24,7 @@ namespace AssetEditor.Forms
         {
             StartSkillsets();
             StartSkillTypes();
+            
         }
 
  
@@ -33,6 +34,16 @@ namespace AssetEditor.Forms
 
         private void StartSkillsets()
         {
+
+            //Заполнение выпадающего списка видов прокачки скиллов
+            comboExpType.Items.Clear();
+            List<SkillSet.ExperiencingType> tList2 = Enum.GetValues(typeof(SkillSet.ExperiencingType)).Cast<SkillSet.ExperiencingType>().ToList();
+            foreach (var element in tList2)
+            {
+                comboExpType.Items.Add(element);
+            }
+
+            //Заполнение списка уже введенных наборов скиллов
             if (skillSetsFilled)
             {
                 return;
@@ -61,6 +72,8 @@ namespace AssetEditor.Forms
 
             }
             mainNode.Expand();
+
+
 
             skillSetsFilled = true;
         }
@@ -102,6 +115,8 @@ namespace AssetEditor.Forms
             textSkillsetName.Text = "";
             comboSkillsetType.SelectedItem = null;
             textSkillsetOpenCost.Text = "";
+            textDescription.Text = "";
+            comboExpType.SelectedItem = null;
             NoEvents = false;
         }
 
@@ -121,6 +136,14 @@ namespace AssetEditor.Forms
             comboSkillsetType.SelectedIndex = (int)curSet.OwnerType;
             textSkillsetOpenCost.Text = curSet.OpenCost.ToString();
             checkSkillSetAvailableForPlayer.Checked = curSet.AvailableForPlayer == 1;
+            foreach(var item in comboExpType.Items)
+            {
+                if(item.ToString() == curSet.ExpType.ToString())
+                {
+                    comboExpType.SelectedItem = item;
+                    break;
+                }
+            }
 
             treeStr.Nodes.Clear();
             if (curSet.Elements.Count > 0)
@@ -269,9 +292,9 @@ namespace AssetEditor.Forms
             textStrColumn.Text = curElement.SkillColumn.ToString();
             checkAvailableAtStart.Checked = curElement.AvailableAtStart == 1;
             textStrPredecessorId1.Text = curElement.Predecessor1.ToString() ;
-            SetSkillName(textStrPredecessorName1, curElement.Predecessor1);
+            SetPredecessorName(textStrPredecessorName1, curElement.Predecessor1);
             textStrPredecessorId2.Text = curElement.Predecessor2.ToString();
-            SetSkillName(textStrPredecessorName2, curElement.Predecessor2);
+            SetPredecessorName(textStrPredecessorName2, curElement.Predecessor2);
         }
 
         private void SetSkillName(TextBox text, int skillId)
@@ -384,7 +407,7 @@ namespace AssetEditor.Forms
             int value = 0;
             Int32.TryParse(textStrPredecessorId1.Text, out value);
             curElement.Predecessor1 = value;
-            SetSkillName(textStrPredecessorName1, value);
+            SetPredecessorName(textStrPredecessorName1, value);
         }
 
         private void textStrPredecessorId2_TextChanged(object sender, EventArgs e)
@@ -401,7 +424,34 @@ namespace AssetEditor.Forms
             int value = 0;
             Int32.TryParse(textStrPredecessorId2.Text, out value);
             curElement.Predecessor2 = value;
-            SetSkillName(textStrPredecessorName2, value);
+            SetPredecessorName(textStrPredecessorName2, value);
+        }
+
+        private void SetPredecessorName(TextBox textBox, int predecessorId)
+        {
+            textBox.Text = "";
+            if(predecessorId == 0)
+            {
+                return;
+            }
+            SkillSetSql curSet = GetCurrentSkillSet();
+            if (curSet == null)
+            {
+                return;
+            }
+            foreach(var skill in curSet.Elements)
+            {
+                if(skill.Id == predecessorId)
+                {
+                    SetSkillName(textBox, skill.SkillTypeId);
+                    return;
+                }
+            }
+        }
+
+        private void buttonUpdateSkillTypesDict_Click(object sender, EventArgs e)
+        {
+            SkillTypeSql.LoadSkillTypeDict(true);
         }
 
         #endregion
@@ -720,8 +770,8 @@ namespace AssetEditor.Forms
         }
 
 
+
+
         #endregion
-
-
     }
 }

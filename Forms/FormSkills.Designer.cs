@@ -31,6 +31,7 @@ namespace AssetEditor.Forms
         {
             this.tabControl9 = new System.Windows.Forms.TabControl();
             this.tabPage31 = new System.Windows.Forms.TabPage();
+            this.buttonUpdateSkillTypesDict = new System.Windows.Forms.Button();
             this.checkSkillSetAvailableForPlayer = new System.Windows.Forms.CheckBox();
             this.checkAvailableAtStart = new System.Windows.Forms.CheckBox();
             this.textStrPredecessorName2 = new System.Windows.Forms.TextBox();
@@ -64,6 +65,8 @@ namespace AssetEditor.Forms
             this.buttonSkillAdd = new System.Windows.Forms.Button();
             this.treeSkillSets = new System.Windows.Forms.TreeView();
             this.tabPage32 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textSkillTypeCooldown = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textSkillTypeEffectPower = new System.Windows.Forms.TextBox();
             this.comboSkillTypeEffectType = new System.Windows.Forms.ComboBox();
@@ -85,8 +88,10 @@ namespace AssetEditor.Forms
             this.buttonSaveSkillType = new System.Windows.Forms.Button();
             this.buttonAddSkillType = new System.Windows.Forms.Button();
             this.treeSkillTypes = new System.Windows.Forms.TreeView();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textSkillTypeCooldown = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboExpType = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textDescription = new System.Windows.Forms.TextBox();
             this.tabControl9.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage32.SuspendLayout();
@@ -105,6 +110,11 @@ namespace AssetEditor.Forms
             // 
             // tabPage31
             // 
+            this.tabPage31.Controls.Add(this.textDescription);
+            this.tabPage31.Controls.Add(this.label14);
+            this.tabPage31.Controls.Add(this.comboExpType);
+            this.tabPage31.Controls.Add(this.label13);
+            this.tabPage31.Controls.Add(this.buttonUpdateSkillTypesDict);
             this.tabPage31.Controls.Add(this.checkSkillSetAvailableForPlayer);
             this.tabPage31.Controls.Add(this.checkAvailableAtStart);
             this.tabPage31.Controls.Add(this.textStrPredecessorName2);
@@ -145,10 +155,20 @@ namespace AssetEditor.Forms
             this.tabPage31.Text = "Skill sets";
             this.tabPage31.UseVisualStyleBackColor = true;
             // 
+            // buttonUpdateSkillTypesDict
+            // 
+            this.buttonUpdateSkillTypesDict.Location = new System.Drawing.Point(1022, 6);
+            this.buttonUpdateSkillTypesDict.Name = "buttonUpdateSkillTypesDict";
+            this.buttonUpdateSkillTypesDict.Size = new System.Drawing.Size(177, 30);
+            this.buttonUpdateSkillTypesDict.TabIndex = 32;
+            this.buttonUpdateSkillTypesDict.Text = "Update skill type dict";
+            this.buttonUpdateSkillTypesDict.UseVisualStyleBackColor = true;
+            this.buttonUpdateSkillTypesDict.Click += new System.EventHandler(this.buttonUpdateSkillTypesDict_Click);
+            // 
             // checkSkillSetAvailableForPlayer
             // 
             this.checkSkillSetAvailableForPlayer.AutoSize = true;
-            this.checkSkillSetAvailableForPlayer.Location = new System.Drawing.Point(322, 91);
+            this.checkSkillSetAvailableForPlayer.Location = new System.Drawing.Point(1039, 50);
             this.checkSkillSetAvailableForPlayer.Name = "checkSkillSetAvailableForPlayer";
             this.checkSkillSetAvailableForPlayer.Size = new System.Drawing.Size(160, 24);
             this.checkSkillSetAvailableForPlayer.TabIndex = 31;
@@ -344,7 +364,7 @@ namespace AssetEditor.Forms
             // 
             // textSkillsetOpenCost
             // 
-            this.textSkillsetOpenCost.Location = new System.Drawing.Point(957, 48);
+            this.textSkillsetOpenCost.Location = new System.Drawing.Point(924, 48);
             this.textSkillsetOpenCost.MaxLength = 5;
             this.textSkillsetOpenCost.Name = "textSkillsetOpenCost";
             this.textSkillsetOpenCost.Size = new System.Drawing.Size(100, 26);
@@ -355,7 +375,7 @@ namespace AssetEditor.Forms
             // label124
             // 
             this.label124.AutoSize = true;
-            this.label124.Location = new System.Drawing.Point(865, 51);
+            this.label124.Location = new System.Drawing.Point(832, 51);
             this.label124.Name = "label124";
             this.label124.Size = new System.Drawing.Size(86, 20);
             this.label124.TabIndex = 9;
@@ -364,7 +384,7 @@ namespace AssetEditor.Forms
             // label123
             // 
             this.label123.AutoSize = true;
-            this.label123.Location = new System.Drawing.Point(858, 51);
+            this.label123.Location = new System.Drawing.Point(825, 51);
             this.label123.Name = "label123";
             this.label123.Size = new System.Drawing.Size(0, 20);
             this.label123.TabIndex = 8;
@@ -378,7 +398,7 @@ namespace AssetEditor.Forms
             "Officer",
             "Ship",
             "Module"});
-            this.comboSkillsetType.Location = new System.Drawing.Point(730, 48);
+            this.comboSkillsetType.Location = new System.Drawing.Point(697, 48);
             this.comboSkillsetType.Name = "comboSkillsetType";
             this.comboSkillsetType.Size = new System.Drawing.Size(129, 28);
             this.comboSkillsetType.TabIndex = 7;
@@ -387,7 +407,7 @@ namespace AssetEditor.Forms
             // label122
             // 
             this.label122.AutoSize = true;
-            this.label122.Location = new System.Drawing.Point(677, 51);
+            this.label122.Location = new System.Drawing.Point(644, 51);
             this.label122.Name = "label122";
             this.label122.Size = new System.Drawing.Size(47, 20);
             this.label122.TabIndex = 6;
@@ -395,7 +415,7 @@ namespace AssetEditor.Forms
             // 
             // textSkillsetName
             // 
-            this.textSkillsetName.Location = new System.Drawing.Point(521, 48);
+            this.textSkillsetName.Location = new System.Drawing.Point(488, 48);
             this.textSkillsetName.MaxLength = 50;
             this.textSkillsetName.Name = "textSkillsetName";
             this.textSkillsetName.Size = new System.Drawing.Size(150, 26);
@@ -405,7 +425,7 @@ namespace AssetEditor.Forms
             // label121
             // 
             this.label121.AutoSize = true;
-            this.label121.Location = new System.Drawing.Point(464, 51);
+            this.label121.Location = new System.Drawing.Point(431, 51);
             this.label121.Name = "label121";
             this.label121.Size = new System.Drawing.Size(55, 20);
             this.label121.TabIndex = 4;
@@ -416,7 +436,7 @@ namespace AssetEditor.Forms
             this.textSkillsetId.Location = new System.Drawing.Point(347, 48);
             this.textSkillsetId.Name = "textSkillsetId";
             this.textSkillsetId.ReadOnly = true;
-            this.textSkillsetId.Size = new System.Drawing.Size(100, 26);
+            this.textSkillsetId.Size = new System.Drawing.Size(78, 26);
             this.textSkillsetId.TabIndex = 3;
             this.textSkillsetId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -482,6 +502,25 @@ namespace AssetEditor.Forms
             this.tabPage32.TabIndex = 1;
             this.tabPage32.Text = "Skill types";
             this.tabPage32.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(530, 131);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(182, 20);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "Cooldown (milliseconds):";
+            // 
+            // textSkillTypeCooldown
+            // 
+            this.textSkillTypeCooldown.Location = new System.Drawing.Point(718, 128);
+            this.textSkillTypeCooldown.MaxLength = 5;
+            this.textSkillTypeCooldown.Name = "textSkillTypeCooldown";
+            this.textSkillTypeCooldown.Size = new System.Drawing.Size(100, 26);
+            this.textSkillTypeCooldown.TabIndex = 32;
+            this.textSkillTypeCooldown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textSkillTypeCooldown.TextChanged += new System.EventHandler(this.textSkillTypeCooldown_TextChanged);
             // 
             // label5
             // 
@@ -674,6 +713,7 @@ namespace AssetEditor.Forms
             // 
             // treeSkillTypes
             // 
+            this.treeSkillTypes.AllowDrop = true;
             this.treeSkillTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeSkillTypes.Location = new System.Drawing.Point(6, 48);
@@ -682,24 +722,40 @@ namespace AssetEditor.Forms
             this.treeSkillTypes.TabIndex = 2;
             this.treeSkillTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeSkillTypes_AfterSelect);
             // 
-            // label12
+            // label13
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(530, 131);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(182, 20);
-            this.label12.TabIndex = 33;
-            this.label12.Text = "Cooldown (milliseconds):";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(318, 89);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(74, 20);
+            this.label13.TabIndex = 33;
+            this.label13.Text = "Exp type:";
             // 
-            // textSkillTypeCooldown
+            // comboExpType
             // 
-            this.textSkillTypeCooldown.Location = new System.Drawing.Point(718, 128);
-            this.textSkillTypeCooldown.MaxLength = 5;
-            this.textSkillTypeCooldown.Name = "textSkillTypeCooldown";
-            this.textSkillTypeCooldown.Size = new System.Drawing.Size(100, 26);
-            this.textSkillTypeCooldown.TabIndex = 32;
-            this.textSkillTypeCooldown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textSkillTypeCooldown.TextChanged += new System.EventHandler(this.textSkillTypeCooldown_TextChanged);
+            this.comboExpType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboExpType.FormattingEnabled = true;
+            this.comboExpType.Location = new System.Drawing.Point(398, 86);
+            this.comboExpType.Name = "comboExpType";
+            this.comboExpType.Size = new System.Drawing.Size(121, 28);
+            this.comboExpType.TabIndex = 34;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(535, 89);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(93, 20);
+            this.label14.TabIndex = 35;
+            this.label14.Text = "Description:";
+            // 
+            // textDescription
+            // 
+            this.textDescription.Location = new System.Drawing.Point(634, 86);
+            this.textDescription.MaxLength = 100;
+            this.textDescription.Name = "textDescription";
+            this.textDescription.Size = new System.Drawing.Size(565, 26);
+            this.textDescription.TabIndex = 36;
             // 
             // FormSkills
             // 
@@ -781,5 +837,10 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.CheckBox checkSkillSetAvailableForPlayer;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox textSkillTypeCooldown;
+        private System.Windows.Forms.Button buttonUpdateSkillTypesDict;
+        private System.Windows.Forms.ComboBox comboExpType;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textDescription;
     }
 }
