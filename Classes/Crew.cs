@@ -253,6 +253,15 @@ namespace Crew
                 Stats[rnd.Next(0, maxRange)].AddStat();
             }
 
+            //Провека того, есть ли запись в таблице crew_officers, которая соответствует
+            //данному игроку
+            if(Id == 0)
+            {
+                Save();
+            }
+
+            LoadSkillsets();
+
         }
 
         public CrewOfficer(SqlDataReader r)
@@ -260,6 +269,7 @@ namespace Crew
             Id = Convert.ToInt32(r["id"]);
             OfficerType = CrewOfficerType.OfficerById(Convert.ToInt32(r["officer_type_id"]));
             LoadStats();
+            LoadSkillsets();
         }
 
         /// <summary>
@@ -342,6 +352,34 @@ namespace Crew
             r.Close();
         }
 
+        //Загрузка наборов скиллов, которые открыты у данного офицера
+        private void LoadSkillsets()
+        {
+
+            SkillSets = new List<UnityCrewOfficerSkillSet>();
+
+            string q = $@"
+                SELECT
+                    id,
+                    crew_officer_id,
+                    skillset_id,
+                    experience,
+                    skill_points,
+                    opened_skills
+                FROM
+                    crew_officers_skillsets
+                WHERE
+                    crew_officer_id = {Id}";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                while(r.Read())
+                {
+                    SkillSets.Add(new CrewOfficerSkillSet(r));
+                }
+            }
+        }
+
         public void Save()
         {
             if (IsPlayer)//Из игрока офицера сохранять не нужно
@@ -366,17 +404,22 @@ namespace Crew
                     id = {Id}";
             DataConnection.Execute(q);
 
-            string IdsDoNotDelete = "";
-            foreach(CrewOfficerStat stat in Stats)
+            //Статы офицера сохраняются только в том случае, если он создан не на основе персонажа игрока
+            if(PlayerId == 0)
             {
-                stat.SaveData(Id);
-                if (IdsDoNotDelete != "")
-                    IdsDoNotDelete += ",";
-                IdsDoNotDelete += stat.Id.ToString();
+                string IdsDoNotDelete = "";
+                foreach (CrewOfficerStat stat in Stats)
+                {
+                    stat.SaveData(Id);
+                    if (IdsDoNotDelete != "")
+                        IdsDoNotDelete += ",";
+                    IdsDoNotDelete += stat.Id.ToString();
+                }
+
+                q = $@"DELETE FROM crew_officers_stats WHERE crew_officer_id = {Id} AND id NOT IN({IdsDoNotDelete})";
+                DataConnection.Execute(q);
             }
 
-            q = $@"DELETE FROM crew_officers_stats WHERE crew_officer_id = {Id} AND id NOT IN({IdsDoNotDelete})";
-            DataConnection.Execute(q);
 
         }
 
@@ -556,6 +599,44 @@ namespace Crew
 
     }
 
+    public class CrewOfficerSkillSet : UnityCrewOfficerSkillSet
+    {
+        public CrewOfficerSkillSet() { }
+        public CrewOfficerSkillSet(SqlDataReader r)
+        {
+            Id = (int)r["id"];
+            CrewOfficerId = (int)r["crew_officer_id"];
+            SkillSetId = (int)r["skillset_id"];
+            Experience = (int)r["experience"];
+            SkillPoints = (int)r["skill_points"];
+            OpenedSkills = (string)r["opened_skills"];
+        }
+
+        public void SaveData(int CrewOfficerId)
+        {
+            string q;
+            if(Id == 0)
+            {
+                q = $@"
+                    INSERT INTO crew_officers_skillsets(crew_officer_id) VALUES ({CrewOfficerId})
+                    SELECT @@IDENTITY AS Result";
+                Id = DataConnection.GetResultInt(q);
+            }
+
+            q = $@"UPDATE crew_officers_skillsets SET 
+                    crew_officer_id = {CrewOfficerId},
+                    skillset_id = {SkillSetId},
+                    experience = {Experience},
+                    skill_points = {SkillPoints},
+                    opened_skills = @str1
+                WHERE
+                    id = {Id}";
+            List<string> names = new List<string> { OpenedSkills };
+            DataConnection.Execute(q, names);
+        }
+
+    }
+
     public class UnityCrewOfficerType
     {
         public int Id { get; set; }
@@ -663,6 +744,11 @@ namespace Crew
         public AccountData acc;
         public int PlayerId { get; set; }
 
+        //Сколько всего веток скиллов может открыть данный офицер
+        public int SkillSetPoints { get; set; }
+
+        public List<UnityCrewOfficerSkillSet> SkillSets { get; set; }
+
         //Для тех объектов, которые созданы на основе статов игрока
         public AdmiralStats playerStats;
 
@@ -721,6 +807,19 @@ namespace Crew
         {
             return $"{BaseStat.Name} : {Value}";
         }
+    }
+
+    public class UnityCrewOfficerSkillSet
+    {
+        public int Id { get; set; }
+        public int CrewOfficerId { get; set; }
+        public int SkillSetId { get; set; }
+        public int Experience { get; set; }
+        public int SkillPoints { get; set; }
+        public string OpenedSkills { get; set; }
+
+        public UnityCrewOfficerSkillSet() { }
+
     }
 
 }

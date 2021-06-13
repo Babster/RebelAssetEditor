@@ -144,7 +144,7 @@ namespace AssetEditor.Forms
                     break;
                 }
             }
-
+            textDescription.Text = curSet.Description;
             treeStr.Nodes.Clear();
             if (curSet.Elements.Count > 0)
             {
@@ -221,7 +221,43 @@ namespace AssetEditor.Forms
                 curSet.AvailableForPlayer = 0;
             }
         }
+        private void comboExpType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SkillSetSql curSet = GetCurrentSkillSet();
+            if (curSet == null)
+            {
+                return;
+            }
+            if(comboExpType.SelectedItem == null)
+            {
+                curSet.ExpType = SkillSet.ExperiencingType.None;
+                return;
+            }
+            List<SkillSet.ExperiencingType> tList = Enum.GetValues(typeof(SkillSet.ExperiencingType)).Cast<SkillSet.ExperiencingType>().ToList();
+            foreach (var element in tList)
+            {
+                if (element.ToString() == comboExpType.SelectedItem.ToString())
+                {
+                    curSet.ExpType = element;
+                    return;
+                }
+            }
 
+        }
+
+        private void textDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SkillSetSql curSet = GetCurrentSkillSet();
+            if (curSet == null)
+            {
+                return;
+            }
+            curSet.Description = textDescription.Text;
+        }
         private void buttonSaveSkillset_Click(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -262,6 +298,8 @@ namespace AssetEditor.Forms
             textStrPredecessorName1.Text = "";
             textStrPredecessorId2.Text = "";
             textStrPredecessorName2.Text = "";
+            textReplaceSkillId.Text = "";
+            textReplaceSkillName.Text = "";
             NoEvents = false;
         }
 
@@ -295,6 +333,8 @@ namespace AssetEditor.Forms
             SetPredecessorName(textStrPredecessorName1, curElement.Predecessor1);
             textStrPredecessorId2.Text = curElement.Predecessor2.ToString();
             SetPredecessorName(textStrPredecessorName2, curElement.Predecessor2);
+            textReplaceSkillId.Text = curElement.ReplacesSkill.ToString();
+            SetPredecessorName(textReplaceSkillName, curElement.ReplacesSkill);
         }
 
         private void SetSkillName(TextBox text, int skillId)
@@ -425,6 +465,23 @@ namespace AssetEditor.Forms
             Int32.TryParse(textStrPredecessorId2.Text, out value);
             curElement.Predecessor2 = value;
             SetPredecessorName(textStrPredecessorName2, value);
+        }
+
+        private void textReplaceSkillId_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+            {
+                return;
+            }
+            SkillSetElementSql curElement = GetCurrentSkillElement();
+            if (curElement == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textReplaceSkillId.Text, out value);
+            curElement.ReplacesSkill = value;
+            SetPredecessorName(textReplaceSkillName, value);
         }
 
         private void SetPredecessorName(TextBox textBox, int predecessorId)
@@ -772,6 +829,9 @@ namespace AssetEditor.Forms
 
 
 
+
         #endregion
+
+
     }
 }
