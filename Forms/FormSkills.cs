@@ -115,6 +115,7 @@ namespace AssetEditor.Forms
             textSkillsetName.Text = "";
             comboSkillsetType.SelectedItem = null;
             textSkillsetOpenCost.Text = "";
+            textSkillsetExpMultiplier.Text = "";
             textDescription.Text = "";
             comboExpType.SelectedItem = null;
             NoEvents = false;
@@ -144,6 +145,7 @@ namespace AssetEditor.Forms
                     break;
                 }
             }
+            textSkillsetExpMultiplier.Text = curSet.ExperienceMultiplier.ToString();
             textDescription.Text = curSet.Description;
             treeStr.Nodes.Clear();
             if (curSet.Elements.Count > 0)
@@ -245,6 +247,20 @@ namespace AssetEditor.Forms
                 }
             }
 
+        }
+
+        private void textSkillsetExpMultiplier_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            SkillSetSql curSet = GetCurrentSkillSet();
+            if (curSet == null)
+            {
+                return;
+            }
+            int value = 0;
+            Int32.TryParse(textSkillsetExpMultiplier.Text, out value);
+            curSet.ExperienceMultiplier = value;
         }
 
         private void textDescription_TextChanged(object sender, EventArgs e)
@@ -825,6 +841,7 @@ namespace AssetEditor.Forms
             curSkill.SaveData();
             textSkillTypeId.Text = curSkill.Id.ToString();
         }
+
 
 
 

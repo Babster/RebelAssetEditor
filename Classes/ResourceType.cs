@@ -17,6 +17,7 @@ public class ResourceType : UnityResourceType
         DescriptionEng = Convert.ToString(r["description_english"]);
         DescriptionRus = Convert.ToString(r["description_russian"]);
         ImgId = Convert.ToInt32(r["img_id"]);
+        UnityName = (string)r["unity_name"];
     }
 
     public static List<ResourceType> GetResouceList()
@@ -44,7 +45,8 @@ public class ResourceType : UnityResourceType
                 name,
                 description_english,
                 description_russian,
-                img_id
+                img_id,
+                ISNULL(unity_name, '') AS unity_name
             FROM
                 resource_types
             ";
@@ -104,10 +106,11 @@ public class ResourceType : UnityResourceType
                 name = @str1,
                 description_english = @str2,
                 description_russian = @str3,
-                img_id = {ImgId}
+                img_id = {ImgId},
+                unity_name = @str4
             WHERE 
                 id = {Id}";
-        List<string> names = new List<string> { Name, DescriptionEng, DescriptionRus };
+        List<string> names = new List<string> { Name, DescriptionEng, DescriptionRus, UnityName };
         DataConnection.Execute(q, names);
     }
 
@@ -126,5 +129,6 @@ public class UnityResourceType
     public string DescriptionEng { get; set; }
     public string DescriptionRus { get; set; }
     public int ImgId { get; set; }
+    public string UnityName { get; set; }
 }
 

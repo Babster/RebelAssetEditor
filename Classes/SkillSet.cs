@@ -20,6 +20,7 @@ public class SkillSetSql : SkillSet
         OpenCost = (int)r["open_cost"];
         AvailableForPlayer = (int)r["available_for_player"];
         ExpType = (ExperiencingType)r["experience_type"];
+        ExperienceMultiplier = (int)r["experience_multiplier"];
         LoadElements();
 
     }
@@ -78,7 +79,8 @@ public class SkillSetSql : SkillSet
                 owner_type = {(int)OwnerType},
                 open_cost = {OpenCost},
                 available_for_player = {AvailableForPlayer},
-                experience_type = {(int)ExpType}
+                experience_type = {(int)ExpType},
+                experience_multiplier = {ExperienceMultiplier}
             WHERE
                 id = {Id}
             ";
@@ -121,7 +123,8 @@ public class SkillSetSql : SkillSet
             owner_type,
             open_cost,
             ISNULL(available_for_player, 0) AS available_for_player,
-            ISNULL(experience_type, 0) AS experience_type
+            ISNULL(experience_type, 0) AS experience_type,
+            ISNULL(experience_multiplier, 0) AS experience_multiplier
         FROM
             skill_sets";
     }
@@ -205,7 +208,7 @@ public class SkillSet
     public int AvailableForPlayer { get; set; }
     public List<SkillSetElement> Elements { get; set; }
     public ExperiencingType ExpType { get; set; }
-
+    public int ExperienceMultiplier { get; set; }
     public enum SkillsetOwnerTypes
     {
         None = 0,

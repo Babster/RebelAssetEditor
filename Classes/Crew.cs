@@ -238,6 +238,7 @@ namespace Crew
         {
             this.OfficerType = officerType;
             this.PlayerId = PlayerId;
+            this.SkillSetPoints = 1;
             Stats = new List<CrewOfficerStat>();
             foreach (OfficerTypeStat curStat in OfficerType.Stats)
             {
@@ -283,6 +284,7 @@ namespace Crew
             this.PlayerId = playerId;
             acc = new AccountData(playerId);
             this.playerStats = new AdmiralStats(ref acc);
+            this.SkillSetPoints = 1;
             List<OfficerTypeStat> statTypes = CrewOfficerType.CreateStats();
             foreach(OfficerTypeStat statType in statTypes)
             {
@@ -364,7 +366,8 @@ namespace Crew
                     crew_officer_id,
                     skillset_id,
                     experience,
-                    skill_points,
+                    ISNULL(skill_points_total, 0) AS skill_points_total,
+                    ISNULL(skill_points_left, 0) AS skill_points_left,
                     opened_skills
                 FROM
                     crew_officers_skillsets
@@ -382,8 +385,9 @@ namespace Crew
 
         public void Save()
         {
-            if (IsPlayer)//Из игрока офицера сохранять не нужно
-                return;
+            //Теперь офицера из игрока сохраняем точно так же, но без статов
+            //if (IsPlayer)
+            //    return;
 
             if (StaticMembers.OfficerDict == null)
                 CrewOfficer.CreateDictionary();
@@ -397,9 +401,11 @@ namespace Crew
                 Id = DataConnection.GetResultInt(q);
                 StaticMembers.OfficerDict.Add(Id, this);
             }
+
             q = $@"
                 UPDATE crew_officers SET
-                    officer_type_id = {OfficerType.Id}
+                    officer_type_id = {OfficerType.Id},
+                    skill_set_points = {SkillSetPoints}
                 WHERE
                     id = {Id}";
             DataConnection.Execute(q);
@@ -514,7 +520,8 @@ namespace Crew
                 SELECT
                     id,
                     player_id,
-                    officer_type_id
+                    officer_type_id,
+                    ISNULL(skill_set_points, 0) AS skill_set_points
                 FROM
                     crew_officers";
             return q;
@@ -608,7 +615,8 @@ namespace Crew
             CrewOfficerId = (int)r["crew_officer_id"];
             SkillSetId = (int)r["skillset_id"];
             Experience = (int)r["experience"];
-            SkillPoints = (int)r["skill_points"];
+            SkillPointsTotal = (int)r["skill_points_total"];
+            SkillPointsLeft = (int)r["skill_points_left"];
             OpenedSkills = (string)r["opened_skills"];
         }
 
@@ -627,7 +635,8 @@ namespace Crew
                     crew_officer_id = {CrewOfficerId},
                     skillset_id = {SkillSetId},
                     experience = {Experience},
-                    skill_points = {SkillPoints},
+                    skill_points_total = {SkillPointsTotal},
+                    skill_points_left = {SkillPointsLeft},
                     opened_skills = @str1
                 WHERE
                     id = {Id}";
@@ -815,7 +824,8 @@ namespace Crew
         public int CrewOfficerId { get; set; }
         public int SkillSetId { get; set; }
         public int Experience { get; set; }
-        public int SkillPoints { get; set; }
+        public int SkillPointsTotal { get; set; }
+        public int SkillPointsLeft { get; set; }
         public string OpenedSkills { get; set; }
 
         public UnityCrewOfficerSkillSet() { }

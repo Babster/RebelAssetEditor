@@ -31,6 +31,13 @@ namespace AssetEditor.Forms
         {
             this.tabControl9 = new System.Windows.Forms.TabControl();
             this.tabPage31 = new System.Windows.Forms.TabPage();
+            this.textReplaceSkillName = new System.Windows.Forms.TextBox();
+            this.textReplaceSkillId = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textDescription = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboExpType = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.buttonUpdateSkillTypesDict = new System.Windows.Forms.Button();
             this.checkSkillSetAvailableForPlayer = new System.Windows.Forms.CheckBox();
             this.checkAvailableAtStart = new System.Windows.Forms.CheckBox();
@@ -88,13 +95,8 @@ namespace AssetEditor.Forms
             this.buttonSaveSkillType = new System.Windows.Forms.Button();
             this.buttonAddSkillType = new System.Windows.Forms.Button();
             this.treeSkillTypes = new System.Windows.Forms.TreeView();
-            this.label13 = new System.Windows.Forms.Label();
-            this.comboExpType = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textDescription = new System.Windows.Forms.TextBox();
-            this.textReplaceSkillName = new System.Windows.Forms.TextBox();
-            this.textReplaceSkillId = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textSkillsetExpMultiplier = new System.Windows.Forms.TextBox();
             this.tabControl9.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage32.SuspendLayout();
@@ -113,6 +115,8 @@ namespace AssetEditor.Forms
             // 
             // tabPage31
             // 
+            this.tabPage31.Controls.Add(this.textSkillsetExpMultiplier);
+            this.tabPage31.Controls.Add(this.label16);
             this.tabPage31.Controls.Add(this.textReplaceSkillName);
             this.tabPage31.Controls.Add(this.textReplaceSkillId);
             this.tabPage31.Controls.Add(this.label15);
@@ -161,6 +165,70 @@ namespace AssetEditor.Forms
             this.tabPage31.Text = "Skill sets";
             this.tabPage31.UseVisualStyleBackColor = true;
             // 
+            // textReplaceSkillName
+            // 
+            this.textReplaceSkillName.Location = new System.Drawing.Point(821, 393);
+            this.textReplaceSkillName.Name = "textReplaceSkillName";
+            this.textReplaceSkillName.ReadOnly = true;
+            this.textReplaceSkillName.Size = new System.Drawing.Size(376, 26);
+            this.textReplaceSkillName.TabIndex = 39;
+            // 
+            // textReplaceSkillId
+            // 
+            this.textReplaceSkillId.Location = new System.Drawing.Point(715, 393);
+            this.textReplaceSkillId.MaxLength = 10;
+            this.textReplaceSkillId.Name = "textReplaceSkillId";
+            this.textReplaceSkillId.Size = new System.Drawing.Size(100, 26);
+            this.textReplaceSkillId.TabIndex = 38;
+            this.textReplaceSkillId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textReplaceSkillId.TextChanged += new System.EventHandler(this.textReplaceSkillId_TextChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(576, 396);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(119, 20);
+            this.label15.TabIndex = 37;
+            this.label15.Text = "Replace skill Id:";
+            // 
+            // textDescription
+            // 
+            this.textDescription.Location = new System.Drawing.Point(417, 125);
+            this.textDescription.MaxLength = 100;
+            this.textDescription.Name = "textDescription";
+            this.textDescription.Size = new System.Drawing.Size(782, 26);
+            this.textDescription.TabIndex = 36;
+            this.textDescription.TextChanged += new System.EventHandler(this.textDescription_TextChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(318, 128);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(93, 20);
+            this.label14.TabIndex = 35;
+            this.label14.Text = "Description:";
+            // 
+            // comboExpType
+            // 
+            this.comboExpType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboExpType.FormattingEnabled = true;
+            this.comboExpType.Location = new System.Drawing.Point(398, 86);
+            this.comboExpType.Name = "comboExpType";
+            this.comboExpType.Size = new System.Drawing.Size(121, 28);
+            this.comboExpType.TabIndex = 34;
+            this.comboExpType.SelectedIndexChanged += new System.EventHandler(this.comboExpType_SelectedIndexChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(318, 89);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(74, 20);
+            this.label13.TabIndex = 33;
+            this.label13.Text = "Exp type:";
+            // 
             // buttonUpdateSkillTypesDict
             // 
             this.buttonUpdateSkillTypesDict.Location = new System.Drawing.Point(1022, 6);
@@ -185,7 +253,7 @@ namespace AssetEditor.Forms
             // checkAvailableAtStart
             // 
             this.checkAvailableAtStart.AutoSize = true;
-            this.checkAvailableAtStart.Location = new System.Drawing.Point(942, 197);
+            this.checkAvailableAtStart.Location = new System.Drawing.Point(940, 278);
             this.checkAvailableAtStart.Name = "checkAvailableAtStart";
             this.checkAvailableAtStart.Size = new System.Drawing.Size(145, 24);
             this.checkAvailableAtStart.TabIndex = 30;
@@ -195,7 +263,7 @@ namespace AssetEditor.Forms
             // 
             // textStrPredecessorName2
             // 
-            this.textStrPredecessorName2.Location = new System.Drawing.Point(823, 270);
+            this.textStrPredecessorName2.Location = new System.Drawing.Point(821, 351);
             this.textStrPredecessorName2.Name = "textStrPredecessorName2";
             this.textStrPredecessorName2.ReadOnly = true;
             this.textStrPredecessorName2.Size = new System.Drawing.Size(376, 26);
@@ -203,7 +271,7 @@ namespace AssetEditor.Forms
             // 
             // textStrPredecessorId2
             // 
-            this.textStrPredecessorId2.Location = new System.Drawing.Point(717, 270);
+            this.textStrPredecessorId2.Location = new System.Drawing.Point(715, 351);
             this.textStrPredecessorId2.MaxLength = 10;
             this.textStrPredecessorId2.Name = "textStrPredecessorId2";
             this.textStrPredecessorId2.Size = new System.Drawing.Size(100, 26);
@@ -214,7 +282,7 @@ namespace AssetEditor.Forms
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(578, 273);
+            this.label11.Location = new System.Drawing.Point(576, 354);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(133, 20);
             this.label11.TabIndex = 27;
@@ -222,7 +290,7 @@ namespace AssetEditor.Forms
             // 
             // textStrPredecessorName1
             // 
-            this.textStrPredecessorName1.Location = new System.Drawing.Point(823, 238);
+            this.textStrPredecessorName1.Location = new System.Drawing.Point(821, 319);
             this.textStrPredecessorName1.Name = "textStrPredecessorName1";
             this.textStrPredecessorName1.ReadOnly = true;
             this.textStrPredecessorName1.Size = new System.Drawing.Size(376, 26);
@@ -230,7 +298,7 @@ namespace AssetEditor.Forms
             // 
             // textStrPredecessorId1
             // 
-            this.textStrPredecessorId1.Location = new System.Drawing.Point(717, 238);
+            this.textStrPredecessorId1.Location = new System.Drawing.Point(715, 319);
             this.textStrPredecessorId1.MaxLength = 10;
             this.textStrPredecessorId1.Name = "textStrPredecessorId1";
             this.textStrPredecessorId1.Size = new System.Drawing.Size(100, 26);
@@ -241,7 +309,7 @@ namespace AssetEditor.Forms
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(578, 241);
+            this.label10.Location = new System.Drawing.Point(576, 322);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(133, 20);
             this.label10.TabIndex = 24;
@@ -249,7 +317,7 @@ namespace AssetEditor.Forms
             // 
             // textStrColumn
             // 
-            this.textStrColumn.Location = new System.Drawing.Point(823, 195);
+            this.textStrColumn.Location = new System.Drawing.Point(821, 276);
             this.textStrColumn.MaxLength = 10;
             this.textStrColumn.Name = "textStrColumn";
             this.textStrColumn.Size = new System.Drawing.Size(100, 26);
@@ -260,7 +328,7 @@ namespace AssetEditor.Forms
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(750, 198);
+            this.label9.Location = new System.Drawing.Point(748, 279);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(67, 20);
             this.label9.TabIndex = 22;
@@ -268,7 +336,7 @@ namespace AssetEditor.Forms
             // 
             // textStrLevel
             // 
-            this.textStrLevel.Location = new System.Drawing.Point(634, 195);
+            this.textStrLevel.Location = new System.Drawing.Point(632, 276);
             this.textStrLevel.MaxLength = 10;
             this.textStrLevel.Name = "textStrLevel";
             this.textStrLevel.Size = new System.Drawing.Size(100, 26);
@@ -279,7 +347,7 @@ namespace AssetEditor.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(578, 198);
+            this.label8.Location = new System.Drawing.Point(576, 279);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 20);
             this.label8.TabIndex = 20;
@@ -287,7 +355,7 @@ namespace AssetEditor.Forms
             // 
             // textStrSkillName
             // 
-            this.textStrSkillName.Location = new System.Drawing.Point(870, 157);
+            this.textStrSkillName.Location = new System.Drawing.Point(868, 238);
             this.textStrSkillName.Name = "textStrSkillName";
             this.textStrSkillName.ReadOnly = true;
             this.textStrSkillName.Size = new System.Drawing.Size(331, 26);
@@ -295,7 +363,7 @@ namespace AssetEditor.Forms
             // 
             // textStrSkillId
             // 
-            this.textStrSkillId.Location = new System.Drawing.Point(764, 157);
+            this.textStrSkillId.Location = new System.Drawing.Point(762, 238);
             this.textStrSkillId.MaxLength = 10;
             this.textStrSkillId.Name = "textStrSkillId";
             this.textStrSkillId.Size = new System.Drawing.Size(100, 26);
@@ -306,7 +374,7 @@ namespace AssetEditor.Forms
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(699, 160);
+            this.label7.Location = new System.Drawing.Point(697, 241);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(59, 20);
             this.label7.TabIndex = 17;
@@ -314,7 +382,7 @@ namespace AssetEditor.Forms
             // 
             // textStrId
             // 
-            this.textStrId.Location = new System.Drawing.Point(611, 157);
+            this.textStrId.Location = new System.Drawing.Point(609, 238);
             this.textStrId.Name = "textStrId";
             this.textStrId.ReadOnly = true;
             this.textStrId.Size = new System.Drawing.Size(82, 26);
@@ -324,7 +392,7 @@ namespace AssetEditor.Forms
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(578, 160);
+            this.label6.Location = new System.Drawing.Point(576, 241);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 20);
             this.label6.TabIndex = 15;
@@ -332,7 +400,7 @@ namespace AssetEditor.Forms
             // 
             // buttonDeleteSkillStructure
             // 
-            this.buttonDeleteSkillStructure.Location = new System.Drawing.Point(458, 153);
+            this.buttonDeleteSkillStructure.Location = new System.Drawing.Point(458, 190);
             this.buttonDeleteSkillStructure.Name = "buttonDeleteSkillStructure";
             this.buttonDeleteSkillStructure.Size = new System.Drawing.Size(114, 36);
             this.buttonDeleteSkillStructure.TabIndex = 14;
@@ -341,7 +409,7 @@ namespace AssetEditor.Forms
             // 
             // buttonAddSkillStructure
             // 
-            this.buttonAddSkillStructure.Location = new System.Drawing.Point(322, 153);
+            this.buttonAddSkillStructure.Location = new System.Drawing.Point(322, 190);
             this.buttonAddSkillStructure.Name = "buttonAddSkillStructure";
             this.buttonAddSkillStructure.Size = new System.Drawing.Size(114, 36);
             this.buttonAddSkillStructure.TabIndex = 13;
@@ -352,9 +420,9 @@ namespace AssetEditor.Forms
             // treeStr
             // 
             this.treeStr.HideSelection = false;
-            this.treeStr.Location = new System.Drawing.Point(322, 195);
+            this.treeStr.Location = new System.Drawing.Point(322, 238);
             this.treeStr.Name = "treeStr";
-            this.treeStr.Size = new System.Drawing.Size(250, 341);
+            this.treeStr.Size = new System.Drawing.Size(250, 298);
             this.treeStr.TabIndex = 12;
             this.treeStr.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeStr_AfterSelect);
             // 
@@ -728,69 +796,24 @@ namespace AssetEditor.Forms
             this.treeSkillTypes.TabIndex = 2;
             this.treeSkillTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeSkillTypes_AfterSelect);
             // 
-            // label13
+            // label16
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(318, 89);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(74, 20);
-            this.label13.TabIndex = 33;
-            this.label13.Text = "Exp type:";
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(538, 89);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(106, 20);
+            this.label16.TabIndex = 40;
+            this.label16.Text = "Exp multiplier:";
             // 
-            // comboExpType
+            // textSkillsetExpMultiplier
             // 
-            this.comboExpType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboExpType.FormattingEnabled = true;
-            this.comboExpType.Location = new System.Drawing.Point(398, 86);
-            this.comboExpType.Name = "comboExpType";
-            this.comboExpType.Size = new System.Drawing.Size(121, 28);
-            this.comboExpType.TabIndex = 34;
-            this.comboExpType.SelectedIndexChanged += new System.EventHandler(this.comboExpType_SelectedIndexChanged);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(535, 89);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(93, 20);
-            this.label14.TabIndex = 35;
-            this.label14.Text = "Description:";
-            // 
-            // textDescription
-            // 
-            this.textDescription.Location = new System.Drawing.Point(634, 86);
-            this.textDescription.MaxLength = 100;
-            this.textDescription.Name = "textDescription";
-            this.textDescription.Size = new System.Drawing.Size(565, 26);
-            this.textDescription.TabIndex = 36;
-            this.textDescription.TextChanged += new System.EventHandler(this.textDescription_TextChanged);
-            // 
-            // textReplaceSkillName
-            // 
-            this.textReplaceSkillName.Location = new System.Drawing.Point(823, 312);
-            this.textReplaceSkillName.Name = "textReplaceSkillName";
-            this.textReplaceSkillName.ReadOnly = true;
-            this.textReplaceSkillName.Size = new System.Drawing.Size(376, 26);
-            this.textReplaceSkillName.TabIndex = 39;
-            // 
-            // textReplaceSkillId
-            // 
-            this.textReplaceSkillId.Location = new System.Drawing.Point(717, 312);
-            this.textReplaceSkillId.MaxLength = 10;
-            this.textReplaceSkillId.Name = "textReplaceSkillId";
-            this.textReplaceSkillId.Size = new System.Drawing.Size(100, 26);
-            this.textReplaceSkillId.TabIndex = 38;
-            this.textReplaceSkillId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textReplaceSkillId.TextChanged += new System.EventHandler(this.textReplaceSkillId_TextChanged);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(578, 315);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(119, 20);
-            this.label15.TabIndex = 37;
-            this.label15.Text = "Replace skill Id:";
+            this.textSkillsetExpMultiplier.Location = new System.Drawing.Point(650, 86);
+            this.textSkillsetExpMultiplier.MaxLength = 5;
+            this.textSkillsetExpMultiplier.Name = "textSkillsetExpMultiplier";
+            this.textSkillsetExpMultiplier.Size = new System.Drawing.Size(100, 26);
+            this.textSkillsetExpMultiplier.TabIndex = 41;
+            this.textSkillsetExpMultiplier.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textSkillsetExpMultiplier.TextChanged += new System.EventHandler(this.textSkillsetExpMultiplier_TextChanged);
             // 
             // FormSkills
             // 
@@ -880,5 +903,7 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.TextBox textReplaceSkillName;
         private System.Windows.Forms.TextBox textReplaceSkillId;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textSkillsetExpMultiplier;
+        private System.Windows.Forms.Label label16;
     }
 }

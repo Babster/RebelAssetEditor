@@ -977,13 +977,19 @@ namespace AssetEditor
         }
         private void buttonSavePlayerAssets_Click(object sender, EventArgs e)
         {
+            
+            
             //Сохраняется игрок в виде офицера, список кораблей и модулей.
             //Каждый из видов ассетов сохраняется в отдельный файл, в папку с игрой.
             //Потом переносим код в обратной последовательности, большинство из
             //того что будет здесь написано до/после файловых функций может быть
             //использовано в реальном сетевом коде готового продукта
             if (treePlayers.SelectedNode == null)
+            {
+                MessageBox.Show("Выберите игрока, ассет которого нужно сохранить в файл");
                 return;
+            }
+                
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             PlayerAsset asset = new PlayerAsset(tData.Id);
             string textAsset = JsonConvert.SerializeObject(asset);
@@ -993,6 +999,9 @@ namespace AssetEditor
             textAsset = CommonFunctions.Decompress(textAsset);
             PlayerAsset asset2 = JsonConvert.DeserializeObject<PlayerAsset>(textAsset);
             asset2.ClearDeserializationDuplicates();
+
+            Process.Start(Directory.GetCurrentDirectory());
+
         }
         private void buttonSaveDataset_Click(object sender, EventArgs e)
         {
@@ -3176,6 +3185,7 @@ namespace AssetEditor
             textResDecriptionEng.Text = "";
             textResDescriptionRus.Text = "";
             textResImg.Text = "";
+            textResUnityName.Text = "";
             NoEvents = false;
         }
 
@@ -3191,6 +3201,7 @@ namespace AssetEditor
             textResDecriptionEng.Text = res.DescriptionEng;
             textResDescriptionRus.Text = res.DescriptionRus;
             textResImg.Text = res.ImgId.ToString();
+            textResUnityName.Text = res.UnityName;
             NoEvents = false;
         }
 
@@ -3232,6 +3243,16 @@ namespace AssetEditor
             int value = 0;
             Int32.TryParse(textResImg.Text, out value);
             res.ImgId = value;
+        }
+
+        private void textResUnityName_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ResourceType res = CurrentRes();
+            if (res == null)
+                return;
+            res.UnityName = textResUnityName.Text;
         }
 
         private void buttonResSave_Click(object sender, EventArgs e)
@@ -3769,6 +3790,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
+
 
 
 
