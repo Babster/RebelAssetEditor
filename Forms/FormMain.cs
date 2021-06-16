@@ -2465,6 +2465,7 @@ namespace AssetEditor
             textBsId.Text = sceneType.Id.ToString();
             textBsName.Text = sceneType.Name;
             textBsObjectives.Text = sceneType.MissionObjective;
+            textBsCycleToComplete.Text = sceneType.CycleToComplete.ToString();
             checkBsAssembleShip.Checked = sceneType.AssembleShip == 1;
             listBsEnemies.Items.Clear();
             ClearBsEnemy();
@@ -2507,6 +2508,8 @@ namespace AssetEditor
             NoEvents = true;
             textBsId.Text = "";
             textBsName.Text = "";
+            textBsObjectives.Text = "";
+            textBsCycleToComplete.Text = "";
             checkBsAssembleShip.Checked = false;
             listBsEnemies.Items.Clear();
             listBsResources.Items.Clear();
@@ -2593,6 +2596,18 @@ namespace AssetEditor
             if (sceneType == null)
                 return;
             sceneType.MissionObjective = textBsObjectives.Text;
+        }
+
+        private void textBsCycleToComplete_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneType sceneType = GetCurrentBattleScene();
+            if (sceneType == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsCycleToComplete.Text, out value);
+            sceneType.CycleToComplete = value;
         }
 
         private void checkBsAssembleShip_CheckedChanged(object sender, EventArgs e)
@@ -3378,6 +3393,7 @@ namespace AssetEditor
             listBpResources.Items.Clear();
             comboBpResource.SelectedItem = null;
             textBpResourceAmount.Text = "";
+            textBpUnityName.Text = "";
             NoEvents = false;
         }
 
@@ -3396,7 +3412,7 @@ namespace AssetEditor
             textBpBonus.Text = bp.BaseBonus.ToString();
             textBpFailChance.Text = bp.FailChance.ToString();
             textBpProductionPoints.Text = bp.ProductionPoints.ToString();
-
+            textBpUnityName.Text = bp.UnityName;
             listBpResources.Items.Clear();
             if (bp.ResourceList.Count > 0)
             {
@@ -3540,6 +3556,14 @@ namespace AssetEditor
             int value = 0;
             Int32.TryParse(textBpProductionPoints.Text, out value);
             bp.ProductionPoints = value;
+        }
+
+        private void textBpUnityName_TextChanged(object sender, EventArgs e)
+        {
+            BlueprintType bp = GetCurrentBlueprint();
+            if (bp == null)
+                return;
+            bp.UnityName = textBpUnityName.Text;
         }
 
         private void buttonBpSave_Click(object sender, EventArgs e)
@@ -3790,6 +3814,8 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             MessageBox.Show("completed");
         }
+
+
 
 
 

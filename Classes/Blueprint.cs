@@ -14,6 +14,7 @@ public class BlueprintType : UnityBlueprintType
         Id = Convert.ToInt32(r["id"]);
         ParentId = Convert.ToInt32(r["parent_id"]);
         Name = Convert.ToString(r["name"]);
+        UnityName = (string)r["unity_name"];
         ProductType = (BlueprintProductType)r["product_type"];
         ProductId = Convert.ToInt32(r["product_id"]);
         BaseBonus = Convert.ToInt32(r["base_bonus_points"]);
@@ -64,6 +65,7 @@ public class BlueprintType : UnityBlueprintType
                 id,
                 parent_id,
                 name,
+                ISNULL(unity_name, '') AS unity_name,
                 product_type,
                 product_id,
                 base_bonus_points,
@@ -126,6 +128,7 @@ public class BlueprintType : UnityBlueprintType
             UPDATE blueprint_types SET
                 parent_id = {ParentId},
                 name = @str1,
+                unity_name = @str2,
                 product_type = {(int)ProductType},
                 product_id = {ProductId},
                 base_bonus_points = {BaseBonus},
@@ -134,7 +137,7 @@ public class BlueprintType : UnityBlueprintType
             WHERE
                 id = {Id}";
 
-        List<string> names = new List<string> { Name };
+        List<string> names = new List<string> { Name, UnityName };
         DataConnection.Execute(q, names);
 
         string idsDoNotDelete = "";
@@ -247,6 +250,7 @@ public class UnityBlueprintType
     public int Id { get; set; }
     public int ParentId { get; set; }
     public string Name { get; set; }
+    public string UnityName { get; set; }
     public BlueprintProductType ProductType { get; set; }
     public int ProductId { get; set; }
     public int BaseBonus { get; set; }

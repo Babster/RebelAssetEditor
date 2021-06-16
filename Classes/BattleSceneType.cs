@@ -16,7 +16,7 @@ public class BattleSceneType : UnityBattleSceneType
         MissionObjective = (string)r["mission_objective"];
         ParentId = Convert.ToInt32(r["parent_id"]);
         AssembleShip = Convert.ToInt32(r["assemble_ship"]);
-
+        CycleToComplete = (int)r["cycle_to_complete"];
         LoadEnemies();
         LoadResources();
 
@@ -139,7 +139,8 @@ public class BattleSceneType : UnityBattleSceneType
                 name,
                 ISNULL(mission_objective, '') AS mission_objective,
                 parent_id,
-                ISNULL(assemble_ship, 0) AS assemble_ship
+                ISNULL(assemble_ship, 0) AS assemble_ship,
+                ISNULL(cycle_to_complete, 0) AS cycle_to_complete
             FROM
                 battle_scenes";
         return q;
@@ -180,7 +181,8 @@ public class BattleSceneType : UnityBattleSceneType
                 name = @str1,
                 mission_objective = @str2,
                 parent_id = {ParentId},
-                assemble_ship = {AssembleShip}
+                assemble_ship = {AssembleShip},
+                cycle_to_complete = {CycleToComplete}
             WHERE
                 id = {Id}";
 
@@ -375,6 +377,7 @@ public class UnityBattleSceneType
     public int Id { get; set; }
     public string Name { get; set; }
     public string MissionObjective { get; set; }
+    public int CycleToComplete { get; set; }
     public int ParentId { get; set; }
     public int AssembleShip { get; set; }
     public List<BattleSceneTypeEnemy> enemies { get; set; }

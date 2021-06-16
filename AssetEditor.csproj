@@ -59,6 +59,7 @@
     <Compile Include="Classes\GameEvent.cs" />
     <Compile Include="Classes\ObjectDatabase.cs" />
     <Compile Include="Classes\PlayerAsset.cs" />
+    <Compile Include="Classes\PlayerResources.cs" />
     <Compile Include="Classes\ResourceType.cs" />
     <Compile Include="Classes\Ship.cs" />
     <Compile Include="Classes\ShipModel.cs" />

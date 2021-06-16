@@ -18,7 +18,7 @@ public class BattleScene
 
         //Starting with 5 cycles and then add some more
         Cycles = new List<Cycle>();
-        for(int i=1; i<=5; i++)
+        for(int i=1; i<=30; i++)
         {
             Cycle curCycle = new Cycle(stype, i);
             Cycles.Add(curCycle);

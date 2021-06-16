@@ -315,6 +315,8 @@
             this.tabControl7 = new System.Windows.Forms.TabControl();
             this.tabPage24 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.textResUnityName = new System.Windows.Forms.TextBox();
+            this.label120 = new System.Windows.Forms.Label();
             this.textResImg = new System.Windows.Forms.TextBox();
             this.label77 = new System.Windows.Forms.Label();
             this.textResDescriptionRus = new System.Windows.Forms.TextBox();
@@ -332,6 +334,8 @@
             this.treeRes = new System.Windows.Forms.TreeView();
             this.tabPage25 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBpUnityName = new System.Windows.Forms.TextBox();
+            this.label121 = new System.Windows.Forms.Label();
             this.textBpResourceAmount = new System.Windows.Forms.TextBox();
             this.comboBpResource = new System.Windows.Forms.ComboBox();
             this.label101 = new System.Windows.Forms.Label();
@@ -439,8 +443,9 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.textResUnityName = new System.Windows.Forms.TextBox();
-            this.label120 = new System.Windows.Forms.Label();
+            this.label122 = new System.Windows.Forms.Label();
+            this.textBsCycleToComplete = new System.Windows.Forms.TextBox();
+            this.label123 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -2253,7 +2258,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 445);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 410);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2683,7 +2688,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 484);
+            this.groupBox6.Size = new System.Drawing.Size(899, 463);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2699,7 +2704,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 368);
+            this.tabControl6.Size = new System.Drawing.Size(883, 347);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2732,7 +2737,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 335);
+            this.tabPage21.Size = new System.Drawing.Size(875, 314);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -2995,7 +3000,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 335);
+            this.tabPage22.Size = new System.Drawing.Size(875, 314);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3275,11 +3280,14 @@
             // 
             // tabPage28
             // 
+            this.tabPage28.Controls.Add(this.label123);
+            this.tabPage28.Controls.Add(this.textBsCycleToComplete);
+            this.tabPage28.Controls.Add(this.label122);
             this.tabPage28.Controls.Add(this.textBsObjectives);
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 335);
+            this.tabPage28.Size = new System.Drawing.Size(875, 314);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3289,10 +3297,10 @@
             this.textBsObjectives.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBsObjectives.Location = new System.Drawing.Point(6, 6);
+            this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 323);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 231);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3360,7 +3368,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 450);
+            this.treeBs.Size = new System.Drawing.Size(297, 429);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3433,7 +3441,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 411);
+            this.textBsResources.Size = new System.Drawing.Size(412, 418);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3452,7 +3460,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 411);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 418);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3572,6 +3580,24 @@
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
+            // 
+            // textResUnityName
+            // 
+            this.textResUnityName.Location = new System.Drawing.Point(359, 170);
+            this.textResUnityName.MaxLength = 50;
+            this.textResUnityName.Name = "textResUnityName";
+            this.textResUnityName.Size = new System.Drawing.Size(262, 26);
+            this.textResUnityName.TabIndex = 21;
+            this.textResUnityName.TextChanged += new System.EventHandler(this.textResUnityName_TextChanged);
+            // 
+            // label120
+            // 
+            this.label120.AutoSize = true;
+            this.label120.Location = new System.Drawing.Point(260, 173);
+            this.label120.Name = "label120";
+            this.label120.Size = new System.Drawing.Size(93, 20);
+            this.label120.TabIndex = 20;
+            this.label120.Text = "Unity name:";
             // 
             // textResImg
             // 
@@ -3709,7 +3735,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 427);
+            this.treeRes.Size = new System.Drawing.Size(297, 424);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -3734,6 +3760,8 @@
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.textBpUnityName);
+            this.groupBox8.Controls.Add(this.label121);
             this.groupBox8.Controls.Add(this.textBpResourceAmount);
             this.groupBox8.Controls.Add(this.comboBpResource);
             this.groupBox8.Controls.Add(this.label101);
@@ -3758,10 +3786,28 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 482);
+            this.groupBox8.Size = new System.Drawing.Size(894, 458);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
+            // 
+            // textBpUnityName
+            // 
+            this.textBpUnityName.Location = new System.Drawing.Point(340, 140);
+            this.textBpUnityName.MaxLength = 50;
+            this.textBpUnityName.Name = "textBpUnityName";
+            this.textBpUnityName.Size = new System.Drawing.Size(262, 26);
+            this.textBpUnityName.TabIndex = 37;
+            this.textBpUnityName.TextChanged += new System.EventHandler(this.textBpUnityName_TextChanged);
+            // 
+            // label121
+            // 
+            this.label121.AutoSize = true;
+            this.label121.Location = new System.Drawing.Point(241, 143);
+            this.label121.Name = "label121";
+            this.label121.Size = new System.Drawing.Size(93, 20);
+            this.label121.TabIndex = 36;
+            this.label121.Text = "Unity name:";
             // 
             // textBpResourceAmount
             // 
@@ -3828,7 +3874,7 @@
             this.listBpResources.ItemHeight = 20;
             this.listBpResources.Location = new System.Drawing.Point(10, 222);
             this.listBpResources.Name = "listBpResources";
-            this.listBpResources.Size = new System.Drawing.Size(196, 144);
+            this.listBpResources.Size = new System.Drawing.Size(196, 204);
             this.listBpResources.TabIndex = 29;
             this.listBpResources.SelectedIndexChanged += new System.EventHandler(this.listBpResources_SelectedIndexChanged);
             // 
@@ -4015,7 +4061,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 448);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4714,23 +4760,31 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // textResUnityName
+            // label122
             // 
-            this.textResUnityName.Location = new System.Drawing.Point(359, 170);
-            this.textResUnityName.MaxLength = 50;
-            this.textResUnityName.Name = "textResUnityName";
-            this.textResUnityName.Size = new System.Drawing.Size(262, 26);
-            this.textResUnityName.TabIndex = 21;
-            this.textResUnityName.TextChanged += new System.EventHandler(this.textResUnityName_TextChanged);
+            this.label122.AutoSize = true;
+            this.label122.Location = new System.Drawing.Point(6, 13);
+            this.label122.Name = "label122";
+            this.label122.Size = new System.Drawing.Size(222, 20);
+            this.label122.TabIndex = 1;
+            this.label122.Text = "Cycle to complete the mission:";
             // 
-            // label120
+            // textBsCycleToComplete
             // 
-            this.label120.AutoSize = true;
-            this.label120.Location = new System.Drawing.Point(260, 173);
-            this.label120.Name = "label120";
-            this.label120.Size = new System.Drawing.Size(93, 20);
-            this.label120.TabIndex = 20;
-            this.label120.Text = "Unity name:";
+            this.textBsCycleToComplete.Location = new System.Drawing.Point(234, 10);
+            this.textBsCycleToComplete.Name = "textBsCycleToComplete";
+            this.textBsCycleToComplete.Size = new System.Drawing.Size(100, 26);
+            this.textBsCycleToComplete.TabIndex = 32;
+            this.textBsCycleToComplete.TextChanged += new System.EventHandler(this.textBsCycleToComplete_TextChanged);
+            // 
+            // label123
+            // 
+            this.label123.AutoSize = true;
+            this.label123.Location = new System.Drawing.Point(6, 50);
+            this.label123.Name = "label123";
+            this.label123.Size = new System.Drawing.Size(126, 20);
+            this.label123.TabIndex = 33;
+            this.label123.Text = "Objectives (text):";
             // 
             // FormMain
             // 
@@ -4806,6 +4860,7 @@
             this.tabPage22.ResumeLayout(false);
             this.tabPage22.PerformLayout();
             this.tabPage28.ResumeLayout(false);
+            this.tabPage28.PerformLayout();
             this.tabPage27.ResumeLayout(false);
             this.tabPage27.PerformLayout();
             this.tabPage23.ResumeLayout(false);
@@ -5246,6 +5301,11 @@
         private System.Windows.Forms.Button buttonOpenSpaceshipsModels;
         private System.Windows.Forms.TextBox textResUnityName;
         private System.Windows.Forms.Label label120;
+        private System.Windows.Forms.TextBox textBpUnityName;
+        private System.Windows.Forms.Label label121;
+        private System.Windows.Forms.TextBox textBsCycleToComplete;
+        private System.Windows.Forms.Label label122;
+        private System.Windows.Forms.Label label123;
         //private System.Windows.Forms.Label label129;
     }
 }
