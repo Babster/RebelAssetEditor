@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 public static class ServerAuth
 {
 
-    public const string  ServerAddress = "https://localhost:44348";
+    public const string  ServerAddress = "http://localhost:54903/";
 
     public static HttpClient CreateClient()
     {
@@ -73,6 +73,10 @@ public static class ServerAuth
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string SteamId { get; set; }
+        public string DisplayName { get; set; }
+
     }
 
 }

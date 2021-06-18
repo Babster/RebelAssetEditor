@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 using RsaApi.Models;
 using RsaApi.Providers;
 using RsaApi.Results;
@@ -23,6 +24,9 @@ namespace RsaApi.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+
+        #region System variables and procedures
+
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -51,8 +55,64 @@ namespace RsaApi.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        #endregion
+
+        // POST api/Account/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        {
+
+            model.Password = CodeBits.PasswordGenerator.Generate(14, CodeBits.PasswordCharacters.All) + "!";
+            model.ConfirmPassword = model.Password;
+            model.Email = model.Email + "@admiraldomain";
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                //return GetErrorResult(result);
+                string err = "";
+                foreach (var error in result.Errors)
+                {
+                    err += error + ", ";
+                }
+                Exception ex = new Exception($"UserManager.CreateAsync failed: {err}");
+                return new System.Web.Http.Results.ExceptionResult(ex, this);
+            }
+
+            string serializedBindingModel = JsonConvert.SerializeObject(model);
+            string registerResult = PlayerDataSql.RegisterAccount(serializedBindingModel);
+
+            if(!String.IsNullOrEmpty(registerResult))
+            {
+                Exception ex = new Exception($"procedure PlayerData.RegisterAccount fails: {registerResult}");
+                return new System.Web.Http.Results.ExceptionResult(ex, this);
+            }
+
+            //return Ok();
+            string json = JsonConvert.SerializeObject(model);
+            HttpResponseMessage responseMessage = new HttpResponseMessage();
+            responseMessage.StatusCode = System.Net.HttpStatusCode.OK;
+            responseMessage.Content = new StringContent(json);
+            IHttpActionResult response = ResponseMessage(responseMessage);
+            return response;
+
+        }
+
+        #region Switched off
+
+
+
         // GET api/Account/UserInfo
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        /*[HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
@@ -64,18 +124,18 @@ namespace RsaApi.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
-        }
+        }*/
 
         // POST api/Account/Logout
-        [Route("Logout")]
+        /*[Route("Logout")]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
-        }
+        }*/
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
-        [Route("ManageInfo")]
+        /*[Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -112,10 +172,10 @@ namespace RsaApi.Controllers
                 Logins = logins,
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
-        }
+        }*/
 
         // POST api/Account/ChangePassword
-        [Route("ChangePassword")]
+        /*[Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -132,10 +192,10 @@ namespace RsaApi.Controllers
             }
 
             return Ok();
-        }
+        }*/
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
+        /*[Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -151,10 +211,10 @@ namespace RsaApi.Controllers
             }
 
             return Ok();
-        }
+        }*/
 
         // POST api/Account/AddExternalLogin
-        [Route("AddExternalLogin")]
+        /*[Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -189,10 +249,10 @@ namespace RsaApi.Controllers
             }
 
             return Ok();
-        }
+        }*/
 
         // POST api/Account/RemoveLogin
-        [Route("RemoveLogin")]
+        /*[Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -218,10 +278,10 @@ namespace RsaApi.Controllers
             }
 
             return Ok();
-        }
+        }*/
 
         // GET api/Account/ExternalLogin
-        [OverrideAuthentication]
+        /*[OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("ExternalLogin", Name = "ExternalLogin")]
@@ -275,10 +335,10 @@ namespace RsaApi.Controllers
             }
 
             return Ok();
-        }
+        }*/
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
@@ -316,39 +376,21 @@ namespace RsaApi.Controllers
             }
 
             return logins;
-        }
+        }*/
 
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
-        }
 
         // POST api/Account/RegisterExternal
-        [OverrideAuthentication]
+        /*[OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                //return BadRequest(ModelState);
+                Exception ex = new Exception("Model state is invalid");
+                return new System.Web.Http.Results.ExceptionResult(ex, null);
             }
 
             var info = await Authentication.GetExternalLoginInfoAsync();
@@ -371,7 +413,9 @@ namespace RsaApi.Controllers
                 return GetErrorResult(result); 
             }
             return Ok();
-        }
+        }*/
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

@@ -170,8 +170,9 @@ namespace ApiTest
 
             //var newUser = new AccountData() { SteamAccountId = "Babster", aType = AccountData.ActionType.CreateUser };
             ServerAuth.RegisterBindingModel newUser = new ServerAuth.RegisterBindingModel();
-            newUser.Email = "BabsterMail";
-            newUser.Name = "BabsterId";
+            newUser.Email = "console_test";
+            newUser.Name = "console_test";
+            newUser.SteamId = "some sample steam id";
             newUser.Password = "samplepass123";
             newUser.ConfirmPassword = "samplepass123";
 
@@ -187,12 +188,15 @@ namespace ApiTest
                 {
 
                     var resString = result.Content.ReadAsStringAsync().Result;
-                    AccountData insertedUser = JsonConvert.DeserializeObject<AccountData>(resString);
-                    Console.WriteLine("Account {0} inserted with additional data: {1}", insertedUser.SteamAccountId, insertedUser.AdditionalData);
+                    ServerAuth.RegisterBindingModel insertedUser = JsonConvert.DeserializeObject<ServerAuth.RegisterBindingModel>(resString);
+                    Console.WriteLine("Account {0} inserted with additional data: {1}", insertedUser.SteamId, insertedUser.Password);
+                    string 
                 }
                 else
                 {
-                    Console.WriteLine(result.StatusCode);
+                    var resString = result.Content.ReadAsStringAsync().Result;
+                    ErrorFromServer res = JsonConvert.DeserializeObject<ErrorFromServer>(resString);
+                    Console.WriteLine("Error registering account: {0}", res.ExceptionMessage);
                 }
             }
 
@@ -201,6 +205,13 @@ namespace ApiTest
 
         }
 
+        private class ErrorFromServer
+        {
+            //{"Message":"An error has occurred.","ExceptionMessage":"UserManager.CreateAsync failed: Passwords must have at least one non letter or digit character. Passwords must have at least one uppercase ('A'-'Z')., ","ExceptionType":"System.Exception","StackTrace":null}
+            public string Message { get; set; }
+            public string ExceptionMessage { get; set; }
+            public string ExceptionType { get; set; }
+        }
         //private static void Check
 
         
