@@ -24,8 +24,8 @@ public static class ServerAuth
     {
         if (string.IsNullOrEmpty(securityTokenStr))
         {
-            string userName = "BabsterId";
-            string password = "[N>awg56Q>ipN#!";
+            string userName = Steamworks.SteamUser.GetSteamID().ToString();
+            string password = System.IO.File.ReadAllText("pwd.txt");
             Dictionary<string, string> tokenInfo = GetTokenDictionary(userName, password);
             securityTokenStr = tokenInfo["access_token"];
         }

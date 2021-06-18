@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Management.Instrumentation;
 using System.Data.SqlClient;
 using ApiTest.Classes;
-
+using Steamworks;
 
 
 namespace ApiTest
@@ -18,6 +18,13 @@ namespace ApiTest
     {
         static void Main(string[] args)
         {
+
+            if (Steamworks.SteamAPI.Init() == false)
+            {
+                Console.WriteLine("Couldn't initialize steamworks. Check if Steam is installed and launched");
+                Console.WriteLine("Also check if the folder with dlls contains steam_appid.txt (480) - once i forgot to create it");
+                return;
+            }
 
             while (true)
             {
@@ -35,7 +42,7 @@ namespace ApiTest
                 string userResponse = Console.ReadLine();
                 if (userResponse == "1")
                 {
-                    ShowToken();
+                    GetToken();
                 }
                 else if (userResponse == "2")
                 {
@@ -108,7 +115,7 @@ namespace ApiTest
             }
         }
 
-        private static void ShowToken()
+        private static void GetToken()
         {
 
             Console.WriteLine(ServerAuth.GetToken());
@@ -167,14 +174,17 @@ namespace ApiTest
 
         private static void CreateAccount2()
         {
+            //Steamworks.SteamAPI.Init();
+            string steamId = Steamworks.SteamUser.GetSteamID().ToString();
 
             //var newUser = new AccountData() { SteamAccountId = "Babster", aType = AccountData.ActionType.CreateUser };
             ServerAuth.RegisterBindingModel newUser = new ServerAuth.RegisterBindingModel();
-            newUser.Email = "console_test";
-            newUser.Name = "console_test";
-            newUser.SteamId = "some sample steam id";
-            newUser.Password = "samplepass123";
-            newUser.ConfirmPassword = "samplepass123";
+            newUser.Email = steamId;
+            newUser.DisplayName = Steamworks.SteamFriends.GetPersonaName();
+            newUser.Name = newUser.DisplayName;
+            newUser.SteamId = steamId;
+            newUser.Password = "";
+            newUser.ConfirmPassword = "";
 
             using (var client = new HttpClient())
             {
@@ -190,7 +200,7 @@ namespace ApiTest
                     var resString = result.Content.ReadAsStringAsync().Result;
                     ServerAuth.RegisterBindingModel insertedUser = JsonConvert.DeserializeObject<ServerAuth.RegisterBindingModel>(resString);
                     Console.WriteLine("Account {0} inserted with additional data: {1}", insertedUser.SteamId, insertedUser.Password);
-                    string 
+                    System.IO.File.WriteAllText("pwd.txt", insertedUser.Password);
                 }
                 else
                 {

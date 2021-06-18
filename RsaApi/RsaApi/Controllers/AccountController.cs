@@ -67,14 +67,25 @@ namespace RsaApi.Controllers
             model.ConfirmPassword = model.Password;
             model.Email = model.Email + "@admiraldomain";
 
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                Exception ex = new Exception($"checking model state failed: {ModelState}");
+                return new System.Web.Http.Results.ExceptionResult(ex, this);
+            }*/
+
+            var user = new ApplicationUser() { UserName = model.SteamId, Email = model.Email };
+
+            IdentityResult result;
+            try
+            {
+                result = await UserManager.CreateAsync(user, model.Password);
+            }
+            catch(Exception ex)
+            {
+                Exception ex2 = new Exception($"error registering ASP.NET user: {ex.Message}");
+                return new System.Web.Http.Results.ExceptionResult(ex2, this);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
