@@ -31,6 +31,7 @@ public class ShipModel : UnityShipModel
         this.ImgId = (int)r["img_id"];
         this.BaseEnergy = (int)r["base_energy"];
         this.SkillSetsString = (string)r["skill_sets"];
+        Boss = (int)r["boss"];
         LoadSlots();
 
     }
@@ -85,7 +86,8 @@ public class ShipModel : UnityShipModel
                     asset_name = @str2,
                     img_id = {ImgId},
                     base_energy = {BaseEnergy},
-                    skill_sets = @str3
+                    skill_sets = @str3,
+                    boss = {Boss}
                 WHERE
                     id = " + this.Id.ToString();
 
@@ -148,7 +150,8 @@ public class ShipModel : UnityShipModel
                     asset_name,
                     ISNULL(img_id, 0) AS img_id,
                     ISNULL(base_energy, 0) AS base_energy,
-                    ISNULL(skill_sets, '') AS skill_sets
+                    ISNULL(skill_sets, '') AS skill_sets,
+                    ISNULL(boss, 0) AS boss
                 FROM
                     ss_designs";
     }
@@ -228,7 +231,7 @@ public class ShipModelSlot : UnityShipModelSlot
         DefaultModuleId = Convert.ToInt32(r["default_module_id"]);
         MainCabin = (int)r["is_main_cabin"];
         DoubleWeapon = (int)r["double_weapon"];
-
+        
         if (Size < 1)
             Size = 1;
     }
@@ -291,6 +294,7 @@ public class UnityShipModel
     public int ImgId { get; set; }
     public int BaseEnergy { get; set; }
     public string SkillSetsString { get; set; }
+    public int Boss { get; set; }
     public int WeaponSlotCount
     {
         get

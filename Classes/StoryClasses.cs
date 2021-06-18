@@ -654,6 +654,9 @@ namespace Story
             DataConnection.Log(AdmiralId, thisStep.StrValue, thisStep.IntValue, "completed", "");
 
         }
+    
+
+
     }
 
 

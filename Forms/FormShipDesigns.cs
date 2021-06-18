@@ -139,6 +139,7 @@ namespace AssetEditor.Forms
                     listShipSlots.Items.Add(slot);
                 }
             }
+            checkShipBoss.Checked = tag.Boss == 1;
             NoEvents = false;
             if (listShipSlots.Items.Count > 0)
                 listShipSlots.SelectedIndex = 0;
@@ -153,6 +154,7 @@ namespace AssetEditor.Forms
             textShipImageId.Text = "";
             textShipSkillSets.Text = "";
             listShipSlots.Items.Clear();
+            checkShipBoss.Checked = false;
             NoEvents = false;
             ClearShipSlot();
         }
@@ -202,6 +204,23 @@ namespace AssetEditor.Forms
             if (tag == null)
                 return;
             tag.SkillSetsString = textShipSkillSets.Text;
+        }
+
+        private void checkShipBoss_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            if(checkShipBoss.Checked)
+            {
+                tag.Boss = 1;
+            }
+            else
+            {
+                tag.Boss = 0;
+            }
         }
 
         private void textShipBaseStructure_TextChanged(object sender, EventArgs e)
@@ -833,6 +852,7 @@ namespace AssetEditor.Forms
                 n.Tag = ship;
             }
         }
+
 
         #endregion
 

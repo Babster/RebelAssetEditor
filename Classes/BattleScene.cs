@@ -11,14 +11,15 @@ public class BattleScene
 
     public BattleSceneType SceneType { get; set; }
     public List<Cycle> Cycles { get; set; }
-
+    public int CycleToComplete { get; set; }
     public BattleScene(BattleSceneType stype)
     {
         SceneType = stype;
+        CycleToComplete = stype.CycleToComplete;
 
         //Starting with 5 cycles and then add some more
         Cycles = new List<Cycle>();
-        for(int i=1; i<=30; i++)
+        for(int i=1; i<=100; i++)
         {
             Cycle curCycle = new Cycle(stype, i);
             Cycles.Add(curCycle);
@@ -453,8 +454,9 @@ public class UnityBattleScene
     public int BattleSceneTypeId { get; set; }
     public string Name { get; set; }
     public string Objectives { get; set; }
+    public int CycleToComplete { get; set; }
     public List<Cycle> Cycles { get; set; }
-
+    
     public UnityBattleScene() { }
 
     public UnityBattleScene(BattleScene sceneCopyFrom) 
@@ -463,7 +465,7 @@ public class UnityBattleScene
         BattleSceneTypeId = sceneCopyFrom.SceneType.Id;
         Name = sceneCopyFrom.SceneType.Name;
         Objectives = sceneCopyFrom.SceneType.MissionObjective;
-
+        CycleToComplete = sceneCopyFrom.CycleToComplete;
         foreach(var cycleFrom in sceneCopyFrom.Cycles)
         {
             Cycles.Add(new Cycle(cycleFrom));

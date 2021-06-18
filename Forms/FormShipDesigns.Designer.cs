@@ -32,6 +32,8 @@ namespace AssetEditor.Forms
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textShipSkillSets = new System.Windows.Forms.TextBox();
             this.textShipBaseEnergy = new System.Windows.Forms.TextBox();
             this.label119 = new System.Windows.Forms.Label();
             this.checkShipDoubleWeapon = new System.Windows.Forms.CheckBox();
@@ -108,8 +110,7 @@ namespace AssetEditor.Forms
             this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textShipSkillSets = new System.Windows.Forms.TextBox();
+            this.checkShipBoss = new System.Windows.Forms.CheckBox();
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -155,6 +156,7 @@ namespace AssetEditor.Forms
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.checkShipBoss);
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.textShipSkillSets);
             this.groupBox5.Controls.Add(this.textShipBaseEnergy);
@@ -199,6 +201,24 @@ namespace AssetEditor.Forms
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ship design edit";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 118);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 20);
+            this.label1.TabIndex = 50;
+            this.label1.Text = "Skill sets:";
+            // 
+            // textShipSkillSets
+            // 
+            this.textShipSkillSets.Location = new System.Drawing.Point(87, 115);
+            this.textShipSkillSets.MaxLength = 50;
+            this.textShipSkillSets.Name = "textShipSkillSets";
+            this.textShipSkillSets.Size = new System.Drawing.Size(242, 26);
+            this.textShipSkillSets.TabIndex = 51;
+            this.textShipSkillSets.TextChanged += new System.EventHandler(this.textShipSkillSets_TextChanged);
             // 
             // textShipBaseEnergy
             // 
@@ -650,7 +670,7 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(701, 410);
+            this.textSaBottomLine.Size = new System.Drawing.Size(701, 417);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
             // 
@@ -703,7 +723,7 @@ namespace AssetEditor.Forms
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(701, 438);
+            this.gridSaModules.Size = new System.Drawing.Size(701, 445);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
@@ -768,7 +788,7 @@ namespace AssetEditor.Forms
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(488, 423);
+            this.gridSaOfficer.Size = new System.Drawing.Size(488, 430);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -847,7 +867,7 @@ namespace AssetEditor.Forms
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(701, 447);
+            this.treeSaRigs.Size = new System.Drawing.Size(701, 454);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -891,7 +911,7 @@ namespace AssetEditor.Forms
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 412);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 419);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -981,23 +1001,16 @@ namespace AssetEditor.Forms
             this.comboSaShip.TabIndex = 0;
             this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
             // 
-            // label1
+            // checkShipBoss
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 118);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 20);
-            this.label1.TabIndex = 50;
-            this.label1.Text = "Skill sets:";
-            // 
-            // textShipSkillSets
-            // 
-            this.textShipSkillSets.Location = new System.Drawing.Point(87, 115);
-            this.textShipSkillSets.MaxLength = 50;
-            this.textShipSkillSets.Name = "textShipSkillSets";
-            this.textShipSkillSets.Size = new System.Drawing.Size(242, 26);
-            this.textShipSkillSets.TabIndex = 51;
-            this.textShipSkillSets.TextChanged += new System.EventHandler(this.textShipSkillSets_TextChanged);
+            this.checkShipBoss.AutoSize = true;
+            this.checkShipBoss.Location = new System.Drawing.Point(351, 117);
+            this.checkShipBoss.Name = "checkShipBoss";
+            this.checkShipBoss.Size = new System.Drawing.Size(64, 24);
+            this.checkShipBoss.TabIndex = 52;
+            this.checkShipBoss.Text = "Boss";
+            this.checkShipBoss.UseVisualStyleBackColor = true;
+            this.checkShipBoss.CheckedChanged += new System.EventHandler(this.checkShipBoss_CheckedChanged);
             // 
             // FormShipDesigns
             // 
@@ -1114,5 +1127,6 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.ComboBox comboSaShip;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textShipSkillSets;
+        private System.Windows.Forms.CheckBox checkShipBoss;
     }
 }

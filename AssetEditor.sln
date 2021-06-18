@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetEditor", "AssetEditor.csproj", "{D022ACFE-FFCE-48A3-B22D-9D058FDF125F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RsaServer", "Server\RsaServer\RsaServer.csproj", "{14F1C6CD-36F4-46EA-A855-17E01E32675B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RsaApi", "RsaApi\RsaApi\RsaApi.csproj", "{2662D4D1-C3C8-4D4D-A3BB-FF89584B4E22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D022ACFE-FFCE-48A3-B22D-9D058FDF125F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D022ACFE-FFCE-48A3-B22D-9D058FDF125F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D022ACFE-FFCE-48A3-B22D-9D058FDF125F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F1C6CD-36F4-46EA-A855-17E01E32675B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F1C6CD-36F4-46EA-A855-17E01E32675B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F1C6CD-36F4-46EA-A855-17E01E32675B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F1C6CD-36F4-46EA-A855-17E01E32675B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2662D4D1-C3C8-4D4D-A3BB-FF89584B4E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2662D4D1-C3C8-4D4D-A3BB-FF89584B4E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2662D4D1-C3C8-4D4D-A3BB-FF89584B4E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2662D4D1-C3C8-4D4D-A3BB-FF89584B4E22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

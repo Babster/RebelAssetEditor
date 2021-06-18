@@ -3798,13 +3798,6 @@ namespace AssetEditor
 
             private void buttonBstSave_Click(object sender, EventArgs e)
         {
-            /*BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
-            BattleScene scene = new BattleScene(sType);
-            CompressedBattleScene cbs = new CompressedBattleScene(scene);
-            string strCbs = JsonConvert.SerializeObject(cbs);
-            strCbs = CommonFunctions.Compress(strCbs);
-            System.IO.File.WriteAllText("battle scene.dat", strCbs);
-            MessageBox.Show("completed");*/
 
             BattleSceneType sType = (BattleSceneType)comboBst.SelectedItem;
             BattleScene scene = new BattleScene(sType);
@@ -3812,7 +3805,7 @@ namespace AssetEditor
             string strCbs = JsonConvert.SerializeObject(Bst);
             strCbs = CommonFunctions.Compress(strCbs);
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
-            MessageBox.Show("completed");
+            Process.Start(Directory.GetCurrentDirectory());
         }
 
 
