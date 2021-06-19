@@ -53,11 +53,11 @@ public static class CommonFunctions
         if (userIds.ContainsKey(name) == false)
         {
             string q = @"SELECT
-	            admirals.id AS field0
+	            players.id AS field0
             FROM
-	            admirals
+	            players
             WHERE
-	            admirals.steam_account_id = @str1
+	            players.steam_id = @str1
             ";
 
             List<string> names = new List<string>();

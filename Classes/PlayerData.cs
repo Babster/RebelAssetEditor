@@ -27,10 +27,13 @@ public class PlayerDataSql : PlayerData
             return "Account already been registered";
         }
 
-        q = $@"INSERT INTO players(steam_id, display_name, register_date) VALUES(@str1, @str2, GETDATE())";
+        int StatPoints = CommonFunctions.GetCommonValue("start_stat_points").IntValue;
+
+        q = $@"INSERT INTO players(steam_id, display_name, register_date, skill_points_left) VALUES(@str1, @str2, GETDATE(), {StatPoints})";
         names.Add(curModel.DisplayName);
         try
         {
+            DataConnection.Execute(q, names);
             DataConnection.Execute(q, names);
         }
         catch (Exception ex)
@@ -42,18 +45,19 @@ public class PlayerDataSql : PlayerData
 
     }
 
-    public PlayerData GetPlayerData(string steamId)
+    public static PlayerData GetPlayerData(string steamId)
     {
         string q = $@"SELECT 
             steam_id,
             display_name,
             register_date
+            
         FROM
             players
         WHERE
             steam_id = @str1";
         List<string> names = new List<string>() { steamId };
-        SqlDataReader r = DataConnection.GetReader(q);
+        SqlDataReader r = DataConnection.GetReader(q, names);
         if(!r.HasRows)
         {
             r.Close();
@@ -69,6 +73,13 @@ public class PlayerDataSql : PlayerData
 
         return curData;
 
+    }
+
+    public void SaveBaseData()
+    {
+        string q = $@"UPDATE players SET display_name = @str1 WHERE steam_id = @str2";
+        List<string> names = new List<string>() { DisplayName, SteamId };
+        DataConnection.Execute(q, names);
     }
 
     private class RegisterBindingModel
@@ -88,6 +99,7 @@ public class PlayerData
     public string SteamId { get; set; }
     public string Password { get; set; }
     public string DisplayName { get; set; }
+    public int SkillPointsLeft { get; set; }
     
 }
 

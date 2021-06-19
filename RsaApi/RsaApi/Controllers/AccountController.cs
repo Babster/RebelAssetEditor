@@ -118,6 +118,64 @@ namespace RsaApi.Controllers
 
         }
 
+        [HttpPost]
+        [Route("UpdatePlayerData")]
+        public HttpResponseMessage UpdatePlayerData(PlayerDataSql playerData)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return null;
+
+            string userName = User.Identity.Name;
+            playerData.SteamId = userName;
+
+            HttpResponseMessage response;
+
+            try
+            {
+                playerData.SaveBaseData();
+            }
+            catch(Exception ex)
+            {
+                response = new HttpResponseMessage();
+                response.ReasonPhrase = $"Error processing request: {ex.Message}";
+                response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                return response;
+            }
+
+            response = new HttpResponseMessage();
+            response.StatusCode = System.Net.HttpStatusCode.OK;
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetPlayerData")]
+        public HttpResponseMessage GetPlayerData()
+        {
+            if (!User.Identity.IsAuthenticated)
+                return null;
+
+            string userName = User.Identity.Name;
+            PlayerData playerData = PlayerDataSql.GetPlayerData(userName);
+
+
+            HttpResponseMessage response;
+
+            if(playerData == null)
+            {
+                response = new HttpResponseMessage();
+                response.ReasonPhrase = $"Error processing request: user not found";
+                response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                return response;
+            }
+
+            string json = JsonConvert.SerializeObject(playerData);
+
+            response = new HttpResponseMessage();
+            response.StatusCode = System.Net.HttpStatusCode.OK;
+            response.Content = new StringContent(json);
+            return response;
+        }
+
         #region Switched off
 
 
