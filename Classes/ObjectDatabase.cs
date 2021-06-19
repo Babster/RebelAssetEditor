@@ -28,6 +28,7 @@ public class ObjectDatabase : UnityObjectDatabase
         LoadRigs();
         LoadSkillsets();
         LoadSkillTypes();
+        LoadStoryScenes();
     }
 
     private void LoadResourceTypes()
@@ -99,6 +100,11 @@ public class ObjectDatabase : UnityObjectDatabase
         skillTypes = SkillTypeSql.SkillTypeList();
     }
 
+    private void LoadStoryScenes()
+    {
+        storyScenes = Story.RebelSceneWithSql.GetSceneList();
+    }
+
 }
 
 /// <summary>
@@ -117,6 +123,7 @@ public class UnityObjectDatabase
     public List<SpaceshipRig> rigList { get; set; }
     public List<SkillSetSql> skillSets { get; set; }
     public List<SkillTypeSql> skillTypes { get; set; }
+    public List<Story.RebelSceneWithSql> storyScenes { get; set; }
     public UnityObjectDatabase() { }
 
     

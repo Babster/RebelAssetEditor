@@ -289,6 +289,9 @@
             this.buttonBsDeleteResource = new System.Windows.Forms.Button();
             this.buttonBsAddResource = new System.Windows.Forms.Button();
             this.tabPage28 = new System.Windows.Forms.TabPage();
+            this.label123 = new System.Windows.Forms.Label();
+            this.textBsCycleToComplete = new System.Windows.Forms.TextBox();
+            this.label122 = new System.Windows.Forms.Label();
             this.textBsObjectives = new System.Windows.Forms.RichTextBox();
             this.checkBsAssembleShip = new System.Windows.Forms.CheckBox();
             this.buttonBsSave = new System.Windows.Forms.Button();
@@ -443,9 +446,6 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label122 = new System.Windows.Forms.Label();
-            this.textBsCycleToComplete = new System.Windows.Forms.TextBox();
-            this.label123 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -1292,7 +1292,7 @@
             // 
             // buttonSaveDataset
             // 
-            this.buttonSaveDataset.Location = new System.Drawing.Point(491, 80);
+            this.buttonSaveDataset.Location = new System.Drawing.Point(491, 44);
             this.buttonSaveDataset.Name = "buttonSaveDataset";
             this.buttonSaveDataset.Size = new System.Drawing.Size(283, 31);
             this.buttonSaveDataset.TabIndex = 6;
@@ -1302,7 +1302,7 @@
             // 
             // buttonSavePlayerAssets
             // 
-            this.buttonSavePlayerAssets.Location = new System.Drawing.Point(491, 43);
+            this.buttonSavePlayerAssets.Location = new System.Drawing.Point(491, 7);
             this.buttonSavePlayerAssets.Name = "buttonSavePlayerAssets";
             this.buttonSavePlayerAssets.Size = new System.Drawing.Size(283, 31);
             this.buttonSavePlayerAssets.TabIndex = 5;
@@ -1321,9 +1321,9 @@
             // 
             // buttonClearPlayerProgress
             // 
-            this.buttonClearPlayerProgress.Location = new System.Drawing.Point(491, 6);
+            this.buttonClearPlayerProgress.Location = new System.Drawing.Point(316, 117);
             this.buttonClearPlayerProgress.Name = "buttonClearPlayerProgress";
-            this.buttonClearPlayerProgress.Size = new System.Drawing.Size(283, 31);
+            this.buttonClearPlayerProgress.Size = new System.Drawing.Size(169, 31);
             this.buttonClearPlayerProgress.TabIndex = 3;
             this.buttonClearPlayerProgress.Text = "Clear player progress";
             this.buttonClearPlayerProgress.UseVisualStyleBackColor = true;
@@ -2258,7 +2258,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 410);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 417);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2688,7 +2688,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 463);
+            this.groupBox6.Size = new System.Drawing.Size(899, 470);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2704,7 +2704,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 347);
+            this.tabControl6.Size = new System.Drawing.Size(883, 354);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2737,7 +2737,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 314);
+            this.tabPage21.Size = new System.Drawing.Size(875, 321);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3000,7 +3000,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 314);
+            this.tabPage22.Size = new System.Drawing.Size(875, 321);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3287,10 +3287,36 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 314);
+            this.tabPage28.Size = new System.Drawing.Size(875, 321);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
+            // 
+            // label123
+            // 
+            this.label123.AutoSize = true;
+            this.label123.Location = new System.Drawing.Point(6, 50);
+            this.label123.Name = "label123";
+            this.label123.Size = new System.Drawing.Size(126, 20);
+            this.label123.TabIndex = 33;
+            this.label123.Text = "Objectives (text):";
+            // 
+            // textBsCycleToComplete
+            // 
+            this.textBsCycleToComplete.Location = new System.Drawing.Point(234, 10);
+            this.textBsCycleToComplete.Name = "textBsCycleToComplete";
+            this.textBsCycleToComplete.Size = new System.Drawing.Size(100, 26);
+            this.textBsCycleToComplete.TabIndex = 32;
+            this.textBsCycleToComplete.TextChanged += new System.EventHandler(this.textBsCycleToComplete_TextChanged);
+            // 
+            // label122
+            // 
+            this.label122.AutoSize = true;
+            this.label122.Location = new System.Drawing.Point(6, 13);
+            this.label122.Name = "label122";
+            this.label122.Size = new System.Drawing.Size(222, 20);
+            this.label122.TabIndex = 1;
+            this.label122.Text = "Cycle to complete the mission:";
             // 
             // textBsObjectives
             // 
@@ -3300,7 +3326,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 231);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 238);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3368,7 +3394,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 429);
+            this.treeBs.Size = new System.Drawing.Size(297, 436);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3441,7 +3467,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 418);
+            this.textBsResources.Size = new System.Drawing.Size(412, 425);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3460,7 +3486,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 418);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 425);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3576,7 +3602,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 458);
+            this.groupBox7.Size = new System.Drawing.Size(894, 465);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3735,7 +3761,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 424);
+            this.treeRes.Size = new System.Drawing.Size(297, 431);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -3786,7 +3812,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.Size = new System.Drawing.Size(894, 465);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4061,7 +4087,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 431);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4759,32 +4785,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // label122
-            // 
-            this.label122.AutoSize = true;
-            this.label122.Location = new System.Drawing.Point(6, 13);
-            this.label122.Name = "label122";
-            this.label122.Size = new System.Drawing.Size(222, 20);
-            this.label122.TabIndex = 1;
-            this.label122.Text = "Cycle to complete the mission:";
-            // 
-            // textBsCycleToComplete
-            // 
-            this.textBsCycleToComplete.Location = new System.Drawing.Point(234, 10);
-            this.textBsCycleToComplete.Name = "textBsCycleToComplete";
-            this.textBsCycleToComplete.Size = new System.Drawing.Size(100, 26);
-            this.textBsCycleToComplete.TabIndex = 32;
-            this.textBsCycleToComplete.TextChanged += new System.EventHandler(this.textBsCycleToComplete_TextChanged);
-            // 
-            // label123
-            // 
-            this.label123.AutoSize = true;
-            this.label123.Location = new System.Drawing.Point(6, 50);
-            this.label123.Name = "label123";
-            this.label123.Size = new System.Drawing.Size(126, 20);
-            this.label123.TabIndex = 33;
-            this.label123.Text = "Objectives (text):";
             // 
             // FormMain
             // 

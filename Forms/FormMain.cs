@@ -67,31 +67,14 @@ namespace AssetEditor
         private void LoadScenes()
         {
             nodeScenes = treeScenes.Nodes.Add("Сцены");
-            SceneNodeTag tScenes = new SceneNodeTag();
-            tScenes.NodeType = "Сцены";
-            nodeScenes.Tag = tScenes;
 
-            SqlDataReader r = DataConnection.GetReader(
-                @"SELECT 
-                    id, 
-                    name,
-                    active, 
-                    ISNULL(backgound_image_id, '') AS backgound_image_id
-                FROM 
-                    story_scenes");
-            if (r.HasRows)
+            var sceneList = RebelSceneWithSql.GetSceneList();
+            foreach(var scene in sceneList)
             {
-                while (r.Read())
-                {
-                    SceneNodeTag nTag = new SceneNodeTag(ref r);
-
-                    TreeNode nNode = nodeScenes.Nodes.Add(nTag.Name);
-                    nNode.Tag = nTag;
-                    nTag.Node = nNode;
-
-                }
+                TreeNode nNode = nodeScenes.Nodes.Add(scene.Name);
+                nNode.Tag = scene;
             }
-            r.Close();
+
         }
 
         private void treeScenes_AfterSelect(object sender, TreeViewEventArgs e)
@@ -104,28 +87,22 @@ namespace AssetEditor
                 return;
             }
 
-            SceneNodeTag tTag = (SceneNodeTag)e.Node.Tag;
-
-            if (tTag.NodeType == "Сцены")
+            if(e.Node.Tag == null)
             {
+                return;
             }
 
-            if (tTag.NodeType == "Сцена")
+            RebelSceneWithSql curScene = (RebelSceneWithSql)e.Node.Tag;
+            NoEvents = true;
+            textSceneId.Text = curScene.Id.ToString();
+            textSceneName.Text = curScene.Name;
+            textSceneBackgroundId.Text = curScene.BackgroundImageId.ToString();
+            groupBox1.Enabled = true;
+            foreach (SceneElement curSceneElement in curScene.Elements)
             {
-                NoEvents = true;
-                textSceneId.Text = tTag.Id.ToString();
-                textSceneName.Text = tTag.Name;
-                textSceneBackgroundId.Text = tTag.BackgroundImageId.ToString();
-                groupBox1.Enabled = true;
-
-                foreach (SceneElement curScene in tTag.Elements)
-                {
-                    listSceneElements.Items.Add(curScene);
-                }
-
-                NoEvents = false;
-
+                listSceneElements.Items.Add(curSceneElement);
             }
+
         }
 
         private void ClearScene()
@@ -161,104 +138,74 @@ namespace AssetEditor
         }
 
 
-
-        private class SceneNodeTag : RebelSceneWithSql
-        {
-            public string NodeType { get; set; }
-            public TreeNode Node { get; set; }
-
-            public SceneNodeTag() : base()
-            {
-                this.NodeType = "Сцена";
-            }
-
-            public SceneNodeTag(ref SqlDataReader r) : base(ref r)
-            {
-                this.NodeType = "Сцена";
-            }
-
-        }
-
         private void buttonAddNode_Click(object sender, EventArgs e)
         {
-            SceneNodeTag nTag = new SceneNodeTag();
+            RebelSceneWithSql newScene = new RebelSceneWithSql();
 
-            TreeNode nNode = nodeScenes.Nodes.Add(nTag.Name);
-            nNode.Tag = nTag;
-            nTag.Node = nNode;
+            TreeNode nNode = nodeScenes.Nodes.Add(newScene.Name);
+            nNode.Tag = newScene;
             treeScenes.SelectedNode = nNode;
+        }
 
+        private RebelSceneWithSql GetCurrentScene()
+        {
+            if(treeScenes.SelectedNode == null)
+            {
+                return null;
+            }
+            if(treeScenes.SelectedNode.Tag == null)
+            {
+                return null;
+            }
+            return (RebelSceneWithSql)treeScenes.SelectedNode.Tag;
         }
 
         private void buttonSaveScene_Click(object sender, EventArgs e)
         {
-            if (treeScenes.SelectedNode == null)
+            RebelSceneWithSql curScene = GetCurrentScene();
+            if(curScene == null)
             {
                 MessageBox.Show("Не выбрана сцена для сохранения");
                 return;
             }
-
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            if (tTag.NodeType == "Сцены")
-            {
-                MessageBox.Show("Не выбрана сцена для сохранения");
-                return;
-            }
-
-            tTag.SaveData();
+            curScene.SaveData();
 
         }
 
         private void textSceneName_TextChanged(object sender, EventArgs e)
         {
-            if (NoEvents)
-                return;
-
-            if (treeScenes.SelectedNode == null)
+            RebelSceneWithSql curScene = GetCurrentScene();
+            if (curScene == null)
             {
-                MessageBox.Show("Не выбрана сцена для ввода наименования");
                 return;
             }
 
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            if (tTag.NodeType == "Сцены")
-            {
-                MessageBox.Show("Не выбрана сцена для ввода наименования");
-                return;
-            }
-
-            tTag.Node.Text = textSceneName.Text;
-            tTag.Name = textSceneName.Text;
+            curScene.Name = textSceneName.Text;
+            treeScenes.SelectedNode.Text = curScene.Name;
 
         }
 
 
         private void textSceneBackgroundId_TextChanged(object sender, EventArgs e)
         {
-            if (NoEvents)
-                return;
-
-            if (treeScenes.SelectedNode == null)
+            RebelSceneWithSql curScene = GetCurrentScene();
+            if (curScene == null)
             {
-                MessageBox.Show("Не выбрана сцена");
-                return;
-            }
-
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            if (tTag.NodeType == "Сцены")
-            {
-                MessageBox.Show("Не выбрана сцена");
                 return;
             }
             int tId = 0;
             if (Int32.TryParse(textSceneBackgroundId.Text, out tId) == true)
-                tTag.BackgroundImageId = tId;
+                curScene.BackgroundImageId = tId;
         }
 
         private void buttonAddSceneElement_Click(object sender, EventArgs e)
         {
-            SceneNodeTag tTag = (SceneNodeTag)treeScenes.SelectedNode.Tag;
-            listSceneElements.Items.Add(tTag.AddElement());
+            RebelSceneWithSql curScene = GetCurrentScene();
+            if (curScene == null)
+            {
+                return;
+            }
+            listSceneElements.Items.Add(curScene.AddElement());
             listSceneElements.SelectedIndex = listSceneElements.Items.Count - 1;
         }
 
@@ -266,7 +213,6 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-
             ClearSceneElement();
 
             if (listSceneElements.SelectedItem == null)
@@ -3807,6 +3753,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
 
 
 

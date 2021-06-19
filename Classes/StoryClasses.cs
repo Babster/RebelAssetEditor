@@ -186,6 +186,35 @@ namespace Story
             return curElement;
         }
 
+        public static string StoryScenesQuery()
+        {
+            string q;
+            q = $@"
+                SELECT 
+                    id, 
+                    name,
+                    active, 
+                    ISNULL(backgound_image_id, '') AS backgound_image_id
+                FROM 
+                    story_scenes";
+            return q;
+        }
+
+        public static List<RebelSceneWithSql> GetSceneList()
+        {
+
+            List<RebelSceneWithSql> tList = new List<RebelSceneWithSql>();
+
+            string q = StoryScenesQuery();
+            SqlDataReader r = DataConnection.GetReader(q);
+            while(r.Read())
+            {
+                tList.Add(new RebelSceneWithSql(ref r));
+            }
+            r.Close();
+            return tList;
+        }
+
     }
 
     public class SceneElement
