@@ -75,6 +75,34 @@ public class PlayerDataSql : PlayerData
 
     }
 
+
+    /// <summary>
+    /// Ключом является SteamId игрока, а значением его идентификатор в таблице players,
+    /// который идентификатор используется во всех таблицах, которые ссылаются на данные
+    /// игрока (например, его прогресс в прохождении истории)
+    /// </summary>
+    private static Dictionary<string, int> playerIdsDictionary;
+    public static int PlayerId(string steamId)
+    {
+        if(playerIdsDictionary == null)
+        {
+            playerIdsDictionary = new Dictionary<string, int>();
+        }
+        if (!playerIdsDictionary.ContainsKey(steamId))
+        {
+            string q;
+            q = $"SELECT id FROM players WHERE steam_id = @str1";
+            List<string> names = new List<string>() { steamId };
+            int id = DataConnection.GetResultInt(q, names, 0);
+            playerIdsDictionary.Add(steamId, id);
+            return id;
+        }
+        else
+        {
+            return playerIdsDictionary[steamId];
+        }
+    }
+
     public void SaveBaseData()
     {
         string q = $@"UPDATE players SET display_name = @str1 WHERE steam_id = @str2";
@@ -91,12 +119,28 @@ public class PlayerDataSql : PlayerData
         public string DisplayName { get; set; }
 
     }
-
-
+    
+    /// <summary>
+    /// Возвращает имя и идентификатор объекта, который в данный момент доступен для игрока.
+    /// Начинается всё со сцены истории story 1 потом битва и так далее пока не дойдёт до
+    /// базы. Там будем разрабатывать систему миссий которая будет выглядеть несколько 
+    /// по-другому.
+    /// </summary>
+    /// <param name="steamId"></param>
+    /// <returns></returns>
     public static StringAndInt NextStoryObject(string steamId)
     {
+        int playerId = PlayerId(steamId);
+        return PlayerStoryFlowHub.CurrentProgressElementForPlayer(playerId).ToStringAndInt();
 
     }
+
+    public static StringAndInt RegisterStoryElementCompleted(string steamId)
+    {
+        int playerId = PlayerId(steamId);
+        return PlayerStoryFlowHub.RegisterPlayerProgress(playerId).ToStringAndInt();
+    }
+
 
 }
 

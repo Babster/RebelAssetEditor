@@ -690,6 +690,77 @@ namespace Story
 
 public static class PlayerStoryFlowHub
 {
+    /// <summary>
+    /// Эту процедуру следует вызывать когда нужно получить текущий элемент истории, на котором
+    /// находится игрок
+    /// </summary>
+    /// <param name="playerId"></param>
+    /// <returns></returns>
+    public static PlayerProgressElement CurrentProgressElementForPlayer(int playerId)
+    {
+        if (playerProgressElementDictionary == null)
+        {
+            playerProgressElementDictionary = new Dictionary<int, PlayerProgressElement>();
+        }
+
+        if (playerProgressElementDictionary.ContainsKey(playerId))
+        {
+            return playerProgressElementDictionary[playerId];
+        }
+
+        PlayerProgressElement curElement;
+        string q = $@"
+            SELECT
+                id,
+                player,
+                object_type,
+                object_id,
+                date_completed
+            FROM
+                players_progress
+            INNER JOIN
+                (
+                    SELECT
+                        MAX(date_completed) AS max_date_completed
+                    FROM
+                        players_progress
+                    WHERE
+                        player = {playerId}
+                ) AS max_players_progress ON 
+                            max_players_progress.max_date_completed = players_progress.date_completed
+            WHERE
+                player = {playerId}";
+        SqlDataReader r = DataConnection.GetReader(q);
+        if (r.HasRows)
+        {
+            r.Read();
+            curElement = new PlayerProgressElement(r);
+            
+        }
+        else
+        {
+            curElement = new PlayerProgressElement();
+            StoryObjectFlowElement tElement = NextStoryObject(curElement);
+            curElement = new PlayerProgressElement(playerId, tElement);
+        }
+        r.Close();
+        
+        playerProgressElementDictionary.Add(playerId, curElement);
+        return curElement;
+
+    }
+
+    /// <summary>
+    /// Эту процедуру вызываем когда нужно зарегистрировать прогресс игрока (что он прошёл текущую сцену или что-то ещё)
+    /// </summary>
+    /// <param name="playerId"></param>
+    public static PlayerProgressElement RegisterPlayerProgress(int playerId)
+    {
+        PlayerProgressElement currentElement = CurrentProgressElementForPlayer(playerId);
+        PlayerProgressElement tElement = new PlayerProgressElement(playerId, NextStoryObject(currentElement));
+        tElement.SaveData();
+        return tElement;
+    }
 
     /// <summary>
     /// Соответствует одной записи в таблице story_object_flow
@@ -748,23 +819,37 @@ public static class PlayerStoryFlowHub
 
         foreach(var element in tList)
         {
-            string curKey = element.ObjectKey;
-            foreach(var nextElement in tList)
+            if(element.PreviousObjectType == "none")
             {
-                if(nextElement.PreviousObjectId == element.ObjectId && nextElement.PreviousObjectType == element.PreviousObjectType)
+                string curKey = ":0";
+                NextStoryObjectDictionary.Add(curKey, element);
+            }
+            else
+            {
+                string curKey = element.ObjectKey;
+                foreach (var nextElement in tList)
                 {
-                    NextStoryObjectDictionary.Add(curKey, nextElement);
-                    break;
+                    if (nextElement.PreviousObjectId == element.ObjectId && nextElement.PreviousObjectType == element.PreviousObjectType)
+                    {
+                        NextStoryObjectDictionary.Add(curKey, nextElement);
+                        break;
+                    }
                 }
             }
+
         }
 
     }
 
-    public static StoryObjectFlowElement NextStoryObject(StoryObjectFlowElement curObject)
+    private static StoryObjectFlowElement NextStoryObject(PlayerProgressElement curObject)
     {
         CreateStoryObjectDictionary();
-        if(NextStoryObjectDictionary.ContainsKey(curObject.ObjectKey))
+        if(curObject == null)
+        {
+            curObject = new PlayerProgressElement();
+        }
+
+        if (NextStoryObjectDictionary.ContainsKey(curObject.ObjectKey))
         {
             return NextStoryObjectDictionary[curObject.ObjectKey];
         }
@@ -785,6 +870,19 @@ public static class PlayerStoryFlowHub
         public int ObjectId { get; set; }
         public DateTime DateCompleted { get; set; }
 
+        public string ObjectKey
+        {
+            get
+            {
+                return $"{ObjectType}:{ObjectId}";
+            }
+        }
+
+        public PlayerProgressElement() 
+        {
+            ObjectType = "";
+        }
+
         public PlayerProgressElement(SqlDataReader r)
         {
             Id = (int)r["id"];
@@ -793,64 +891,64 @@ public static class PlayerStoryFlowHub
             ObjectId = (int)r["object_id"];
             DateCompleted = (DateTime)r["date_completed"];
         }
+
+        /// <summary>
+        /// Тут сразу создаётся объект и записывается в базу данных. Дополнительно ничего сохранять
+        /// не нужно
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="storyElement"></param>
+        public PlayerProgressElement(int playerId, StoryObjectFlowElement storyElement)
+        {
+            Player = playerId;
+            ObjectType = storyElement.ObjectType;
+            ObjectId = storyElement.ObjectId;
+        }
+
+        public void SaveData()
+        {
+
+            if(Id > 0)
+            { 
+                return; 
+            }
+
+            DateCompleted = DateTime.Now;
+
+            string q = $@"
+                INSERT INTO players_progress 
+                (
+                    player,
+                    object_type,
+                    object_id,
+                    date_completed
+                ) VALUES (
+                    {Player},
+                    @str1,
+                    {ObjectId},
+                    GETDATE()
+                )
+                SELECT @@IDENTITY AS Result";
+            List<string> names = new List<string> { ObjectType };
+            Id = DataConnection.GetResultInt(q, names);
+        }
+
+        public StringAndInt ToStringAndInt()
+        {
+            StringAndInt tElement = new StringAndInt();
+            tElement.StrValue = ObjectType;
+            tElement.IntValue = ObjectId;
+            return tElement;
+        }
+
+        public override string ToString()
+        {
+            return $"{ObjectType} : {ObjectId}";
+        }
+
     }
 
     private static Dictionary<int, PlayerProgressElement> playerProgressElementDictionary;
-    public static PlayerProgressElement LastProgressElementForPlayer(int playerId)
-    {
-        if(playerProgressElementDictionary==null)
-        {
-            playerProgressElementDictionary = new Dictionary<int, PlayerProgressElement>();
-        }
-
-        if(playerProgressElementDictionary.ContainsKey(playerId))
-        {
-            return playerProgressElementDictionary[playerId];
-        }
-
-        PlayerProgressElement curElement;
-        string q = $@"
-            SELECT
-                id,
-                player,
-                object_type,
-                object_id,
-                date_completed
-            FROM
-                players_progress
-            INNER JOIN
-                (
-                    SELECT
-                        MAX(date_completed) AS max_date_completed
-                    FROM
-                        players_progress
-                    WHERE
-                        player = {playerId}
-                ) AS max_players_progress ON 
-                            max_players_progress.date_completed = players_progress.date_completed
-            WHERE
-                player = {playerId}";
-        SqlDataReader r = DataConnection.GetReader(q);
-        if(r.HasRows)
-        {
-            r.Read();
-            curElement = new PlayerProgressElement(r);
-            playerProgressElementDictionary.Add(playerId, curElement);
-        }
-        else
-        {
-            curElement = null;
-        }
-        r.Close();
-
-        return curElement;
-
-    }
-
-    public static void RegisterPlayerProgress(int playerId, StoryObjectFlowElement curElement)
-    {
-        
-    }
 
 }
 
