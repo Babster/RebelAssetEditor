@@ -92,6 +92,12 @@ public class PlayerDataSql : PlayerData
 
     }
 
+
+    public static StringAndInt NextStoryObject(string steamId)
+    {
+
+    }
+
 }
 
 public class PlayerData

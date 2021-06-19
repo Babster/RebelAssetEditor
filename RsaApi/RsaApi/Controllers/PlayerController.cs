@@ -11,6 +11,12 @@ namespace RsaApi.Controllers
     [RoutePrefix("api/Player")]
     public class PlayerController : Controller
     {
+
+        public HttpResponseMessage GetNextStoryFlowObject()
+        {
+
+        }
+
         /*[HttpGet]
         [Route("GetStats")]
         public HttpResponseMessage GetStats()

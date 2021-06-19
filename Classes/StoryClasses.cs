@@ -684,11 +684,173 @@ namespace Story
 
         }
     
+    }
 
+}
+
+public static class PlayerStoryFlowHub
+{
+
+    /// <summary>
+    /// Соответствует одной записи в таблице story_object_flow
+    /// </summary>
+    public class StoryObjectFlowElement
+    {
+        public int Id { get; set; }
+        public string PreviousObjectType { get; set; }
+        public int PreviousObjectId { get; set; }
+        public string ObjectType { get; set; }
+        public int ObjectId { get; set; }
+
+        public string ObjectKey 
+        { 
+            get
+            {
+                return $"{ObjectType}:{ObjectId}";
+            }
+        }
+
+        public StoryObjectFlowElement(SqlDataReader r)
+        {
+            Id = (int)r["id"];
+            PreviousObjectType = (string)r["previous_object_type"];
+            PreviousObjectId = (int)r["previous_object_id"];
+            ObjectType = (string)r["object_type"];
+            ObjectId = (int)r["object_id"];
+        }
+    }
+
+    private static Dictionary<string, StoryObjectFlowElement> NextStoryObjectDictionary;
+    private static void CreateStoryObjectDictionary()
+    {
+        if(NextStoryObjectDictionary != null)
+        {
+            return;
+        }
+        NextStoryObjectDictionary = new Dictionary<string, StoryObjectFlowElement>();
+        List<StoryObjectFlowElement> tList = new List<StoryObjectFlowElement>();
+        string q;
+        q = $@"
+            SELECT
+                id,
+                previous_object_type,
+                previous_object_id,
+                object_type,
+                object_id
+            FROM
+                story_object_flow";
+        SqlDataReader r = DataConnection.GetReader(q);
+        while (r.Read())
+        {
+            tList.Add(new StoryObjectFlowElement(r));
+        }
+        r.Close();
+
+        foreach(var element in tList)
+        {
+            string curKey = element.ObjectKey;
+            foreach(var nextElement in tList)
+            {
+                if(nextElement.PreviousObjectId == element.ObjectId && nextElement.PreviousObjectType == element.PreviousObjectType)
+                {
+                    NextStoryObjectDictionary.Add(curKey, nextElement);
+                    break;
+                }
+            }
+        }
 
     }
 
+    public static StoryObjectFlowElement NextStoryObject(StoryObjectFlowElement curObject)
+    {
+        CreateStoryObjectDictionary();
+        if(NextStoryObjectDictionary.ContainsKey(curObject.ObjectKey))
+        {
+            return NextStoryObjectDictionary[curObject.ObjectKey];
+        }
+        else
+        {
+            return null;
+        }
+    }
 
+    /// <summary>
+    /// Соответствует одной записи в таблице players_progress
+    /// </summary>
+    public class PlayerProgressElement
+    {
+        public int Id { get; set; }
+        public int Player { get; set; }
+        public string ObjectType { get; set; }
+        public int ObjectId { get; set; }
+        public DateTime DateCompleted { get; set; }
+
+        public PlayerProgressElement(SqlDataReader r)
+        {
+            Id = (int)r["id"];
+            Player = (int)r["player"];
+            ObjectType = (string)r["object_type"];
+            ObjectId = (int)r["object_id"];
+            DateCompleted = (DateTime)r["date_completed"];
+        }
+    }
+
+    private static Dictionary<int, PlayerProgressElement> playerProgressElementDictionary;
+    public static PlayerProgressElement LastProgressElementForPlayer(int playerId)
+    {
+        if(playerProgressElementDictionary==null)
+        {
+            playerProgressElementDictionary = new Dictionary<int, PlayerProgressElement>();
+        }
+
+        if(playerProgressElementDictionary.ContainsKey(playerId))
+        {
+            return playerProgressElementDictionary[playerId];
+        }
+
+        PlayerProgressElement curElement;
+        string q = $@"
+            SELECT
+                id,
+                player,
+                object_type,
+                object_id,
+                date_completed
+            FROM
+                players_progress
+            INNER JOIN
+                (
+                    SELECT
+                        MAX(date_completed) AS max_date_completed
+                    FROM
+                        players_progress
+                    WHERE
+                        player = {playerId}
+                ) AS max_players_progress ON 
+                            max_players_progress.date_completed = players_progress.date_completed
+            WHERE
+                player = {playerId}";
+        SqlDataReader r = DataConnection.GetReader(q);
+        if(r.HasRows)
+        {
+            r.Read();
+            curElement = new PlayerProgressElement(r);
+            playerProgressElementDictionary.Add(playerId, curElement);
+        }
+        else
+        {
+            curElement = null;
+        }
+        r.Close();
+
+        return curElement;
+
+    }
+
+    public static void RegisterPlayerProgress(int playerId, StoryObjectFlowElement curElement)
+    {
+        
+    }
 
 }
 
