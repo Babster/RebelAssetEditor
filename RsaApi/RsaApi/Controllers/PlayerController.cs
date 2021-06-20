@@ -36,27 +36,5 @@ namespace RsaApi.Controllers
             return response;
         }
 
-        /*[HttpGet]
-        [Route("GetStats")]
-        public HttpResponseMessage GetStats()
-        {
-
-            if (!User.Identity.IsAuthenticated)
-                return null;
-
-            string userName = User.Identity.Name;
-            int userId = CommonFunctions.UserId(User);
-
-            //AdmiralStats admStats = new AdmiralStatsWithSql(userId);
-
-            //Console.Wri
-
-            var json = JsonConvert.SerializeObject(admStats);
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(json);
-            return response;
-
-        }*/
-
     }
 }

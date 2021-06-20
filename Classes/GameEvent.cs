@@ -463,7 +463,7 @@ public class GameEvent
             if(element.ShipModel != null)
             {
                 q = $@"
-                    INSERT INTO admirals_ships
+                    INSERT INTO players_ships
                     (
                         player_id,
                         ss_design_id,
@@ -481,7 +481,7 @@ public class GameEvent
             if(element.ModuleType != null)
             {
                 q = $@"
-                    INSERT INTO admirals_modules (
+                    INSERT INTO players_modules (
                         player_id,
                         module_id,
                         experience,

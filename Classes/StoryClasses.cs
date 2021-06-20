@@ -757,9 +757,29 @@ public static class PlayerStoryFlowHub
     public static PlayerProgressElement RegisterPlayerProgress(int playerId)
     {
         PlayerProgressElement currentElement = CurrentProgressElementForPlayer(playerId);
+        currentElement.SaveData();
         PlayerProgressElement tElement = new PlayerProgressElement(playerId, NextStoryObject(currentElement));
-        tElement.SaveData();
-        return tElement;
+        playerProgressElementDictionary[playerId] = new PlayerProgressElement(playerId, NextStoryObject(currentElement));
+        if(!CheckAutomaticallyExecutionedEvent(playerId))
+        {
+            return playerProgressElementDictionary[playerId];
+        }
+        else
+        {
+            return RegisterPlayerProgress(playerId);
+        }
+    }
+
+    private static bool CheckAutomaticallyExecutionedEvent(int playerId)
+    {
+        if(playerProgressElementDictionary[playerId].ObjectType == "event")
+        {
+            GameEvent.EventById(playerProgressElementDictionary[playerId].ObjectId).ExecuteEvent(playerId);
+            return true;
+        }
+
+        return false;
+
     }
 
     /// <summary>
@@ -826,12 +846,12 @@ public static class PlayerStoryFlowHub
             }
             else
             {
-                string curKey = element.ObjectKey;
-                foreach (var nextElement in tList)
+                //string curKey = element.ObjectKey;
+                foreach (var previousElement in tList)
                 {
-                    if (nextElement.PreviousObjectId == element.ObjectId && nextElement.PreviousObjectType == element.PreviousObjectType)
+                    if (previousElement.ObjectId == element.PreviousObjectId && previousElement.ObjectType == element.PreviousObjectType)
                     {
-                        NextStoryObjectDictionary.Add(curKey, nextElement);
+                        NextStoryObjectDictionary.Add(previousElement.ObjectKey, element);
                         break;
                     }
                 }

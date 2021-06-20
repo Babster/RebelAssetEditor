@@ -50,7 +50,8 @@ public class PlayerDataSql : PlayerData
         string q = $@"SELECT 
             steam_id,
             display_name,
-            register_date
+            register_date,
+            skill_points_left
             
         FROM
             players
@@ -69,6 +70,7 @@ public class PlayerDataSql : PlayerData
         r.Read();
         curData.SteamId = (string)r["steam_id"];
         curData.DisplayName = (string)r["display_name"];
+        curData.SkillPointsLeft = (int)r["skill_points_left"];
         r.Close();
 
         return curData;
