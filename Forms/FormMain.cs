@@ -103,6 +103,8 @@ namespace AssetEditor
                 listSceneElements.Items.Add(curSceneElement);
             }
 
+            NoEvents = false;
+
         }
 
         private void ClearScene()
@@ -580,8 +582,6 @@ namespace AssetEditor
 
         #region Статы адмиралов
 
-        private int statStartPointsId;
-
         private void tabPage5_Click(object sender, EventArgs e)
         {
 
@@ -595,56 +595,19 @@ namespace AssetEditor
             if (StatsFilled)
                 return;
 
-            string q;
-            SqlDataReader r;
-
-            q = @"SELECT 
-                    id,
-                    ISNULL(skill_group, '') AS skill_group,
-                    name,
-                    base_value,
-                    description_english,
-                    description_russian,
-                    order_idx
-                FROM
-                    admiral_stat_types
-                ORDER BY
-                    order_idx";
-            r = DataConnection.GetReader(q);
-            if (r.HasRows)
+            List<PlayerStatType> stats = PlayerStatType.GetStatTypeList();
+            
+            foreach(var stat in stats)
             {
-                while (r.Read())
-                {
-                    PlayerStatNode tStat = new PlayerStatNode(ref r);
-                    TreeNode tNode = treeStats.Nodes.Add(tStat.Name);
-
-                    tNode.Tag = tStat;
-                    tStat.Node = tNode;
-                }
+                TreeNode tNode = treeStats.Nodes.Add(stat.Name);
+                tNode.Tag = stat;
             }
-            r.Close();
 
-            q = "SELECT id, value_int FROM s_common_values WHERE name = 'start_stat_points'";
-            r = DataConnection.GetReader(q);
-            if (r.HasRows)
-            {
-                r.Read();
-                NoEvents = true;
-                textStatRegistrationPoints.Text = Convert.ToString(r["value_int"]);
-                NoEvents = false;
-                statStartPointsId = Convert.ToInt32(r["id"]);
-            }
-            r.Close();
+            NoEvents = true;
 
-            if (statStartPointsId == 0)
-            {
-                q = @"INSERT INTO s_common_values(name, value_int) VALUES ('start_stat_points', 0)
-                    SELECT @@IDENTITY AS field0";
-                statStartPointsId = Convert.ToInt32(DataConnection.GetResult(q));
-                NoEvents = true;
-                textStatRegistrationPoints.Text = "0";
-                NoEvents = false;
-            }
+            textStatRegistrationPoints.Text = CommonFunctions.GetCommonValue("start_stat_points").IntValue.ToString();
+
+            NoEvents = false;
 
             StatsFilled = true;
 
@@ -663,15 +626,28 @@ namespace AssetEditor
             NoEvents = false;
         }
 
+        private PlayerStatType GetCurrentStatType()
+        {
+            if (treeStats.SelectedNode == null)
+                return null;
+            if (treeStats.SelectedNode.Tag == null)
+                return null;
+            return (PlayerStatType)treeStats.SelectedNode.Tag;
+        }
+
+
         private void treeStats_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ClearStat();
-            if (treeStats.SelectedNode == null)
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
                 return;
+            }
 
             NoEvents = true;
 
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            
             textStatId.Text = tNode.Id.ToString();
             if (!string.IsNullOrEmpty(tNode.SkillGroup))
             {
@@ -691,31 +667,34 @@ namespace AssetEditor
         private void buttonCreateStat_Click(object sender, EventArgs e)
         {
             TreeNode tNode = treeStats.Nodes.Add("new stat");
-            PlayerStatNode tTag = new PlayerStatNode();
+            PlayerStatType tTag = new PlayerStatType();
             tNode.Tag = tTag;
             tTag.Name = "new stat";
-            tTag.Node = tNode;
             treeStats.SelectedNode = tNode;
         }
 
         private void textStatName_TextChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             treeStats.SelectedNode.Text = textStatName.Text;
             tNode.Name = textStatName.Text;
         }
 
         private void comboSkillGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             if (comboSkillGroup.SelectedItem == null)
             {
                 tNode.SkillGroup = "";
@@ -730,11 +709,13 @@ namespace AssetEditor
 
         private void textStatBaseValue_TextChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             try
             {
                 tNode.Value = Convert.ToInt32(textStatBaseValue.Text);
@@ -747,11 +728,13 @@ namespace AssetEditor
 
         private void textStatSortIdx_TextChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             try
             {
                 tNode.OrderIdx = Convert.ToInt32(textStatSortIdx.Text);
@@ -764,31 +747,37 @@ namespace AssetEditor
 
         private void textStatDescriptionEnglish_TextChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             tNode.DescriptionEnglish = textStatDescriptionEnglish.Text;
         }
 
         private void textStatDescriptionRussian_TextChanged(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             tNode.DescriptionRussian = textStatDescriptionRussian.Text;
         }
 
         private void buttonSaveStat_Click(object sender, EventArgs e)
         {
-            if (treeStats.SelectedNode == null)
-                return;
             if (NoEvents)
                 return;
-            PlayerStatNode tNode = (PlayerStatNode)treeStats.SelectedNode.Tag;
+            PlayerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
             tNode.SaveData();
             textStatId.Text = tNode.Id.ToString();
         }
@@ -800,27 +789,10 @@ namespace AssetEditor
             int NewValue = 0;
             Int32.TryParse(textStatRegistrationPoints.Text, out NewValue);
             string q;
-            q = "UPDATE s_common_values SET value_int = " + NewValue.ToString() + " WHERE id = " + statStartPointsId.ToString();
-            DataConnection.Execute(q);
-
-        }
-
-        private class PlayerStatNode : PlayerStat
-        {
-
-            public TreeNode Node { get; set; }
-
-            public PlayerStatNode()
-            {
-
-            }
-
-            public PlayerStatNode(ref SqlDataReader r) : base(ref r)
-            {
-
-            }
-
-
+            StringAndInt newValue = new StringAndInt();
+            newValue.StrValue = "";
+            newValue.IntValue = NewValue;
+            CommonFunctions.SetCommonvalue("start_stat_points", newValue);
         }
 
         #endregion
@@ -837,15 +809,15 @@ namespace AssetEditor
         {
             if (playersFilled)
                 return;
-            FillPlayers();
+            //FillPlayers();
         }
 
         private void buttonTestUpdatePlayerList_Click(object sender, EventArgs e)
         {
-            FillPlayers();
+            //FillPlayers();
         }
 
-        private void FillPlayers()
+        /*private void FillPlayers()
         {
             
             treePlayers.Nodes.Clear();
@@ -868,31 +840,38 @@ namespace AssetEditor
             }
             playersFilled = true;
         }
+        */
         private void buttonDeleteAccount_Click(object sender, EventArgs e)
         {
+            /*
             if (treePlayers.SelectedNode == null)
                 return;
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             AdmiralsMain.DeleteAccount(ref tData);
             MessageBox.Show("Аккаунт " + tData.Name + "(" + tData.Id.ToString() + ") удален");
             treePlayers.Nodes.Remove(treePlayers.SelectedNode);
+            */
         }
         private void buttonRegisterAccount_Click(object sender, EventArgs e)
         {
+            /*
             AccountData tUser = new AccountData();
             tUser.SteamAccountId = "Babster";
             AdmiralsMain.RegisterAccount(ref tUser);
             MessageBox.Show("Аккаунт " + tUser.Name + "(" + tUser.Id.ToString() + ") зарегистрирован");
+            */
         }
         private void buttonTestPlayerStats_Click(object sender, EventArgs e)
         {
+            /*
             MessageBox.Show("Не запрограммировано");
             if (treePlayers.SelectedNode == null)
                 return;
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
             AdmiralStats tStats = new AdmiralStats(ref tData);
+            */
         }
-        public static AccountData GetLatestUser()
+        /*public static AccountData GetLatestUser()
         {
             string q = "SELECT MAX(id) AS max_id FROM admirals";
             int admiralId = Convert.ToInt32(DataConnection.GetResult(q));
@@ -900,10 +879,10 @@ namespace AssetEditor
             AccountData tData = new AccountData(admiralId);
             return tData;
 
-        }
+        }*/
         private void buttonClearPlayerProgress_Click(object sender, EventArgs e)
         {
-
+            /*
             if (treePlayers.SelectedNode == null)
                 return;
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
@@ -920,10 +899,12 @@ namespace AssetEditor
                 DELETE FROM ss_rigs WHERE player_id = {Id}; ";
             DataConnection.Execute(q);
             MessageBox.Show("Стерто");
+            */
         }
+
         private void buttonSavePlayerAssets_Click(object sender, EventArgs e)
         {
-            
+            /*
             
             //Сохраняется игрок в виде офицера, список кораблей и модулей.
             //Каждый из видов ассетов сохраняется в отдельный файл, в папку с игрой.
@@ -947,7 +928,7 @@ namespace AssetEditor
             asset2.ClearDeserializationDuplicates();
 
             Process.Start(Directory.GetCurrentDirectory());
-
+            */
         }
         private void buttonSaveDataset_Click(object sender, EventArgs e)
         {
@@ -960,6 +941,7 @@ namespace AssetEditor
 
         private void buttonSerializationTests_Click(object sender, EventArgs e)
         {
+            /*
             if (treePlayers.SelectedNode == null)
                 return;
             AccountData tData = (AccountData)treePlayers.SelectedNode.Tag;
@@ -967,7 +949,7 @@ namespace AssetEditor
             string textAsset = JsonConvert.SerializeObject(asset.Ships);
 
             List<Ship> ships2 = JsonConvert.DeserializeObject<List<Ship>>(textAsset);
-
+            */
         }
 
         private void buttonConvertModulesFormat_Click(object sender, EventArgs e)
@@ -2303,12 +2285,13 @@ namespace AssetEditor
 
         private void buttonEventTest_Click(object sender, EventArgs e)
         {
-            AccountData curPlayer = GetLatestUser();
+            /*AccountData curPlayer = GetLatestUser();
             GameEvent curEvent = GetCurrentEvent();
             if (curEvent == null)
                 return;
             curEvent.ExecuteEvent(curPlayer.Id);
             MessageBox.Show("Успешно");
+            */
         }
 
         #endregion

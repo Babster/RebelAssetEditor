@@ -282,13 +282,13 @@ namespace Crew
         {
             Stats = new List<CrewOfficerStat>();
             this.PlayerId = playerId;
-            acc = new AccountData(playerId);
-            this.playerStats = new AdmiralStats(ref acc);
+            /*acc = new AccountData(playerId);
+            this.playerStats = new AdmiralStats(ref acc);*/
             this.SkillSetPoints = 1;
             List<OfficerTypeStat> statTypes = CrewOfficerType.CreateStats();
             foreach(OfficerTypeStat statType in statTypes)
             {
-                int score = 0;
+                /*int score = 0;
                 switch(statType.StatTypeFromString)
                 {
                     case OfficerTypeStat.StatType.ArmorBoost:
@@ -315,6 +315,7 @@ namespace Crew
 
                     default:
                         break;
+                    
                 }
                 if (score > 0)
                 {
@@ -324,7 +325,7 @@ namespace Crew
                     Stats.Add(stat);
                 }
                     
-
+                */
             }
         }
 
@@ -433,13 +434,14 @@ namespace Crew
         {
             get
             {
-                return acc != null;
+                //return acc != null;
+                return false;
             }
         }
 
         public override string ToString()
         {
-            if(acc == null)
+            /*if(acc == null)
             {
                 return $"{OfficerType.Name} ({OfficerType.Id})";
             }
@@ -447,15 +449,19 @@ namespace Crew
             {
                 return acc.Name;
             }
-            
+            */
+            return $"{OfficerType.Name} ({OfficerType.Id})";
         }
 
         public void Delete()
         {
             if (Id == 0) //Если еще не записан то удалять нечего
                 return;
-            if (acc != null)//Если создан из офицера, то тоже (это лишняя проверка, т.к. идентификатора всё равно не будет, но пусть)
+            /*if (acc != null)//Если создан из офицера, то тоже (это лишняя проверка, т.к. идентификатора всё равно не будет, но пусть)
+            {
                 return;
+            }*/
+                
             string q;
             q = $@"
                 DELETE FROM crew_officers WHERE id = {Id};
@@ -750,7 +756,9 @@ namespace Crew
         public CrewOfficerType OfficerType { get; set; }
 
         public List<CrewOfficerStat> Stats { get; set; }
-        public AccountData acc;
+        
+        //public AccountData acc;
+
         public int PlayerId { get; set; }
 
         //Сколько всего веток скиллов может открыть данный офицер
@@ -759,7 +767,7 @@ namespace Crew
         public List<UnityCrewOfficerSkillSet> SkillSets { get; set; }
 
         //Для тех объектов, которые созданы на основе статов игрока
-        public AdmiralStats playerStats;
+        //public AdmiralStats playerStats;
 
         public int StatValue(OfficerTypeStat.StatType param)
         {

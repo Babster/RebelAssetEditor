@@ -122,7 +122,7 @@ public static class DataConnection
         {
             for (int i = 0; i < strParameters.Count; i++)
             {
-                if (strParameters[i] == null)
+                if (String.IsNullOrEmpty(strParameters[i]))
                 {
                     Query = Query.Replace("@str" + (i + 1).ToString(), "''");
                     replaceText = true;

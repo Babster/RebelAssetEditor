@@ -726,7 +726,7 @@ namespace AssetEditor.Forms
 
         private void FillPlayersOfficers()
         {
-            AccountData playerAcc = new AccountData(DataConnection.GetResultInt("SELECT MAX(id) AS Result FROM [admirals]"));
+            /*AccountData playerAcc = new AccountData(DataConnection.GetResultInt("SELECT MAX(id) AS Result FROM [admirals]"));
 
             //Player's officers. 
             listSaOfficers.Items.Clear();
@@ -737,7 +737,7 @@ namespace AssetEditor.Forms
                 {
                     listSaOfficers.Items.Add(off);
                 }
-            }
+            }*/
         }
 
         private void buttonSaSave_Click(object sender, EventArgs e)

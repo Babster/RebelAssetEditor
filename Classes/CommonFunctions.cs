@@ -39,6 +39,26 @@ public static class CommonFunctions
 
     }
 
+    public static void SetCommonvalue(string name, StringAndInt value)
+    {
+        int id;
+        string q = "SELECT id AS Result FROM s_common_values WHERE name = @str1";
+        List<string> names = new List<string> { name };
+
+        id = DataConnection.GetResultInt(q, names, 0);
+        if(id == 0)
+        {
+            q = $@"INSERT INTO s_common_values(name, value_str, value_int) VALUES (@str1, @str2, {value.IntValue})";
+            names.Add(value.StrValue);
+        }
+        else
+        {
+            names[0] = value.StrValue;
+            q = $@"UPDATE s_common_values SET value_str = @str1, value_int = {value.IntValue} WHERE id = {id}";
+        }
+        DataConnection.Execute(q, names);
+    }
+
     private static Dictionary<string, int> userIds;
     public static int UserId(System.Security.Principal.IPrincipal user)
     {
