@@ -595,7 +595,7 @@ namespace AssetEditor
             if (StatsFilled)
                 return;
 
-            List<PlayerStatType> stats = PlayerStatType.GetStatTypeList();
+            List<OfficerStatTypeSql> stats = OfficerStatTypeSql.GetStatTypeList();
             
             foreach(var stat in stats)
             {
@@ -607,7 +607,16 @@ namespace AssetEditor
 
             textStatRegistrationPoints.Text = CommonFunctions.GetCommonValue("start_stat_points").IntValue.ToString();
 
+            comboStatBaseType.Items.Clear();
+            List<Crew.OfficerStatType.StatType> tList2 = Enum.GetValues(typeof(Crew.OfficerStatType.StatType)).Cast<Crew.OfficerStatType.StatType>().ToList();
+            foreach(var item in tList2)
+            {
+                comboStatBaseType.Items.Add(item.ToString());
+            }
+
             NoEvents = false;
+
+            
 
             StatsFilled = true;
 
@@ -626,20 +635,20 @@ namespace AssetEditor
             NoEvents = false;
         }
 
-        private PlayerStatType GetCurrentStatType()
+        private OfficerStatTypeSql GetCurrentStatType()
         {
             if (treeStats.SelectedNode == null)
                 return null;
             if (treeStats.SelectedNode.Tag == null)
                 return null;
-            return (PlayerStatType)treeStats.SelectedNode.Tag;
+            return (OfficerStatTypeSql)treeStats.SelectedNode.Tag;
         }
 
 
         private void treeStats_AfterSelect(object sender, TreeViewEventArgs e)
         {
             ClearStat();
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -655,11 +664,18 @@ namespace AssetEditor
             }
 
             textStatName.Text = tNode.Name;
-            textStatBaseValue.Text = tNode.Value.ToString();
+            textStatBaseValue.Text = tNode.BaseValue.ToString();
             textStatDescriptionEnglish.Text = tNode.DescriptionEnglish;
             textStatDescriptionRussian.Text = tNode.DescriptionRussian;
             textStatSortIdx.Text = tNode.OrderIdx.ToString();
-
+            foreach(var item in comboStatBaseType.Items)
+            {
+                if((string)item == tNode.statType.ToString())
+                {
+                    comboStatBaseType.SelectedItem = item;
+                    break;
+                }
+            }
             NoEvents = false;
 
         }
@@ -667,7 +683,7 @@ namespace AssetEditor
         private void buttonCreateStat_Click(object sender, EventArgs e)
         {
             TreeNode tNode = treeStats.Nodes.Add("new stat");
-            PlayerStatType tTag = new PlayerStatType();
+            OfficerStatType tTag = new OfficerStatType();
             tNode.Tag = tTag;
             tTag.Name = "new stat";
             treeStats.SelectedNode = tNode;
@@ -677,7 +693,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -690,7 +706,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -711,18 +727,18 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
             }
             try
             {
-                tNode.Value = Convert.ToInt32(textStatBaseValue.Text);
+                tNode.BaseValue = Convert.ToInt32(textStatBaseValue.Text);
             }
             catch
             {
-                tNode.Value = 0;
+                tNode.BaseValue = 0;
             }
         }
 
@@ -730,7 +746,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -749,7 +765,7 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -761,19 +777,46 @@ namespace AssetEditor
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatType tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
             }
             tNode.DescriptionRussian = textStatDescriptionRussian.Text;
         }
+        private void comboStatBaseType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            OfficerStatType tNode = GetCurrentStatType();
+            if (tNode == null)
+            {
+                return;
+            }
+            if(comboStatBaseType.SelectedItem == null)
+            {
+                tNode.statType = OfficerStatType.StatType.None;
+            }
+            else
+            {
+                List<Crew.OfficerStatType.StatType> tList2 = Enum.GetValues(typeof(Crew.OfficerStatType.StatType)).Cast<Crew.OfficerStatType.StatType>().ToList();
+                foreach (var item in tList2)
+                {
+                    if (item.ToString() == (string)comboStatBaseType.SelectedItem)
+                    {
+                        tNode.statType = item;
+                        break;
+                    }
+                }
+            }
+
+        }
 
         private void buttonSaveStat_Click(object sender, EventArgs e)
         {
             if (NoEvents)
                 return;
-            PlayerStatType tNode = GetCurrentStatType();
+            OfficerStatTypeSql tNode = GetCurrentStatType();
             if (tNode == null)
             {
                 return;
@@ -1723,7 +1766,7 @@ namespace AssetEditor
 
         private void buttonAddOfficerType_Click(object sender, EventArgs e)
         {
-            CrewOfficerType curOfficer = new CrewOfficerType(true);
+            CrewOfficerType curOfficer = new CrewOfficerType();
             TreeNode n = treeOfficerTypes.Nodes.Add(curOfficer.Name);
             n.Tag = curOfficer;
             treeOfficerTypes.SelectedNode = n;
@@ -1757,7 +1800,6 @@ namespace AssetEditor
 
             NoEvents = true;
             textOfficerTypeName.Text = curOfficerType.Name;
-            checkOfficerAvailableAtStart.Checked = curOfficerType.AvailableAtStart != 0;
             textOfficerPortraitId.Text = curOfficerType.PortraitId.ToString();
             textOfficerTypeBonusPoints.Text = curOfficerType.BonusPoints.ToString();
             gridOfficerType.Rows.Clear();
@@ -1770,7 +1812,7 @@ namespace AssetEditor
                     DataGridViewRow row;
                     gridOfficerType.Rows.Add();
                     row = gridOfficerType.Rows[gridOfficerType.Rows.Count - 1];
-                    row.Cells["ot_name"].Value = stat.Name;
+                    row.Cells["ot_name"].Value = stat.ToString();
                     row.Cells["ot_score"].Value = stat.PointsBase;
 
                 }
@@ -1790,16 +1832,6 @@ namespace AssetEditor
             curOfficerType.Name = textOfficerTypeName.Text;
         }
 
-        private void checkOfficerAvailableAtStart_CheckedChanged(object sender, EventArgs e)
-        {
-            if (NoEvents)
-                return;
-            CrewOfficerType curOfficerType = GetCurrentOfficerType();
-            if (curOfficerType == null)
-                return;
-            curOfficerType.AvailableAtStart = checkOfficerAvailableAtStart.Checked ? 1 : 0;
-
-        }
         private void textOfficerPortraitId_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -1835,7 +1867,7 @@ namespace AssetEditor
             int baseValue = 0;
             Int32.TryParse(Convert.ToString(row.Cells["ot_score"].Value), out baseValue);
 
-            curOfficerType.SetStatValue(Convert.ToString(row.Cells["ot_name"].Value), baseValue);
+            //curOfficerType.SetStatValue(Convert.ToString(row.Cells["ot_name"].Value), baseValue);
 
         }
 
@@ -3736,6 +3768,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
 
 
 

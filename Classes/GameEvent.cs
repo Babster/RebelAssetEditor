@@ -307,7 +307,7 @@ public class GameEvent
                 string[] s = ElementInfo.Split(';');
                 if (s[0] != "")
                 {
-                    return CrewOfficerType.OfficerById(Convert.ToInt32(s[0]));
+                    return CrewOfficerType.OfficerTypeById(Convert.ToInt32(s[0]));
                 }
                 else
                 {

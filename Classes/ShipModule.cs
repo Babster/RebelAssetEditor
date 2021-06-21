@@ -54,7 +54,7 @@ public class ShipModule : UnityShipModule
                 module_level,
                 ISNULL(rig_id, 0) AS rig_id
             FROM
-                admirals_modules";
+                players_modules";
         return q;
     }
 
@@ -64,7 +64,7 @@ public class ShipModule : UnityShipModule
         if(Id==0)
         {
             q = $@"
-                INSERT INTO admirals_modules(player_id) VALUES(0)
+                INSERT INTO players_modules(player_id) VALUES(0)
                 SELECT @@IDENTITY AS Result";
             Id = DataConnection.GetResultInt(q);
         }

@@ -124,6 +124,7 @@ public class UnityObjectDatabase
     public List<SkillSetSql> skillSets { get; set; }
     public List<SkillTypeSql> skillTypes { get; set; }
     public List<Story.RebelSceneWithSql> storyScenes { get; set; }
+    public List<Crew.OfficerStatType> statTypes { get; set; }
     public UnityObjectDatabase() { }
 
     

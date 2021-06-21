@@ -450,11 +450,11 @@ public class SpaceShipParameters
         {
 
             //Добавление брони - +100% за каждые 10 очков статов
-            int tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ArmorBoost);
+            int tStat = officer.StatValue(Crew.OfficerStatType.StatType.ArmorBoost);
             ArmorPercent = GetStandartBonusForSkill(tStat);
 
             //Увеличение ловкости. Стат добавляет 0.1% ловкости за каждое очко
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.Dexterity);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.Dexterity);
             DexterityAdd = (float)tStat / 10;
 
             //Сумма всех оружейных статов - для расчета в нескольких статах
@@ -465,27 +465,27 @@ public class SpaceShipParameters
             CriticalStrengthPercent = (1 + weaponTotal / 100);
 
             //Увеличение мощности разных пушек - по 100% за каждые 10 очков умения
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ExplosiveWeapons);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.ExplosiveWeapons);
             ExplosiveDamagePercent = GetStandartBonusForSkill(tStat);
 
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.KineticWeapons);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.KineticWeapons);
             KineticDamagePercent = GetStandartBonusForSkill(tStat);
 
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.LaserWeapons);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.LaserWeapons);
             LaserDamagePercent = GetStandartBonusForSkill(tStat);
 
             //Что делать с реактором не решено. Пока не будет сета модулей кораблей говорить о
             //том, как будет сбалансирован этот аспект бессмысленно
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ReactorBoost);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.ReactorBoost);
             ReactorPercent = (1 + (float)tStat / 100);
 
             //Со щитом всё просто - офицер драматически увеличивает его
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ShieldsBoost);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.ShieldsBoost);
             ShieldPercent = GetStandartBonusForSkill(tStat);
             ShieldRegenPercent = ShieldPercent;
 
             //Ускорители - пока не понятно как быть со скоростью, так что пропускаем ускорители
-            tStat = officer.StatValue(Crew.OfficerTypeStat.StatType.ThrustersBoost);
+            tStat = officer.StatValue(Crew.OfficerStatType.StatType.ThrustersBoost);
 
         }
         private float GetStandartBonusForSkill(int skill)

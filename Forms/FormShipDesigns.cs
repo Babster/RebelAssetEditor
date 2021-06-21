@@ -726,18 +726,16 @@ namespace AssetEditor.Forms
 
         private void FillPlayersOfficers()
         {
-            /*AccountData playerAcc = new AccountData(DataConnection.GetResultInt("SELECT MAX(id) AS Result FROM [admirals]"));
-
-            //Player's officers. 
+            PlayerData pData = PlayerDataSql.GetTestPlayerData();
             listSaOfficers.Items.Clear();
-            List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(playerAcc.Id);
+            List<CrewOfficer> officers = CrewOfficer.OfficersForPlayer(pData.Id);
             if (officers.Count > 0)
             {
                 foreach (CrewOfficer off in officers)
                 {
                     listSaOfficers.Items.Add(off);
                 }
-            }*/
+            }
         }
 
         private void buttonSaSave_Click(object sender, EventArgs e)
@@ -768,7 +766,10 @@ namespace AssetEditor.Forms
             saRig.SaveData(playerId, tg);
         }
 
+        private void tabPage18_Click(object sender, EventArgs e)
+        {
 
+        }
         private void tabPage18_Enter(object sender, EventArgs e)
         {
             FillRigTree();
@@ -852,6 +853,8 @@ namespace AssetEditor.Forms
                 n.Tag = ship;
             }
         }
+
+
 
 
         #endregion

@@ -32,6 +32,7 @@ namespace AssetEditor.Forms
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkShipBoss = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textShipSkillSets = new System.Windows.Forms.TextBox();
             this.textShipBaseEnergy = new System.Windows.Forms.TextBox();
@@ -110,7 +111,6 @@ namespace AssetEditor.Forms
             this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
-            this.checkShipBoss = new System.Windows.Forms.CheckBox();
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -201,6 +201,17 @@ namespace AssetEditor.Forms
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ship design edit";
+            // 
+            // checkShipBoss
+            // 
+            this.checkShipBoss.AutoSize = true;
+            this.checkShipBoss.Location = new System.Drawing.Point(351, 117);
+            this.checkShipBoss.Name = "checkShipBoss";
+            this.checkShipBoss.Size = new System.Drawing.Size(64, 24);
+            this.checkShipBoss.TabIndex = 52;
+            this.checkShipBoss.Text = "Boss";
+            this.checkShipBoss.UseVisualStyleBackColor = true;
+            this.checkShipBoss.CheckedChanged += new System.EventHandler(this.checkShipBoss_CheckedChanged);
             // 
             // label1
             // 
@@ -670,7 +681,7 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(701, 417);
+            this.textSaBottomLine.Size = new System.Drawing.Size(701, 410);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
             // 
@@ -723,7 +734,7 @@ namespace AssetEditor.Forms
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(701, 445);
+            this.gridSaModules.Size = new System.Drawing.Size(701, 459);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
@@ -788,7 +799,7 @@ namespace AssetEditor.Forms
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(488, 430);
+            this.gridSaOfficer.Size = new System.Drawing.Size(488, 395);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -857,6 +868,7 @@ namespace AssetEditor.Forms
             this.tabPage18.TabIndex = 3;
             this.tabPage18.Text = "Archive";
             this.tabPage18.UseVisualStyleBackColor = true;
+            this.tabPage18.Click += new System.EventHandler(this.tabPage18_Click);
             this.tabPage18.Enter += new System.EventHandler(this.tabPage18_Enter);
             // 
             // treeSaRigs
@@ -867,7 +879,7 @@ namespace AssetEditor.Forms
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(701, 454);
+            this.treeSaRigs.Size = new System.Drawing.Size(701, 412);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -911,7 +923,7 @@ namespace AssetEditor.Forms
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 419);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 412);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -1000,17 +1012,6 @@ namespace AssetEditor.Forms
             this.comboSaShip.Size = new System.Drawing.Size(220, 28);
             this.comboSaShip.TabIndex = 0;
             this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
-            // 
-            // checkShipBoss
-            // 
-            this.checkShipBoss.AutoSize = true;
-            this.checkShipBoss.Location = new System.Drawing.Point(351, 117);
-            this.checkShipBoss.Name = "checkShipBoss";
-            this.checkShipBoss.Size = new System.Drawing.Size(64, 24);
-            this.checkShipBoss.TabIndex = 52;
-            this.checkShipBoss.Text = "Boss";
-            this.checkShipBoss.UseVisualStyleBackColor = true;
-            this.checkShipBoss.CheckedChanged += new System.EventHandler(this.checkShipBoss_CheckedChanged);
             // 
             // FormShipDesigns
             // 

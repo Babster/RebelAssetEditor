@@ -482,7 +482,7 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
                 of.Save();
             if (tStr != "")
                 tStr += ",";
-            if (of.IsPlayer)
+            if (of.IsPlayer == 1)
             {
                 tStr += "player";
             }

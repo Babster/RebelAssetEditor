@@ -45,7 +45,7 @@ public class Ship : UnityShip
             experience,
             ship_level
         FROM
-            admirals_ships";
+            players_ships";
 
         return q;
 
@@ -74,12 +74,12 @@ public class Ship : UnityShip
         if(Id == 0)
         {
             q = $@"
-                INSERT INTO admirals_ships(player_id) VALUES({PlayerId})
+                INSERT INTO players_ships(player_id) VALUES({PlayerId})
                 SELECT @@IDENTITY AS Result";
             Id = DataConnection.GetResultInt(q);
         }
 
-        q = $@"UPDATE admirals_ships SET 
+        q = $@"UPDATE players_ships SET 
                 player_id = {PlayerId},
                 ss_design_id = {ModelId},
                 experience = {Experience},

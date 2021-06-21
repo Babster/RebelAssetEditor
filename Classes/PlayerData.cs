@@ -47,6 +47,16 @@ public class PlayerDataSql : PlayerData
 
     public static PlayerData GetPlayerData(string steamId)
     {
+        return PlayerDataByIdOrSteamId(steamId, 0);
+    }
+
+    public static PlayerData GetPlayerData(int id)
+    {
+        return PlayerDataByIdOrSteamId("", id);
+    }
+
+    private static PlayerData PlayerDataByIdOrSteamId(string steamId, int id)
+    {
         string q = $@"SELECT 
             steam_id,
             display_name,
@@ -56,10 +66,33 @@ public class PlayerDataSql : PlayerData
         FROM
             players
         WHERE
-            steam_id = @str1";
-        List<string> names = new List<string>() { steamId };
-        SqlDataReader r = DataConnection.GetReader(q, names);
-        if(!r.HasRows)
+            ";
+
+        bool needAnd = false;
+
+        if(id > 0)
+        {
+            q = q + $" id = {id}";
+            needAnd = true;
+        }
+
+        SqlDataReader r;
+        if (!String.IsNullOrEmpty(steamId))
+        {
+            if (needAnd)
+            {
+                q = q + " AND ";
+            }
+            q = q + " steam_id = @str1";
+            List<string> names = new List<string>() { steamId };
+             r = DataConnection.GetReader(q, names);
+        }
+        else
+        {
+             r = DataConnection.GetReader(q);
+        }
+        
+        if (!r.HasRows)
         {
             r.Close();
             return null;
@@ -74,9 +107,16 @@ public class PlayerDataSql : PlayerData
         r.Close();
 
         return curData;
-
     }
-
+    
+    /// <summary>
+    /// Получение данных тестового игрока
+    /// </summary>
+    /// <returns></returns>
+    public static PlayerData GetTestPlayerData()
+    {
+        return GetPlayerData(6);
+    }
 
     /// <summary>
     /// Ключом является SteamId игрока, а значением его идентификатор в таблице players,
@@ -153,106 +193,15 @@ public class PlayerData
     public string DisplayName { get; set; }
     public int SkillPointsLeft { get; set; }
     
-}
-
-public class PlayerStatType
-{
-    public int Id { get; set; }
-    public string SkillGroup { get; set; }
-    public string Name { get; set; }
-    public int Value { get; set; }
-    public string DescriptionEnglish { get; set; }
-    public string DescriptionRussian { get; set; }
-    public int OrderIdx { get; set; }
-
-    public PlayerStatType() { }
-    public PlayerStatType(SqlDataReader r)
+    [JsonIgnore]
+    public int Id
     {
-        this.Id = Convert.ToInt32(r["id"]);
-        this.SkillGroup = Convert.ToString(r["skill_group"]);
-        this.Name = Convert.ToString(r["name"]);
-        this.OrderIdx = Convert.ToInt32(r["order_idx"]);
-        this.Value = Convert.ToInt32(r["base_value"]);
-        this.DescriptionEnglish = Convert.ToString(r["description_english"]);
-        this.DescriptionRussian = Convert.ToString(r["description_russian"]);
-    }
-
-    /*public PlayerStat Copy()
-    {
-        PlayerStat newElement = new PlayerStat();
-        newElement.SkillGroup = this.SkillGroup;
-        newElement.Id = this.Id;
-        newElement.Name = this.Name;
-        newElement.Value = this.Value;
-        newElement.DescriptionEnglish = this.DescriptionEnglish;
-        newElement.DescriptionRussian = this.DescriptionRussian;
-        newElement.OrderIdx = this.OrderIdx;
-
-        return newElement;
-
-    }*/
-
-    public void SaveData()
-    {
-
-        string q;
-
-        if (this.Id == 0)
+        get
         {
-            q = @"INSERT INTO officer_stat_types(name) VALUES('')
-                         SELECT @@IDENTITY AS field0";
-            this.Id = Convert.ToInt32(DataConnection.GetResult(q));
+            return PlayerDataSql.PlayerId(SteamId);
         }
-
-        List<String> names = new List<string>();
-        names.Add(this.SkillGroup);
-        names.Add(this.Name);
-        names.Add(DescriptionEnglish);
-        names.Add(DescriptionRussian);
-        q = @"UPDATE officer_stat_types SET
-                        skill_group = @str1,
-                        name = @str2,
-                        base_value = " + this.Value + @",
-                        description_english = @str3,
-                        description_russian = @str4,
-						order_idx = " + this.OrderIdx + @"
-                    WHERE id = " + Id.ToString();
-        DataConnection.Execute(q, names);
-    }
-
-    public static List<PlayerStatType> GetStatTypeList()
-    {
-        List<PlayerStatType> stats = new List<PlayerStatType>();
-
-        string q;
-        SqlDataReader r;
-
-        q = @"SELECT 
-                    id,
-                    ISNULL(skill_group, '') AS skill_group,
-                    name,
-                    base_value,
-                    description_english,
-                    description_russian,
-                    order_idx
-                FROM
-                    officer_stat_types
-                ORDER BY
-                    order_idx";
-        r = DataConnection.GetReader(q);
-        while(r.Read())
-        {
-            stats.Add(new PlayerStatType(r));
-        }
-        r.Close();
-
-        return stats;
-
-    }
-
-    public override string ToString()
-    {
-        return $"{Name} ({Id})";
     }
 
 }
+
+

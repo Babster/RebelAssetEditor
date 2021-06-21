@@ -446,6 +446,8 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label124 = new System.Windows.Forms.Label();
+            this.comboStatBaseType = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -1072,6 +1074,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.comboStatBaseType);
+            this.groupBox2.Controls.Add(this.label124);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.comboSkillGroup);
             this.groupBox2.Controls.Add(this.textStatBaseValue);
@@ -1089,7 +1093,7 @@
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Location = new System.Drawing.Point(337, 90);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(776, 248);
+            this.groupBox2.Size = new System.Drawing.Size(776, 286);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Click save after editing";
@@ -1142,7 +1146,7 @@
             // 
             // buttonSaveStat
             // 
-            this.buttonSaveStat.Location = new System.Drawing.Point(611, 200);
+            this.buttonSaveStat.Location = new System.Drawing.Point(611, 233);
             this.buttonSaveStat.Name = "buttonSaveStat";
             this.buttonSaveStat.Size = new System.Drawing.Size(147, 36);
             this.buttonSaveStat.TabIndex = 100;
@@ -1215,7 +1219,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 60);
+            this.label13.Location = new System.Drawing.Point(4, 60);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(55, 20);
             this.label13.TabIndex = 2;
@@ -1233,7 +1237,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(9, 28);
+            this.label12.Location = new System.Drawing.Point(4, 28);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(27, 20);
             this.label12.TabIndex = 0;
@@ -2220,7 +2224,6 @@
             this.checkOfficerAvailableAtStart.TabIndex = 5;
             this.checkOfficerAvailableAtStart.Text = "Доступен на старте";
             this.checkOfficerAvailableAtStart.UseVisualStyleBackColor = true;
-            this.checkOfficerAvailableAtStart.CheckedChanged += new System.EventHandler(this.checkOfficerAvailableAtStart_CheckedChanged);
             // 
             // textOfficerTypeName
             // 
@@ -2258,7 +2261,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 424);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 417);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2646,7 +2649,7 @@
             this.tabControl8.Location = new System.Drawing.Point(8, 6);
             this.tabControl8.Name = "tabControl8";
             this.tabControl8.SelectedIndex = 0;
-            this.tabControl8.Size = new System.Drawing.Size(1222, 503);
+            this.tabControl8.Size = new System.Drawing.Size(1222, 505);
             this.tabControl8.TabIndex = 9;
             // 
             // tabPage26
@@ -2659,7 +2662,7 @@
             this.tabPage26.Location = new System.Drawing.Point(4, 29);
             this.tabPage26.Name = "tabPage26";
             this.tabPage26.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage26.Size = new System.Drawing.Size(1214, 470);
+            this.tabPage26.Size = new System.Drawing.Size(1214, 472);
             this.tabPage26.TabIndex = 0;
             this.tabPage26.Text = "Design";
             this.tabPage26.UseVisualStyleBackColor = true;
@@ -2688,7 +2691,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 458);
+            this.groupBox6.Size = new System.Drawing.Size(899, 474);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2704,7 +2707,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 342);
+            this.tabControl6.Size = new System.Drawing.Size(883, 358);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2737,7 +2740,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 309);
+            this.tabPage21.Size = new System.Drawing.Size(875, 325);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -2941,7 +2944,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 244);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 224);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3000,7 +3003,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 328);
+            this.tabPage22.Size = new System.Drawing.Size(875, 325);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3254,7 +3257,7 @@
             this.listBsResources.ItemHeight = 20;
             this.listBsResources.Location = new System.Drawing.Point(8, 40);
             this.listBsResources.Name = "listBsResources";
-            this.listBsResources.Size = new System.Drawing.Size(210, 264);
+            this.listBsResources.Size = new System.Drawing.Size(210, 224);
             this.listBsResources.TabIndex = 13;
             this.listBsResources.SelectedIndexChanged += new System.EventHandler(this.listBsResources_SelectedIndexChanged);
             // 
@@ -3287,7 +3290,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 328);
+            this.tabPage28.Size = new System.Drawing.Size(875, 325);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3326,7 +3329,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 245);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 242);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3394,7 +3397,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 424);
+            this.treeBs.Size = new System.Drawing.Size(297, 440);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3434,7 +3437,7 @@
             this.tabPage27.Location = new System.Drawing.Point(4, 29);
             this.tabPage27.Name = "tabPage27";
             this.tabPage27.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage27.Size = new System.Drawing.Size(1214, 470);
+            this.tabPage27.Size = new System.Drawing.Size(1214, 472);
             this.tabPage27.TabIndex = 1;
             this.tabPage27.Text = "Test";
             this.tabPage27.UseVisualStyleBackColor = true;
@@ -3467,7 +3470,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 385);
+            this.textBsResources.Size = new System.Drawing.Size(412, 415);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3486,7 +3489,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 385);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 415);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3602,7 +3605,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 458);
+            this.groupBox7.Size = new System.Drawing.Size(894, 472);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3761,7 +3764,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 424);
+            this.treeRes.Size = new System.Drawing.Size(297, 438);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -3900,7 +3903,7 @@
             this.listBpResources.ItemHeight = 20;
             this.listBpResources.Location = new System.Drawing.Point(10, 222);
             this.listBpResources.Name = "listBpResources";
-            this.listBpResources.Size = new System.Drawing.Size(196, 204);
+            this.listBpResources.Size = new System.Drawing.Size(196, 224);
             this.listBpResources.TabIndex = 29;
             this.listBpResources.SelectedIndexChanged += new System.EventHandler(this.listBpResources_SelectedIndexChanged);
             // 
@@ -4786,6 +4789,25 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label124
+            // 
+            this.label124.AutoSize = true;
+            this.label124.Location = new System.Drawing.Point(4, 198);
+            this.label124.Name = "label124";
+            this.label124.Size = new System.Drawing.Size(143, 20);
+            this.label124.TabIndex = 103;
+            this.label124.Text = "Base skilltype bind:";
+            // 
+            // comboStatBaseType
+            // 
+            this.comboStatBaseType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboStatBaseType.FormattingEnabled = true;
+            this.comboStatBaseType.Location = new System.Drawing.Point(153, 195);
+            this.comboStatBaseType.Name = "comboStatBaseType";
+            this.comboStatBaseType.Size = new System.Drawing.Size(320, 28);
+            this.comboStatBaseType.TabIndex = 104;
+            this.comboStatBaseType.SelectedIndexChanged += new System.EventHandler(this.comboStatBaseType_SelectedIndexChanged);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -5306,6 +5328,8 @@
         private System.Windows.Forms.TextBox textBsCycleToComplete;
         private System.Windows.Forms.Label label122;
         private System.Windows.Forms.Label label123;
+        private System.Windows.Forms.Label label124;
+        private System.Windows.Forms.ComboBox comboStatBaseType;
         //private System.Windows.Forms.Label label129;
     }
 }
