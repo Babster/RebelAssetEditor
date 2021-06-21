@@ -67,6 +67,7 @@ namespace Crew
             SqlDataReader r = DataConnection.GetReader(q);
             if(r.HasRows)
             {
+                r.Read();
                 LoadOfficerByReader(r);
                 r.Close();
                 return;
@@ -75,6 +76,7 @@ namespace Crew
 
             Stats = new List<CrewOfficerStat>();
             this.PlayerId = playerId;
+            this.IsPlayer = 1;
             this.SkillSetPoints = 1; //Это сколько можно открыть (не относится к статам самого офицера)
             var statTypeList = OfficerStatTypeSql.GetStatTypeList();
             Stats = new List<CrewOfficerStat>();
@@ -83,6 +85,7 @@ namespace Crew
                 var curStat = new CrewOfficerStat();
                 curStat.OfficerStatTypeId = statTemplate.Id;
                 curStat.Value = statTemplate.BaseValue;
+                Stats.Add(curStat);
             }
 
             Save();
@@ -97,7 +100,7 @@ namespace Crew
             RigId = (int)r["rig_id"];
             IsPlayer = (int)r["is_player"];
             SkillSetPoints = (int)r["skill_set_points"];
-
+            OfficerGuid = (Guid)r["unique_code"];
             LoadStats();
             LoadSkillsets();
         }
@@ -155,6 +158,7 @@ namespace Crew
                     SkillSets.Add(new CrewOfficerSkillSet(r));
                 }
             }
+            r.Close();
         }
 
         public void Save()
@@ -167,8 +171,9 @@ namespace Crew
             //Создание и обновление основной записи в таблице офицеров
             if (Id == 0)
             {
+                this.OfficerGuid = Guid.NewGuid();
                 q = $@"
-                    INSERT INTO crew_officers(player_id) VALUES({PlayerId})
+                    INSERT INTO crew_officers(player_id, unique_code) VALUES({PlayerId}, CAST('{this.OfficerGuid.ToString()}' AS uniqueidentifier))
                     SELECT @@IDENTITY AS Result";
                 Id = DataConnection.GetResultInt(q);
                 StaticMembers.OfficerDict.Add(Id, this);
@@ -209,13 +214,13 @@ namespace Crew
 
         public override string ToString()
         {
-            if(PlayerId == 0)
+            if(IsPlayer == 0)
             {
                 return $"{OfficerType.Name} ({Id})";
             }
             else
             {
-                return PlayerDataSql.GetPlayerData(Id).DisplayName;
+                return PlayerDataSql.GetPlayerData(PlayerId).DisplayName;
             }
         }
 
@@ -271,17 +276,27 @@ namespace Crew
             string q = $"SELECT id FROM crew_officers WHERE player_id = {playerId}";
             if (onlyFree)
                 q += $@" AND ISNULL(rig_id, 0) = 0";
+            bool playerLoaded = false;
             SqlDataReader r = DataConnection.GetReader(q);
             if (r.HasRows)
             {
                 while (r.Read())
                 {
                     int id = Convert.ToInt32(r["id"]);
-                    tList.Add(OfficerById(id));
+                    var curOfficer = OfficerById(id);
+                    if(curOfficer.IsPlayer == 1)
+                    {
+                        playerLoaded = true;
+                    }
+                    tList.Add(curOfficer);
+                    
                 }
             }
             r.Close();
-            tList.Add(new CrewOfficer(playerId));
+            if(!playerLoaded)
+            {
+                tList.Add(new CrewOfficer(playerId));
+            }
             return tList;
         }
         private static string OfficerQuery()
@@ -294,7 +309,8 @@ namespace Crew
                     officer_type_id,
                     rig_id,
                     is_player,
-                    skill_set_points
+                    skill_set_points,
+                    unique_code
                 FROM
                     crew_officers";
             return q;
@@ -309,7 +325,7 @@ namespace Crew
         public int RigId { get; set; }
         public int IsPlayer { get; set; }
         public int SkillSetPoints { get; set; }        //Сколько всего веток скиллов может открыть данный офицер
-
+        public Guid OfficerGuid { get; set; }
         public List<CrewOfficerStat> Stats { get; set; } //Список статов офицера
         public List<UnityCrewOfficerSkillSet> SkillSets { get; set; } //Ветки скиллов, которые открыты у данного офицера
 
@@ -379,7 +395,7 @@ namespace Crew
         public CrewOfficerStat(SqlDataReader r)
         {
             Id = Convert.ToInt32(r["id"]);
-            OfficerStatTypeId = Convert.ToInt32(r["stat_id"]);
+            OfficerStatTypeId = Convert.ToInt32(r["stat_type_id"]);
             Value = Convert.ToInt32(r["value"]);
         }
         public void AddStat() { Value += 1; }
@@ -600,8 +616,8 @@ namespace Crew
         public OfficerTypeStat(ref SqlDataReader r)
         {
             Id = Convert.ToInt32(r["id"]);
-            
-            OfficerStatTypeId = Convert.ToInt32(r["crew_officer_type_id"]);
+            OfficerTypeId = (int)r["crew_officer_type_id"];
+            OfficerStatTypeId = Convert.ToInt32(r["stat_type_id"]);
             PointsBase = Convert.ToInt32(r["points_base"]);
         }
 
@@ -620,6 +636,7 @@ namespace Crew
                         {OfficerTypeId},
                         {OfficerStatTypeId},
                         {PointsBase}
+                    )
                     SELECT @@IDENTITY AS Result";
                 this.Id = DataConnection.GetResultInt(q, names);
             }

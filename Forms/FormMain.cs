@@ -1814,7 +1814,7 @@ namespace AssetEditor
                     row = gridOfficerType.Rows[gridOfficerType.Rows.Count - 1];
                     row.Cells["ot_name"].Value = stat.ToString();
                     row.Cells["ot_score"].Value = stat.PointsBase;
-
+                    row.Cells["ot_stat_object"].Value = stat;
                 }
             }
 
@@ -1856,6 +1856,12 @@ namespace AssetEditor
             curOfficerType.BonusPoints = tVal;
         }
 
+
+        private void gridOfficerType_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         private void gridOfficerType_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (NoEvents)
@@ -1867,6 +1873,8 @@ namespace AssetEditor
             int baseValue = 0;
             Int32.TryParse(Convert.ToString(row.Cells["ot_score"].Value), out baseValue);
 
+            Crew.OfficerTypeStat stat = (Crew.OfficerTypeStat)row.Cells["ot_stat_object"].Value;
+            stat.PointsBase = baseValue;
             //curOfficerType.SetStatValue(Convert.ToString(row.Cells["ot_name"].Value), baseValue);
 
         }
@@ -1878,31 +1886,6 @@ namespace AssetEditor
                 return;
             curOfficerType.SaveData();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         #endregion
@@ -3781,8 +3764,8 @@ namespace AssetEditor
 
 
 
-        #endregion
 
+        #endregion
 
     }
 }

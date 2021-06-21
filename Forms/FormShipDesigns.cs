@@ -693,7 +693,8 @@ namespace AssetEditor.Forms
             if (comboSaOfficers.SelectedItem == null)
                 return;
             CrewOfficerType ofType = (CrewOfficerType)comboSaOfficers.SelectedItem;
-            int playerId = DataConnection.GetResultInt("SELECT MAX(id) AS Result FROM [admirals]");
+            //int playerId = DataConnection.GetResultInt("SELECT MAX(id) AS Result FROM [admirals]");
+            int playerId = PlayerDataSql.GetTestPlayerData().Id;
             CrewOfficer newOfficer = new CrewOfficer(ofType, playerId);
             listSaOfficers.Items.Add(newOfficer);
         }
