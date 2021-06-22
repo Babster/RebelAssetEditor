@@ -36,5 +36,39 @@ namespace RsaApi.Controllers
             return response;
         }
 
+        [Route("GetOfficerList")]
+        public HttpResponseMessage GetOfficerList()
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+            List<Crew.CrewOfficer> officers = Crew.CrewOfficer.OfficersForPlayer(playerId);
+            string serializedElement = JsonConvert.SerializeObject(officers);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
+        [Route("RegisterOfficerChanges")]
+        public HttpResponseMessage RegisterOfficerChanges(Crew.CrewOfficer officer)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+            string statsEditingResult = Crew.CrewOfficer.RegisterOfficerStatsChanged(playerId, officer);
+
+            if(string.IsNullOrEmpty(statsEditingResult))
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.ReasonPhrase = statsEditingResult;
+                return response;
+            }
+            
+        }
+
+
     }
 }

@@ -190,8 +190,6 @@ public class SpaceshipRig : UnitySpaceshipRig
         }
         return q;
     }
-
-    
     private static void UpdateRigDict(SpaceshipRig rig)
     {
         if (StaticMembers.rigsDict == null)
@@ -231,7 +229,6 @@ public class SpaceshipRig : UnitySpaceshipRig
         return rigs;
         
     }
-
     public void SaveData(int playerId, string tag)
     {
         string q;
@@ -291,7 +288,6 @@ public class SpaceshipRig : UnitySpaceshipRig
 
 
     }
-
     public void Delete()
     {
         if (Id == 0)
@@ -301,7 +297,6 @@ public class SpaceshipRig : UnitySpaceshipRig
             DELETE FROM ss_rigs_slots WHERE ss_rig_id = {Id}";
         DataConnection.Execute(q);
     }
-
     public override string ToString()
     {
         if(PlayerId > 0)
@@ -317,7 +312,6 @@ public class SpaceshipRig : UnitySpaceshipRig
             return sModel.Name;
         }
     }
-
     public static List<SpaceshipRig> PlayerRigs(int playerId)
     {
         List<SpaceshipRig> rigList = new List<SpaceshipRig>();
@@ -333,7 +327,6 @@ public class SpaceshipRig : UnitySpaceshipRig
         r.Close();
         return rigList;
     }
-
     public static SpaceshipRig RigForPlayer(int playerId)
     {
         SpaceshipRig tRig = null;
@@ -397,7 +390,6 @@ public class RigSlot : UnityRigSlot
         if (moduleId > 0)
             Module = new ShipModule(moduleId);
     }
-
     public void SaveData(int rigId)
     {
         string q;
@@ -444,7 +436,6 @@ public class RigSlot : UnityRigSlot
 public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
 {
     private const int MaxOfficers = 3;
-
     public RigSlotOfficerTeam() { OfficerList = new List<CrewOfficer>(); }
     public RigSlotOfficerTeam(string list, int playerId)
     {
@@ -470,7 +461,6 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
 
         }
     }
-
     public string GetOfficerString()
     {
         if (OfficerList.Count == 0)
@@ -494,9 +484,6 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
         }
         return tStr;
     }
-
-
-
     public override string ToString()
     {
         StringBuilder s = new StringBuilder();
@@ -515,7 +502,6 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
         }
         return s.ToString();
     }
-
 }
 
 public class UnityRigSlot
@@ -665,7 +651,6 @@ public class UnitySpaceshipRig
     public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
     //public SpaceshipParameters Params { get; set; }
-
     private void LoadSlots()
     {
         if (sModel == null)
@@ -689,7 +674,6 @@ public class UnitySpaceshipRig
             }
         }
     }
-
     public void LoadShip(Ship ship)
     {
 
@@ -699,7 +683,6 @@ public class UnitySpaceshipRig
         LoadSlots();
 
     }
-
     private Dictionary<int, RigSlot> rigSlotDict;
     public RigSlot GetSlotByShipModuleSlotId(int id)
     {
@@ -715,9 +698,6 @@ public class UnitySpaceshipRig
         return rigSlotDict[id];
 
     }
-
-
-
     public class ShipIsReadyResult
     {
         public string Need { get; set; }
@@ -819,7 +799,6 @@ public class UnitySpaceshipRig
         return res;
 
     }
-
     public static class RigConfiguration
     {
         public static bool NeedEnergyBalance { get; set; }
@@ -831,9 +810,7 @@ public class UnitySpaceshipRig
 
 public class UnityRigSlotOfficerTeam
 {
-
     public ShipModelSlot.SlotTypes  SlotType { get; set; }
-
     public int MaxOfficers
     {
         get
@@ -851,9 +828,7 @@ public class UnityRigSlotOfficerTeam
             }
         }
     }
-
     public List<CrewOfficer> OfficerList;
-
     public UnityRigSlotOfficerTeam()
     {
         OfficerList = new List<CrewOfficer>();

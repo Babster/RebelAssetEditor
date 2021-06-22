@@ -78,6 +78,7 @@ namespace Crew
             this.PlayerId = playerId;
             this.IsPlayer = 1;
             this.SkillSetPoints = 1; //Это сколько можно открыть (не относится к статам самого офицера)
+            this.StatPointsLeft = CommonFunctions.GetCommonValue("start_stat_points").IntValue;
             var statTypeList = OfficerStatTypeSql.GetStatTypeList();
             Stats = new List<CrewOfficerStat>();
             foreach(var statTemplate in statTypeList)
@@ -101,10 +102,36 @@ namespace Crew
             IsPlayer = (int)r["is_player"];
             SkillSetPoints = (int)r["skill_set_points"];
             OfficerGuid = (Guid)r["unique_code"];
+            StatPointsLeft = (int)r["stat_points_left"];
             LoadStats();
             LoadSkillsets();
         }
 
+        private Dictionary<int, CrewOfficerStat> officerStatDict;
+        private void LoadOfficerStatDict()
+        {
+            if(officerStatDict != null)
+            {
+                return;
+            }
+            officerStatDict = new Dictionary<int, CrewOfficerStat>();
+            foreach(var item in Stats)
+            {
+                officerStatDict.Add(item.OfficerStatTypeId, item);
+            }
+        }
+        public CrewOfficerStat StatById(int id)
+        {
+            LoadOfficerStatDict();
+            if(officerStatDict.ContainsKey(id))
+            {
+                return officerStatDict[id];
+            }
+            else
+            {
+                return null;
+            }
+        }
         private void LoadStats()
         {
             Stats = new List<CrewOfficerStat>();
@@ -130,7 +157,6 @@ namespace Crew
             }
             r.Close();
         }
-
         //Загрузка наборов скиллов, которые открыты у данного офицера
         private void LoadSkillsets()
         {
@@ -160,7 +186,6 @@ namespace Crew
             }
             r.Close();
         }
-
         public void Save()
         {
             if (StaticMembers.OfficerDict == null)
@@ -185,7 +210,8 @@ namespace Crew
                     officer_type_id = {OfficerTypeId},
                     rig_id = {RigId},
                     is_player = {IsPlayer},
-                    skill_set_points = {SkillSetPoints}
+                    skill_set_points = {SkillSetPoints},
+                    stat_points_left = {StatPointsLeft}
                 WHERE
                     id = {Id}";
             DataConnection.Execute(q);
@@ -211,7 +237,6 @@ namespace Crew
 
 
         }
-
         public override string ToString()
         {
             if(IsPlayer == 0)
@@ -223,7 +248,6 @@ namespace Crew
                 return PlayerDataSql.GetPlayerData(PlayerId).DisplayName;
             }
         }
-
         public void Delete()
         {
             if (Id == 0) //Если еще не записан то удалять нечего
@@ -240,7 +264,6 @@ namespace Crew
 
             DataConnection.Execute(q);
         }
-
         private static void CreateDictionary()
         {
             StaticMembers.OfficerDict = new Dictionary<int, CrewOfficer>();
@@ -299,6 +322,53 @@ namespace Crew
             }
             return tList;
         }
+        public static string RegisterOfficerStatsChanged(int playerId, CrewOfficer changedOfficer)
+        {
+
+            var officers = OfficersForPlayer(playerId);
+            CrewOfficer curOfficer = null;
+            foreach(var officer in officers)
+            {
+                if(officer.OfficerGuid == changedOfficer.OfficerGuid)
+                {
+                    curOfficer = officer;
+                    break;
+                }
+            }
+
+            if(curOfficer == null)
+            {
+                return "changing officer not found";
+            }
+
+            PlayerData curPlayer = PlayerDataSql.GetPlayerData(playerId);
+
+            foreach(var stat in curOfficer.Stats)
+            {
+                CrewOfficerStat changedStat = changedOfficer.StatById(stat.OfficerStatTypeId);
+                if(changedStat != null)
+                {
+                    int pointsAdded = changedStat.Value - stat.Value;
+                    if(pointsAdded < 0)
+                    {
+                        return $"stat value can't be decreased: {changedStat.OfficerStatType.Name}";
+                    }
+                    if(pointsAdded > curOfficer.StatPointsLeft)
+                    {
+                        return $"not enough skill points";
+                    }
+
+                    curOfficer.StatPointsLeft -= pointsAdded;
+                    stat.Value = changedStat.Value;
+
+                }
+            }
+
+            curOfficer.Save();
+            return "";
+        }
+
+
         private static string OfficerQuery()
         {
             string q;
@@ -310,7 +380,8 @@ namespace Crew
                     rig_id,
                     is_player,
                     skill_set_points,
-                    unique_code
+                    unique_code,
+                    stat_points_left
                 FROM
                     crew_officers";
             return q;
@@ -326,6 +397,7 @@ namespace Crew
         public int IsPlayer { get; set; }
         public int SkillSetPoints { get; set; }        //Сколько всего веток скиллов может открыть данный офицер
         public Guid OfficerGuid { get; set; }
+        public int StatPointsLeft { get; set; } //Сколько очков скиллов офицера еще осталось (сколько можно очков еще вложить в public List<CrewOfficerStat> Stats)
         public List<CrewOfficerStat> Stats { get; set; } //Список статов офицера
         public List<UnityCrewOfficerSkillSet> SkillSets { get; set; } //Ветки скиллов, которые открыты у данного офицера
 
@@ -431,6 +503,10 @@ namespace Crew
         public int Id { get; set; } //Таблица crew_officers_stats
         public int OfficerStatTypeId { get; set; }
         public int Value { get; set; }
+
+        //Сделано для того, чтобы игрок не мог уменьшать значение стата, если он уже выбран.
+        [JsonIgnore]
+        public int MinimalValue { get; set; }
 
         [JsonIgnore]
         public OfficerStatType OfficerStatType 
@@ -659,9 +735,11 @@ namespace Crew
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public int BonusPoints { get; set; }
         public int PortraitId { get; set; }
 
+        [JsonIgnore]
         public List<OfficerTypeStat> Stats { get; set; }
     }
 

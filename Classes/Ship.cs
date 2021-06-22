@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-
+using Newtonsoft.Json;
 public class Ship : UnityShip
 {
 
@@ -32,6 +32,7 @@ public class Ship : UnityShip
         ModelId = Convert.ToInt32(r["ss_design_id"]);
         Experience = Convert.ToInt32(r["experience"]);
         Level = Convert.ToInt32(r["ship_level"]);
+        RigId = (int)r["rig_id"];
 
     }
 
@@ -43,7 +44,8 @@ public class Ship : UnityShip
             player_id,
             ss_design_id,
             experience,
-            ship_level
+            ship_level,
+            rig_id
         FROM
             players_ships";
 
@@ -98,6 +100,8 @@ public class UnityShip
     public int Id { get; set; }
     public int PlayerId { get; set; }
     public int ModelId { get; set; }
+    
+    [JsonIgnore]
     public ShipModel Model
     {
         get

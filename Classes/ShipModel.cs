@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 public class ShipModel : UnityShipModel
 {
@@ -290,11 +291,13 @@ public class UnityShipModel
     public string Name { get; set; }
     public string AssetName { get; set; }
     public List<ShipModelSlot> slots;
+    [JsonIgnore]
     public List<int> slotsToDelete;
     public int ImgId { get; set; }
     public int BaseEnergy { get; set; }
     public string SkillSetsString { get; set; }
     public int Boss { get; set; }
+    [JsonIgnore]
     public int WeaponSlotCount
     {
         get
@@ -357,6 +360,7 @@ public class UnityShipModelSlot
         ExtendedControlRoom = 23
     }
 
+    [JsonIgnore]
     public bool SlotForModule
     {
         get
@@ -370,7 +374,7 @@ public class UnityShipModelSlot
             return forModules.Contains(SlotType);
         }
     }
-
+    [JsonIgnore]
     public bool SlotForOfficer
     {
         get
@@ -383,7 +387,7 @@ public class UnityShipModelSlot
             return forOfficers.Contains(SlotType);
         }
     }
-
+    [JsonIgnore]
     public bool SlotForCrew
     {
         get
@@ -394,7 +398,7 @@ public class UnityShipModelSlot
             return forCrew.Contains(SlotType);
         }
     }
-
+    
     public string ModuleFitsSlot(ShipModuleType module)
     {
         if ((int)module.ModuleType != (int)this.SlotType)

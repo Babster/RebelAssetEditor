@@ -27,9 +27,9 @@ public class PlayerDataSql : PlayerData
             return "Account already been registered";
         }
 
-        int StatPoints = CommonFunctions.GetCommonValue("start_stat_points").IntValue;
+        //int StatPoints = CommonFunctions.GetCommonValue("start_stat_points").IntValue;
 
-        q = $@"INSERT INTO players(steam_id, display_name, register_date, skill_points_left) VALUES(@str1, @str2, GETDATE(), {StatPoints})";
+        q = $@"INSERT INTO players(steam_id, display_name, register_date) VALUES(@str1, @str2, GETDATE())";
         names.Add(curModel.DisplayName);
         try
         {
@@ -45,24 +45,23 @@ public class PlayerDataSql : PlayerData
 
     }
 
+    /// <summary>
+    /// Процедуры, которые возвращают данные по игроку по его идентификаторам
+    /// </summary>
     public static PlayerData GetPlayerData(string steamId)
     {
         return PlayerDataByIdOrSteamId(steamId, 0);
     }
-
     public static PlayerData GetPlayerData(int id)
     {
         return PlayerDataByIdOrSteamId("", id);
     }
-
     private static PlayerData PlayerDataByIdOrSteamId(string steamId, int id)
     {
         string q = $@"SELECT 
             steam_id,
             display_name,
-            register_date,
-            skill_points_left
-            
+            register_date
         FROM
             players
         WHERE
@@ -103,7 +102,6 @@ public class PlayerDataSql : PlayerData
         r.Read();
         curData.SteamId = (string)r["steam_id"];
         curData.DisplayName = (string)r["display_name"];
-        curData.SkillPointsLeft = (int)r["skill_points_left"];
         r.Close();
 
         return curData;
@@ -176,13 +174,11 @@ public class PlayerDataSql : PlayerData
         return PlayerStoryFlowHub.CurrentProgressElementForPlayer(playerId).ToStringAndInt();
 
     }
-
     public static StringAndInt RegisterStoryElementCompleted(string steamId)
     {
         int playerId = PlayerId(steamId);
         return PlayerStoryFlowHub.RegisterPlayerProgress(playerId).ToStringAndInt();
     }
-
 
 }
 
@@ -191,7 +187,6 @@ public class PlayerData
     public string SteamId { get; set; }
     public string Password { get; set; }
     public string DisplayName { get; set; }
-    public int SkillPointsLeft { get; set; }
     
     [JsonIgnore]
     public int Id

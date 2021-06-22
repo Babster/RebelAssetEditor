@@ -28,7 +28,9 @@ public class ObjectDatabase : UnityObjectDatabase
         LoadRigs();
         LoadSkillsets();
         LoadSkillTypes();
+        LoadStatTypes();
         LoadStoryScenes();
+        LoadOfficerTypes();
     }
 
     private void LoadResourceTypes()
@@ -105,6 +107,16 @@ public class ObjectDatabase : UnityObjectDatabase
         storyScenes = Story.RebelSceneWithSql.GetSceneList();
     }
 
+    private void LoadStatTypes()
+    {
+        statTypes = Crew.OfficerStatTypeSql.GetStatTypeList();
+    }
+
+    private void LoadOfficerTypes()
+    {
+        officerTypes = Crew.CrewOfficerType.GetTypeList();
+    }
+
 }
 
 /// <summary>
@@ -124,7 +136,8 @@ public class UnityObjectDatabase
     public List<SkillSetSql> skillSets { get; set; }
     public List<SkillTypeSql> skillTypes { get; set; }
     public List<Story.RebelSceneWithSql> storyScenes { get; set; }
-    public List<Crew.OfficerStatType> statTypes { get; set; }
+    public List<Crew.OfficerStatTypeSql> statTypes { get; set; }
+    public List<Crew.CrewOfficerType> officerTypes { get; set; }
     public UnityObjectDatabase() { }
 
     
