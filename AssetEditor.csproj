@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Battle.cs" />
     <Compile Include="Classes\BattleScene.cs" />
     <Compile Include="Classes\BattleSceneType.cs" />
     <Compile Include="Classes\Blueprint.cs" />
