@@ -468,12 +468,14 @@ public class GameEvent
                         player_id,
                         ss_design_id,
                         experience,
-                        ship_level
+                        ship_level,
+                        ship_code
                     ) VALUES (
                         {playerId},
                         {element.ShipModel.Id},
                         {element.Experience},
-                        1
+                        1,
+                        NEWID()
                     )";
                 DataConnection.Execute(q);
             }
@@ -485,12 +487,14 @@ public class GameEvent
                         player_id,
                         module_id,
                         experience,
-                        module_level
+                        module_level,
+                        module_code
                     ) VALUES (
                         {playerId},
                         {element.ModuleType.Id},
                         {element.Experience},
-                        1
+                        1,
+                        NEWID()
                     )";
                 DataConnection.Execute(q);
             }

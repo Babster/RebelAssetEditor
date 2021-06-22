@@ -180,6 +180,11 @@ public class PlayerDataSql : PlayerData
         return PlayerStoryFlowHub.RegisterPlayerProgress(playerId).ToStringAndInt();
     }
 
+    public static PlayerAsset GetPlayerAsset(int playerId)
+    {
+        return new PlayerAsset(playerId);
+    }
+
 }
 
 public class PlayerData

@@ -34,6 +34,16 @@ public class Ship : UnityShip
         Level = Convert.ToInt32(r["ship_level"]);
         RigId = (int)r["rig_id"];
 
+        if(r["ship_code"] == DBNull.Value)
+        {
+            ShipCode = Guid.NewGuid();
+            string q = $"UPDATE players_ships SET ship_code = CAST('{this.ShipCode.ToString()}' AS uniqueidentifier) WHERE id = {this.Id}";
+            DataConnection.Execute(q);
+        }
+        else
+        {
+            this.ShipCode = (Guid)r["ship_code"];
+        }
     }
 
     public static string ShipQuery()
@@ -45,7 +55,8 @@ public class Ship : UnityShip
             ss_design_id,
             experience,
             ship_level,
-            rig_id
+            ISNULL(rig_id, 0) AS rig_id,
+            ship_code
         FROM
             players_ships";
 
@@ -86,7 +97,8 @@ public class Ship : UnityShip
                 ss_design_id = {ModelId},
                 experience = {Experience},
                 ship_level = {Level},
-                rig_id = {RigId}
+                rig_id = {RigId},
+                ship_code = CAST('{ShipCode.ToString()}' AS uniqueidentifier)
             WHERE
                 id = {Id}";
         DataConnection.Execute(q);
@@ -97,10 +109,11 @@ public class Ship : UnityShip
 
 public class UnityShip
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public int PlayerId { get; set; }
     public int ModelId { get; set; }
-    
+    public Guid ShipCode { get; set; }
     [JsonIgnore]
     public ShipModel Model
     {
@@ -114,6 +127,11 @@ public class UnityShip
     public int Level { get; set; }
     public int Experience { get; set; }
     public int RigId { get; set; }
+
+    public UnityShip()
+    {
+
+    }
 
     public string ShipDescription()
     {

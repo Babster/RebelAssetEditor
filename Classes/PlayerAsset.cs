@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-class PlayerAsset
+public class PlayerAsset
 {
     public List<SpaceshipRig> Rigs { get; set; }
     public List<Crew.CrewOfficer> Officers { get; set; }
     public List<Ship> Ships { get; set; }
     public List<ShipModule> Modules { get; set; }
 
-    public Dictionary<int, ShipModuleType> ModuleTypes { get; set; }
+    //public Dictionary<int, ShipModuleType> ModuleTypes { get; set; }
 
     public PlayerAsset() { }
 
@@ -23,7 +23,7 @@ class PlayerAsset
         Officers = Crew.CrewOfficer.OfficersForPlayer(playerId, false);
         Ships = Ship.PlayerShips(playerId);
         Modules = ShipModule.PlayerModules(playerId);
-        CreateModuleTypeDictionary();
+        //CreateModuleTypeDictionary();
     }
 
     public void ClearDeserializationDuplicates()
@@ -42,7 +42,7 @@ class PlayerAsset
         }
     }
 
-    private void CreateModuleTypeDictionary()
+    /*private void CreateModuleTypeDictionary()
     {
         ModuleTypes = new Dictionary<int, ShipModuleType>();
         if (Modules.Count == 0)
@@ -54,9 +54,9 @@ class PlayerAsset
                 ModuleTypes.Add(module.ModuleTypeId, module.ModuleType);
             }
         }
-    }
+    }*/
 
-    public ShipModuleType ModuleTypeById(int id)
+    /*public ShipModuleType ModuleTypeById(int id)
     {
         if(ModuleTypes.ContainsKey(id))
         {
@@ -66,9 +66,9 @@ class PlayerAsset
         {
             return null;
         }
-    }
+    }*/
 
-    public void CreateDictionaries()
+    /*public void CreateDictionaries()
     {
         CreateModuleTypeDictionary();
         if(Modules.Count > 0)
@@ -79,6 +79,6 @@ class PlayerAsset
                 ShipModuleType.AddModuleType(mType);
             }
         }
-    }
+    }*/
 
 }

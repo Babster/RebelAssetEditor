@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 public class ShipModule : UnityShipModule
 {
@@ -41,6 +42,18 @@ public class ShipModule : UnityShipModule
         Experience = Convert.ToInt32(r["experience"]);
         ModuleLevel = Convert.ToInt32(r["module_level"]);
         RigSlotId = Convert.ToInt32(r["rig_id"]);
+
+        if (r["module_code"] == DBNull.Value)
+        {
+            this.ModuleCode = Guid.NewGuid();
+            string q = $"UPDATE players_modules SET module_code = CAST('{this.ModuleCode.ToString()}' AS uniqueidentifier) WHERE id = {this.Id}";
+            DataConnection.Execute(q);
+        }
+        else
+        {
+            this.ModuleCode = (Guid)r["module_code"];
+        }
+
     }
 
     public static string ModuleQuery()
@@ -52,7 +65,8 @@ public class ShipModule : UnityShipModule
                 module_id,
                 experience,
                 module_level,
-                ISNULL(rig_id, 0) AS rig_id
+                ISNULL(rig_id, 0) AS rig_id,
+                module_code
             FROM
                 players_modules";
         return q;
@@ -74,7 +88,8 @@ public class ShipModule : UnityShipModule
                 module_id = {ModuleTypeId},
                 experience = {Experience},
                 module_level = {ModuleLevel},
-                rig_id = {RigSlotId}
+                rig_id = {RigSlotId},
+                module_code = CAST('{ModuleCode.ToString()}' AS uniqueidentifier)
             WHERE
                 id = {Id}";
         DataConnection.Execute(q);
@@ -148,7 +163,7 @@ public class ShipModule : UnityShipModule
 /// </summary>
 public class UnityShipModule
 {
-
+    [JsonIgnore]
     public int Id { get; set; }
     public int PlayerId { get; set; }
     public int ModuleTypeId { get; set; }
@@ -156,6 +171,7 @@ public class UnityShipModule
     public int ModuleLevel { get; set; }
     public int RigSlotId { get; set; }
     public bool Reserve { get; set; }
+    public Guid ModuleCode { get; set; }
 
     public override string ToString()
     {

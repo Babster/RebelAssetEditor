@@ -69,6 +69,17 @@ namespace RsaApi.Controllers
             
         }
 
+        [Route("GetPlayerAsset")]
+        public HttpResponseMessage GetPlayerAsset()
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+            PlayerAsset playerAsset = PlayerDataSql.GetPlayerAsset(playerId);
+            string serializedElement = JsonConvert.SerializeObject(playerAsset);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
 
     }
 }
