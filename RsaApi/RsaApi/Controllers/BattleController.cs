@@ -13,13 +13,38 @@ namespace RsaApi.Controllers
     public class BattleController : ApiController
     {
 
-        [Route("StartBattle")]
-        public HttpResponseMessage StartBattle(int battleSetId)
+        [Route("BattleSceneList")]
+        public HttpResponseMessage BattleSceneList()
         {
             string steamId = User.Identity.Name;
             int playerId = PlayerDataSql.PlayerId(steamId);
-            PlayerAsset playerAsset = PlayerDataSql.GetPlayerAsset(playerId);
-            string serializedElement = JsonConvert.SerializeObject(playerAsset);
+
+            List<Battle> playerBattles = Battle.BattlesForPlayer(playerId, true);
+            string serializedElement = JsonConvert.SerializeObject(playerBattles);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
+        [Route("StartBattle")]
+        public HttpResponseMessage StartBattle(SpaceshipRig rig, int battleSceneId)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            Battle battle = null;
+
+            if (rig.Id == 0)
+            {
+                rig.SaveData(playerId, "");
+                battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
+            }
+            else
+            {
+
+            }
+
+            string serializedElement = JsonConvert.SerializeObject(battle);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(serializedElement);
             return response;

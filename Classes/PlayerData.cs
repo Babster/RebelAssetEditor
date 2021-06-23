@@ -171,7 +171,21 @@ public class PlayerDataSql : PlayerData
     public static StringAndInt NextStoryObject(string steamId)
     {
         int playerId = PlayerId(steamId);
-        return PlayerStoryFlowHub.CurrentProgressElementForPlayer(playerId).ToStringAndInt();
+
+        StringAndInt curData = PlayerStoryFlowHub.CurrentProgressElementForPlayer(playerId).ToStringAndInt();
+
+        //Если битва еще не началась, то игрока надо кинуть на сцену рига корабля
+        if(curData.StrValue == "battle")
+        {
+            Battle curBattle = Battle.BattleByTypeId(playerId, curData.IntValue);
+            if(curBattle == null)
+            {
+                curData.StrValue = "rig";
+            }
+        }
+
+        return curData;
+
 
     }
     public static StringAndInt RegisterStoryElementCompleted(string steamId)

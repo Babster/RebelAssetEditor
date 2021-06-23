@@ -168,4 +168,21 @@ public static class DataConnection
         DataConnection.Execute(q, vs);
     }
 
+    public static string DateToSqlString(DateTime date)
+    {
+        if(date == null)
+        {
+            return "NULL";
+        }
+        else if(date == new DateTime(0))
+        {
+            return "NULL";
+        }
+        else
+        {
+            return "CAST('" + date.Year + "-" + date.Day + "-" + date.Month + " " + 
+                              date.Hour + ":" + date.Minute + ":" + date.Second + ":" + date.Millisecond + "' AS DateTime)";
+        }
+    }
+
 }
