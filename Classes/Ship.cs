@@ -107,6 +107,32 @@ public class Ship : UnityShip
         }
     }
 
+    private static Dictionary<int, Ship> shipByIdDict;
+    public static Ship GetShipById(int id)
+    {
+        if(shipByIdDict == null)
+        {
+            shipByIdDict = new Dictionary<int, Ship>();
+        }
+        if(shipByIdDict.ContainsKey(id))
+        {
+            return shipByIdDict[id];
+        }
+        else
+        {
+            Ship ship = null;
+            string q = ShipQuery() + $" WHERE id = {id}";
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                r.Read();
+                ship = new Ship(r);
+            }
+            r.Close();
+            return ship;
+        }
+    }
+
     public void Save()
     {
         string q;

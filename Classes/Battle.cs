@@ -45,7 +45,7 @@ public class Battle : UnityBattle
         }
 
         q = $@"UPDATE battles SET 
-                battle_code = {BattleCode},
+                battle_code = CAST('{BattleCode}' AS uniqueidentifier),
                 player_id = {PlayerId},
                 ongoing = {Ongoing},
                 battle_scene_type_id = {BattleSceneTypeId},
@@ -72,7 +72,7 @@ public class Battle : UnityBattle
                 id,
                 battle_code,
                 player_id,
-                ongoing int,
+                ongoing,
                 battle_scene_type_id,
                 rig_id,
                 date_start,
@@ -167,7 +167,8 @@ public class Battle : UnityBattle
         curBattle.MaxOpenedCycle = 1;
         curBattle.ShipExperience = 0;
         curBattle.ShipOpenedSkills = "";
-        curBattle.battleScene = new BattleScene(BattleSceneType.SceneById(curBattle.BattleSceneTypeId));
+        BattleScene tBattle = new BattleScene(BattleSceneType.SceneById(curBattle.BattleSceneTypeId));
+        curBattle.battleScene = new UnityBattleScene(tBattle);
         curBattle.SaveData();
         return curBattle;
     }
@@ -188,6 +189,7 @@ public class UnityBattle
     public int Ongoing { get; set; }
     public int BattleSceneTypeId { get; set; }
     public int RigId { get; set; }
+    public SpaceshipRig Rig { get; set; }
     public DateTime DateStart { get; set; }
     public DateTime DateComplete { get; set; }
     public int Successfull { get; set; }
@@ -197,5 +199,5 @@ public class UnityBattle
     public int MaxOpenedStage { get; set; }
     public int ShipExperience { get; set; }
     public string ShipOpenedSkills { get; set; }
-    public BattleScene battleScene { get; set; }
+    public UnityBattleScene battleScene { get; set; }
 }

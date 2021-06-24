@@ -34,6 +34,11 @@ public class SpaceshipRig : UnitySpaceshipRig
         Tag = Convert.ToString(r["tag"]);
         int ShipModelId = Convert.ToInt32(r["ship_model_id"]);
         sModel = ShipModel.ModelById(ShipModelId);
+        if((int)r["ship_id"] > 0)
+        {
+            this.Ship = Ship.GetShipById((int)r["ship_id"]);
+        }
+        
 
         if(r["rig_code"] == DBNull.Value)
         {
@@ -168,6 +173,7 @@ public class SpaceshipRig : UnitySpaceshipRig
         SELECT
             id,
             ship_model_id,
+            ship_id,
             player_id,
             tag,
             rig_code
@@ -254,6 +260,7 @@ public class SpaceshipRig : UnitySpaceshipRig
                 {
                     return "Wrong guid";
                 }
+                Id = rigByGuid.Id;
             }
 
         }
@@ -279,11 +286,15 @@ public class SpaceshipRig : UnitySpaceshipRig
             
         if (Id == 0)
         {
+            if (RigCode == Guid.Empty)
+            {
+                RigCode = Guid.NewGuid();
+            }
             q = $@"
-                INSERT INTO ss_rigs(ship_model_id, ship_id, player_id, tag) VALUES({sModel.Id}, {shipId}, {playerId}, @str1)
+                INSERT INTO ss_rigs(ship_model_id, ship_id, player_id, tag, rig_code) 
+                             VALUES({sModel.Id}, {shipId}, {playerId}, @str1, CAST('{RigCode.ToString()}' AS uniqueidentifier))
                 SELECT @@IDENTITY AS Result";
             Id = DataConnection.GetResultInt(q, names);
-
         }
         else
         {
@@ -483,6 +494,7 @@ public class RigSlot : UnityRigSlot
         int moduleId = 0;
         if (Module != null)
         {
+            Module.Id = ShipModule.ModuleIdByGuid(Module.ModuleCode);
             moduleId = Module.Id;
             Module.RigSlotId = Id;
             Module.Save();

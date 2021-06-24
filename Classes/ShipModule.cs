@@ -167,7 +167,7 @@ public class ShipModule : UnityShipModule
     }
 
     private static Dictionary<Guid, int> moduleGuidIdDict;
-    private static int ModuleIdByGuid(Guid guid)
+    public static int ModuleIdByGuid(Guid guid)
     {
         if(moduleGuidIdDict == null)
         {

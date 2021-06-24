@@ -130,7 +130,6 @@ public class BattleSceneType : UnityBattleSceneType
             return null;
         }
     }
-
     private static string SceneQuery()
     {
         string q = $@"
@@ -145,7 +144,6 @@ public class BattleSceneType : UnityBattleSceneType
                 battle_scenes";
         return q;
     }
-
     public BattleSceneTypeEnemy AddEnemy()
     {
         BattleSceneTypeEnemy enemy = new BattleSceneTypeEnemy();

@@ -34,21 +34,50 @@ namespace RsaApi.Controllers
             int playerId = PlayerDataSql.PlayerId(steamId);
 
             Battle battle = null;
-
-            if (rig.Id == 0)
+            if(rig != null)
             {
-                rig.SaveData(playerId, "");
-                battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
-            }
-            else
-            {
+                if (rig.Id == 0)
+                {
+                    rig.SaveData(playerId, "");
+                    battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
+                    battle.Rig = rig;
+                }
+                else
+                {
 
+                }
             }
 
             string serializedElement = JsonConvert.SerializeObject(battle);
+            serializedElement = CommonFunctions.Compress(serializedElement);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(serializedElement);
             return response;
+        }
+
+        [Route("ContinueBattle")]
+        public HttpResponseMessage ContinueBattle(int battleSceneId)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            Battle battle = Battle.BattleByTypeId(playerId, battleSceneId);
+            BattleScene tBattle = new BattleScene(BattleSceneType.SceneById(battleSceneId));
+            battle.battleScene = new UnityBattleScene(tBattle);
+            battle.Rig = SpaceshipRig.RigById(battle.RigId);
+
+            string serializedElement = JsonConvert.SerializeObject(battle);
+            serializedElement = CommonFunctions.Compress(serializedElement);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
+        [Route ("RegisterStageCompleted")]
+        public HttpResponseMessage RegisterStageCompleted()
+        {
+
+            return null;
         }
 
     }

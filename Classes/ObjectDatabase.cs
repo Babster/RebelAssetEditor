@@ -117,6 +117,14 @@ public class ObjectDatabase : UnityObjectDatabase
         officerTypes = Crew.CrewOfficerType.GetTypeList();
     }
 
+    /// <summary>
+    /// Отключено, потому что вся необходимая информация должна быть упакована в объект конкретной боевой сцены
+    /// </summary>
+    private void LoadBattleSceneTypes()
+    {
+        battleSceneTypes = BattleSceneType.SceneList();
+    }
+
 }
 
 /// <summary>
@@ -138,6 +146,7 @@ public class UnityObjectDatabase
     public List<Story.RebelSceneWithSql> storyScenes { get; set; }
     public List<Crew.OfficerStatTypeSql> statTypes { get; set; }
     public List<Crew.CrewOfficerType> officerTypes { get; set; }
+    public List<BattleSceneType> battleSceneTypes { get; set; }
     public UnityObjectDatabase() { }
 
     

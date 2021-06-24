@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AdmiralNamespace;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 public class BattleScene
 {
 
+    [JsonIgnore]
     public BattleSceneType SceneType { get; set; }
     public List<Cycle> Cycles { get; set; }
     public int CycleToComplete { get; set; }
+
     public BattleScene(BattleSceneType stype)
     {
         SceneType = stype;
@@ -19,14 +22,32 @@ public class BattleScene
 
         //Starting with 5 cycles and then add some more
         Cycles = new List<Cycle>();
-        for(int i=1; i<=100; i++)
+        for(int i=1; i<=20; i++)
         {
-            Cycle curCycle = new Cycle(stype, i);
+            Cycle curCycle = new Cycle(stype, i, 1, 1);
             Cycles.Add(curCycle);
         }
     }
 
 
+    /// <summary>
+    /// Когда надо продолжить сражение
+    /// </summary>
+    /// <param name="battle"></param>
+    public BattleScene(Battle battle)
+    {
+        SceneType = BattleSceneType.SceneById(battle.BattleSceneTypeId);
+        CycleToComplete = SceneType.CycleToComplete;
+
+        //Starting with 5 cycles and then add some more
+        Cycles = new List<Cycle>();
+        for (int i = 1; i <= 20; i++)
+        {
+            Cycle curCycle = new Cycle(SceneType, i, battle.MaxOpenedCycle, battle.MaxOpenedStage);
+            Cycles.Add(curCycle);
+        }
+    }
+        
     /// <summary>
     /// Battle scene -> cycle -> stage
     /// </summary>
@@ -40,18 +61,22 @@ public class BattleScene
         private List<ResourceInCycle> crList;
 
         public Cycle() { }
-        public Cycle(BattleSceneType stype, int cycleNumber)
+        public Cycle(BattleSceneType stype, int cycleNumber, int maxOpenedCycle, int maxOpenedStage)
         {
 
             Random rnd = new Random();
 
             crList = new List<ResourceInCycle>();
-            foreach (BattleSceneTypeResource res in stype.resources)
+            if(cycleNumber >= maxOpenedCycle)
             {
-                ResourceInCycle curRc = new ResourceInCycle(res, cycleNumber);
-                if (curRc.CanBeUsed)
-                    crList.Add(curRc);
+                foreach (BattleSceneTypeResource res in stype.resources)
+                {
+                    ResourceInCycle curRc = new ResourceInCycle(res, cycleNumber);
+                    if (curRc.CanBeUsed)
+                        crList.Add(curRc);
+                }
             }
+
 
             Stages = new List<Stage>();
             Number = cycleNumber;
@@ -64,9 +89,18 @@ public class BattleScene
                     {
                         foreach (var stage in Stages)
                         {
-                            if(stage.StageNumber == enemy.StageNumber)
+                            bool processResources = false;
+                            if(cycleNumber >= maxOpenedCycle)
                             {
-                                stage.AddEnemy(enemy);
+                                processResources = true;
+                            }
+                            else if(cycleNumber == maxOpenedCycle && stage.StageNumber >= maxOpenedStage)
+                            {
+                                processResources = true;
+                            }
+                            if (stage.StageNumber == enemy.StageNumber)
+                            {
+                                stage.AddEnemy(enemy, processResources);
                                 enemyLoaded = true;
                                 break;
                             }
@@ -74,7 +108,16 @@ public class BattleScene
                     }
                     if(!enemyLoaded)
                     {
-                        Stages.Add(new Stage(enemy, cycleNumber, crList, stype));
+                        bool processResources = false;
+                        if (cycleNumber >= maxOpenedCycle)
+                        {
+                            processResources = true;
+                        }
+                        else if (cycleNumber == maxOpenedCycle && enemy.StageNumber >= maxOpenedStage)
+                        {
+                            processResources = true;
+                        }
+                        Stages.Add(new Stage(enemy, cycleNumber, crList, stype, processResources));
                     }
 
                 }
@@ -239,16 +282,16 @@ public class BattleScene
 
         public Stage() { }
 
-        public Stage(BattleSceneTypeEnemy enemy, int cycleNumber, List<Cycle.ResourceInCycle> cr, BattleSceneType stype)
+        public Stage(BattleSceneTypeEnemy enemy, int cycleNumber, List<Cycle.ResourceInCycle> cr, BattleSceneType stype, bool processResources)
         {
             Enemy = new List<StageEnemy>();
             StageNumber = enemy.StageNumber;
             CycleNumber = cycleNumber;
             Cr = cr;
-            AddEnemy(enemy);
+            AddEnemy(enemy, processResources);
         }
 
-        public void AddEnemy(BattleSceneTypeEnemy enemy)
+        public void AddEnemy(BattleSceneTypeEnemy enemy, bool processResources)
         {
 
             for (int i = 0; i < enemy.Count; i++)
@@ -268,9 +311,12 @@ public class BattleScene
                 curEnemy.BattleIntensity = (int)Math.Round(enemy.Rig.sModel.BattleIntensity * intensityMult);
                 curEnemy.EnemyStatsMultiplier = cycleMultiplier;
                 curEnemy.CalculateParameters();
-                foreach (var c in Cr)
+                if(processResources)
                 {
-                    c.ProcessEnemy(curEnemy);
+                    foreach (var c in Cr)
+                    {
+                        c.ProcessEnemy(curEnemy);
+                    }
                 }
                 Enemy.Add(curEnemy);
             }
