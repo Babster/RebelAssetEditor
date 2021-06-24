@@ -698,6 +698,7 @@ public static class PlayerStoryFlowHub
     /// <returns></returns>
     public static PlayerProgressElement CurrentProgressElementForPlayer(int playerId)
     {
+
         if (playerProgressElementDictionary == null)
         {
             playerProgressElementDictionary = new Dictionary<int, PlayerProgressElement>();
@@ -735,16 +736,15 @@ public static class PlayerStoryFlowHub
         {
             r.Read();
             curElement = new PlayerProgressElement(r);
-            
         }
         else
         {
             curElement = new PlayerProgressElement();
-            StoryObjectFlowElement tElement = NextStoryObject(curElement);
-            curElement = new PlayerProgressElement(playerId, tElement);
         }
         r.Close();
-        
+
+        StoryObjectFlowElement tElement = NextStoryObject(curElement);
+        curElement = new PlayerProgressElement(playerId, tElement);
         playerProgressElementDictionary.Add(playerId, curElement);
         return curElement;
 

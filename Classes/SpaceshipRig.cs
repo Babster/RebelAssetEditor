@@ -34,6 +34,18 @@ public class SpaceshipRig : UnitySpaceshipRig
         Tag = Convert.ToString(r["tag"]);
         int ShipModelId = Convert.ToInt32(r["ship_model_id"]);
         sModel = ShipModel.ModelById(ShipModelId);
+
+        if(r["rig_code"] == DBNull.Value)
+        {
+            RigCode = Guid.NewGuid();
+            string q = $@"UPDATE ss_rigs SET rig_code = CAST('{RigCode.ToString()}' AS uniqueidentifier) WHERE id = {Id}";
+            DataConnection.Execute(q);
+        }
+        else
+        {
+            RigCode = (Guid)r["rig_code"];
+        }
+
         LoadSlots();
     }
 
@@ -157,7 +169,8 @@ public class SpaceshipRig : UnitySpaceshipRig
             id,
             ship_model_id,
             player_id,
-            tag
+            tag,
+            rig_code
         FROM
             ss_rigs ";
         if (id > 0)
@@ -229,14 +242,39 @@ public class SpaceshipRig : UnitySpaceshipRig
         return rigs;
         
     }
-    public void SaveData(int playerId, string tag)
+    public string SaveData(int playerId, string tag)
     {
+
+        if(playerId > 0)
+        {
+            SpaceshipRig rigByGuid = RigByGuid(this.RigCode);
+            if(rigByGuid != null)
+            {
+                if (rigByGuid.PlayerId != playerId)
+                {
+                    return "Wrong guid";
+                }
+            }
+
+        }
+        
+
         string q;
         List<string> names = new List<string> { tag };
         int shipId = 0;
         if (Ship != null)
         {
-            shipId = Ship.Id;
+            Ship baseShip = Ship.GetShipByGuid(Ship.ShipCode);
+            if(baseShip == null)
+            {
+                return "ship can't be found";
+            }
+            if(baseShip.PlayerId != playerId)
+            {
+                return "Error ship ownership";
+            }
+            Ship = baseShip;
+            shipId = Ship.Id ;
         }
             
         if (Id == 0)
@@ -284,8 +322,8 @@ public class SpaceshipRig : UnitySpaceshipRig
             Ship.RigId = Id;
             Ship.Save();
         }
-            
 
+        return "";
 
     }
     public void Delete()
@@ -357,6 +395,37 @@ public class SpaceshipRig : UnitySpaceshipRig
         return tRig;
     }
 
+    private static Dictionary<Guid, SpaceshipRig> rigGuidDict;
+    private static SpaceshipRig RigByGuid(Guid guid)
+    {
+        if(guid == Guid.Empty)
+        {
+            return null;
+        }
+        if(rigGuidDict == null)
+        {
+            rigGuidDict = new Dictionary<Guid, SpaceshipRig>();
+        }
+        if(rigGuidDict.ContainsKey(guid))
+        {
+            return rigGuidDict[guid];
+        }
+        else
+        {
+            string q = SpaceshipRigQuery(0, 0, "", false);
+            q += $" AND rig_code = CAST('{guid.ToString()}' AS uniqueidentifier)";
+            SqlDataReader r = DataConnection.GetReader(q);
+            SpaceshipRig curRig = null;
+            if(r.HasRows)
+            {
+                r.Read();
+                curRig = new SpaceshipRig(r);
+            }
+            r.Close();
+            return curRig;
+        }
+    }
+
 }
 
 public class RigSlot : UnityRigSlot
@@ -392,6 +461,7 @@ public class RigSlot : UnityRigSlot
     }
     public void SaveData(int rigId)
     {
+
         string q;
         if (Id == 0)
         {
@@ -400,6 +470,8 @@ public class RigSlot : UnityRigSlot
                     SELECT @@IDENTITY AS Result";
             this.Id = DataConnection.GetResultInt(q);
         }
+
+        
 
         int slotId = 0;
         if (Slot != null)
@@ -511,6 +583,7 @@ public class UnityRigSlot
     public ShipModuleType ModuleType { get; set; }
     public ShipModule Module { get; set; }
     public RigSlotOfficerTeam team { get; set; }
+    public Guid SlotCode { get; set; }
 
     public UnityRigSlot() { team = new RigSlotOfficerTeam(); }
 
@@ -650,6 +723,7 @@ public class UnitySpaceshipRig
     public ShipModel sModel { get; set; }
     public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
+    public Guid RigCode { get; set; }
     //public SpaceshipParameters Params { get; set; }
     private void LoadSlots()
     {

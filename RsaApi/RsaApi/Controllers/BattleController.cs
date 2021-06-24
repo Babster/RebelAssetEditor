@@ -13,6 +13,7 @@ namespace RsaApi.Controllers
     public class BattleController : ApiController
     {
 
+        [HttpGet]
         [Route("BattleSceneList")]
         public HttpResponseMessage BattleSceneList()
         {
@@ -25,7 +26,7 @@ namespace RsaApi.Controllers
             response.Content = new StringContent(serializedElement);
             return response;
         }
-
+        
         [Route("StartBattle")]
         public HttpResponseMessage StartBattle(SpaceshipRig rig, int battleSceneId)
         {

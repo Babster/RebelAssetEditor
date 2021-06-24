@@ -63,7 +63,6 @@ public class Ship : UnityShip
         return q;
 
     }
-
     public static List<Ship> PlayerShips(int playerId)
     {
         List<Ship> ships = new List<Ship>();
@@ -79,6 +78,33 @@ public class Ship : UnityShip
         }
         r.Close();
         return ships;
+    }
+
+    private static Dictionary<Guid, Ship> shipCache;
+    public static Ship GetShipByGuid(Guid guid)
+    {
+        if (shipCache == null)
+        {
+            shipCache = new Dictionary<Guid, Ship>();
+        }
+        if(shipCache.ContainsKey(guid))
+        {
+            return shipCache[guid];
+        }
+        else
+        {
+            string q = ShipQuery() + $@" WHERE ship_code = CAST('{guid.ToString()}' AS uniqueidentifier)";
+            SqlDataReader r = DataConnection.GetReader(q);
+            Ship curShip = null;
+            if(r.HasRows)
+            {
+                r.Read();
+                curShip = new Ship(r);
+                shipCache.Add(curShip.ShipCode, curShip);
+            }
+            r.Close();
+            return curShip;
+        }
     }
 
     public void Save()
@@ -102,6 +128,15 @@ public class Ship : UnityShip
             WHERE
                 id = {Id}";
         DataConnection.Execute(q);
+
+        if (shipCache == null)
+        {
+            shipCache = new Dictionary<Guid, Ship>();
+        }
+        if(!shipCache.ContainsKey(ShipCode))
+        {
+            shipCache.Add(ShipCode, this);
+        }
 
     }
 

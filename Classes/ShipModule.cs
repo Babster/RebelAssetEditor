@@ -77,13 +77,24 @@ public class ShipModule : UnityShipModule
         string q;
         if(Id==0)
         {
-            q = $@"
+            if(ModuleCode == Guid.Empty)
+            {
+                q = $@"
                 INSERT INTO players_modules(player_id) VALUES(0)
                 SELECT @@IDENTITY AS Result";
-            Id = DataConnection.GetResultInt(q);
+                Id = DataConnection.GetResultInt(q);
+            }
+            else
+            {
+                Id = ShipModule.ModuleIdByGuid(ModuleCode);
+                if(Id == 0)
+                {
+                    return;
+                }
+            }
         }
 
-        q = $@"UPDATE admirals_modules SET 
+        q = $@"UPDATE players_modules SET 
                 player_id = {PlayerId},
                 module_id = {ModuleTypeId},
                 experience = {Experience},
@@ -153,6 +164,24 @@ public class ShipModule : UnityShipModule
             }
         }
 
+    }
+
+    private static Dictionary<Guid, int> moduleGuidIdDict;
+    private static int ModuleIdByGuid(Guid guid)
+    {
+        if(moduleGuidIdDict == null)
+        {
+            moduleGuidIdDict = new Dictionary<Guid, int>();
+        }
+        if(moduleGuidIdDict.ContainsKey(guid))
+        {
+            return moduleGuidIdDict[guid];
+        }
+        else
+        {
+            string q = $@"SELECT id FROM players_modules WHERE module_code = CAST('{guid.ToString()}' AS uniqueidentifier)";
+            return DataConnection.GetResultInt(q,null,0);
+        }
     }
 
 }
