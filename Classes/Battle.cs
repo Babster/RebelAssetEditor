@@ -181,6 +181,7 @@ public class Battle : UnityBattle
 
 }
 
+
 public class UnityBattle
 {
     public int Id { get; set; }
@@ -201,3 +202,43 @@ public class UnityBattle
     public string ShipOpenedSkills { get; set; }
     public UnityBattleScene battleScene { get; set; }
 }
+
+public class BattleProgressRegistration
+{
+    public Guid BattleCode { get; set; }
+    public int ShipExperience { get; set; }
+    public string ShipSkills { get; set; }
+    public List<OfficerExperience> OfficerExperiencing { get; set; }
+    public List<ModuleSkill> ModuleSkills { get; set; }
+    public PlayerResources GainedResources { get; set; }
+
+    public BattleProgressRegistration() { }
+
+    public void SaveData()
+    {
+
+    }
+}
+
+
+public class OfficerExperience
+{
+    public Guid OfficerCode { get; set; }
+    public int Experience { get; set; }
+    public List<SkillSet> SkillSetList { get; set; }
+    public class SkillSet
+    {
+        public int SkillSetId { get; set; }
+        public int Experience { get; set; }
+        public string OpenedSkills { get; set; }
+    }
+
+}
+
+public class ModuleSkill
+{
+    public int SlotNumber { get; set; }
+    public int SkillLevel1 { get; set; }
+    public int SkillLevel2 { get; set; }
+}
+
