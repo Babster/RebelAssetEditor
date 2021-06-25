@@ -73,11 +73,42 @@ namespace RsaApi.Controllers
             return response;
         }
 
-        [Route ("RegisterStageCompleted")]
-        public HttpResponseMessage RegisterStageCompleted()
+        [Route ("RegisterBattleProgress")]
+        public HttpResponseMessage RegisterBattleProgress(BattleProgressRegistration progress)
         {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
 
-            return null;
+            List<Battle> playerBattles = Battle.BattlesForPlayer(playerId, true);
+            Battle currentBattle = Battle.BattleByCode(progress.BattleCode);
+            if (currentBattle == null)
+            {
+                var errorResponse = new HttpResponseMessage(HttpStatusCode.NotFound);
+                errorResponse.ReasonPhrase = "Battle not found";
+                return errorResponse;
+            }
+            if(currentBattle.PlayerId != playerId)
+            {
+                var errorResponse = new HttpResponseMessage(HttpStatusCode.Forbidden);
+                errorResponse.ReasonPhrase = "Battle ownership trouble";
+                return errorResponse;
+            }
+
+            currentBattle.CurrentCycle = progress.CurrentCycle;
+            currentBattle.CurrentStage = progress.CurrentStage;
+            currentBattle.MaxOpenedCycle = progress.MaxOpenedCycle;
+            currentBattle.MaxOpenedStage = progress.MaxOpenedStage;
+            currentBattle.ShipOpenedSkills = progress.ShipSkills;
+            currentBattle.ShipExperience = progress.battleExperience.Experience;
+            currentBattle.ShipSkillPoints = progress.battleExperience.skillPoints;
+            currentBattle.ShipNextSkillPointExperience = progress.battleExperience.nextSkillPointExperience;
+            currentBattle.ShipTotalSkillPointsReceived = progress.battleExperience.totalSkillPointsReceived;
+            currentBattle.ModuleSkillsJsonCompressed = progress.ModuleSkillsSerializedString;
+
+            currentBattle.SaveData();
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            return response;
         }
 
     }

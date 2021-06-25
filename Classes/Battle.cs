@@ -30,7 +30,11 @@ public class Battle : UnityBattle
         MaxOpenedCycle = (int)r["max_opened_cycle"];
         MaxOpenedStage = (int)r["max_opened_stage"];
         ShipExperience = (int)r["ship_experience"];
+        ShipSkillPoints = (int)r["ship_skill_points"];
+        ShipNextSkillPointExperience = (int)r["ship_next_skill_point_experience"];
+        ShipTotalSkillPointsReceived = (int)r["ship_total_skill_points_received"];
         ShipOpenedSkills = (string)r["ship_opened_skills"];
+        ModuleSkillsJsonCompressed = (string)r["module_skills_json_compressed"];
     }
 
     public void SaveData()
@@ -58,10 +62,14 @@ public class Battle : UnityBattle
                 max_opened_cycle = {MaxOpenedCycle},
                 max_opened_stage = {MaxOpenedStage},
                 ship_experience = {ShipExperience},
-                ship_opened_skills = @str1
+                ship_skill_points = {ShipSkillPoints},
+                ship_next_skill_point_experience = {ShipNextSkillPointExperience},
+                ship_total_skill_points_received = {ShipTotalSkillPointsReceived},
+                ship_opened_skills = @str1,
+                module_skills_json_compressed = @str2
             WHERE
                 id = {Id}";
-        List<string> names = new List<string> { ShipOpenedSkills };
+        List<string> names = new List<string> { ShipOpenedSkills, ModuleSkillsJsonCompressed };
         DataConnection.Execute(q, names);
     }
 
@@ -83,7 +91,11 @@ public class Battle : UnityBattle
                 max_opened_cycle,
                 max_opened_stage,
                 ship_experience,
-                ship_opened_skills
+                ISNULL(ship_skill_points, 0) AS ship_skill_points,
+                ISNULL(ship_next_skill_point_experience, 0) AS ship_next_skill_point_experience,
+                ISNULL(ship_total_skill_points_received, 0) AS ship_total_skill_points_received,
+                ship_opened_skills,
+                ISNULL(module_skills_json_compressed, '') AS module_skills_json_compressed
             FROM
                 battles";
     }
@@ -164,7 +176,7 @@ public class Battle : UnityBattle
         curBattle.CurrentCycle = 1;
         curBattle.CurrentStage = 1;
         curBattle.MaxOpenedCycle = 1;
-        curBattle.MaxOpenedCycle = 1;
+        curBattle.MaxOpenedStage = 1;
         curBattle.ShipExperience = 0;
         curBattle.ShipOpenedSkills = "";
         BattleScene tBattle = new BattleScene(BattleSceneType.SceneById(curBattle.BattleSceneTypeId));
@@ -199,41 +211,42 @@ public class UnityBattle
     public int MaxOpenedCycle { get; set; }
     public int MaxOpenedStage { get; set; }
     public int ShipExperience { get; set; }
+    public int ShipSkillPoints { get; set; }
+    public int ShipNextSkillPointExperience { get; set; }
+    public int ShipTotalSkillPointsReceived { get; set; }
     public string ShipOpenedSkills { get; set; }
+    public string ModuleSkillsJsonCompressed { get; set; }
     public UnityBattleScene battleScene { get; set; }
 }
 
 public class BattleProgressRegistration
 {
     public Guid BattleCode { get; set; }
-    public int ShipExperience { get; set; }
+    public int CurrentCycle { get; set; }
+    public int CurrentStage { get; set; }
+    public int MaxOpenedCycle { get; set; }
+    public int MaxOpenedStage { get; set; }
+    public BattleExperience battleExperience { get; set; }
     public string ShipSkills { get; set; }
-    public List<OfficerExperience> OfficerExperiencing { get; set; }
+    [JsonIgnore]
     public List<ModuleSkill> ModuleSkills { get; set; }
+    public string ModuleSkillsSerializedString { get; set; }
+
     public PlayerResources GainedResources { get; set; }
 
     public BattleProgressRegistration() { }
 
-    public void SaveData()
-    {
-
-    }
 }
 
-
-public class OfficerExperience
+public class BattleExperience
 {
-    public Guid OfficerCode { get; set; }
-    public int Experience { get; set; }
-    public List<SkillSet> SkillSetList { get; set; }
-    public class SkillSet
-    {
-        public int SkillSetId { get; set; }
-        public int Experience { get; set; }
-        public string OpenedSkills { get; set; }
-    }
+    public int Experience;
+    public int skillPoints;
+    public int nextSkillPointExperience = 5;
+    public int totalSkillPointsReceived = 0;
 
 }
+
 
 public class ModuleSkill
 {

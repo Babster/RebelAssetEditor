@@ -162,6 +162,7 @@ namespace Crew
         {
 
             SkillSets = new List<UnityCrewOfficerSkillSet>();
+            skillSetDict = new Dictionary<int, CrewOfficerSkillSet>();
 
             string q = $@"
                 SELECT
@@ -181,7 +182,9 @@ namespace Crew
             {
                 while (r.Read())
                 {
-                    SkillSets.Add(new CrewOfficerSkillSet(r));
+                    CrewOfficerSkillSet curSkillSet = new CrewOfficerSkillSet(r);
+                    SkillSets.Add(curSkillSet);
+                    skillSetDict.Add(curSkillSet.SkillSetId, curSkillSet);
                 }
             }
             r.Close();
@@ -368,7 +371,24 @@ namespace Crew
             return "";
         }
 
-
+        private static Dictionary<Guid, int> officerCodesDict;
+        public static CrewOfficer OfficerByCode(Guid code)
+        {
+            if(officerCodesDict == null)
+            {
+                officerCodesDict = new Dictionary<Guid, int>();
+            }
+            if(officerCodesDict.ContainsKey(code))
+            {
+                return OfficerById(officerCodesDict[code]);
+            }
+            else
+            {
+                int id = DataConnection.GetResultInt($"SELECT id FROM crew_officers WHERE unique_code = CAST('{code.ToString()}' AS uniqueidentifier)");
+                officerCodesDict.Add(code, id);
+                return OfficerById(id);
+            }
+        }
         private static string OfficerQuery()
         {
             string q;
@@ -385,6 +405,33 @@ namespace Crew
                 FROM
                     crew_officers";
             return q;
+        }
+
+        /// <summary>
+        /// Ключом является идентификатор данного скиллсета в таблице skill_sets!!!
+        /// </summary>
+        private Dictionary<int, CrewOfficerSkillSet> skillSetDict;
+        public void RegisterSkillSetChanges(OfficerExperience officerExperience)
+        {
+            foreach(OfficerExperience.SkillSet expSkillSet in officerExperience.SkillSetList)
+            {
+                CrewOfficerSkillSet curSkillSet = null;
+                if(skillSetDict.ContainsKey(expSkillSet.SkillSetId))
+                {
+                    curSkillSet = skillSetDict[expSkillSet.SkillSetId];
+                }
+                if(curSkillSet == null)
+                {
+                    curSkillSet = new CrewOfficerSkillSet();
+                    curSkillSet.CrewOfficerId = Id;
+                    curSkillSet.SkillSetId = expSkillSet.SkillSetId;
+                }
+                curSkillSet.Experience = expSkillSet.Experience;
+                curSkillSet.SkillPointsTotal = expSkillSet.SkillPointsTotal;
+                curSkillSet.SkillPointsLeft = expSkillSet.SkillPointsLeft;
+                curSkillSet.OpenedSkills = expSkillSet.OpenedSkills;
+                curSkillSet.SaveData(Id);
+            }
         }
 
     }
@@ -459,7 +506,6 @@ namespace Crew
         }
 
     }
-    
     public class CrewOfficerStat : UnityCrewOfficerStat
     {
 
@@ -907,7 +953,7 @@ namespace Crew
 
     #endregion
 
-    #region Officer skillset
+    #region Officer skillset and experiencing
 
     public class CrewOfficerSkillSet : UnityCrewOfficerSkillSet
     {
@@ -960,6 +1006,30 @@ namespace Crew
         public string OpenedSkills { get; set; }
 
         public UnityCrewOfficerSkillSet() { }
+
+    }
+
+    public class OfficerExperience
+    {
+        public Guid OfficerCode { get; set; }
+        public List<SkillSet> SkillSetList { get; set; }
+
+        public OfficerExperience() { }
+
+        public class SkillSet
+        {
+            public int SkillSetId { get; set; }
+            public int Experience { get; set; }
+            public int SkillPointsTotal { get; set; }
+            public int SkillPointsLeft { get; set; }
+            public string OpenedSkills { get; set; }
+        }
+
+        public void SaveData()
+        {
+            CrewOfficer curOfficer = CrewOfficer.OfficerByCode(OfficerCode);
+            curOfficer.RegisterSkillSetChanges(this);
+        }
 
     }
 
