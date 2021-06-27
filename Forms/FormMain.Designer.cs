@@ -449,6 +449,8 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label125 = new System.Windows.Forms.Label();
+            this.buttonImageDelete = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -616,7 +618,6 @@
             // 
             // GridStoryFlow
             // 
-            this.GridStoryFlow.AllowUserToDeleteRows = false;
             this.GridStoryFlow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -633,6 +634,8 @@
             this.GridStoryFlow.Size = new System.Drawing.Size(1219, 503);
             this.GridStoryFlow.TabIndex = 0;
             this.GridStoryFlow.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridStoryFlow_CellEndEdit);
+            this.GridStoryFlow.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.GridStoryFlow_UserDeletedRow);
+            this.GridStoryFlow.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.GridStoryFlow_UserDeletingRow);
             // 
             // s_id
             // 
@@ -906,6 +909,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.buttonImageDelete);
+            this.tabPage2.Controls.Add(this.label125);
             this.tabPage2.Controls.Add(this.buttonImageSave);
             this.tabPage2.Controls.Add(this.textImageId);
             this.tabPage2.Controls.Add(this.label9);
@@ -2679,7 +2684,7 @@
             this.tabControl8.Location = new System.Drawing.Point(8, 6);
             this.tabControl8.Name = "tabControl8";
             this.tabControl8.SelectedIndex = 0;
-            this.tabControl8.Size = new System.Drawing.Size(1222, 505);
+            this.tabControl8.Size = new System.Drawing.Size(1222, 503);
             this.tabControl8.TabIndex = 9;
             // 
             // tabPage26
@@ -2692,7 +2697,7 @@
             this.tabPage26.Location = new System.Drawing.Point(4, 29);
             this.tabPage26.Name = "tabPage26";
             this.tabPage26.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage26.Size = new System.Drawing.Size(1214, 472);
+            this.tabPage26.Size = new System.Drawing.Size(1214, 470);
             this.tabPage26.TabIndex = 0;
             this.tabPage26.Text = "Design";
             this.tabPage26.UseVisualStyleBackColor = true;
@@ -2721,7 +2726,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 488);
+            this.groupBox6.Size = new System.Drawing.Size(899, 458);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2737,7 +2742,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 372);
+            this.tabControl6.Size = new System.Drawing.Size(883, 342);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2770,7 +2775,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 339);
+            this.tabPage21.Size = new System.Drawing.Size(875, 309);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -2974,7 +2979,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 224);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 184);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3427,7 +3432,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 454);
+            this.treeBs.Size = new System.Drawing.Size(297, 424);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -4819,6 +4824,25 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label125
+            // 
+            this.label125.AutoSize = true;
+            this.label125.Location = new System.Drawing.Point(866, 43);
+            this.label125.Name = "label125";
+            this.label125.Size = new System.Drawing.Size(144, 20);
+            this.label125.TabIndex = 11;
+            this.label125.Text = "press enter to save";
+            // 
+            // buttonImageDelete
+            // 
+            this.buttonImageDelete.Location = new System.Drawing.Point(1096, 6);
+            this.buttonImageDelete.Name = "buttonImageDelete";
+            this.buttonImageDelete.Size = new System.Drawing.Size(129, 34);
+            this.buttonImageDelete.TabIndex = 12;
+            this.buttonImageDelete.Text = "Delete";
+            this.buttonImageDelete.UseVisualStyleBackColor = true;
+            this.buttonImageDelete.Click += new System.EventHandler(this.buttonImageDelete_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -5342,6 +5366,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ot_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn ot_score;
         private System.Windows.Forms.DataGridViewTextBoxColumn ot_stat_object;
+        private System.Windows.Forms.Label label125;
+        private System.Windows.Forms.Button buttonImageDelete;
         //private System.Windows.Forms.Label label129;
     }
 }

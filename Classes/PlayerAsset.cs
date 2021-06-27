@@ -42,43 +42,6 @@ public class PlayerAsset
         }
     }
 
-    /*private void CreateModuleTypeDictionary()
-    {
-        ModuleTypes = new Dictionary<int, ShipModuleType>();
-        if (Modules.Count == 0)
-            return;
-        foreach(var module in Modules)
-        {
-            if(!ModuleTypes.ContainsKey(module.ModuleTypeId))
-            {
-                ModuleTypes.Add(module.ModuleTypeId, module.ModuleType);
-            }
-        }
-    }*/
-
-    /*public ShipModuleType ModuleTypeById(int id)
-    {
-        if(ModuleTypes.ContainsKey(id))
-        {
-            return ModuleTypes[id];
-        }
-        else
-        {
-            return null;
-        }
-    }*/
-
-    /*public void CreateDictionaries()
-    {
-        CreateModuleTypeDictionary();
-        if(Modules.Count > 0)
-        {
-            foreach(var module in Modules)
-            {
-                ShipModuleType mType = ModuleTypes[module.ModuleTypeId];
-                ShipModuleType.AddModuleType(mType);
-            }
-        }
-    }*/
+ 
 
 }

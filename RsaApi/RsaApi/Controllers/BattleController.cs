@@ -96,7 +96,7 @@ namespace RsaApi.Controllers
             }
 
             Battle currentBattle = Battle.BattleByCode(progress.BattleCode);
-
+            currentBattle.RegisterBattleCompleted(progress);
 
             return response;
         }

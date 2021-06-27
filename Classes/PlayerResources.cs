@@ -153,4 +153,72 @@ public class PlayerResources
         }
     }
     
+    public void TransferToWarehouse(StorageType storageType, int storageId, int playerId)
+    {
+
+        string q;
+
+        string mainQuery = $@"
+            SELECT
+                id,
+                quantity
+            FROM
+                players_resources
+            WHERE
+                resource_type = <resource_type>
+                AND blueprint_type = <blueprint_type>
+                AND storage_type = {(int)StorageType.MainWarehouse}
+                AND storage_id = 0
+                AND player_id = {playerId}";
+
+        string insertQuery = $@"
+            INSERT INTO players_resources (
+                player_id,
+                storage_type,
+                storage_id,
+                resource_type,
+                blueprint_type,
+                quantity
+            ) VALUES (
+                {playerId},
+                {(int)StorageType.MainWarehouse},
+                0,
+                <resource_type>,
+                <blueprint_type>,
+                <quantity>
+            ";
+
+        foreach(var res in resources)
+        {
+            q = mainQuery.Replace("<resource_type>", $"{res.ResourceTypeId}");
+            q = q.Replace("<blueprint_type>", $"{res.BlueprintId}");
+            int id = 0, quantity = 0;
+            SqlDataReader r = DataConnection.GetReader(q);
+            if(r.HasRows)
+            {
+                r.Read();
+                id = (int)r["id"];
+                quantity = (int)r["quantity"];
+            }
+            r.Close();
+            if(id > 0)
+            {
+                q = $@"UPDATE players_resources SET quantity = {(quantity + res.Quantity).ToString()} WHERE id = {id}";
+                DataConnection.Execute(q);
+            }
+            else
+            {
+                q = insertQuery.Replace("<resource_type>", $"{res.ResourceTypeId}");
+                q = q.Replace("<blueprint_type>", $"{res.BlueprintId}");
+                q = q.Replace("<quantity>", $"{res.Quantity}");
+                DataConnection.Execute(q);
+            }
+
+        }
+
+        q = $@"DELETE FROM players_resources WHERE storage_type = {(int)storageType} AND storage_id = {storageId}";
+        DataConnection.Execute(q);
+
+    }
+
 }

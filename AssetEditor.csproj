@@ -69,7 +69,6 @@
     <Compile Include="Classes\ShipModuleType.cs" />
     <Compile Include="Classes\SkillSet.cs" />
     <Compile Include="Classes\SkillType.cs" />
-    <Compile Include="Classes\SpaceshipParametersOld.cs" />
     <Compile Include="Classes\SpaceShipParameters.cs" />
     <Compile Include="Classes\SpaceshipRig.cs" />
     <Compile Include="Classes\StaticMembers.cs" />

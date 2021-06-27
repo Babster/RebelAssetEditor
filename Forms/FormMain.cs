@@ -176,6 +176,10 @@ namespace AssetEditor
 
         private void textSceneName_TextChanged(object sender, EventArgs e)
         {
+            if(NoEvents)
+            {
+                return;
+            }
             RebelSceneWithSql curScene = GetCurrentScene();
             if (curScene == null)
             {
@@ -190,6 +194,10 @@ namespace AssetEditor
 
         private void textSceneBackgroundId_TextChanged(object sender, EventArgs e)
         {
+            if (NoEvents)
+            {
+                return;
+            }
             RebelSceneWithSql curScene = GetCurrentScene();
             if (curScene == null)
             {
@@ -429,6 +437,26 @@ namespace AssetEditor
                 tTag.Partition = tNode.Parent.Text;
                 treeImages.SelectedNode = tNode;
             }
+
+        }
+
+        private void buttonImageDelete_Click(object sender, EventArgs e)
+        {
+            TreeNode node = treeImages.SelectedNode;
+            if (node.Nodes.Count > 0)
+            {
+                MessageBox.Show("root or partition node can't be deleted");
+                return;
+            }
+
+            if(MessageBox.Show("Delete?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
+            ImageTag tTag = (ImageTag)node.Tag;
+            tTag.Delete();
+            node.Parent.Nodes.Remove(node);
 
         }
 
@@ -1066,19 +1094,19 @@ namespace AssetEditor
             string q;
             DataGridViewRow row = GridStoryFlow.Rows[e.RowIndex];
             int id = 0;
-            if (row.Cells["s_id"].Value != null)
+            try
             {
-                if (Convert.ToString(row.Cells["s_id"].Value) != "")
-                {
-                    id = Convert.ToInt32(row.Cells["s_id"].Value);
-                }
+                id = Int32.Parse((string)GridStoryFlow.Rows[e.RowIndex].Cells["s_id"].Value);
             }
+            catch {}
+
             if (id == 0)
             {
                 q = @"
                      INSERT INTO story_object_flow(previous_object_type) VALUES('')
                      SELECT @@IDENTITY AS Result";
                 id = Convert.ToInt32(DataConnection.GetResult(q, null, 0));
+                GridStoryFlow.Rows[e.RowIndex].Cells["s_id"].Value = id.ToString();
             }
 
             string columnName = GridStoryFlow.Columns[e.ColumnIndex].Name;
@@ -1091,6 +1119,30 @@ namespace AssetEditor
             DataConnection.Execute(q, names);
         }
 
+        private void GridStoryFlow_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+
+        }
+
+        private void GridStoryFlow_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            int id = 0; ;
+            try
+            {
+                id = Int32.Parse((string)e.Row.Cells["s_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            if(id == 0)
+            {
+                return;
+            }
+            string q;
+            q = $"DELETE FROM story_object_flow WHERE id = {id}";
+            DataConnection.Execute(q);
+        }
 
         #endregion
 
@@ -3765,7 +3817,10 @@ namespace AssetEditor
 
 
 
+
+
         #endregion
+
 
     }
 }

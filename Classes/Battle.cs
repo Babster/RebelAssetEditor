@@ -78,8 +78,44 @@ public class Battle : UnityBattle
 
     }
 
-    public void RegisterBattleCompleted()
+
+    public void RegisterBattleCompleted(BattleProgressRegistration progress)
     {
+
+        string q;
+
+        //0. Save main data
+        SaveData();
+
+        //1. Transfer property from ship to the main warehouse
+        progress.GainedResources.TransferToWarehouse(PlayerResources.StorageType.SpaceShip, RigId, PlayerId);
+
+        //2. Update data in battles table
+        q = $@"
+            UPDATE battles SET
+                ongoing = 0,
+                date_complete = GETDATE(),
+                successfull = 1,
+                current_cycle = 0,
+                current_stage = 0
+            WHERE
+                id = {Id}";
+        DataConnection.Execute(q);
+
+        //3. Insert a record in story table
+        q = $@"
+            INSERT INTO players_progress (
+                player,
+                object_type,
+                object_id,
+                date_completed
+            ) VALUES (
+                {PlayerId},
+                'battle',
+                {BattleSceneTypeId},
+                GETDATE()
+            )";
+        DataConnection.Execute(q);
 
     }
 

@@ -557,6 +557,11 @@ namespace Story
 
         }
 
+        public void Delete()
+        {
+            DataConnection.Execute($"DELETE FROM images WHERE id = {Id}");
+        }
+
         public RebelImageWithSql(ref SqlDataReader r)
         {
             this.Id = Convert.ToInt32(r["id"]);
