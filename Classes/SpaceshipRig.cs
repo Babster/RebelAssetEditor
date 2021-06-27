@@ -535,7 +535,8 @@ public class RigSlotOfficerTeam : UnityRigSlotOfficerTeam
                 if (s2 == "player")
                 {
                     //AccountData playerAcc = AssetEditor.FormMain.GetLatestUser();
-                    OfficerList.Add(new CrewOfficer(playerId));
+                    //OfficerList.Add(new CrewOfficer(playerId));
+                    OfficerList.Add(Crew.CrewOfficer.OfficerById(Crew.CrewOfficer.PlayerOfficerId(playerId)));
                 }
                 else
                 {

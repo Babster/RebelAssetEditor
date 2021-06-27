@@ -35,6 +35,10 @@ public class Battle : UnityBattle
         ShipTotalSkillPointsReceived = (int)r["ship_total_skill_points_received"];
         ShipOpenedSkills = (string)r["ship_opened_skills"];
         ModuleSkillsJsonCompressed = (string)r["module_skills_json_compressed"];
+
+        GainedResources = new PlayerResources();
+        GainedResources.LoadData(PlayerResources.StorageType.SpaceShip, RigId, PlayerId);
+
     }
 
     public void SaveData()
@@ -71,6 +75,12 @@ public class Battle : UnityBattle
                 id = {Id}";
         List<string> names = new List<string> { ShipOpenedSkills, ModuleSkillsJsonCompressed };
         DataConnection.Execute(q, names);
+
+    }
+
+    public void RegisterBattleCompleted()
+    {
+
     }
 
     private static string BattleQuery()
@@ -181,6 +191,7 @@ public class Battle : UnityBattle
         curBattle.ShipOpenedSkills = "";
         BattleScene tBattle = new BattleScene(BattleSceneType.SceneById(curBattle.BattleSceneTypeId));
         curBattle.battleScene = new UnityBattleScene(tBattle);
+        curBattle.GainedResources = new PlayerResources();
         curBattle.SaveData();
         return curBattle;
     }
@@ -217,6 +228,12 @@ public class UnityBattle
     public string ShipOpenedSkills { get; set; }
     public string ModuleSkillsJsonCompressed { get; set; }
     public UnityBattleScene battleScene { get; set; }
+
+    /// <summary>
+    /// Используется только когда продолжаешь битву. Для новых всегда пустой объект
+    /// </summary>
+    public PlayerResources GainedResources { get; set; }
+
 }
 
 public class BattleProgressRegistration
@@ -235,6 +252,8 @@ public class BattleProgressRegistration
     public PlayerResources GainedResources { get; set; }
 
     public BattleProgressRegistration() { }
+
+
 
 }
 

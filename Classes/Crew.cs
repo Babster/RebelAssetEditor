@@ -408,6 +408,37 @@ namespace Crew
         }
 
         /// <summary>
+        /// Словарь идентификаторов офицеров, которые созданы на основе игроков. Ключом является идентификатор игрока,
+        /// значением - идентификатором офицера в таблице officers
+        /// </summary>
+        private static Dictionary<int, int> playerOfficersDict;
+        public static int PlayerOfficerId(int playerId)
+        {
+            if(playerOfficersDict == null)
+            {
+                playerOfficersDict = new Dictionary<int, int>();
+            }
+            if(playerOfficersDict.ContainsKey(playerId))
+            {
+                return playerOfficersDict[playerId];
+            }
+            else
+            {
+                string q = $@"SELECT id FROM crew_officers WHERE player_id = {playerId} AND is_player = 1";
+                int id = DataConnection.GetResultInt(q,null, 0);
+                if(id == 0)
+                {
+                    var newOfficer = new CrewOfficer(playerId);
+                    officerCodesDict.Add(newOfficer.OfficerGuid, newOfficer.Id);
+                    StaticMembers.OfficerDict.Add(newOfficer.Id, newOfficer);
+                    id = newOfficer.Id;
+                }
+                playerOfficersDict.Add(playerId, id);
+                return id;
+            }
+        }
+
+        /// <summary>
         /// Ключом является идентификатор данного скиллсета в таблице skill_sets!!!
         /// </summary>
         private Dictionary<int, CrewOfficerSkillSet> skillSetDict;

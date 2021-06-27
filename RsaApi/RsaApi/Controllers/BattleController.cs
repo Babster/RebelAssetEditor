@@ -79,7 +79,31 @@ namespace RsaApi.Controllers
             string steamId = User.Identity.Name;
             int playerId = PlayerDataSql.PlayerId(steamId);
 
-            List<Battle> playerBattles = Battle.BattlesForPlayer(playerId, true);
+            return SaveBattleProgress(progress, playerId);
+
+        }
+
+        [Route("RegisterBattleCompleted")]
+        public HttpResponseMessage RegisterBattleCompleted(BattleProgressRegistration progress)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            var response = SaveBattleProgress(progress, playerId);
+            if(!response.IsSuccessStatusCode)
+            {
+                return response;
+            }
+
+            Battle currentBattle = Battle.BattleByCode(progress.BattleCode);
+
+
+            return response;
+        }
+
+        private HttpResponseMessage SaveBattleProgress(BattleProgressRegistration progress, int playerId)
+        {
+
             Battle currentBattle = Battle.BattleByCode(progress.BattleCode);
             if (currentBattle == null)
             {
@@ -87,7 +111,7 @@ namespace RsaApi.Controllers
                 errorResponse.ReasonPhrase = "Battle not found";
                 return errorResponse;
             }
-            if(currentBattle.PlayerId != playerId)
+            if (currentBattle.PlayerId != playerId)
             {
                 var errorResponse = new HttpResponseMessage(HttpStatusCode.Forbidden);
                 errorResponse.ReasonPhrase = "Battle ownership trouble";
@@ -104,12 +128,13 @@ namespace RsaApi.Controllers
             currentBattle.ShipNextSkillPointExperience = progress.battleExperience.nextSkillPointExperience;
             currentBattle.ShipTotalSkillPointsReceived = progress.battleExperience.totalSkillPointsReceived;
             currentBattle.ModuleSkillsJsonCompressed = progress.ModuleSkillsSerializedString;
-
             currentBattle.SaveData();
+            currentBattle.GainedResources = progress.GainedResources;
+            progress.GainedResources.SaveData(PlayerResources.StorageType.SpaceShip, currentBattle.RigId, playerId);
 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             return response;
-        }
 
+        }
     }
 }
