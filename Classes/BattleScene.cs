@@ -142,7 +142,8 @@ public class BattleScene
             private BlueprintType bpType;
 
             private int guaranteedAmount;
-            
+
+            private bool anyEnemy;
 
             private List<StageEnemy> enemies;
             private int EnemyId;
@@ -169,6 +170,7 @@ public class BattleScene
                 amount = 0;
                 resType = res.ResourceType;
                 bpType = res.BlueprintType;
+                anyEnemy = res.AnyEnemy == 1;
 
                 //Пока что гарантированный дроп падает в тот цикл, который минимален для данного ресурса
                 if(res.GuaranteedAmount > 0)
@@ -228,19 +230,24 @@ public class BattleScene
 
                 if(probability > rnd.NextDouble())
                 {
-                    //Additionally amount of resources variates in +-20% range
-                    amount = amount * (1 + (rnd.NextDouble() - 0.5) * AmountVariability * 2);
+                    
+                    amount = amount * (1 + (CommonFunctions.NextDouble() - 0.5) * 2);
                     amount = Math.Round(amount);
 
-                    if(resType != null)
+                    if(amount > 0)
                     {
-                        enemy.Resources.Add(new EnemyResource(resType, (int)amount));
+                        if (resType != null)
+                        {
+                            enemy.Resources.Add(new EnemyResource(resType, (int)amount));
+                        }
+
+                        if (bpType != null)
+                        {
+                            enemy.Resources.Add(new EnemyResource(bpType, (int)amount));
+                        }
                     }
-                    
-                    if(bpType != null)
-                    {
-                        enemy.Resources.Add(new EnemyResource(bpType, (int)amount));
-                    }
+
+
 
 
                 }
@@ -255,7 +262,7 @@ public class BattleScene
                     return;
 
                 if(resType != null)
-                    enemies[rnd.Next(enemies.Count)].Resources.Add(new EnemyResource(resType, (int)amount));
+                    enemies[rnd.Next(enemies.Count)].Resources.Add(new EnemyResource(resType, (int)guaranteedAmount));
 
 
                 if(bpType != null)
@@ -266,6 +273,24 @@ public class BattleScene
                     }
                 }
                 
+            }
+
+            public override string ToString()
+            {
+                StringBuilder t = new StringBuilder();
+                if(resType != null)
+                {
+                    t.Append(resType.Name);
+                }
+                else
+                {
+                    t.Append(bpType.Name);
+                }
+                t.Append(" ");
+                t.Append($" prb {probability}, amnt {amount}, grt {guaranteedAmount}");
+
+                return t.ToString();
+
             }
 
         }

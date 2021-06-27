@@ -119,4 +119,15 @@ public static class CommonFunctions
         }
 
     }
+
+    private static Random random;
+    public static double NextDouble()
+    {
+        if(random == null)
+        {
+            random = new Random();
+        }
+        return random.NextDouble();
+    }
+
 }
