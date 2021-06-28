@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Story
 {
-
+    
     public class RebelScene
     {
 
@@ -126,7 +126,8 @@ namespace Story
                         image_id,
                         text_russian,
                         text_english,
-                        next_screen_on_end 
+                        next_screen_on_end,
+                        ISNULL(use_player_avatar, 0) AS use_player_avatar
                     FROM
                         story_scenes_elements
                     WHERE 
@@ -226,8 +227,8 @@ namespace Story
         public int ImageId { get; set; }
         public string TextRussian { get; set; }
         public string TextEnglish { get; set; }
-
         public bool NextScreen { get; set; }
+        public int UsePlayerAvatar { get; set; }
 
         public SceneElement()
         {
@@ -246,6 +247,7 @@ namespace Story
             {
                 this.NextScreen = true;
             }
+            UsePlayerAvatar = (int)r["use_player_avatar"];
         }
 
         public override string ToString()
@@ -270,13 +272,14 @@ namespace Story
                                 SELECT @@IDENTITY As field0";
                 this.Id = Convert.ToInt32(DataConnection.GetResult(q, null, 0));
             }
-            q = @"UPDATE story_scenes_elements SET
-                                story_scene_id = " + this.SceneId + @",
+            q = $@"UPDATE story_scenes_elements SET
+                                story_scene_id = {this.SceneId},
                                 element_type = @str1,
-                                image_id = " + this.ImageId.ToString() + @",
+                                image_id = {ImageId},
                                 text_russian = @str2,
                                 text_english = @str3,
-                                next_screen_on_end = " + (this.NextScreen ? "1" : "0") + @" 
+                                next_screen_on_end = {(this.NextScreen ? "1" : "0")},
+                                use_player_avatar = {UsePlayerAvatar}
                             WHERE id = " + this.Id.ToString();
             List<string> names = new List<string>();
             names.Add(this.Type);
@@ -398,6 +401,8 @@ namespace Story
 
         public int TotalElementsInStage { get; set; }
 
+        public int UsePlayerAvatar { get; set; }
+
         public SceneElementFull()
         {
 
@@ -416,6 +421,8 @@ namespace Story
 
             this.TextRussian = tElement.TextRussian;
             this.TextEnglish = tElement.TextEnglish;
+            this.NextScreen = tElement.NextScreen;
+            this.UsePlayerAvatar = tElement.UsePlayerAvatar;
         }
 
     }
@@ -426,7 +433,10 @@ namespace Story
         public static ImageCache imgCache;
         public static void CreateImageCache()
         {
-            imgCache = new ImageCache();
+            if(imgCache == null)
+            {
+                imgCache = new ImageCache();
+            }
         }
 
 
@@ -600,96 +610,39 @@ namespace Story
             }
         }
 
-    }
-
-    public static class StoryLogic
-    {
-
-        public static StringAndInt NextObject(int AdmiralId, bool doNotLog = false)
+        private static Dictionary<int, RebelImageToTransfer> imgCache;
+        public static RebelImageToTransfer ImageToTransferById(int id)
         {
-
-            StringAndInt tObject = new StringAndInt();
-
-            string q;
-            q = @"SELECT
-					admirals_progress.object_type,
-					admirals_progress.object_id
-				FROM
-					admirals_progress 
-				INNER JOIN
-					(SELECT
-						admiral,
-						MAX(date_completed) AS max_date_completed
-					FROM
-						admirals_progress
-					GROUP BY
-						admiral) AS max_progress ON 
-													max_progress.admiral = admirals_progress.admiral
-													AND max_progress.max_date_completed = admirals_progress.date_completed 
-				WHERE
-					admirals_progress.admiral = " + AdmiralId.ToString();
-
-            SqlDataReader r;
-            r = DataConnection.GetReader(q);
-            if (r.HasRows)
+            Images.CreateImageCache();
+            if (imgCache == null)
             {
-                r.Read();
-                tObject.IntValue = Convert.ToInt32(r["object_id"]);
-                tObject.StrValue = Convert.ToString(r["object_type"]);
+                imgCache = new Dictionary<int, RebelImageToTransfer>();
+            }
+            if(imgCache.ContainsKey(id))
+            {
+                return imgCache[id];
             }
             else
             {
-                tObject = CommonFunctions.GetCommonValue("start_object");
+
+                RebelImageToTransfer tImage;
+                var img = Images.imgCache.GetImageById(id);
+                try
+                {
+                    tImage = new RebelImageToTransfer(ref img);
+                    imgCache.Add(tImage.Id, tImage);
+                }
+                catch
+                {
+                    tImage = null;
+                }
+                return tImage;
             }
-            r.Close();
-
-            if (doNotLog == false)
-            {
-                DataConnection.Log(AdmiralId, tObject.StrValue, tObject.IntValue, "request next", "");
-            }
-
-            return tObject;
-
         }
 
-        public static void RegisterStepFinished(int AdmiralId)
-        {
-            StringAndInt thisStep = NextObject(AdmiralId, true);
-
-            int Id = 0;
-
-            string q = @"SELECT id FROM admirals_progress WHERE 
-			admiral = " + AdmiralId.ToString() + @"
-			AND object_type = @str1
-			AND object_id = " + thisStep.IntValue.ToString();
-
-            List<string> vs = new List<string>();
-            vs.Add(thisStep.StrValue);
-
-            SqlDataReader r = DataConnection.GetReader(q, vs);
-            if (r.HasRows)
-            {
-                r.Read();
-                Id = Convert.ToInt32(r["id"]);
-            }
-            r.Close();
-
-            if (Id == 0)
-            {
-                q = @"INSERT INTO admirals_progress(admiral, object_type, object_id) 
-						VALUES(" + AdmiralId.ToString() + @", @str1, " + thisStep.IntValue.ToString() + @")
-						SELECT @@IDENTITY AS field0";
-                Id = Convert.ToInt32(DataConnection.GetResult(q, vs));
-            }
-
-            q = @"UPDATE admirals_progress SET date_completed = GETDATE() WHERE id = " + Id.ToString();
-            DataConnection.Execute(q);
-
-            DataConnection.Log(AdmiralId, thisStep.StrValue, thisStep.IntValue, "completed", "");
-
-        }
-    
     }
+
+   
 
 }
 
@@ -704,6 +657,9 @@ public static class PlayerStoryFlowHub
     public static PlayerProgressElement CurrentProgressElementForPlayer(int playerId)
     {
 
+        StoryObjectFlowElement tElement;
+        PlayerProgressElement curElement;
+
         if (playerProgressElementDictionary == null)
         {
             playerProgressElementDictionary = new Dictionary<int, PlayerProgressElement>();
@@ -711,10 +667,14 @@ public static class PlayerStoryFlowHub
 
         if (playerProgressElementDictionary.ContainsKey(playerId))
         {
+            /*var currentProgress = playerProgressElementDictionary[playerId];
+            tElement = NextStoryObject(currentProgress);
+            curElement = new PlayerProgressElement(playerId, tElement);
+            playerProgressElementDictionary[playerId] = curElement;*/
             return playerProgressElementDictionary[playerId];
         }
 
-        PlayerProgressElement curElement;
+        
         string q = $@"
             SELECT
                 id,
@@ -748,7 +708,7 @@ public static class PlayerStoryFlowHub
         }
         r.Close();
 
-        StoryObjectFlowElement tElement = NextStoryObject(curElement);
+        tElement = NextStoryObject(curElement);
         curElement = new PlayerProgressElement(playerId, tElement);
         playerProgressElementDictionary.Add(playerId, curElement);
         return curElement;

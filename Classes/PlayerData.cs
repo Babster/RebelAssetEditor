@@ -174,6 +174,7 @@ public class PlayerDataSql : PlayerData
 
         StringAndInt curData = PlayerStoryFlowHub.CurrentProgressElementForPlayer(playerId).ToStringAndInt();
 
+
         //Если битва еще не началась, то игрока надо кинуть на сцену рига корабля
         if(curData.StrValue == "battle")
         {

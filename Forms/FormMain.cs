@@ -136,6 +136,7 @@ namespace AssetEditor
             textSceneEnglish.ReadOnly = true;
             checkNextScreen.Checked = false;
             checkNextScreen.Enabled = false;
+            checkUsePlayerAvatar.Checked = false;
             NoEvents = false;
         }
 
@@ -241,6 +242,7 @@ namespace AssetEditor
             textSceneEnglish.ReadOnly = false;
             checkNextScreen.Enabled = true;
             checkNextScreen.Checked = curElement.NextScreen;
+            checkUsePlayerAvatar.Checked = curElement.UsePlayerAvatar == 1;
             NoEvents = false;
 
         }
@@ -268,6 +270,24 @@ namespace AssetEditor
             int imgId = 0;
             Int32.TryParse(textSceneElementImageId.Text, out imgId);
             curElement.ImageId = imgId;
+
+        }
+
+        private void checkUsePlayerAvatar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+
+            SceneElement curElement = (SceneElement)listSceneElements.SelectedItem;
+            if(checkUsePlayerAvatar.Checked)
+            {
+                curElement.UsePlayerAvatar = 1;
+            }
+            else
+            {
+                curElement.UsePlayerAvatar = 0;
+            }
+
 
         }
 
@@ -3803,6 +3823,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
 
 
 

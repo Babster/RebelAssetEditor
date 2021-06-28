@@ -210,7 +210,7 @@ public class PlayerResources
             {
                 q = insertQuery.Replace("<resource_type>", $"{res.ResourceTypeId}");
                 q = q.Replace("<blueprint_type>", $"{res.BlueprintId}");
-                q = q.Replace("<quantity>", $"{res.Quantity}");
+                q = q.Replace("<quantity>", $"{res.Quantity})");
                 DataConnection.Execute(q);
             }
 
