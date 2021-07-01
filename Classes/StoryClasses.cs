@@ -711,7 +711,14 @@ public static class PlayerStoryFlowHub
         tElement = NextStoryObject(curElement);
         curElement = new PlayerProgressElement(playerId, tElement);
         playerProgressElementDictionary.Add(playerId, curElement);
-        return curElement;
+        if (CheckAutomaticallyExecutionedEvent(playerId))
+        {
+            return CurrentProgressElementForPlayer(playerId);
+        }
+        else
+        {
+            return curElement;
+        }
 
     }
 
@@ -740,6 +747,7 @@ public static class PlayerStoryFlowHub
         if(playerProgressElementDictionary[playerId].ObjectType == "event")
         {
             GameEvent.EventById(playerProgressElementDictionary[playerId].ObjectId).ExecuteEvent(playerId);
+            RegisterPlayerProgress(playerId);
             return true;
         }
 

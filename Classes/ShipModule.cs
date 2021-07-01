@@ -29,9 +29,12 @@ public class ShipModule : UnityShipModule
         string q = ModuleQuery();
         q += $@" WHERE id = {id}";
         SqlDataReader r = DataConnection.GetReader(q);
-        r.Read();
-        LoadFromReader(r);
-        r.Close();
+        if(r.HasRows)
+        {
+            r.Read();
+            LoadFromReader(r);
+            r.Close();
+        }
     }
 
     private void LoadFromReader(SqlDataReader r)

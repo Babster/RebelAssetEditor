@@ -452,6 +452,12 @@
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.checkUsePlayerAvatar = new System.Windows.Forms.CheckBox();
+            this.tabRemoveSpaceShip = new System.Windows.Forms.TabPage();
+            this.label126 = new System.Windows.Forms.Label();
+            this.comboEventRemoveSpaceship = new System.Windows.Forms.ComboBox();
+            this.tabRemoveModule = new System.Windows.Forms.TabPage();
+            this.label127 = new System.Windows.Forms.Label();
+            this.comboEventRemoveModule = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -509,6 +515,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridSaModules)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaSlots)).BeginInit();
+            this.tabRemoveSpaceShip.SuspendLayout();
+            this.tabRemoveModule.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -2387,6 +2395,8 @@
             this.tabControlEventElements.Controls.Add(this.tabGiveModule);
             this.tabControlEventElements.Controls.Add(this.tabGiveResources);
             this.tabControlEventElements.Controls.Add(this.tabCreateOfficer);
+            this.tabControlEventElements.Controls.Add(this.tabRemoveSpaceShip);
+            this.tabControlEventElements.Controls.Add(this.tabRemoveModule);
             this.tabControlEventElements.Location = new System.Drawing.Point(291, 129);
             this.tabControlEventElements.Name = "tabControlEventElements";
             this.tabControlEventElements.SelectedIndex = 0;
@@ -2421,18 +2431,18 @@
             this.label55.AutoSize = true;
             this.label55.Location = new System.Drawing.Point(7, 58);
             this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(54, 20);
+            this.label55.Size = new System.Drawing.Size(40, 20);
             this.label55.TabIndex = 2;
-            this.label55.Text = "Опыт:";
+            this.label55.Text = "Exp:";
             // 
             // label54
             // 
             this.label54.AutoSize = true;
             this.label54.Location = new System.Drawing.Point(7, 18);
             this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(74, 20);
+            this.label54.Size = new System.Drawing.Size(56, 20);
             this.label54.TabIndex = 1;
-            this.label54.Text = "Модель:";
+            this.label54.Text = "Model:";
             // 
             // comboEventSpaceship
             // 
@@ -2471,24 +2481,24 @@
             this.label56.AutoSize = true;
             this.label56.Location = new System.Drawing.Point(11, 59);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(54, 20);
+            this.label56.Size = new System.Drawing.Size(40, 20);
             this.label56.TabIndex = 6;
-            this.label56.Text = "Опыт:";
+            this.label56.Text = "Exp:";
             // 
             // label57
             // 
             this.label57.AutoSize = true;
             this.label57.Location = new System.Drawing.Point(11, 19);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(105, 20);
+            this.label57.Size = new System.Drawing.Size(65, 20);
             this.label57.TabIndex = 5;
-            this.label57.Text = "Вид модуля:";
+            this.label57.Text = "Module:";
             // 
             // comboEventModule
             // 
             this.comboEventModule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboEventModule.FormattingEnabled = true;
-            this.comboEventModule.Location = new System.Drawing.Point(122, 16);
+            this.comboEventModule.Location = new System.Drawing.Point(82, 16);
             this.comboEventModule.Name = "comboEventModule";
             this.comboEventModule.Size = new System.Drawing.Size(284, 28);
             this.comboEventModule.TabIndex = 4;
@@ -2520,7 +2530,7 @@
             // 
             // textEventOfficerExperience
             // 
-            this.textEventOfficerExperience.Location = new System.Drawing.Point(63, 52);
+            this.textEventOfficerExperience.Location = new System.Drawing.Point(53, 52);
             this.textEventOfficerExperience.Name = "textEventOfficerExperience";
             this.textEventOfficerExperience.Size = new System.Drawing.Size(100, 26);
             this.textEventOfficerExperience.TabIndex = 11;
@@ -2531,24 +2541,24 @@
             this.label58.AutoSize = true;
             this.label58.Location = new System.Drawing.Point(7, 55);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(54, 20);
+            this.label58.Size = new System.Drawing.Size(40, 20);
             this.label58.TabIndex = 10;
-            this.label58.Text = "Опыт:";
+            this.label58.Text = "Exp:";
             // 
             // label59
             // 
             this.label59.AutoSize = true;
             this.label59.Location = new System.Drawing.Point(7, 15);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(145, 20);
+            this.label59.Size = new System.Drawing.Size(126, 20);
             this.label59.TabIndex = 9;
-            this.label59.Text = "Шаблон офицера:";
+            this.label59.Text = "Officer template:";
             // 
             // comboEventOfficer
             // 
             this.comboEventOfficer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboEventOfficer.FormattingEnabled = true;
-            this.comboEventOfficer.Location = new System.Drawing.Point(158, 12);
+            this.comboEventOfficer.Location = new System.Drawing.Point(139, 12);
             this.comboEventOfficer.Name = "comboEventOfficer";
             this.comboEventOfficer.Size = new System.Drawing.Size(284, 28);
             this.comboEventOfficer.TabIndex = 8;
@@ -4856,6 +4866,68 @@
             this.checkUsePlayerAvatar.UseVisualStyleBackColor = true;
             this.checkUsePlayerAvatar.CheckedChanged += new System.EventHandler(this.checkUsePlayerAvatar_CheckedChanged);
             // 
+            // tabRemoveSpaceShip
+            // 
+            this.tabRemoveSpaceShip.Controls.Add(this.label126);
+            this.tabRemoveSpaceShip.Controls.Add(this.comboEventRemoveSpaceship);
+            this.tabRemoveSpaceShip.Location = new System.Drawing.Point(4, 29);
+            this.tabRemoveSpaceShip.Name = "tabRemoveSpaceShip";
+            this.tabRemoveSpaceShip.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRemoveSpaceShip.Size = new System.Drawing.Size(603, 331);
+            this.tabRemoveSpaceShip.TabIndex = 4;
+            this.tabRemoveSpaceShip.Text = "Remove spaceship";
+            this.tabRemoveSpaceShip.UseVisualStyleBackColor = true;
+            // 
+            // label126
+            // 
+            this.label126.AutoSize = true;
+            this.label126.Location = new System.Drawing.Point(7, 14);
+            this.label126.Name = "label126";
+            this.label126.Size = new System.Drawing.Size(56, 20);
+            this.label126.TabIndex = 3;
+            this.label126.Text = "Model:";
+            // 
+            // comboEventRemoveSpaceship
+            // 
+            this.comboEventRemoveSpaceship.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEventRemoveSpaceship.FormattingEnabled = true;
+            this.comboEventRemoveSpaceship.Location = new System.Drawing.Point(69, 11);
+            this.comboEventRemoveSpaceship.Name = "comboEventRemoveSpaceship";
+            this.comboEventRemoveSpaceship.Size = new System.Drawing.Size(284, 28);
+            this.comboEventRemoveSpaceship.TabIndex = 2;
+            this.comboEventRemoveSpaceship.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveSpaceship_SelectedIndexChanged);
+            // 
+            // tabRemoveModule
+            // 
+            this.tabRemoveModule.Controls.Add(this.label127);
+            this.tabRemoveModule.Controls.Add(this.comboEventRemoveModule);
+            this.tabRemoveModule.Location = new System.Drawing.Point(4, 29);
+            this.tabRemoveModule.Name = "tabRemoveModule";
+            this.tabRemoveModule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRemoveModule.Size = new System.Drawing.Size(603, 331);
+            this.tabRemoveModule.TabIndex = 5;
+            this.tabRemoveModule.Text = "Remove module";
+            this.tabRemoveModule.UseVisualStyleBackColor = true;
+            // 
+            // label127
+            // 
+            this.label127.AutoSize = true;
+            this.label127.Location = new System.Drawing.Point(7, 15);
+            this.label127.Name = "label127";
+            this.label127.Size = new System.Drawing.Size(65, 20);
+            this.label127.TabIndex = 7;
+            this.label127.Text = "Module:";
+            // 
+            // comboEventRemoveModule
+            // 
+            this.comboEventRemoveModule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEventRemoveModule.FormattingEnabled = true;
+            this.comboEventRemoveModule.Location = new System.Drawing.Point(78, 12);
+            this.comboEventRemoveModule.Name = "comboEventRemoveModule";
+            this.comboEventRemoveModule.Size = new System.Drawing.Size(284, 28);
+            this.comboEventRemoveModule.TabIndex = 6;
+            this.comboEventRemoveModule.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveModule_SelectedIndexChanged);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4952,6 +5024,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridSaModules)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaSlots)).EndInit();
+            this.tabRemoveSpaceShip.ResumeLayout(false);
+            this.tabRemoveSpaceShip.PerformLayout();
+            this.tabRemoveModule.ResumeLayout(false);
+            this.tabRemoveModule.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -5382,6 +5458,12 @@
         private System.Windows.Forms.Label label125;
         private System.Windows.Forms.Button buttonImageDelete;
         private System.Windows.Forms.CheckBox checkUsePlayerAvatar;
+        private System.Windows.Forms.TabPage tabRemoveSpaceShip;
+        private System.Windows.Forms.Label label126;
+        private System.Windows.Forms.ComboBox comboEventRemoveSpaceship;
+        private System.Windows.Forms.TabPage tabRemoveModule;
+        private System.Windows.Forms.Label label127;
+        private System.Windows.Forms.ComboBox comboEventRemoveModule;
         //private System.Windows.Forms.Label label129;
     }
 }

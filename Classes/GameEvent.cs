@@ -251,6 +251,51 @@ public class GameEvent
             }
         }
 
+        public ShipModel RemoveShipModel
+        {
+            get
+            {
+                if (pElementType != "Remove spaceship")
+                    return null;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return null;
+                string[] s = ElementInfo.Split(';');
+                if (s[0] != "")
+                {
+                    return ShipModel.ModelById(Convert.ToInt32(s[0]));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[1] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+                if (value == null)
+                {
+                    s[0] = "0";
+                }
+                else
+                {
+                    s[0] = value.Id.ToString();
+                }
+
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
+
         public ShipModuleType ModuleType
         {
             get
@@ -296,6 +341,50 @@ public class GameEvent
             }
         }
 
+        public ShipModuleType RemoveModuleType
+        {
+            get
+            {
+                if (pElementType != "Remove module")
+                    return null;
+                if (String.IsNullOrEmpty(ElementInfo))
+                    return null;
+                string[] s = ElementInfo.Split(';');
+                if (s[0] != "")
+                {
+                    return ShipModuleType.ModuleById(Convert.ToInt32(s[0]));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                string[] s;
+                if (String.IsNullOrEmpty(ElementInfo))
+                {
+                    s = new string[2];
+                    s[1] = "";
+                }
+                else
+                {
+                    s = ElementInfo.Split(';');
+                }
+
+                if (value == null)
+                {
+                    s[0] = "0";
+                }
+                else
+                {
+                    s[0] = value.Id.ToString();
+                }
+
+                ConvertStringArrayToElementInfo(s);
+
+            }
+        }
         public CrewOfficerType Officer
         {
             get
@@ -503,6 +592,18 @@ public class GameEvent
             {
                 CrewOfficer officer = new CrewOfficer(element.Officer, playerId);
                 officer.Save();
+            }
+
+            if (element.RemoveShipModel != null)
+            {
+                q = $@"DELETE FROM players_ships WHERE player_id = {playerId} AND ss_design_id = {element.RemoveShipModel.Id}";
+                DataConnection.Execute(q);
+            }
+
+            if (element.RemoveModuleType != null)
+            {
+                q = $@"DELETE FROM players_modules WHERE player_id = {playerId} AND module_id = {element.RemoveModuleType.Id}";
+                DataConnection.Execute(q);
             }
 
         }

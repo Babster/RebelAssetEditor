@@ -1329,8 +1329,11 @@ namespace AssetEditor
                 return;
             }
 
+            if(tag.Size == 0)
+            {
+                tag.Size = 1;
+            }
             ModuleSizeToRadioDict[tag.Size].Checked = true;
-
             ModuleSizeToRadioDict[tag.Size].Checked = true;
 
             //Weapon module type filling
@@ -2005,17 +2008,21 @@ namespace AssetEditor
             }
 
             comboEventSpaceship.Items.Clear();
+            comboEventRemoveSpaceship.Items.Clear();
             List<ShipModel> ships = ShipModel.GetModelList();
             foreach (ShipModel model in ships)
             {
                 comboEventSpaceship.Items.Add(model);
+                comboEventRemoveSpaceship.Items.Add(model);
             }
 
             comboEventModule.Items.Clear();
+            comboEventRemoveModule.Items.Clear();
             List<ShipModuleType> modules = ShipModuleType.CreateList(false);
             foreach (ShipModuleType module in modules)
             {
                 comboEventModule.Items.Add(module);
+                comboEventRemoveModule.Items.Add(module);
             }
 
             comboEventOfficer.Items.Clear();
@@ -2046,12 +2053,16 @@ namespace AssetEditor
             eventStringToTabDict.Add("Give module", tabGiveModule);
             eventStringToTabDict.Add("Give resources", tabGiveResources);
             eventStringToTabDict.Add("Create officer", tabCreateOfficer);
+            eventStringToTabDict.Add("Remove spaceship", tabRemoveSpaceShip);
+            eventStringToTabDict.Add("Remove module", tabRemoveModule);
 
             eventTabToStringDict = new Dictionary<TabPage, string>();
             eventTabToStringDict.Add(tabGiveSpaceShip, "Give spaceship");
             eventTabToStringDict.Add(tabGiveModule, "Give module");
             eventTabToStringDict.Add(tabGiveResources, "Give resources");
             eventTabToStringDict.Add(tabCreateOfficer, "Create officer");
+            eventTabToStringDict.Add(tabRemoveSpaceShip, "Remove spaceship");
+            eventTabToStringDict.Add(tabRemoveModule, "Remove module");
 
         }
 
@@ -2262,6 +2273,29 @@ namespace AssetEditor
                 }
             }
 
+            if (element.RemoveShipModel != null)
+            {
+                foreach (ShipModel item in comboEventRemoveSpaceship.Items)
+                {
+                    if (item.Id == element.RemoveShipModel.Id)
+                    {
+                        comboEventRemoveSpaceship.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
+            if (element.RemoveModuleType != null)
+            {
+                foreach (ShipModuleType item in comboEventRemoveModule.Items)
+                {
+                    if (item.Id == element.RemoveModuleType.Id)
+                    {
+                        comboEventRemoveModule.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
         }
 
         private GameEvent.EventElement GetCurrentEventElement()
@@ -2275,8 +2309,10 @@ namespace AssetEditor
         {
             NoEvents = true;
             comboEventModule.SelectedItem = null;
+            comboEventRemoveModule.SelectedItem = null;
             comboEventOfficer.SelectedItem = null;
             comboEventSpaceship.SelectedItem = null;
+            comboEventRemoveSpaceship.SelectedItem = null;
             textEventSpaceshipExperience.Text = "";
             textEventModuleExperience.Text = "";
             textEventOfficerExperience.Text = "";
@@ -2308,6 +2344,16 @@ namespace AssetEditor
             curElement.ShipModel = (ShipModel)comboEventSpaceship.SelectedItem;
         }
 
+        private void comboEventRemoveSpaceship_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.RemoveShipModel = (ShipModel)comboEventRemoveSpaceship.SelectedItem;
+        }
+
         private void textEventSpaceshipExperience_TextChanged(object sender, EventArgs e)
         {
             if (NoEvents)
@@ -2330,6 +2376,16 @@ namespace AssetEditor
             if (curElement == null)
                 return;
             curElement.ModuleType = (ShipModuleType)comboEventModule.SelectedItem;
+        }
+
+        private void comboEventRemoveModule_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            GameEvent.EventElement curElement = GetCurrentEventElement();
+            if (curElement == null)
+                return;
+            curElement.RemoveModuleType = (ShipModuleType)comboEventRemoveModule.SelectedItem;
         }
 
         private void textEventModuleExperience_TextChanged(object sender, EventArgs e)
@@ -3823,6 +3879,8 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
+
 
 
 

@@ -117,6 +117,18 @@ public class Battle : UnityBattle
             )";
         DataConnection.Execute(q);
 
+        //4. Clear rig ids for officers, ship and modules, and rig themselves
+        q = $@"
+            UPDATE crew_officers SET rig_id = 0 WHERE player_id = {PlayerId} AND rig_id = {RigId}
+            UPDATE players_ships SET rig_id = 0 WHERE player_id = {PlayerId} AND rig_id = {RigId}
+            UPDATE players_modules SET rig_id = 0 WHERE player_id = {PlayerId} AND rig_id = {RigId}
+            DELETE FROM ss_rigs WHERE id = {RigId}
+            DELETE FROM ss_rigs_slots WHERE ss_rig_id = {RigId}
+            ";
+        DataConnection.Execute(q);
+
+
+
     }
 
     private static string BattleQuery()
