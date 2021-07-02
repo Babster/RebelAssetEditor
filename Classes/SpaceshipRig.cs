@@ -51,6 +51,8 @@ public class SpaceshipRig : UnitySpaceshipRig
             RigCode = (Guid)r["rig_code"];
         }
 
+        ForBattleId = (int)r["for_battle_id"];
+
         LoadSlots();
     }
 
@@ -176,7 +178,8 @@ public class SpaceshipRig : UnitySpaceshipRig
             ship_id,
             player_id,
             tag,
-            rig_code
+            rig_code,
+            ISNULL(for_battle_id, 0) AS for_battle_id
         FROM
             ss_rigs ";
         if (id > 0)
@@ -303,7 +306,8 @@ public class SpaceshipRig : UnitySpaceshipRig
                     ship_model_id = {sModel.Id},
                     ship_id = {shipId},
                     player_id = {playerId},
-                    tag = @str1
+                    tag = @str1,
+                    for_battle_id = {ForBattleId}
                 WHERE
                     id = {Id}";
             DataConnection.Execute(q, names);
@@ -375,6 +379,18 @@ public class SpaceshipRig : UnitySpaceshipRig
         }
         r.Close();
         return rigList;
+    }
+    public static SpaceshipRig RigForBattle(int playerId, int battleId)
+    {
+        List<SpaceshipRig> rigList = PlayerRigs(playerId);
+        foreach(var rig in rigList)
+        {
+            if(rig.ForBattleId == battleId)
+            {
+                return rig;
+            }
+        }
+        return null;
     }
     public static SpaceshipRig RigForPlayer(int playerId)
     {
@@ -737,6 +753,7 @@ public class UnitySpaceshipRig
     public Ship Ship { get; set; }
     public List<RigSlot> Slots { get; set; }
     public Guid RigCode { get; set; }
+    public int ForBattleId { get; set; }
     //public SpaceshipParameters Params { get; set; }
     private void LoadSlots()
     {

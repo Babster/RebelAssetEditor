@@ -26,7 +26,7 @@ namespace RsaApi.Controllers
             response.Content = new StringContent(serializedElement);
             return response;
         }
-        
+
         [Route("StartBattle")]
         public HttpResponseMessage StartBattle(SpaceshipRig rig, int battleSceneId)
         {
@@ -34,22 +34,53 @@ namespace RsaApi.Controllers
             int playerId = PlayerDataSql.PlayerId(steamId);
 
             Battle battle = null;
-            if(rig != null)
+            if (rig != null)
             {
                 if (rig.Id == 0)
                 {
                     rig.SaveData(playerId, "");
-                    battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
-                    battle.Rig = rig;
-                }
-                else
-                {
-
                 }
             }
+            else
+            {
+                rig = SpaceshipRig.RigForBattle(playerId, battleSceneId);
+            }
+            
+            battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
+            battle.Rig = rig;
+
 
             string serializedElement = JsonConvert.SerializeObject(battle);
             serializedElement = CommonFunctions.Compress(serializedElement);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
+        [Route("RegisterRigCompleted")]
+        public HttpResponseMessage RegisterRigCompleted(SpaceshipRig rig)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            if(rig != null)
+            {
+                rig.SaveData(playerId, "");
+            }
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            return response;
+        }
+
+        [Route("RigForBattle")]
+        public HttpResponseMessage RigForBattle(int BattleSceneId)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            var rig = SpaceshipRig.RigForBattle(playerId, BattleSceneId);
+
+            string serializedElement = JsonConvert.SerializeObject(rig);
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StringContent(serializedElement);
             return response;
@@ -136,5 +167,8 @@ namespace RsaApi.Controllers
             return response;
 
         }
+
+
+
     }
 }
