@@ -45,6 +45,7 @@
             this.s_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkUsePlayerAvatar = new System.Windows.Forms.CheckBox();
             this.checkNextScreen = new System.Windows.Forms.CheckBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -217,6 +218,12 @@
             this.label58 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
             this.comboEventOfficer = new System.Windows.Forms.ComboBox();
+            this.tabRemoveSpaceShip = new System.Windows.Forms.TabPage();
+            this.label126 = new System.Windows.Forms.Label();
+            this.comboEventRemoveSpaceship = new System.Windows.Forms.ComboBox();
+            this.tabRemoveModule = new System.Windows.Forms.TabPage();
+            this.label127 = new System.Windows.Forms.Label();
+            this.comboEventRemoveModule = new System.Windows.Forms.ComboBox();
             this.buttonDeleteEventElement = new System.Windows.Forms.Button();
             this.buttonAddEventElement = new System.Windows.Forms.Button();
             this.listEventElements = new System.Windows.Forms.ListBox();
@@ -451,13 +458,6 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.checkUsePlayerAvatar = new System.Windows.Forms.CheckBox();
-            this.tabRemoveSpaceShip = new System.Windows.Forms.TabPage();
-            this.label126 = new System.Windows.Forms.Label();
-            this.comboEventRemoveSpaceship = new System.Windows.Forms.ComboBox();
-            this.tabRemoveModule = new System.Windows.Forms.TabPage();
-            this.label127 = new System.Windows.Forms.Label();
-            this.comboEventRemoveModule = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -491,6 +491,8 @@
             this.tabGiveSpaceShip.SuspendLayout();
             this.tabGiveModule.SuspendLayout();
             this.tabCreateOfficer.SuspendLayout();
+            this.tabRemoveSpaceShip.SuspendLayout();
+            this.tabRemoveModule.SuspendLayout();
             this.tabPage20.SuspendLayout();
             this.tabControl8.SuspendLayout();
             this.tabPage26.SuspendLayout();
@@ -515,8 +517,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridSaModules)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaSlots)).BeginInit();
-            this.tabRemoveSpaceShip.SuspendLayout();
-            this.tabRemoveModule.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeScenes
@@ -721,6 +721,17 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Элементы сцены";
+            // 
+            // checkUsePlayerAvatar
+            // 
+            this.checkUsePlayerAvatar.AutoSize = true;
+            this.checkUsePlayerAvatar.Location = new System.Drawing.Point(551, 103);
+            this.checkUsePlayerAvatar.Name = "checkUsePlayerAvatar";
+            this.checkUsePlayerAvatar.Size = new System.Drawing.Size(250, 24);
+            this.checkUsePlayerAvatar.TabIndex = 18;
+            this.checkUsePlayerAvatar.Text = "Использовать аватар игрока";
+            this.checkUsePlayerAvatar.UseVisualStyleBackColor = true;
+            this.checkUsePlayerAvatar.CheckedChanged += new System.EventHandler(this.checkUsePlayerAvatar_CheckedChanged);
             // 
             // checkNextScreen
             // 
@@ -2220,7 +2231,7 @@
             this.ot_stat_object});
             this.gridOfficerType.Location = new System.Drawing.Point(251, 124);
             this.gridOfficerType.Name = "gridOfficerType";
-            this.gridOfficerType.Size = new System.Drawing.Size(501, 351);
+            this.gridOfficerType.Size = new System.Drawing.Size(501, 358);
             this.gridOfficerType.TabIndex = 10;
             this.gridOfficerType.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfficerType_CellContentClick);
             this.gridOfficerType.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfficerType_CellEndEdit);
@@ -2325,7 +2336,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 424);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 431);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2564,6 +2575,68 @@
             this.comboEventOfficer.TabIndex = 8;
             this.comboEventOfficer.SelectedIndexChanged += new System.EventHandler(this.comboEventOfficer_SelectedIndexChanged);
             // 
+            // tabRemoveSpaceShip
+            // 
+            this.tabRemoveSpaceShip.Controls.Add(this.label126);
+            this.tabRemoveSpaceShip.Controls.Add(this.comboEventRemoveSpaceship);
+            this.tabRemoveSpaceShip.Location = new System.Drawing.Point(4, 29);
+            this.tabRemoveSpaceShip.Name = "tabRemoveSpaceShip";
+            this.tabRemoveSpaceShip.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRemoveSpaceShip.Size = new System.Drawing.Size(603, 331);
+            this.tabRemoveSpaceShip.TabIndex = 4;
+            this.tabRemoveSpaceShip.Text = "Remove spaceship";
+            this.tabRemoveSpaceShip.UseVisualStyleBackColor = true;
+            // 
+            // label126
+            // 
+            this.label126.AutoSize = true;
+            this.label126.Location = new System.Drawing.Point(7, 14);
+            this.label126.Name = "label126";
+            this.label126.Size = new System.Drawing.Size(56, 20);
+            this.label126.TabIndex = 3;
+            this.label126.Text = "Model:";
+            // 
+            // comboEventRemoveSpaceship
+            // 
+            this.comboEventRemoveSpaceship.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEventRemoveSpaceship.FormattingEnabled = true;
+            this.comboEventRemoveSpaceship.Location = new System.Drawing.Point(69, 11);
+            this.comboEventRemoveSpaceship.Name = "comboEventRemoveSpaceship";
+            this.comboEventRemoveSpaceship.Size = new System.Drawing.Size(284, 28);
+            this.comboEventRemoveSpaceship.TabIndex = 2;
+            this.comboEventRemoveSpaceship.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveSpaceship_SelectedIndexChanged);
+            // 
+            // tabRemoveModule
+            // 
+            this.tabRemoveModule.Controls.Add(this.label127);
+            this.tabRemoveModule.Controls.Add(this.comboEventRemoveModule);
+            this.tabRemoveModule.Location = new System.Drawing.Point(4, 29);
+            this.tabRemoveModule.Name = "tabRemoveModule";
+            this.tabRemoveModule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRemoveModule.Size = new System.Drawing.Size(603, 331);
+            this.tabRemoveModule.TabIndex = 5;
+            this.tabRemoveModule.Text = "Remove module";
+            this.tabRemoveModule.UseVisualStyleBackColor = true;
+            // 
+            // label127
+            // 
+            this.label127.AutoSize = true;
+            this.label127.Location = new System.Drawing.Point(7, 15);
+            this.label127.Name = "label127";
+            this.label127.Size = new System.Drawing.Size(65, 20);
+            this.label127.TabIndex = 7;
+            this.label127.Text = "Module:";
+            // 
+            // comboEventRemoveModule
+            // 
+            this.comboEventRemoveModule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEventRemoveModule.FormattingEnabled = true;
+            this.comboEventRemoveModule.Location = new System.Drawing.Point(78, 12);
+            this.comboEventRemoveModule.Name = "comboEventRemoveModule";
+            this.comboEventRemoveModule.Size = new System.Drawing.Size(284, 28);
+            this.comboEventRemoveModule.TabIndex = 6;
+            this.comboEventRemoveModule.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveModule_SelectedIndexChanged);
+            // 
             // buttonDeleteEventElement
             // 
             this.buttonDeleteEventElement.Location = new System.Drawing.Point(107, 95);
@@ -2757,7 +2830,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 465);
+            this.groupBox6.Size = new System.Drawing.Size(899, 458);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2773,7 +2846,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 349);
+            this.tabControl6.Size = new System.Drawing.Size(883, 342);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2806,7 +2879,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 316);
+            this.tabPage21.Size = new System.Drawing.Size(875, 309);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3010,7 +3083,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 184);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 244);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3069,7 +3142,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 316);
+            this.tabPage22.Size = new System.Drawing.Size(875, 309);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3323,7 +3396,7 @@
             this.listBsResources.ItemHeight = 20;
             this.listBsResources.Location = new System.Drawing.Point(8, 40);
             this.listBsResources.Name = "listBsResources";
-            this.listBsResources.Size = new System.Drawing.Size(210, 184);
+            this.listBsResources.Size = new System.Drawing.Size(210, 264);
             this.listBsResources.TabIndex = 13;
             this.listBsResources.SelectedIndexChanged += new System.EventHandler(this.listBsResources_SelectedIndexChanged);
             // 
@@ -3356,7 +3429,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 316);
+            this.tabPage28.Size = new System.Drawing.Size(875, 309);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3395,7 +3468,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 233);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 226);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3463,7 +3536,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 431);
+            this.treeBs.Size = new System.Drawing.Size(297, 438);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3536,7 +3609,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 390);
+            this.textBsResources.Size = new System.Drawing.Size(412, 397);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3555,7 +3628,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 390);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 397);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3671,7 +3744,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 465);
+            this.groupBox7.Size = new System.Drawing.Size(894, 472);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3830,7 +3903,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 431);
+            this.treeRes.Size = new System.Drawing.Size(297, 438);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -3881,7 +3954,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 493);
+            this.groupBox8.Size = new System.Drawing.Size(894, 500);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4156,7 +4229,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 459);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 466);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4855,79 +4928,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // checkUsePlayerAvatar
-            // 
-            this.checkUsePlayerAvatar.AutoSize = true;
-            this.checkUsePlayerAvatar.Location = new System.Drawing.Point(551, 103);
-            this.checkUsePlayerAvatar.Name = "checkUsePlayerAvatar";
-            this.checkUsePlayerAvatar.Size = new System.Drawing.Size(250, 24);
-            this.checkUsePlayerAvatar.TabIndex = 18;
-            this.checkUsePlayerAvatar.Text = "Использовать аватар игрока";
-            this.checkUsePlayerAvatar.UseVisualStyleBackColor = true;
-            this.checkUsePlayerAvatar.CheckedChanged += new System.EventHandler(this.checkUsePlayerAvatar_CheckedChanged);
-            // 
-            // tabRemoveSpaceShip
-            // 
-            this.tabRemoveSpaceShip.Controls.Add(this.label126);
-            this.tabRemoveSpaceShip.Controls.Add(this.comboEventRemoveSpaceship);
-            this.tabRemoveSpaceShip.Location = new System.Drawing.Point(4, 29);
-            this.tabRemoveSpaceShip.Name = "tabRemoveSpaceShip";
-            this.tabRemoveSpaceShip.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRemoveSpaceShip.Size = new System.Drawing.Size(603, 331);
-            this.tabRemoveSpaceShip.TabIndex = 4;
-            this.tabRemoveSpaceShip.Text = "Remove spaceship";
-            this.tabRemoveSpaceShip.UseVisualStyleBackColor = true;
-            // 
-            // label126
-            // 
-            this.label126.AutoSize = true;
-            this.label126.Location = new System.Drawing.Point(7, 14);
-            this.label126.Name = "label126";
-            this.label126.Size = new System.Drawing.Size(56, 20);
-            this.label126.TabIndex = 3;
-            this.label126.Text = "Model:";
-            // 
-            // comboEventRemoveSpaceship
-            // 
-            this.comboEventRemoveSpaceship.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboEventRemoveSpaceship.FormattingEnabled = true;
-            this.comboEventRemoveSpaceship.Location = new System.Drawing.Point(69, 11);
-            this.comboEventRemoveSpaceship.Name = "comboEventRemoveSpaceship";
-            this.comboEventRemoveSpaceship.Size = new System.Drawing.Size(284, 28);
-            this.comboEventRemoveSpaceship.TabIndex = 2;
-            this.comboEventRemoveSpaceship.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveSpaceship_SelectedIndexChanged);
-            // 
-            // tabRemoveModule
-            // 
-            this.tabRemoveModule.Controls.Add(this.label127);
-            this.tabRemoveModule.Controls.Add(this.comboEventRemoveModule);
-            this.tabRemoveModule.Location = new System.Drawing.Point(4, 29);
-            this.tabRemoveModule.Name = "tabRemoveModule";
-            this.tabRemoveModule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRemoveModule.Size = new System.Drawing.Size(603, 331);
-            this.tabRemoveModule.TabIndex = 5;
-            this.tabRemoveModule.Text = "Remove module";
-            this.tabRemoveModule.UseVisualStyleBackColor = true;
-            // 
-            // label127
-            // 
-            this.label127.AutoSize = true;
-            this.label127.Location = new System.Drawing.Point(7, 15);
-            this.label127.Name = "label127";
-            this.label127.Size = new System.Drawing.Size(65, 20);
-            this.label127.TabIndex = 7;
-            this.label127.Text = "Module:";
-            // 
-            // comboEventRemoveModule
-            // 
-            this.comboEventRemoveModule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboEventRemoveModule.FormattingEnabled = true;
-            this.comboEventRemoveModule.Location = new System.Drawing.Point(78, 12);
-            this.comboEventRemoveModule.Name = "comboEventRemoveModule";
-            this.comboEventRemoveModule.Size = new System.Drawing.Size(284, 28);
-            this.comboEventRemoveModule.TabIndex = 6;
-            this.comboEventRemoveModule.SelectedIndexChanged += new System.EventHandler(this.comboEventRemoveModule_SelectedIndexChanged);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -4991,6 +4991,10 @@
             this.tabGiveModule.PerformLayout();
             this.tabCreateOfficer.ResumeLayout(false);
             this.tabCreateOfficer.PerformLayout();
+            this.tabRemoveSpaceShip.ResumeLayout(false);
+            this.tabRemoveSpaceShip.PerformLayout();
+            this.tabRemoveModule.ResumeLayout(false);
+            this.tabRemoveModule.PerformLayout();
             this.tabPage20.ResumeLayout(false);
             this.tabControl8.ResumeLayout(false);
             this.tabPage26.ResumeLayout(false);
@@ -5024,10 +5028,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridSaModules)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaOfficer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSaSlots)).EndInit();
-            this.tabRemoveSpaceShip.ResumeLayout(false);
-            this.tabRemoveSpaceShip.PerformLayout();
-            this.tabRemoveModule.ResumeLayout(false);
-            this.tabRemoveModule.PerformLayout();
             this.ResumeLayout(false);
 
         }

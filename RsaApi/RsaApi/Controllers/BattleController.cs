@@ -57,6 +57,38 @@ namespace RsaApi.Controllers
             return response;
         }
 
+        [Route("StartBattleWithRigInDb")]
+        public HttpResponseMessage StartBattleWithRigInDb(int battleSceneId)
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+
+            SpaceshipRig rig = SpaceshipRig.RigForBattle(playerId, battleSceneId);
+
+            Battle battle = null;
+            if (rig != null)
+            {
+                if (rig.Id == 0)
+                {
+                    rig.SaveData(playerId, "");
+                }
+            }
+            else
+            {
+                rig = SpaceshipRig.RigForBattle(playerId, battleSceneId);
+            }
+
+            battle = Battle.CreateBattle(playerId, battleSceneId, rig.Id, true);
+            battle.Rig = rig;
+
+
+            string serializedElement = JsonConvert.SerializeObject(battle);
+            serializedElement = CommonFunctions.Compress(serializedElement);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
         [Route("RegisterRigCompleted")]
         public HttpResponseMessage RegisterRigCompleted(SpaceshipRig rig)
         {
@@ -167,8 +199,6 @@ namespace RsaApi.Controllers
             return response;
 
         }
-
-
 
     }
 }

@@ -294,8 +294,8 @@ public class SpaceshipRig : UnitySpaceshipRig
                 RigCode = Guid.NewGuid();
             }
             q = $@"
-                INSERT INTO ss_rigs(ship_model_id, ship_id, player_id, tag, rig_code) 
-                             VALUES({sModel.Id}, {shipId}, {playerId}, @str1, CAST('{RigCode.ToString()}' AS uniqueidentifier))
+                INSERT INTO ss_rigs(ship_model_id, ship_id, player_id, tag, rig_code, for_battle_id) 
+                             VALUES({sModel.Id}, {shipId}, {playerId}, @str1, CAST('{RigCode.ToString()}' AS uniqueidentifier), {ForBattleId})
                 SELECT @@IDENTITY AS Result";
             Id = DataConnection.GetResultInt(q, names);
         }

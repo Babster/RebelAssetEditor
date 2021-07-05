@@ -681,7 +681,7 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(701, 410);
+            this.textSaBottomLine.Size = new System.Drawing.Size(701, 403);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
             // 
@@ -734,7 +734,7 @@ namespace AssetEditor.Forms
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(701, 459);
+            this.gridSaModules.Size = new System.Drawing.Size(701, 410);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
@@ -879,7 +879,7 @@ namespace AssetEditor.Forms
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(701, 412);
+            this.treeSaRigs.Size = new System.Drawing.Size(701, 405);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -923,7 +923,7 @@ namespace AssetEditor.Forms
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 412);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 405);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
