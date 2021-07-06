@@ -223,7 +223,8 @@ public class SkillSet
         KillEnemy = 1,
         DamageEnemy = 2,
         GetDamage = 3,
-        UseEnergy = 4
+        UseEnergy = 4,
+        AvoidDamage = 5
     }
 
     public SkillSet() { Elements = new List<SkillSetElement>(); }

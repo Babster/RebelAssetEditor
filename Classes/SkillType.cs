@@ -153,17 +153,24 @@ public class SkillType
         RepairArmor = 1,
         RepairStructure = 2,
         RestoreShield = 3,
+        ActiveDexterity = 4,
+
         Invincibility = 10,
         DamageAllEnemies = 20,
 
 
+        //Passive skils - defence and energy
         AddArmorPercent = 30,
         AddStructurePercent = 31,
         AddShieldPercent = 32,
         AddShieldRechargeRate = 33,
         AddEnergy = 34,
-        
-        
+        RepairArmorContinuosly = 35,
+        RepairStructureContinuosly = 36,
+        PassiveDexterity = 37,
+        AddEnergyPercent = 38,
+
+        //Passive skills - weapons
         AddDamagePercent = 40,
         AddFireRatePercent = 41
         

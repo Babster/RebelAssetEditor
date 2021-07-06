@@ -458,6 +458,8 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label128 = new System.Windows.Forms.Label();
+            this.textOfficerSkillSets = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -2184,6 +2186,8 @@
             // 
             // tabPage11
             // 
+            this.tabPage11.Controls.Add(this.textOfficerSkillSets);
+            this.tabPage11.Controls.Add(this.label128);
             this.tabPage11.Controls.Add(this.buttonSaveOfficerType);
             this.tabPage11.Controls.Add(this.gridOfficerType);
             this.tabPage11.Controls.Add(this.textOfficerTypeBonusPoints);
@@ -2200,7 +2204,7 @@
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage11.Size = new System.Drawing.Size(1216, 475);
             this.tabPage11.TabIndex = 0;
-            this.tabPage11.Text = "Типы офицеров";
+            this.tabPage11.Text = "Officer types";
             this.tabPage11.UseVisualStyleBackColor = true;
             this.tabPage11.Click += new System.EventHandler(this.tabPage11_Click);
             this.tabPage11.Enter += new System.EventHandler(this.tabPage11_Enter);
@@ -2212,7 +2216,7 @@
             this.buttonSaveOfficerType.Name = "buttonSaveOfficerType";
             this.buttonSaveOfficerType.Size = new System.Drawing.Size(111, 35);
             this.buttonSaveOfficerType.TabIndex = 11;
-            this.buttonSaveOfficerType.Text = "Сохранить";
+            this.buttonSaveOfficerType.Text = "Save";
             this.buttonSaveOfficerType.UseVisualStyleBackColor = true;
             this.buttonSaveOfficerType.Click += new System.EventHandler(this.buttonSaveOfficerType_Click);
             // 
@@ -2229,9 +2233,9 @@
             this.ot_name,
             this.ot_score,
             this.ot_stat_object});
-            this.gridOfficerType.Location = new System.Drawing.Point(251, 124);
+            this.gridOfficerType.Location = new System.Drawing.Point(251, 167);
             this.gridOfficerType.Name = "gridOfficerType";
-            this.gridOfficerType.Size = new System.Drawing.Size(501, 358);
+            this.gridOfficerType.Size = new System.Drawing.Size(501, 302);
             this.gridOfficerType.TabIndex = 10;
             this.gridOfficerType.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfficerType_CellContentClick);
             this.gridOfficerType.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOfficerType_CellEndEdit);
@@ -2256,7 +2260,7 @@
             // 
             // textOfficerTypeBonusPoints
             // 
-            this.textOfficerTypeBonusPoints.Location = new System.Drawing.Point(629, 83);
+            this.textOfficerTypeBonusPoints.Location = new System.Drawing.Point(603, 83);
             this.textOfficerTypeBonusPoints.MaxLength = 10;
             this.textOfficerTypeBonusPoints.Name = "textOfficerTypeBonusPoints";
             this.textOfficerTypeBonusPoints.Size = new System.Drawing.Size(123, 26);
@@ -2268,13 +2272,13 @@
             this.label43.AutoSize = true;
             this.label43.Location = new System.Drawing.Point(491, 86);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(132, 20);
+            this.label43.Size = new System.Drawing.Size(106, 20);
             this.label43.TabIndex = 8;
-            this.label43.Text = "Бонусных очков:";
+            this.label43.Text = "Bonus points:";
             // 
             // textOfficerPortraitId
             // 
-            this.textOfficerPortraitId.Location = new System.Drawing.Point(372, 83);
+            this.textOfficerPortraitId.Location = new System.Drawing.Point(335, 83);
             this.textOfficerPortraitId.MaxLength = 10;
             this.textOfficerPortraitId.Name = "textOfficerPortraitId";
             this.textOfficerPortraitId.Size = new System.Drawing.Size(100, 26);
@@ -2286,26 +2290,26 @@
             this.label42.AutoSize = true;
             this.label42.Location = new System.Drawing.Point(247, 86);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(119, 20);
+            this.label42.Size = new System.Drawing.Size(82, 20);
             this.label42.TabIndex = 6;
-            this.label42.Text = "Код портрета:";
+            this.label42.Text = "Portrait Id:";
             // 
             // checkOfficerAvailableAtStart
             // 
             this.checkOfficerAvailableAtStart.AutoSize = true;
             this.checkOfficerAvailableAtStart.Location = new System.Drawing.Point(573, 50);
             this.checkOfficerAvailableAtStart.Name = "checkOfficerAvailableAtStart";
-            this.checkOfficerAvailableAtStart.Size = new System.Drawing.Size(179, 24);
+            this.checkOfficerAvailableAtStart.Size = new System.Drawing.Size(145, 24);
             this.checkOfficerAvailableAtStart.TabIndex = 5;
-            this.checkOfficerAvailableAtStart.Text = "Доступен на старте";
+            this.checkOfficerAvailableAtStart.Text = "Available at start";
             this.checkOfficerAvailableAtStart.UseVisualStyleBackColor = true;
             // 
             // textOfficerTypeName
             // 
-            this.textOfficerTypeName.Location = new System.Drawing.Point(297, 48);
+            this.textOfficerTypeName.Location = new System.Drawing.Point(308, 48);
             this.textOfficerTypeName.MaxLength = 50;
             this.textOfficerTypeName.Name = "textOfficerTypeName";
-            this.textOfficerTypeName.Size = new System.Drawing.Size(254, 26);
+            this.textOfficerTypeName.Size = new System.Drawing.Size(243, 26);
             this.textOfficerTypeName.TabIndex = 4;
             this.textOfficerTypeName.TextChanged += new System.EventHandler(this.textOfficerTypeName_TextChanged);
             // 
@@ -2314,9 +2318,9 @@
             this.label41.AutoSize = true;
             this.label41.Location = new System.Drawing.Point(247, 51);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(44, 20);
+            this.label41.Size = new System.Drawing.Size(55, 20);
             this.label41.TabIndex = 3;
-            this.label41.Text = "Имя:";
+            this.label41.Text = "Name:";
             // 
             // buttonAddOfficerType
             // 
@@ -2325,7 +2329,7 @@
             this.buttonAddOfficerType.Name = "buttonAddOfficerType";
             this.buttonAddOfficerType.Size = new System.Drawing.Size(111, 35);
             this.buttonAddOfficerType.TabIndex = 2;
-            this.buttonAddOfficerType.Text = "Добавить";
+            this.buttonAddOfficerType.Text = "Add";
             this.buttonAddOfficerType.UseVisualStyleBackColor = true;
             this.buttonAddOfficerType.Click += new System.EventHandler(this.buttonAddOfficerType_Click);
             // 
@@ -2336,7 +2340,7 @@
             this.treeOfficerTypes.HideSelection = false;
             this.treeOfficerTypes.Location = new System.Drawing.Point(6, 51);
             this.treeOfficerTypes.Name = "treeOfficerTypes";
-            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 431);
+            this.treeOfficerTypes.Size = new System.Drawing.Size(230, 418);
             this.treeOfficerTypes.TabIndex = 0;
             this.treeOfficerTypes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeOfficerTypes_AfterSelect);
             // 
@@ -2830,7 +2834,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 458);
+            this.groupBox6.Size = new System.Drawing.Size(899, 455);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2846,7 +2850,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 342);
+            this.tabControl6.Size = new System.Drawing.Size(883, 339);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2879,7 +2883,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 309);
+            this.tabPage21.Size = new System.Drawing.Size(875, 306);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3142,7 +3146,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 309);
+            this.tabPage22.Size = new System.Drawing.Size(875, 316);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3429,7 +3433,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 309);
+            this.tabPage28.Size = new System.Drawing.Size(875, 316);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3468,7 +3472,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 226);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 233);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3536,7 +3540,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 438);
+            this.treeBs.Size = new System.Drawing.Size(297, 421);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3609,7 +3613,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 397);
+            this.textBsResources.Size = new System.Drawing.Size(412, 385);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3628,7 +3632,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 397);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 385);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3744,7 +3748,7 @@
             this.groupBox7.Controls.Add(this.label73);
             this.groupBox7.Location = new System.Drawing.Point(309, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(894, 472);
+            this.groupBox7.Size = new System.Drawing.Size(894, 458);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактирование ресурса";
@@ -3903,7 +3907,7 @@
             this.treeRes.HideSelection = false;
             this.treeRes.Location = new System.Drawing.Point(6, 40);
             this.treeRes.Name = "treeRes";
-            this.treeRes.Size = new System.Drawing.Size(297, 438);
+            this.treeRes.Size = new System.Drawing.Size(297, 424);
             this.treeRes.TabIndex = 8;
             this.treeRes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeRes_AfterSelect);
             // 
@@ -3954,7 +3958,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 500);
+            this.groupBox8.Size = new System.Drawing.Size(894, 458);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4229,7 +4233,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 466);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4928,6 +4932,24 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // label128
+            // 
+            this.label128.AutoSize = true;
+            this.label128.Location = new System.Drawing.Point(247, 124);
+            this.label128.Name = "label128";
+            this.label128.Size = new System.Drawing.Size(71, 20);
+            this.label128.TabIndex = 12;
+            this.label128.Text = "Skillsets:";
+            // 
+            // textOfficerSkillSets
+            // 
+            this.textOfficerSkillSets.Location = new System.Drawing.Point(324, 121);
+            this.textOfficerSkillSets.MaxLength = 10;
+            this.textOfficerSkillSets.Name = "textOfficerSkillSets";
+            this.textOfficerSkillSets.Size = new System.Drawing.Size(402, 26);
+            this.textOfficerSkillSets.TabIndex = 13;
+            this.textOfficerSkillSets.TextChanged += new System.EventHandler(this.textOfficerSkillSets_TextChanged);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -5464,6 +5486,8 @@
         private System.Windows.Forms.TabPage tabRemoveModule;
         private System.Windows.Forms.Label label127;
         private System.Windows.Forms.ComboBox comboEventRemoveModule;
+        private System.Windows.Forms.TextBox textOfficerSkillSets;
+        private System.Windows.Forms.Label label128;
         //private System.Windows.Forms.Label label129;
     }
 }

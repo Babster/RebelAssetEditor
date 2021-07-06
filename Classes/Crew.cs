@@ -619,7 +619,7 @@ namespace Crew
             Name = Convert.ToString(r["name"]);
             BonusPoints = Convert.ToInt32(r["bonus_points"]);
             PortraitId = Convert.ToInt32(r["portrait_id"]);
-
+            AvailableSkillSetsStr = (string)r["crew_officers_skill_sets"];
             LoadStats();
 
         }
@@ -686,11 +686,12 @@ namespace Crew
                 UPDATE crew_officers_types SET
                     name = @str1,
                     bonus_points = {BonusPoints},
-                    portrait_id = {PortraitId}
+                    portrait_id = {PortraitId},
+                    crew_officers_skill_sets = @str2
                 WHERE 
                     id = {Id}";
 
-            List<string> names = new List<string> { this.Name };
+            List<string> names = new List<string> { this.Name, this.AvailableSkillSetsStr };
             DataConnection.Execute(q, names);
 
             //Saving stats
@@ -714,7 +715,8 @@ namespace Crew
                     id,
                     name,
                     bonus_points,
-                    portrait_id
+                    portrait_id,
+                    ISNULL(crew_officers_skill_sets, '') AS crew_officers_skill_sets
                 FROM
                     crew_officers_types";
             return q;
@@ -815,7 +817,7 @@ namespace Crew
         [JsonIgnore]
         public int BonusPoints { get; set; }
         public int PortraitId { get; set; }
-
+        public string AvailableSkillSetsStr { get; set; }
         [JsonIgnore]
         public List<OfficerTypeStat> Stats { get; set; }
     }

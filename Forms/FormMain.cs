@@ -1855,6 +1855,7 @@ namespace AssetEditor
             textOfficerPortraitId.Text = "";
             textOfficerTypeBonusPoints.Text = "";
             gridOfficerType.Rows.Clear();
+            textOfficerSkillSets.Text = "";
             NoEvents = false;
         }
 
@@ -1877,6 +1878,7 @@ namespace AssetEditor
             textOfficerTypeName.Text = curOfficerType.Name;
             textOfficerPortraitId.Text = curOfficerType.PortraitId.ToString();
             textOfficerTypeBonusPoints.Text = curOfficerType.BonusPoints.ToString();
+            textOfficerSkillSets.Text = curOfficerType.AvailableSkillSetsStr;
             gridOfficerType.Rows.Clear();
 
             List<OfficerTypeStat> stats = curOfficerType.Stats;
@@ -1931,6 +1933,15 @@ namespace AssetEditor
             curOfficerType.BonusPoints = tVal;
         }
 
+        private void textOfficerSkillSets_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            CrewOfficerType curOfficerType = GetCurrentOfficerType();
+            if (curOfficerType == null)
+                return;
+            curOfficerType.AvailableSkillSetsStr = textOfficerSkillSets.Text;
+        }
 
         private void gridOfficerType_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -3879,6 +3890,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
 
 
 
