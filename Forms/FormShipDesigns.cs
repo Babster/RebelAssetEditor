@@ -132,6 +132,7 @@ namespace AssetEditor.Forms
             textShipImageId.Text = tag.ImgId.ToString();
             textShipBaseEnergy.Text = tag.BaseEnergy.ToString();
             textShipSkillSets.Text = tag.SkillSetsString;
+            textShipDexterity.Text = tag.Dexterity.ToString();
             if (tag.slots.Count > 0)
             {
                 foreach (ShipModelSlot slot in tag.slots)
@@ -155,6 +156,7 @@ namespace AssetEditor.Forms
             textShipSkillSets.Text = "";
             listShipSlots.Items.Clear();
             checkShipBoss.Checked = false;
+            textShipDexterity.Text = "";
             NoEvents = false;
             ClearShipSlot();
         }
@@ -204,6 +206,18 @@ namespace AssetEditor.Forms
             if (tag == null)
                 return;
             tag.SkillSetsString = textShipSkillSets.Text;
+        }
+
+        private void textShipDexterity_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textShipDexterity.Text, out value);
+            tag.Dexterity = value;
         }
 
         private void checkShipBoss_CheckedChanged(object sender, EventArgs e)
@@ -854,6 +868,7 @@ namespace AssetEditor.Forms
                 n.Tag = ship;
             }
         }
+
 
 
 

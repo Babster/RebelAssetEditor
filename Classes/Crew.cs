@@ -456,6 +456,8 @@ namespace Crew
                     curSkillSet = new CrewOfficerSkillSet();
                     curSkillSet.CrewOfficerId = Id;
                     curSkillSet.SkillSetId = expSkillSet.SkillSetId;
+                    skillSetDict.Add(expSkillSet.SkillSetId, curSkillSet);
+                    SkillSets.Add(curSkillSet);
                 }
                 curSkillSet.Experience = expSkillSet.Experience;
                 curSkillSet.SkillPointsTotal = expSkillSet.SkillPointsTotal;

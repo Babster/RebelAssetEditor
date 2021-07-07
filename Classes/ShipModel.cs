@@ -32,6 +32,7 @@ public class ShipModel : UnityShipModel
         this.ImgId = (int)r["img_id"];
         this.BaseEnergy = (int)r["base_energy"];
         this.SkillSetsString = (string)r["skill_sets"];
+        this.Dexterity = (int)r["dexterity"];
         Boss = (int)r["boss"];
         LoadSlots();
 
@@ -88,7 +89,8 @@ public class ShipModel : UnityShipModel
                     img_id = {ImgId},
                     base_energy = {BaseEnergy},
                     skill_sets = @str3,
-                    boss = {Boss}
+                    boss = {Boss},
+                    dexterity = {Dexterity}
                 WHERE
                     id = " + this.Id.ToString();
 
@@ -152,7 +154,8 @@ public class ShipModel : UnityShipModel
                     ISNULL(img_id, 0) AS img_id,
                     ISNULL(base_energy, 0) AS base_energy,
                     ISNULL(skill_sets, '') AS skill_sets,
-                    ISNULL(boss, 0) AS boss
+                    ISNULL(boss, 0) AS boss,
+                    ISNULL(dexterity, 0) AS dexterity
                 FROM
                     ss_designs";
     }
@@ -185,7 +188,6 @@ public class ShipModel : UnityShipModel
         }
         return mDict;
     }
-
 
     public static ShipModel ModelById(int id)
     {
@@ -297,6 +299,7 @@ public class UnityShipModel
     public int BaseEnergy { get; set; }
     public string SkillSetsString { get; set; }
     public int Boss { get; set; }
+    public int Dexterity { get; set; }
     [JsonIgnore]
     public int WeaponSlotCount
     {
