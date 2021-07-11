@@ -183,6 +183,8 @@
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.textOfficerSkillSets = new System.Windows.Forms.TextBox();
+            this.label128 = new System.Windows.Forms.Label();
             this.buttonSaveOfficerType = new System.Windows.Forms.Button();
             this.gridOfficerType = new System.Windows.Forms.DataGridView();
             this.ot_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -458,8 +460,8 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label128 = new System.Windows.Forms.Label();
-            this.textOfficerSkillSets = new System.Windows.Forms.TextBox();
+            this.textBsCyclePeriodics = new System.Windows.Forms.TextBox();
+            this.label129 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -2209,6 +2211,24 @@
             this.tabPage11.Click += new System.EventHandler(this.tabPage11_Click);
             this.tabPage11.Enter += new System.EventHandler(this.tabPage11_Enter);
             // 
+            // textOfficerSkillSets
+            // 
+            this.textOfficerSkillSets.Location = new System.Drawing.Point(324, 121);
+            this.textOfficerSkillSets.MaxLength = 10;
+            this.textOfficerSkillSets.Name = "textOfficerSkillSets";
+            this.textOfficerSkillSets.Size = new System.Drawing.Size(402, 26);
+            this.textOfficerSkillSets.TabIndex = 13;
+            this.textOfficerSkillSets.TextChanged += new System.EventHandler(this.textOfficerSkillSets_TextChanged);
+            // 
+            // label128
+            // 
+            this.label128.AutoSize = true;
+            this.label128.Location = new System.Drawing.Point(247, 124);
+            this.label128.Name = "label128";
+            this.label128.Size = new System.Drawing.Size(71, 20);
+            this.label128.TabIndex = 12;
+            this.label128.Text = "Skillsets:";
+            // 
             // buttonSaveOfficerType
             // 
             this.buttonSaveOfficerType.Location = new System.Drawing.Point(251, 5);
@@ -2834,7 +2854,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 455);
+            this.groupBox6.Size = new System.Drawing.Size(899, 462);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2850,11 +2870,13 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 339);
+            this.tabControl6.Size = new System.Drawing.Size(883, 346);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
             // 
+            this.tabPage21.Controls.Add(this.textBsCyclePeriodics);
+            this.tabPage21.Controls.Add(this.label129);
             this.tabPage21.Controls.Add(this.textBsMaximumCycle);
             this.tabPage21.Controls.Add(this.textBsMinimumCycle);
             this.tabPage21.Controls.Add(this.label107);
@@ -2883,7 +2905,7 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 306);
+            this.tabPage21.Size = new System.Drawing.Size(875, 313);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -3087,7 +3109,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 244);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 264);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3146,7 +3168,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 316);
+            this.tabPage22.Size = new System.Drawing.Size(875, 313);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3400,7 +3422,7 @@
             this.listBsResources.ItemHeight = 20;
             this.listBsResources.Location = new System.Drawing.Point(8, 40);
             this.listBsResources.Name = "listBsResources";
-            this.listBsResources.Size = new System.Drawing.Size(210, 264);
+            this.listBsResources.Size = new System.Drawing.Size(210, 244);
             this.listBsResources.TabIndex = 13;
             this.listBsResources.SelectedIndexChanged += new System.EventHandler(this.listBsResources_SelectedIndexChanged);
             // 
@@ -3433,7 +3455,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 316);
+            this.tabPage28.Size = new System.Drawing.Size(875, 313);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3472,7 +3494,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 233);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 230);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3540,7 +3562,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 421);
+            this.treeBs.Size = new System.Drawing.Size(297, 428);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -4932,23 +4954,22 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // label128
+            // textBsCyclePeriodics
             // 
-            this.label128.AutoSize = true;
-            this.label128.Location = new System.Drawing.Point(247, 124);
-            this.label128.Name = "label128";
-            this.label128.Size = new System.Drawing.Size(71, 20);
-            this.label128.TabIndex = 12;
-            this.label128.Text = "Skillsets:";
+            this.textBsCyclePeriodics.Location = new System.Drawing.Point(749, 253);
+            this.textBsCyclePeriodics.Name = "textBsCyclePeriodics";
+            this.textBsCyclePeriodics.Size = new System.Drawing.Size(100, 26);
+            this.textBsCyclePeriodics.TabIndex = 33;
+            this.textBsCyclePeriodics.TextChanged += new System.EventHandler(this.textBsCyclePeriodics_TextChanged);
             // 
-            // textOfficerSkillSets
+            // label129
             // 
-            this.textOfficerSkillSets.Location = new System.Drawing.Point(324, 121);
-            this.textOfficerSkillSets.MaxLength = 10;
-            this.textOfficerSkillSets.Name = "textOfficerSkillSets";
-            this.textOfficerSkillSets.Size = new System.Drawing.Size(402, 26);
-            this.textOfficerSkillSets.TabIndex = 13;
-            this.textOfficerSkillSets.TextChanged += new System.EventHandler(this.textOfficerSkillSets_TextChanged);
+            this.label129.AutoSize = true;
+            this.label129.Location = new System.Drawing.Point(666, 256);
+            this.label129.Name = "label129";
+            this.label129.Size = new System.Drawing.Size(77, 20);
+            this.label129.TabIndex = 32;
+            this.label129.Text = "Periodics:";
             // 
             // FormMain
             // 
@@ -5488,6 +5509,8 @@
         private System.Windows.Forms.ComboBox comboEventRemoveModule;
         private System.Windows.Forms.TextBox textOfficerSkillSets;
         private System.Windows.Forms.Label label128;
+        private System.Windows.Forms.TextBox textBsCyclePeriodics;
+        private System.Windows.Forms.Label label129;
         //private System.Windows.Forms.Label label129;
     }
 }

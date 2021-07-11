@@ -32,6 +32,8 @@ namespace AssetEditor.Forms
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage13 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textShipDexterity = new System.Windows.Forms.TextBox();
             this.checkShipBoss = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textShipSkillSets = new System.Windows.Forms.TextBox();
@@ -111,8 +113,9 @@ namespace AssetEditor.Forms
             this.buttonCreateRig = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.comboSaShip = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textShipDexterity = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textShipDescription = new System.Windows.Forms.RichTextBox();
+            this.checkShipTurn180 = new System.Windows.Forms.CheckBox();
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -158,6 +161,9 @@ namespace AssetEditor.Forms
             // 
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox5.Controls.Add(this.checkShipTurn180);
+            this.groupBox5.Controls.Add(this.textShipDescription);
+            this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Controls.Add(this.label2);
             this.groupBox5.Controls.Add(this.textShipDexterity);
             this.groupBox5.Controls.Add(this.checkShipBoss);
@@ -205,6 +211,25 @@ namespace AssetEditor.Forms
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Ship design edit";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(431, 118);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(75, 20);
+            this.label2.TabIndex = 53;
+            this.label2.Text = "Dexterity:";
+            // 
+            // textShipDexterity
+            // 
+            this.textShipDexterity.Location = new System.Drawing.Point(512, 115);
+            this.textShipDexterity.MaxLength = 10;
+            this.textShipDexterity.Name = "textShipDexterity";
+            this.textShipDexterity.Size = new System.Drawing.Size(62, 26);
+            this.textShipDexterity.TabIndex = 54;
+            this.textShipDexterity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textShipDexterity.TextChanged += new System.EventHandler(this.textShipDexterity_TextChanged);
             // 
             // checkShipBoss
             // 
@@ -255,7 +280,7 @@ namespace AssetEditor.Forms
             // checkShipDoubleWeapon
             // 
             this.checkShipDoubleWeapon.AutoSize = true;
-            this.checkShipDoubleWeapon.Location = new System.Drawing.Point(332, 355);
+            this.checkShipDoubleWeapon.Location = new System.Drawing.Point(332, 313);
             this.checkShipDoubleWeapon.Name = "checkShipDoubleWeapon";
             this.checkShipDoubleWeapon.Size = new System.Drawing.Size(139, 24);
             this.checkShipDoubleWeapon.TabIndex = 47;
@@ -685,7 +710,7 @@ namespace AssetEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSaBottomLine.Location = new System.Drawing.Point(6, 47);
             this.textSaBottomLine.Name = "textSaBottomLine";
-            this.textSaBottomLine.Size = new System.Drawing.Size(701, 410);
+            this.textSaBottomLine.Size = new System.Drawing.Size(701, 417);
             this.textSaBottomLine.TabIndex = 0;
             this.textSaBottomLine.Text = "";
             // 
@@ -738,7 +763,7 @@ namespace AssetEditor.Forms
             this.gridSaModules.Location = new System.Drawing.Point(6, 40);
             this.gridSaModules.Name = "gridSaModules";
             this.gridSaModules.ReadOnly = true;
-            this.gridSaModules.Size = new System.Drawing.Size(701, 417);
+            this.gridSaModules.Size = new System.Drawing.Size(701, 424);
             this.gridSaModules.TabIndex = 6;
             this.gridSaModules.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSaModules_CellDoubleClick);
             // 
@@ -803,7 +828,7 @@ namespace AssetEditor.Forms
             this.gridSaOfficer.Location = new System.Drawing.Point(221, 55);
             this.gridSaOfficer.Name = "gridSaOfficer";
             this.gridSaOfficer.ReadOnly = true;
-            this.gridSaOfficer.Size = new System.Drawing.Size(488, 402);
+            this.gridSaOfficer.Size = new System.Drawing.Size(488, 409);
             this.gridSaOfficer.TabIndex = 6;
             // 
             // sao_stat_name
@@ -883,7 +908,7 @@ namespace AssetEditor.Forms
             this.treeSaRigs.HideSelection = false;
             this.treeSaRigs.Location = new System.Drawing.Point(6, 45);
             this.treeSaRigs.Name = "treeSaRigs";
-            this.treeSaRigs.Size = new System.Drawing.Size(701, 412);
+            this.treeSaRigs.Size = new System.Drawing.Size(701, 419);
             this.treeSaRigs.TabIndex = 2;
             // 
             // buttonSaDeleteRig
@@ -927,7 +952,7 @@ namespace AssetEditor.Forms
             this.treePlayerShipsRig.HideSelection = false;
             this.treePlayerShipsRig.Location = new System.Drawing.Point(6, 45);
             this.treePlayerShipsRig.Name = "treePlayerShipsRig";
-            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 412);
+            this.treePlayerShipsRig.Size = new System.Drawing.Size(328, 419);
             this.treePlayerShipsRig.TabIndex = 6;
             // 
             // buttonLoadPlayerShip
@@ -1017,24 +1042,37 @@ namespace AssetEditor.Forms
             this.comboSaShip.TabIndex = 0;
             this.comboSaShip.SelectedIndexChanged += new System.EventHandler(this.comboSaShip_SelectedIndexChanged);
             // 
-            // label2
+            // label3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(431, 118);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 20);
-            this.label2.TabIndex = 53;
-            this.label2.Text = "Dexterity:";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(328, 380);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(126, 20);
+            this.label3.TabIndex = 55;
+            this.label3.Text = "Ship description:";
             // 
-            // textShipDexterity
+            // textShipDescription
             // 
-            this.textShipDexterity.Location = new System.Drawing.Point(512, 115);
-            this.textShipDexterity.MaxLength = 10;
-            this.textShipDexterity.Name = "textShipDexterity";
-            this.textShipDexterity.Size = new System.Drawing.Size(62, 26);
-            this.textShipDexterity.TabIndex = 54;
-            this.textShipDexterity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textShipDexterity.TextChanged += new System.EventHandler(this.textShipDexterity_TextChanged);
+            this.textShipDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textShipDescription.Location = new System.Drawing.Point(460, 377);
+            this.textShipDescription.Name = "textShipDescription";
+            this.textShipDescription.Size = new System.Drawing.Size(481, 180);
+            this.textShipDescription.TabIndex = 56;
+            this.textShipDescription.Text = "";
+            this.textShipDescription.TextChanged += new System.EventHandler(this.textShipDescription_TextChanged);
+            // 
+            // checkShipTurn180
+            // 
+            this.checkShipTurn180.AutoSize = true;
+            this.checkShipTurn180.Location = new System.Drawing.Point(591, 117);
+            this.checkShipTurn180.Name = "checkShipTurn180";
+            this.checkShipTurn180.Size = new System.Drawing.Size(154, 24);
+            this.checkShipTurn180.TabIndex = 57;
+            this.checkShipTurn180.Text = "Turn 180 if enemy";
+            this.checkShipTurn180.UseVisualStyleBackColor = true;
+            this.checkShipTurn180.CheckedChanged += new System.EventHandler(this.checkShipTurn180_CheckedChanged);
             // 
             // FormShipDesigns
             // 
@@ -1154,5 +1192,8 @@ namespace AssetEditor.Forms
         private System.Windows.Forms.CheckBox checkShipBoss;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textShipDexterity;
+        private System.Windows.Forms.RichTextBox textShipDescription;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkShipTurn180;
     }
 }

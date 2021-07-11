@@ -382,6 +382,13 @@ public class SpaceshipRig : UnitySpaceshipRig
     }
     public static SpaceshipRig RigForBattle(int playerId, int battleId)
     {
+        List<int> rigIdsInBattles = new List<int>();
+        var battles = Battle.BattlesForPlayer(playerId, true);
+        foreach(var battle in battles)
+        {
+            rigIdsInBattles.Add(battle.RigId);
+        }
+        BattleSceneType sceneType = BattleSceneType.SceneById(battleId);
         List<SpaceshipRig> rigList = PlayerRigs(playerId);
         foreach(var rig in rigList)
         {
@@ -389,6 +396,14 @@ public class SpaceshipRig : UnitySpaceshipRig
             {
                 return rig;
             }
+            if(sceneType.AssembleShip == 1)
+            {
+                if(!rigIdsInBattles.Contains(rig.Id))
+                {
+                    return rig;
+                }
+            }
+            
         }
         return null;
     }

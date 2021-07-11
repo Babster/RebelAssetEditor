@@ -36,7 +36,8 @@ public class BattleSceneType : UnityBattleSceneType
                 base_battle_intensity,
                 cycle_intensity_multiplier,
                 ISNULL(cycle_from, 1) AS cycle_from,
-                ISNULL(cycle_to, 9999) AS cycle_to
+                ISNULL(cycle_to, 9999) AS cycle_to,
+                ISNULL(cycle_periodics, 1) AS cycle_periodics
             FROM
                 battle_scenes_enemies
             WHERE
@@ -263,6 +264,7 @@ public class BattleSceneTypeEnemy : UnityBattleSceneTypeEnemy
         CycleIntensityMult = Convert.ToInt32(r["cycle_intensity_multiplier"]);
         CycleFrom = (int)r["cycle_from"];
         CycleTo = (int)r["cycle_to"];
+        CyclePeriodics = (int)r["cycle_periodics"];
     }
 
     public void Save(int battleSceneId)
@@ -285,7 +287,8 @@ public class BattleSceneTypeEnemy : UnityBattleSceneTypeEnemy
                     base_battle_intensity = {BaseBattleIntensity},
                     cycle_intensity_multiplier = {CycleIntensityMult},
                     cycle_from = {CycleFrom.ToString()},
-                    cycle_to = {CycleTo.ToString()}
+                    cycle_to = {CycleTo.ToString()},
+                    cycle_periodics = {CyclePeriodics}
                 WHERE
                     id = {Id}";
         DataConnection.Execute(q);
@@ -410,7 +413,7 @@ public class UnityBattleSceneTypeEnemy
     public SpaceshipRig Rig { get; set; }
     public int CycleFrom { get; set; }
     public int CycleTo { get; set; }
-
+    public int CyclePeriodics { get; set; }
     public UnityBattleSceneTypeEnemy() { }
 
     public override string ToString()

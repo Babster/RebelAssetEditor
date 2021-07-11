@@ -2746,6 +2746,7 @@ namespace AssetEditor
             textBsCycleMultiplier.Text = "";
             textBsBattleIntensity.Text = "";
             textBsIntensityMultiplier.Text = "";
+            textBsCyclePeriodics.Text = "";
             NoEvents = false;
         }
 
@@ -2780,6 +2781,7 @@ namespace AssetEditor
             textBsIntensityMultiplier.Text = enemy.CycleIntensityMult.ToString();
             textBsMinimumCycle.Text = enemy.CycleFrom.ToString();
             textBsMaximumCycle.Text = enemy.CycleTo.ToString();
+            textBsCyclePeriodics.Text = enemy.CyclePeriodics.ToString();
             NoEvents = false;
 
         }
@@ -2883,6 +2885,18 @@ namespace AssetEditor
             int value = 0;
             Int32.TryParse(textBsMaximumCycle.Text, out value);
             enemy.CycleTo = value;
+        }
+
+        private void textBsCyclePeriodics_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            BattleSceneTypeEnemy enemy = GetCurrentBsEnemy();
+            if (enemy == null)
+                return;
+            int value = 0;
+            Int32.TryParse(textBsCyclePeriodics.Text, out value);
+            enemy.CyclePeriodics = value;
         }
 
         private void FillBsEnemyInResource()
@@ -3890,6 +3904,7 @@ namespace AssetEditor
             System.IO.File.WriteAllText("battle scene.dat", strCbs);
             Process.Start(Directory.GetCurrentDirectory());
         }
+
 
 
 

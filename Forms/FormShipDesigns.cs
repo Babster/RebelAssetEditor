@@ -141,6 +141,8 @@ namespace AssetEditor.Forms
                 }
             }
             checkShipBoss.Checked = tag.Boss == 1;
+            textShipDescription.Text = tag.ShipDescription;
+            checkShipTurn180.Checked = tag.Turn180 == 1;
             NoEvents = false;
             if (listShipSlots.Items.Count > 0)
                 listShipSlots.SelectedIndex = 0;
@@ -157,7 +159,10 @@ namespace AssetEditor.Forms
             listShipSlots.Items.Clear();
             checkShipBoss.Checked = false;
             textShipDexterity.Text = "";
+            textShipDescription.Text = "";
+            checkShipTurn180.Checked = false;
             NoEvents = false;
+            
             ClearShipSlot();
         }
 
@@ -218,6 +223,34 @@ namespace AssetEditor.Forms
             int value = 0;
             Int32.TryParse(textShipDexterity.Text, out value);
             tag.Dexterity = value;
+        }
+
+        private void checkShipTurn180_CheckedChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            if(checkShipTurn180.Checked)
+            {
+                tag.Turn180 = 1;
+            }
+            else
+            {
+                tag.Turn180 = 0;
+            }
+        }
+
+        private void textShipDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (NoEvents)
+                return;
+            ShipModel tag = GetCurrentShipTag();
+            if (tag == null)
+                return;
+            tag.ShipDescription = textShipDescription.Text;
+
         }
 
         private void checkShipBoss_CheckedChanged(object sender, EventArgs e)
@@ -868,6 +901,8 @@ namespace AssetEditor.Forms
                 n.Tag = ship;
             }
         }
+
+
 
 
 

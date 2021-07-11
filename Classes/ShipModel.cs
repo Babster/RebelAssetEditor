@@ -34,6 +34,8 @@ public class ShipModel : UnityShipModel
         this.SkillSetsString = (string)r["skill_sets"];
         this.Dexterity = (int)r["dexterity"];
         Boss = (int)r["boss"];
+        this.ShipDescription = (string)r["description"];
+        Turn180 = (int)r["turn_180"];
         LoadSlots();
 
     }
@@ -90,7 +92,9 @@ public class ShipModel : UnityShipModel
                     base_energy = {BaseEnergy},
                     skill_sets = @str3,
                     boss = {Boss},
-                    dexterity = {Dexterity}
+                    dexterity = {Dexterity},
+                    description = @str4,
+                    turn_180 = {Turn180}
                 WHERE
                     id = " + this.Id.ToString();
 
@@ -98,6 +102,7 @@ public class ShipModel : UnityShipModel
         names.Add(this.Name);
         names.Add(this.AssetName);
         names.Add(SkillSetsString);
+        names.Add(this.ShipDescription);
 
         DataConnection.Execute(q, names);
 
@@ -155,7 +160,9 @@ public class ShipModel : UnityShipModel
                     ISNULL(base_energy, 0) AS base_energy,
                     ISNULL(skill_sets, '') AS skill_sets,
                     ISNULL(boss, 0) AS boss,
-                    ISNULL(dexterity, 0) AS dexterity
+                    ISNULL(dexterity, 0) AS dexterity,
+                    ISNULL(description, '') AS description,
+                    ISNULL(turn_180, 0) AS turn_180
                 FROM
                     ss_designs";
     }
@@ -300,6 +307,8 @@ public class UnityShipModel
     public string SkillSetsString { get; set; }
     public int Boss { get; set; }
     public int Dexterity { get; set; }
+    public string ShipDescription { get; set; }
+    public int Turn180 { get; set; }
     [JsonIgnore]
     public int WeaponSlotCount
     {
