@@ -943,5 +943,11 @@ public static class PlayerStoryFlowHub
 
     private static Dictionary<int, PlayerProgressElement> playerProgressElementDictionary;
 
+    public static void SetStationAvailable(int playerId)
+    {
+        string q = $@"UPDATE players SET station_opened = 1 WHERE id = {playerId}";
+        DataConnection.Execute(q);
+    }
+
 }
 

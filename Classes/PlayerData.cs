@@ -199,6 +199,12 @@ public class PlayerDataSql : PlayerData
 
         }
 
+        //Если следующий объект истории - станция, тогда нужно поставить специальную пометку в профиль игрока что у него есть станция
+        if(curData.StrValue == "station")
+        {
+            PlayerStoryFlowHub.SetStationAvailable(playerId);
+        }
+
         return curData;
 
     }
