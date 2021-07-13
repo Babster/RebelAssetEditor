@@ -212,6 +212,7 @@
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\OfficerController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Controllers\StationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
