@@ -40,5 +40,18 @@ namespace RsaApi.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("GetPlayerShips")]
+        public HttpResponseMessage GetPlayerShips()
+        {
+            string steamId = User.Identity.Name;
+            int playerId = PlayerDataSql.PlayerId(steamId);
+            List<Ship> ships = Ship.PlayerShips(playerId);
+            string serializedElement = JsonConvert.SerializeObject(ships);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
     }
 }
