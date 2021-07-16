@@ -53,5 +53,25 @@ namespace RsaApi.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("GetStationInfo")]
+        public HttpResponseMessage GetStationInfo()
+        {
+            string steamId = User.Identity.Name;
+            PlayerData playerData = PlayerDataSql.GetPlayerData(steamId);
+            if(playerData.StationOpened == 0)
+            {
+                var negativeResponse =  new HttpResponseMessage(HttpStatusCode.BadRequest);
+                negativeResponse.ReasonPhrase = "Station is not opened yet";
+                return negativeResponse;
+            }
+            int playerId = playerData.Id;
+            Station station = new Station(playerId);
+            string serializedElement = JsonConvert.SerializeObject(station);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(serializedElement);
+            return response;
+        }
+
     }
 }

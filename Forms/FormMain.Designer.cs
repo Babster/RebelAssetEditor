@@ -246,6 +246,8 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tabControl6 = new System.Windows.Forms.TabControl();
             this.tabPage21 = new System.Windows.Forms.TabPage();
+            this.textBsCyclePeriodics = new System.Windows.Forms.TextBox();
+            this.label129 = new System.Windows.Forms.Label();
             this.textBsMaximumCycle = new System.Windows.Forms.TextBox();
             this.textBsMinimumCycle = new System.Windows.Forms.TextBox();
             this.label107 = new System.Windows.Forms.Label();
@@ -460,8 +462,7 @@
             this.comboSaShip = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.textBsCyclePeriodics = new System.Windows.Forms.TextBox();
-            this.label129 = new System.Windows.Forms.Label();
+            this.buttonQuests = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage31.SuspendLayout();
             this.tabPage7.SuspendLayout();
@@ -586,6 +587,7 @@
             // 
             // tabPage31
             // 
+            this.tabPage31.Controls.Add(this.buttonQuests);
             this.tabPage31.Controls.Add(this.buttonOpenSpaceshipsModels);
             this.tabPage31.Controls.Add(this.buttonOpenSkills);
             this.tabPage31.Location = new System.Drawing.Point(4, 29);
@@ -2854,7 +2856,7 @@
             this.groupBox6.Controls.Add(this.label60);
             this.groupBox6.Location = new System.Drawing.Point(309, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(899, 462);
+            this.groupBox6.Size = new System.Drawing.Size(899, 458);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Scene editing";
@@ -2870,7 +2872,7 @@
             this.tabControl6.Location = new System.Drawing.Point(10, 110);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(883, 346);
+            this.tabControl6.Size = new System.Drawing.Size(883, 337);
             this.tabControl6.TabIndex = 10;
             // 
             // tabPage21
@@ -2905,10 +2907,27 @@
             this.tabPage21.Location = new System.Drawing.Point(4, 29);
             this.tabPage21.Name = "tabPage21";
             this.tabPage21.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage21.Size = new System.Drawing.Size(875, 313);
+            this.tabPage21.Size = new System.Drawing.Size(875, 304);
             this.tabPage21.TabIndex = 0;
             this.tabPage21.Text = "Enemies";
             this.tabPage21.UseVisualStyleBackColor = true;
+            // 
+            // textBsCyclePeriodics
+            // 
+            this.textBsCyclePeriodics.Location = new System.Drawing.Point(749, 253);
+            this.textBsCyclePeriodics.Name = "textBsCyclePeriodics";
+            this.textBsCyclePeriodics.Size = new System.Drawing.Size(100, 26);
+            this.textBsCyclePeriodics.TabIndex = 33;
+            this.textBsCyclePeriodics.TextChanged += new System.EventHandler(this.textBsCyclePeriodics_TextChanged);
+            // 
+            // label129
+            // 
+            this.label129.AutoSize = true;
+            this.label129.Location = new System.Drawing.Point(666, 256);
+            this.label129.Name = "label129";
+            this.label129.Size = new System.Drawing.Size(77, 20);
+            this.label129.TabIndex = 32;
+            this.label129.Text = "Periodics:";
             // 
             // textBsMaximumCycle
             // 
@@ -3109,7 +3128,7 @@
             this.listBsEnemies.ItemHeight = 20;
             this.listBsEnemies.Location = new System.Drawing.Point(6, 40);
             this.listBsEnemies.Name = "listBsEnemies";
-            this.listBsEnemies.Size = new System.Drawing.Size(210, 264);
+            this.listBsEnemies.Size = new System.Drawing.Size(210, 244);
             this.listBsEnemies.TabIndex = 10;
             this.listBsEnemies.SelectedIndexChanged += new System.EventHandler(this.listBsEnemies_SelectedIndexChanged);
             // 
@@ -3168,7 +3187,7 @@
             this.tabPage22.Location = new System.Drawing.Point(4, 29);
             this.tabPage22.Name = "tabPage22";
             this.tabPage22.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage22.Size = new System.Drawing.Size(875, 313);
+            this.tabPage22.Size = new System.Drawing.Size(875, 304);
             this.tabPage22.TabIndex = 1;
             this.tabPage22.Text = "Resources";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -3455,7 +3474,7 @@
             this.tabPage28.Location = new System.Drawing.Point(4, 29);
             this.tabPage28.Name = "tabPage28";
             this.tabPage28.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage28.Size = new System.Drawing.Size(875, 313);
+            this.tabPage28.Size = new System.Drawing.Size(875, 304);
             this.tabPage28.TabIndex = 2;
             this.tabPage28.Text = "Mission objectives";
             this.tabPage28.UseVisualStyleBackColor = true;
@@ -3494,7 +3513,7 @@
             this.textBsObjectives.Location = new System.Drawing.Point(6, 77);
             this.textBsObjectives.MaxLength = 200;
             this.textBsObjectives.Name = "textBsObjectives";
-            this.textBsObjectives.Size = new System.Drawing.Size(863, 230);
+            this.textBsObjectives.Size = new System.Drawing.Size(863, 221);
             this.textBsObjectives.TabIndex = 0;
             this.textBsObjectives.Text = "";
             this.textBsObjectives.TextChanged += new System.EventHandler(this.textBsObjectives_TextChanged);
@@ -3562,7 +3581,7 @@
             this.treeBs.HideSelection = false;
             this.treeBs.Location = new System.Drawing.Point(6, 40);
             this.treeBs.Name = "treeBs";
-            this.treeBs.Size = new System.Drawing.Size(297, 428);
+            this.treeBs.Size = new System.Drawing.Size(297, 420);
             this.treeBs.TabIndex = 4;
             this.treeBs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBs_AfterSelect);
             // 
@@ -3635,7 +3654,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.textBsResources.Location = new System.Drawing.Point(780, 79);
             this.textBsResources.Name = "textBsResources";
-            this.textBsResources.Size = new System.Drawing.Size(412, 385);
+            this.textBsResources.Size = new System.Drawing.Size(412, 392);
             this.textBsResources.TabIndex = 14;
             this.textBsResources.Text = "";
             // 
@@ -3654,7 +3673,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.TextBsEnemies.Location = new System.Drawing.Point(346, 79);
             this.TextBsEnemies.Name = "TextBsEnemies";
-            this.TextBsEnemies.Size = new System.Drawing.Size(412, 385);
+            this.TextBsEnemies.Size = new System.Drawing.Size(412, 392);
             this.TextBsEnemies.TabIndex = 12;
             this.TextBsEnemies.Text = "";
             // 
@@ -3980,7 +3999,7 @@
             this.groupBox8.Controls.Add(this.buttonBpSave);
             this.groupBox8.Location = new System.Drawing.Point(309, 6);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(894, 458);
+            this.groupBox8.Size = new System.Drawing.Size(894, 465);
             this.groupBox8.TabIndex = 16;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Blueprint editing";
@@ -4255,7 +4274,7 @@
             this.treeBlueprint.HideSelection = false;
             this.treeBlueprint.Location = new System.Drawing.Point(6, 40);
             this.treeBlueprint.Name = "treeBlueprint";
-            this.treeBlueprint.Size = new System.Drawing.Size(297, 424);
+            this.treeBlueprint.Size = new System.Drawing.Size(297, 431);
             this.treeBlueprint.TabIndex = 12;
             this.treeBlueprint.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeBlueprint_AfterSelect);
             // 
@@ -4954,22 +4973,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // textBsCyclePeriodics
+            // buttonQuests
             // 
-            this.textBsCyclePeriodics.Location = new System.Drawing.Point(749, 253);
-            this.textBsCyclePeriodics.Name = "textBsCyclePeriodics";
-            this.textBsCyclePeriodics.Size = new System.Drawing.Size(100, 26);
-            this.textBsCyclePeriodics.TabIndex = 33;
-            this.textBsCyclePeriodics.TextChanged += new System.EventHandler(this.textBsCyclePeriodics_TextChanged);
-            // 
-            // label129
-            // 
-            this.label129.AutoSize = true;
-            this.label129.Location = new System.Drawing.Point(666, 256);
-            this.label129.Name = "label129";
-            this.label129.Size = new System.Drawing.Size(77, 20);
-            this.label129.TabIndex = 32;
-            this.label129.Text = "Periodics:";
+            this.buttonQuests.Location = new System.Drawing.Point(8, 80);
+            this.buttonQuests.Name = "buttonQuests";
+            this.buttonQuests.Size = new System.Drawing.Size(169, 31);
+            this.buttonQuests.TabIndex = 3;
+            this.buttonQuests.Text = "Quests";
+            this.buttonQuests.UseVisualStyleBackColor = true;
+            this.buttonQuests.Click += new System.EventHandler(this.buttonQuests_Click);
             // 
             // FormMain
             // 
@@ -5511,6 +5523,7 @@
         private System.Windows.Forms.Label label128;
         private System.Windows.Forms.TextBox textBsCyclePeriodics;
         private System.Windows.Forms.Label label129;
+        private System.Windows.Forms.Button buttonQuests;
         //private System.Windows.Forms.Label label129;
     }
 }

@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 
-public class Station
+public partial class Station
 {
+
+    [JsonIgnore]
+    private int playerId { get; set; }
+
     //Доступны или нет солнечные батареи
     public int SolarArrays { get; set; }
 
@@ -24,6 +29,11 @@ public class Station
 
     //Радарные установки
     public RadarSystemsSlots radarSystemsSlots { get; set; }
+
+    public Station(int playerId)
+    {
+        this.playerId = playerId;
+    }
 
     #region Объекты, которые соответствуют слотам и наборам слотов, которые есть на базе
 
@@ -191,6 +201,17 @@ public class Station
         public int Power { get; set; }
         public int Resource { get; set; }
         public int Consumption { get; set; }
+
+        public ReactorType() { }
+        public ReactorType(int id, string name, int power, int resource, int consumption) 
+        {
+            Id = id;
+            Name = name;
+            Power = power;
+            Resource = resource;
+            Consumption = consumption;
+        }
+
     }
 
     #endregion

@@ -3925,8 +3925,13 @@ namespace AssetEditor
 
 
 
+
         #endregion
 
-
+        private void buttonQuests_Click(object sender, EventArgs e)
+        {
+            AssetEditor.Forms.FormQuest quest = new Forms.FormQuest();
+            quest.Show();
+        }
     }
 }

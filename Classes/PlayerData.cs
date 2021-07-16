@@ -226,7 +226,7 @@ public class PlayerData
     public string SteamId { get; set; }
     public string Password { get; set; }
     public string DisplayName { get; set; }
-    
+    public int StationOpened { get; set; }
     [JsonIgnore]
     public int Id
     {
